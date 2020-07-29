@@ -78,17 +78,11 @@ var deco = {
 };
 
 
-function translate() {
+function shermansTranslate(input) {
   x = 50;
   y = 100;
   cLetter = false;
   qLetter = false;
-  var canvas = document.getElementById('canvas');
-  if (canvas.getContext) {
-    var ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  }
-  let input = document.getElementById("text").value;
   for (var i = 0; i < input.length; i++) {
     var nexttwo = input[i] + input[i+1];
     if (nexttwo == "th" || nexttwo == "gh" || nexttwo == "ng" || nexttwo == "qu" || nexttwo == "wh" || nexttwo == "sh" || nexttwo == "ph" || nexttwo == "ch") {
@@ -101,10 +95,10 @@ function translate() {
   }
   let output = "";
   if (cLetter) {
-    output = "Consider replacing C (marked red) with K or S exept when your word is a Name.";
+    output = "Consider replacing C (marked red) with K or S exept when it's a name.";
   }
   if (qLetter) {
-    output += "<br>I am guessing this is a Name but if its not, what is a lone Q doing there?";
+    output += "<br>I am guessing this is a name but if its not, what is a lone Q doing there?";
   }
   document.getElementById("output").innerHTML = output;
 }

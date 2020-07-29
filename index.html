@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="generalTranslate.js"></script>
     <script src="shermans.js"></script>
   </head>
   <body>
     <div>
+      <label for="language">Choose a System:</label>
+      <select id="language">
+        <option value="shermans">Sherman's</option>
+        <option value="cot">Doctor's Cot</option>
+        <option value="tardis">TARDIS Console</option>
+      </select>
       <input type="text" id="text">
       <button id="translate" onclick="translate()">Translate</button>
     </div>
