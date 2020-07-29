@@ -1,3 +1,4 @@
+//Clear cansvas and pass word to specific language
 function translate() {
   var canvas = document.getElementById('canvas');
   if (canvas.getContext) {
