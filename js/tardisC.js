@@ -1,4 +1,4 @@
-let tardisScale = 2;
+let tardisScale = 3;
 
 var tardisLetters = {
   a : new Path2D(),
@@ -38,15 +38,15 @@ var tardisLetters = {
   };
 
 function tardisTranslate(input) {
-  x = 50;
-  y = 100;
+  x = 50 * tardisScale;
+  y = 50 * tardisScale;
   input = input.toLowerCase();
   var canvas = document.getElementById('canvas');
   if (canvas.getContext) {
     var ctx = canvas.getContext('2d');
     if (window.innerWidth < (50 + input.length * 50) * tardisScale) {
       width = Math.floor(window.innerWidth / (50 * tardisScale)) * 50 * tardisScale - 50 * tardisScale;
-      height = (Math.ceil(((50 + input.length * 50) * tardisScale) / window.innerWidth)) * 100 * tardisScale + 50 * tardisScale;
+      height = (Math.ceil(((50 + input.length * 50) * tardisScale) / window.innerWidth)) * 50 * tardisScale + 100 * tardisScale;
     }
     else {
       width = (50 + input.length * 50) * tardisScale;
@@ -89,13 +89,20 @@ function tardisDraw(consonant, vowel) {
   if (canvas.getContext) {
     var ctx = canvas.getContext('2d');
     let m = document.createElementNS("http://www.w3.org/2000/svg", "svg").createSVGMatrix();
-    m.a = tardisScale; m.b = 0;
-    m.c = 0; m.d = tardisScale;
-    m.e = x * tardisScale; m.f = y * tardisScale;
+    m.a = 1.5 * tardisScale; m.b = 0;
+    m.c = 0; m.d = 1.5 * tardisScale;
+    m.e = x - 25; m.f = y - 25;
     ctx.beginPath();
     p = new Path2D()
     p.addPath(tardisLetters[consonant], m);
     p.addPath(tardisLetters[vowel], m);
     ctx.stroke(p);
+    ctx.beginPath();
+    ctx.fillText(consonant + vowel, x - 22 * tardisScale, y - 30 * tardisScale);
   }
+  if (x >= width) {
+    y += 50 * tardisScale;
+    x = 0
+  }
+  x += 50 * tardisScale;
 }
