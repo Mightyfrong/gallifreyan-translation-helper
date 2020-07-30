@@ -1,0 +1,11 @@
+#info {
+    color: red;
+}
+
+.hidden {
+    display: none;
+}
+
+#ipa-keys input{
+    width: 2em;
+}

@@ -3,11 +3,15 @@
   <head>
     <meta charset="utf-8">
     <title>Gallifreyan Translation Helper</title>
+
+    <link rel="stylesheet" href="main.css">
   </head>
+  
   <body>
     <div>
-       <p style="color:red"><b>Still very early and WIP. Please don't spell check your tattoo with this!</b></p>
+       <p id="info"><b>Still very early and WIP. Please don't spell check your tattoo with this!</b></p>
     </div>
+
     <div>
       <label for="language">Choose a System:</label>
       <select id="language">
@@ -18,14 +22,19 @@
       <input type="text" id="text">
       <button id="translate">Translate</button>
     </div>
-    <div>
+
+    <div id="main">
       <canvas id="canvas"></canvas>
+      <div id="ipa-keys" class="hidden"></div>
     </div>
+
     <div class="">
       <p id="output"></p>
     </div>
-    <script src="shermans.js"></script>
-    <script src="generalTranslate.js"></script>
-    <script src="tardisC.js"></script>
+
+    <script src="js/shermans.js"></script>
+    <script src="js/tardisC.js"></script>
+    <script src="js/doctorsCot.js"></script>
+    <script src="js/generalTranslate.js"></script>
   </body>
 </html>
