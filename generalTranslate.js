@@ -1,4 +1,4 @@
-//Clear cansvas and pass word to specific language
+//Clear canvas and pass word to specific language
 function translate() {
   var canvas = document.getElementById('canvas');
   if (canvas.getContext) {
@@ -21,3 +21,5 @@ function translate() {
       shermansTranslate(input);
   }
 }
+
+document.querySelector('#translate').onclick = translate;

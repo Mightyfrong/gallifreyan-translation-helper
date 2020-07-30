@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="generalTranslate.js"></script>
-    <script src="shermans.js"></script>
+    <meta charset="utf-8">
+    <title>Gallifreyan Translation Helper</title>
   </head>
+
   <body>
     <div>
-       <p style="color:red"><b>Still very early and WIP. Please don't spell check you tattoo with this!</b></p>
+       <p style="color:red"><b>Still very early and WIP. Please don't spell check your tattoo with this!</b></p>
     </div>
     <div>
       <label for="language">Choose a System:</label>
@@ -16,7 +17,7 @@
         <option value="tardis">TARDIS Console(WIP)</option>
       </select>
       <input type="text" id="text">
-      <button id="translate" onclick="translate()">Translate</button>
+      <button id="translate">Translate</button>
     </div>
     <div>
       <canvas id="canvas"></canvas>
@@ -24,5 +25,8 @@
     <div class="">
       <p id="output"></p>
     </div>
+
+    <script src="shermans.js"></script>
+    <script src="generalTranslate.js"></script>
   </body>
 </html>
