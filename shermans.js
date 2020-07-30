@@ -100,7 +100,6 @@ function shermansTranslate(input) {
       width = (50 + input.length * 50) * size;
       height = 150 * size;
     }
-    console.log(width + "  " + height);
     ctx.canvas.width = width;
     ctx.canvas.height = height;
   }
