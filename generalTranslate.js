@@ -1,4 +1,6 @@
 //Clear canvas and pass word to specific language
+let x; //draw coordinate x
+let y; //draw coordinate y
 function translate() {
   var canvas = document.getElementById('canvas');
   if (canvas.getContext) {
@@ -15,7 +17,7 @@ function translate() {
 
       break;
     case "tardis":
-
+      tardisTranslate(input);
       break;
     default:
       shermansTranslate(input);
