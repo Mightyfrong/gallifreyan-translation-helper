@@ -24,4 +24,11 @@ function translate() {
   }
 }
 
+function isVowel (input){
+  if (input == "a" || input == "e" || input == "i" || input == "o" || input == "u") {
+    return true;
+  }
+  return false;
+}
+
 document.querySelector('#translate').onclick = translate;
