@@ -1,4 +1,4 @@
-import { consonantTable, vowelTable, DoctorsCotRune } from './DoctorsCotRune.js'
+import { consonantTable, vowelTable, Rune } from './DoctorsCotRune.js'
 
 // generate IPA keyboard from letter tables
 export function initIpaKeys() {
@@ -45,12 +45,12 @@ function translate(input) {
     let str = input;
     while (str.length) {
         const first2 = str.slice(0, 2);
-        let rune = DoctorsCotRune.parse(first2);
+        let rune = Rune.parse(first2);
         if (rune) {
             output.push(rune);
             str = str.slice(2, str.length);
         } else {
-            rune = DoctorsCotRune.parse(str.charAt(0));
+            rune = Rune.parse(str.charAt(0));
             if (rune){
                 output.push(rune);
                 str = str.slice(1, str.length);
@@ -64,8 +64,14 @@ function translate(input) {
 export function doctorsCotTranslate(ctx, input) {
     const translation = translate(input);
     if(translation){
+        const spacing = Rune.width + 10;
+        ctx.canvas.width = translation.length * spacing;
+
         ctx.strokeStyle = '#d7703a';
-        translation.forEach(rune => rune.draw(ctx));
+        translation.forEach(rune => {
+            rune.draw(ctx);
+            ctx.translate(spacing, 0);
+        });
     } else {
         ctx.fillStyle = 'red';
         ctx.fillText("Translation failed.", 50, 50);
