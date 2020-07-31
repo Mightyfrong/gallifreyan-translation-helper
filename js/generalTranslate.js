@@ -1,4 +1,4 @@
-import {initIpaKeys, doctorsCotDraw} from './doctorsCot.js'
+import {initIpaKeys, doctorsCotTranslate} from './doctorsCot.js'
 
 initIpaKeys();
 
@@ -18,7 +18,7 @@ function translate() {
       shermansTranslate(input);
       break;
     case "cot":
-      doctorsCotDraw(ctx, input);
+      doctorsCotTranslate(ctx, input);
       break;
     case "tardis":
       tardisTranslate(input);
@@ -35,4 +35,7 @@ function isVowel(input) {
   return false;
 }
 
-document.querySelector('#translate').onclick = translate;
+document.forms[0].onsubmit = (event) => {
+  translate();
+  event.preventDefault();
+};

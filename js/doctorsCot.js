@@ -61,9 +61,8 @@ function translate(input) {
     return output;
 }
 
-export function doctorsCotDraw(ctx, input) {
+export function doctorsCotTranslate(ctx, input) {
     const translation = translate(input);
-    ctx.clearRect(0, 0, 999, 999);
     if(translation){
         ctx.strokeStyle = '#d7703a';
         translation.forEach(rune => rune.draw(ctx));
