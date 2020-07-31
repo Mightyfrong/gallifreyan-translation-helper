@@ -1,40 +1,42 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Gallifreyan Translation Helper</title>
 
-    <link rel="stylesheet" href="main.css">
-  </head>
-  
-  <body>
-    <div>
-       <p id="info"><b>Still very early and WIP. Please don't spell check your tattoo with this!</b></p>
+<head>
+  <meta charset="utf-8">
+  <title>Gallifreyan Translation Helper</title>
+
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <p id="info">Still very early and WIP. Please don't spell check your tattoo with this!</p>
+
+  <div>
+    <label for="language">Choose a System:</label>
+    <select id="language">
+      <option value="shermans">Sherman's</option>
+      <option value="cot">Doctor's Cot(WIP)</option>
+      <option value="tardis">TARDIS Console(WIP)</option>
+    </select>
+    <input type="text" id="text">
+    <button id="translate">Translate</button>
+
+    <div id="ipa-keys" class="hidden">
+      <div id="ipa-consons"></div>
+      <div id="ipa-vowels"></div>
     </div>
+  </div>
 
-    <div>
-      <label for="language">Choose a System:</label>
-      <select id="language">
-        <option value="shermans">Sherman's</option>
-        <option value="cot">Doctor's Cot(WIP)</option>
-        <option value="tardis">TARDIS Console(WIP)</option>
-      </select>
-      <input type="text" id="text">
-      <button id="translate">Translate</button>
-    </div>
+  <canvas id="canvas"></canvas>
 
-    <div id="main">
-      <canvas id="canvas"></canvas>
-      <div id="ipa-keys" class="hidden"></div>
-    </div>
+  <div class="">
+    <p id="output"></p>
+  </div>
 
-    <div class="">
-      <p id="output"></p>
-    </div>
+  <script src="js/shermans.js"></script>
+  <script src="js/tardisC.js"></script>
+  <script type="module" src="js/doctorsCot.js"></script>
+  <script src="js/generalTranslate.js"></script>
+</body>
 
-    <script src="js/shermans.js"></script>
-    <script src="js/tardisC.js"></script>
-    <script src="js/doctorsCot.js"></script>
-    <script src="js/generalTranslate.js"></script>
-  </body>
 </html>

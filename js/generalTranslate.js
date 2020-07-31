@@ -24,7 +24,7 @@ function translate() {
   }
 }
 
-function isVowel (input){
+function isVowel(input) {
   if (input == "a" || input == "e" || input == "i" || input == "o" || input == "u") {
     return true;
   }

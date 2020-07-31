@@ -1,42 +1,41 @@
-const consonantTable = {
-    "1thin"   : " j ts ŋ v dʒ f  ʒ ɢ  ç ɬ ʎ",
-    "2thin"   : " n  h l p  w t st ɴ  ð ɮ ß",
-    "1thic"   : " t  s ɹ d  m ʃ  θ q  ʝ ʋ x",
-    "thicthin": "ks  k z b  א g  r ɻ  ɣ ɰ  ",
-    "2thic"   : " χ  ɲ ɳ ʈ  ɖ c  ɟ ħ  ɭ ɸ  ",
-    "thinthic": " ʁ  ʙ ʀ ⱱ  ɾ ɽ  ʂ ʐ fi ʟ  "
-}
+import { consonantTable, vowelTable } from './DoctorsCotRune.js'
 
-const consonants = {}; // to be filled w/ styl & deco details for each consonant
-const ipaKeys = document.getElementById('ipa-keys');
+// wrap in lambda func to avoid polluting global scope
+(() => {
+    const ipaConsons = document.getElementById('ipa-consons');
+    const ipaVowels = document.getElementById('ipa-vowels');
 
-// move through table, adding details to consonants obj & button to IPA keyboard
-for(styl in consonantTable) {
-    const tableRow = consonantTable[styl].trim().split(/\s+/); // turn string to array, removing white space
-    const keyRow = document.createElement('div');
+    // move through table, adding button to IPA keyboard
+    function genKeyboard(elem, table){
+        for (let styl in table) {
+            const tableRow = table[styl].trim().split(/\s+/); // turn string to array, removing white space
+            const keyRow = document.createElement('div');
 
-    tableRow.forEach( (con, deco) => {
-        consonants[con] = {styl, deco} // add details to consonants obj
+            tableRow.forEach((con, deco) => {
+                const keyInput = document.createElement('input');
 
-        const keyInput = document.createElement('input');
+                keyInput.type = "button";
+                keyInput.value = con;
+                keyInput.onclick = () =>
+                    document.getElementById('text').value += con;
 
-        keyInput.type = "button";
-        keyInput.value = con;
-        keyInput.onclick = () =>
-            document.getElementById('text').value += con;
+                keyRow.appendChild(keyInput);
+            });
+            elem.appendChild(keyRow);
+        }
+    }
 
-        keyRow.appendChild(keyInput);
+    genKeyboard(ipaConsons, consonantTable);
+    genKeyboard(ipaVowels, vowelTable);
+
+    const ipaKeys = document.getElementById('ipa-keys');
+    const langSelect = document.getElementById('language');
+
+    // only show IPA keyboard when Doctor's Cot selected
+    langSelect.addEventListener('input', event => {
+        if (event.target.value == "cot")
+            ipaKeys.classList.remove('hidden');
+        else
+            ipaKeys.classList.add('hidden');
     });
-    ipaKeys.appendChild(keyRow);
-}
-console.log(consonants); // for checking details are correct
-
-const langSelect = document.getElementById('language');
-
-// only show IPA keyboard when Doctor's Cot selected
-langSelect.addEventListener('input', event => {
-    if(event.target.value == "cot")
-        ipaKeys.classList.remove('hidden');  
-    else
-        ipaKeys.classList.add('hidden');
-});
+})();
