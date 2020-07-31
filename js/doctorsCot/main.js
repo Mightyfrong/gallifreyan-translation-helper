@@ -4,8 +4,14 @@ import { CotRune } from './CotRune.js'
 import { CotConsonant } from './CotConsonant.js'
 
 export function doctorsCotTranslate(ctx, input) {
-    const translation = parseWord(input);
-    if(translation){
+    const translation = translateWord(input);
+    console.log(translation);
+
+    if(translation.error){
+        ctx.canvas.width = 300;
+        ctx.fillStyle = 'red';
+        ctx.fillText(translation.error, 50, 50);
+    } else {
         const spacing = CotRune.width + 10;
         ctx.canvas.width = translation.length * spacing;
 
@@ -14,28 +20,23 @@ export function doctorsCotTranslate(ctx, input) {
             rune.draw(ctx);
             ctx.translate(spacing, 0);
         });
-    } else {
-        ctx.fillStyle = 'red';
-        ctx.fillText("Translation failed.", 50, 50);
     }
 }
 
-function parseWord(input) {
+function translateWord(input) {
     let output = [];
-    let str = input;
-    while (str.length) {
-        const first2 = str.slice(0, 2);
-        let rune = parseLetter(first2);
+    for(let i = 0; i < input.length; i++) {
+        let next = input.slice(i, i+2);
+        let rune = translateLetter(next);
         if (rune) {
             output.push(rune);
-            str = str.slice(2, str.length);
         } else {
-            rune = parseLetter(str.charAt(0));
+            next = input.charAt(i);
+            rune = translateLetter(next);
             if (rune){
                 output.push(rune);
-                str = str.slice(1, str.length);
             }
-            else return false;
+            else return {error: `Look-up failed: unable to translate: ${next}`};
         }
     }
     return output;
@@ -67,7 +68,7 @@ function genList(obj, table) {
 
 genList(consonant, consonantTable);
 
-function parseLetter(str) {
+function translateLetter(str) {
     const con = consonant[str];
 
     /**Look up string in letter lists.
