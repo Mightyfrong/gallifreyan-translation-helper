@@ -1,3 +1,7 @@
+import {initIpaKeys, doctorsCotDraw} from './doctorsCot.js'
+
+initIpaKeys();
+
 //Clear canvas and pass word to specific language
 let x; //draw coordinate x
 let y; //draw coordinate y
@@ -14,7 +18,7 @@ function translate() {
       shermansTranslate(input);
       break;
     case "cot":
-
+      doctorsCotDraw(ctx, input);
       break;
     case "tardis":
       tardisTranslate(input);
