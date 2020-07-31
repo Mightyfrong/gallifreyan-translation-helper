@@ -1,4 +1,5 @@
-import {initIpaKeys, doctorsCotTranslate} from './doctorsCot.js'
+import { doctorsCotTranslate } from './doctorsCot/main.js'
+import { initIpaKeys } from './doctorsCot/setup.js'
 
 initIpaKeys();
 

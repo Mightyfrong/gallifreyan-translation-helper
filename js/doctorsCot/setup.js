@@ -1,4 +1,19 @@
-import { consonantTable, vowelTable, Rune } from './DoctorsCotRune.js'
+export const consonantTable = {
+	"1thin"   : " j ts ŋ v dʒ f  ʒ ɢ  ç ɬ ʎ",
+	"2thin"   : " n  h l p  w t st ɴ  ð ɮ ß",
+	"1thic"   : " t  s ɹ d  m ʃ  θ q  ʝ ʋ x",
+	"thicthin": "ks  k z b  א g  r ɻ  ɣ ɰ  ",
+	"2thic"   : " χ  ɲ ɳ ʈ  ɖ c  ɟ ħ  ɭ ɸ  ",
+	"thinthic": " ʁ  ʙ ʀ ⱱ  ɾ ɽ  ʂ ʐ fi ʟ  "
+}
+export const vowelTable = {
+	"1thin"   : "ɑ  i  u a y",
+	"2thin"   : "e  ɪ ou æ ʉ",
+	"1thic"   : "ɛ ai  ʌ ɜ ø",
+	"thicthin": "ʊ  ɘ  ɐ ɤ ɵ",
+	"2thic"   : "ɯ  ɨ  ə ɔ o",
+	"thinthic": "œ  ɞ  ɒ ɶ  "
+}
 
 // generate IPA keyboard from letter tables
 export function initIpaKeys() {
@@ -38,42 +53,4 @@ export function initIpaKeys() {
         else
             ipaKeys.classList.add('hidden');
     });
-}
-
-function translate(input) {
-    let output = [];
-    let str = input;
-    while (str.length) {
-        const first2 = str.slice(0, 2);
-        let rune = Rune.parse(first2);
-        if (rune) {
-            output.push(rune);
-            str = str.slice(2, str.length);
-        } else {
-            rune = Rune.parse(str.charAt(0));
-            if (rune){
-                output.push(rune);
-                str = str.slice(1, str.length);
-            }
-            else return false;
-        }
-    }
-    return output;
-}
-
-export function doctorsCotTranslate(ctx, input) {
-    const translation = translate(input);
-    if(translation){
-        const spacing = Rune.width + 10;
-        ctx.canvas.width = translation.length * spacing;
-
-        ctx.strokeStyle = '#d7703a';
-        translation.forEach(rune => {
-            rune.draw(ctx);
-            ctx.translate(spacing, 0);
-        });
-    } else {
-        ctx.fillStyle = 'red';
-        ctx.fillText("Translation failed.", 50, 50);
-    }
 }
