@@ -1,11 +1,20 @@
 #info {
     color: red;
+    font-weight: bold;
 }
 
 .hidden {
     display: none;
 }
 
+
+#ipa-keys > div{
+    display: inline-block;
+    vertical-align: top;
+    margin: .25em;
+}
 #ipa-keys input{
     width: 2em;
+    padding: 0;
+    text-align: center;
 }
