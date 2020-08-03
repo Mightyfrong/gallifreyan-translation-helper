@@ -1,7 +1,11 @@
-export class CotConsonant{
-	constructor(ol, d) {
-		this.outlines = ol;
-		this.deco = d;
+export class IPALetter{
+	constructor(str, out, dec, vow) {
+		this.toString = str;
+
+		this.outlines = out;
+		this.decoration = dec;
+
+		this.isVowel = vow;
 	}
 
 	draw(ctx, pos, rad, noDeco) {

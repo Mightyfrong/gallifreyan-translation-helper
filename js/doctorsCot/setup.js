@@ -1,3 +1,5 @@
+import { IPALetter } from './IPALetter.js'
+
 export const consonantTable = {
 	"1thin"   : " j ts ŋ v dʒ f  ʒ ɢ  ç ɬ ʎ",
 	"2thin"   : " n  h l p  w t st ɴ  ð ɮ ß",
@@ -14,6 +16,30 @@ export const vowelTable = {
 	"2thic"   : "ɯ  ɨ  ə ɔ o",
 	"thinthic": "œ  ɞ  ɒ ɶ  "
 }
+
+const outline = {
+    "1thin": [1],
+    "2thin": [1, 1],
+    "1thic": [2],
+    "thicthin": [2, 1],
+    "2thic": [2, 2],
+    "thinthic": [1, 2]
+};
+
+// to be filled up outline and deco info
+export const letter = [];
+/**turns letter table into a list of Runes
+ * with outline and decoration info
+ */
+[[consonantTable, false], [vowelTable, true]].forEach(([table, isVowel]) => {
+    for (let r in table) {
+        const row = table[r].split(/\s+/);
+
+        row.forEach((ltr, deco) =>
+            letter.push(new IPALetter(ltr, outline[r], deco, isVowel))
+        );
+    }
+});
 
 // generate IPA keyboard from letter tables
 export function initIpaKeys() {
