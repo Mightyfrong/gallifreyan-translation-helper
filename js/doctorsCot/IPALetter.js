@@ -3,22 +3,32 @@ export class IPALetter{
 		this.toString = str;
 
 		this.outlines = out;
-		this.decoration = dec;
+		this.decoration = decoration[dec];
 
 		this.isVowel = vow;
 	}
+}
 
-	draw(ctx, pos, rad, noDeco) {
-		let currentRad = rad;
-		this.outlines.forEach(thicness => {
-			currentRad -= thicness/2;
+const decoration = [
+    r => {
+        const pos0 = polar(r, 120);
+        const pos1 = polar(r, -15);
+        return `M${pos0} L0 0 L${pos1}`
+    },
+    r =>"",
+    r =>"",
+    r =>"",
+    r =>"",
+    r =>"",
+    r =>"",
+    r =>"",
+    r =>"",
+    r =>"",
+    r =>""
+];
 
-			ctx.lineWidth = thicness;
-			ctx.beginPath();
-			ctx.arc(pos, pos, currentRad, 0, 2 * Math.PI);
-			ctx.stroke();
-
-			currentRad -= 1 + thicness/2;
-		});
-	}
+//turn polar coords to string of rectangular ones
+function polar(radius, degrees){
+    const radians = degrees*Math.PI/180;
+    return radius*Math.cos(radians) + " " + radius*Math.sin(radians);
 }

@@ -27,7 +27,8 @@ export function doctorsCotTranslate(ctx, input) {
     ctx.textBaseline = 'middle';
     ctx.strokeStyle = '#d7703a';
 
-    ctx.translate(glyphSpacing, 0);
+    ctx.translate(glyphSpacing + glyphRadius, textSpace + glyphRadius);
+    
     translation.forEach(word => {
         ctx.save();
         word.forEach(glyph => {

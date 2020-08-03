@@ -33,7 +33,7 @@ export const letter = [];
  */
 [[consonantTable, false], [vowelTable, true]].forEach(([table, isVowel]) => {
     for (let r in table) {
-        const row = table[r].split(/\s+/);
+        const row = table[r].trim().split(/\s+/);
 
         row.forEach((ltr, deco) =>
             letter.push(new IPALetter(ltr, outline[r], deco, isVowel))
