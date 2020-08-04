@@ -1,7 +1,6 @@
 import { letter } from './setup.js';
 import { CotGlyph } from './CotGlyph.js';
 
-const א = letter.find(l=>l.toString == "א");
 const textSpace = 20;
 
 const glyphSpacing = 5;
@@ -40,6 +39,7 @@ export function doctorsCotTranslate(ctx, input) {
     });
 }
 
+const א = letter.find(l=>l.toString == "א");
 function translateGlyphs(word) {
     let letters = word;
     let glyphs = [];

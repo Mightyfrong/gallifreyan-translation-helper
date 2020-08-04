@@ -1,12 +1,12 @@
-import { IPALetter } from './IPALetter.js'
+import { PhoneticUnit } from './PhoneticUnit.js'
 
 export const consonantTable = {
-	"1thin"   : " j ts ŋ v dʒ f  ʒ ɢ  ç ɬ ʎ",
-	"2thin"   : " n  h l p  w t st ɴ  ð ɮ ß",
-	"1thic"   : " t  s ɹ d  m ʃ  θ q  ʝ ʋ x",
-	"thicthin": "ks  k z b  א g  r ɻ  ɣ ɰ  ",
-	"2thic"   : " χ  ɲ ɳ ʈ  ɖ c  ɟ ħ  ɭ ɸ  ",
-	"thinthic": " ʁ  ʙ ʀ ⱱ  ɾ ɽ  ʂ ʐ fi ʟ  "
+	"1thin"   : " j ts ŋ v dʒ  f  ʒ ɢ  ç ɬ ʎ",
+	"2thin"   : " n  h l p  w tʃ st ɴ  ð ɮ ß",
+	"1thic"   : " t  s ɹ d  m  ʃ  θ q  ʝ ʋ x",
+	"thicthin": "ks  k z b  א  g  r ɻ  ɣ ɰ  ",
+	"2thic"   : " χ  ɲ ɳ ʈ  ɖ  c  ɟ ħ  ɭ ɸ  ",
+	"thinthic": " ʁ  ʙ ʀ ⱱ  ɾ  ɽ  ʂ ʐ fi ʟ  "
 }
 export const vowelTable = {
 	"1thin"   : "ɑ  i  u a y",
@@ -26,6 +26,49 @@ const outline = {
     "thinthic": [1, 2]
 };
 
+export const decoration = [
+	r => {
+		const pos0 = polar(r, 120);
+		const pos1 = polar(r, -15);
+		return `M${pos0} L0 0 L${pos1}`;
+	},
+	r => {
+		const pos0 = polar(r, -60);
+		return `M0 0 L${pos0}`;
+	},
+	r => {
+		const pos0 = polar(r, -60);
+		const pos1 = polar(r, 120);
+		return `M${pos0} L${pos1}`;
+	},
+	r => "",
+	r => "",
+	r => "",
+	r => "",
+	r => {
+		const pos0 = polar(r, -60);
+		const pos1 = polar(r, 120);
+		return `M${pos0} L${pos1}`;
+	},
+	r => {
+		const pos0 = polar(r, 120);
+		const pos1 = polar(r, -15);
+		return `M${pos0} L0 0 L${pos1}`;
+	},
+	r => {
+		const pos0 = polar(r, 120);
+		const pos1 = polar(r, -15);
+		return `M${pos0} L0 0 L${pos1}`;
+	},
+	r => ""
+];
+
+//turn polar coords to string of rectangular ones
+function polar(radius, degrees) {
+	const radians = degrees * Math.PI / 180;
+	return radius * Math.cos(radians) + " " + radius * Math.sin(radians);
+}
+
 // to be filled up outline and deco info
 export const letter = [];
 /**turns letter table into a list of Runes
@@ -36,7 +79,7 @@ export const letter = [];
         const row = table[r].trim().split(/\s+/);
 
         row.forEach((ltr, deco) =>
-            letter.push(new IPALetter(ltr, outline[r], deco, isVowel))
+            letter.push(new PhoneticUnit(ltr, outline[r], deco, isVowel))
         );
     }
 });
