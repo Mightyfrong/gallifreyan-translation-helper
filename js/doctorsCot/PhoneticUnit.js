@@ -1,8 +1,6 @@
-import {decoration} from './setup.js';
+import { outlineSpace } from "./setup.js";
 
 export class PhoneticUnit {
-	static olSpace = 1;
-
 	constructor(str, out, dec, vow) {
 		this.toString = str;
 
@@ -25,14 +23,7 @@ export class PhoneticUnit {
 			ctx.stroke();
 			ctx.fill();
 
-			currentRad -= PhoneticUnit.olSpace + thicness / 2;
+			currentRad -= outlineSpace + thicness / 2;
 		});
-	}
-
-	drawDecoration(ctx, radius) {
-		const desc = decoration[this.decoration](radius);
-		const path = new Path2D(desc);
-		ctx.lineWidth = 1;
-		ctx.stroke(path);
 	}
 }

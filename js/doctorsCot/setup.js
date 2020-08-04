@@ -26,48 +26,82 @@ const outline = {
     "thinthic": [1, 2]
 };
 
-export const decoration = [
-	r => {
-		const pos0 = polar(r, 120);
-		const pos1 = polar(r, -15);
-		return `M${pos0} L0 0 L${pos1}`;
-	},
-	r => {
-		const pos0 = polar(r, -60);
-		return `M0 0 L${pos0}`;
-	},
-	r => {
-		const pos0 = polar(r, -60);
-		const pos1 = polar(r, 120);
-		return `M${pos0} L${pos1}`;
-	},
-	r => "",
-	r => "",
-	r => "",
-	r => "",
-	r => {
-		const pos0 = polar(r, -60);
-		const pos1 = polar(r, 120);
-		return `M${pos0} L${pos1}`;
-	},
-	r => {
-		const pos0 = polar(r, 120);
-		const pos1 = polar(r, -15);
-		return `M${pos0} L0 0 L${pos1}`;
-	},
-	r => {
-		const pos0 = polar(r, 120);
-		const pos1 = polar(r, -15);
-		return `M${pos0} L0 0 L${pos1}`;
-	},
-	r => ""
-];
+
+export const glyphRadius = 50;
+export const outlineSpace = 1;
+
+const innerRad = glyphRadius/5;
+const circPos = glyphRadius/2;
+const decRad = 10;
 
 //turn polar coords to string of rectangular ones
 function polar(radius, degrees) {
 	const radians = degrees * Math.PI / 180;
-	return radius * Math.cos(radians) + " " + radius * Math.sin(radians);
+	return [radius * Math.cos(radians), radius * Math.sin(radians)];
 }
+
+const pos120 = polar(glyphRadius, 120);
+const pos300 = polar(glyphRadius, 300);
+const pos345 = polar(glyphRadius, 345);
+
+function bentLine(ctx) {
+	ctx.beginPath();
+	ctx.moveTo(...pos120);
+	ctx.lineTo(0, 0);
+	ctx.lineTo(...pos345);
+	ctx.stroke();
+}
+function halfLine(ctx) {
+	ctx.beginPath();
+	ctx.moveTo(0, 0);
+	ctx.lineTo(...pos345);
+	ctx.stroke();
+}
+function fullLine(ctx) {
+	ctx.beginPath();
+	ctx.moveTo(...pos120);
+	ctx.lineTo(...pos300);
+	ctx.stroke();
+}
+function circ(ctx, r, θ, fill){
+	ctx.beginPath();
+	ctx.arc(...polar(r, θ), 10, 0, 2*Math.PI);
+	ctx[fill? "fill": "stroke"]();
+}
+function arc(ctx, start, end){
+	ctx.beginPath();
+	ctx.arc(0, 0, glyphRadius/4, start, end);
+	ctx.stroke();
+}
+
+export const decorate = [
+	bentLine,
+	halfLine,
+	fullLine,
+	ctx => {
+		circ(ctx, circPos, 60);
+		circ(ctx, circPos, 120);
+	},
+	ctx => {
+		circ(ctx, circPos, 60);
+		circ(ctx, circPos, 120, true);
+	},
+	ctx => circ(ctx, circPos, 60),
+	ctx => circ(ctx, circPos, 60, true),
+	ctx => {
+		fullLine(ctx);
+		arc(ctx, Math.PI*5/3, Math.PI*2/3);
+	},
+	ctx => {
+		bentLine(ctx);
+		arc(ctx, Math.PI*23/12, Math.PI*2/3);
+	},
+	ctx => {
+		bentLine(ctx);
+		arc(ctx, Math.PI*2/3, Math.PI*23/12);
+	},
+	ctx => circ(ctx, innerRad+decRad, Math.PI*5/4)
+];
 
 // to be filled up outline and deco info
 export const letter = [];

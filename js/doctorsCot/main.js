@@ -1,12 +1,10 @@
-import { letter } from './setup.js';
+import { letter, glyphRadius } from './setup.js';
 import { CotGlyph } from './CotGlyph.js';
 
-const textSpace = 20;
-
 const glyphSpacing = 5;
-const glyphRadius = 50;
 const glyphWidth = 2 * (glyphRadius + glyphSpacing);
 
+const textSpace = 20;
 const lineHeight = textSpace + 2 * glyphRadius;
 
 export function doctorsCotTranslate(ctx, input) {
@@ -31,6 +29,9 @@ export function doctorsCotTranslate(ctx, input) {
     translation.forEach(word => {
         ctx.save();
         word.forEach(glyph => {
+            ctx.fillStyle = '#444';
+            ctx.fillText(glyph.toString, 0, - glyphRadius - textSpace / 2);
+
             glyph.draw(ctx, glyphRadius, textSpace);
             ctx.translate(glyphWidth, 0);
         });

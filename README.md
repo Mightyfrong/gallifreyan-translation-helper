@@ -3,7 +3,7 @@
 
 This is an online tool aimed at artists and hobbyists who produce designs in one of 3 types of Gallifreyan:
 
-* [Sherman's Circular](https://shermansplanet.com/gallifreyan/guide.pdf)
+* [Sherman's](https://shermansplanet.com/gallifreyan/guide.pdf)
 * [TARDIS Console](https://tardisconsolegallifreyan.weebly.com/tutorials.html)
 * [Doctor's Cot](https://doctorscotgallifreyan.com/walk-through/4lnekzojej4p5klcph0ppntibb19ib)
 
@@ -25,6 +25,6 @@ This one is the most complicated of the 3 languages as it transcribes the exact 
 
 Translation takes the input string through 3 steps:
 
-1. PhoneticUnits - input is broken up into words and each word into its constituent sounds, which are either consonants or vowels.
-2. CotGlyphs - consecutive PhoneticUnits are grouped into Doctor's Cot glyphs, which can represent up to 2 consonants + 1 vowel.
-3. Drawing - outline and decoration info are looked up for each CotGlyph and drawn on the canvas.
+1. **Phonetic Units** - input is broken up into words and each word into its constituent sounds, which are either consonants or vowels.
+2. **Cot Glyphs** - consecutive PhoneticUnits are grouped into Doctor's Cot glyphs, which can represent up to 2 consonants + 1 vowel.
+3. **Drawing** - outline and decoration info are looked up for each CotGlyph and drawn on the canvas.
