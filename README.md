@@ -4,7 +4,7 @@
 This is an online tool aimed at artists and hobbyists who produce designs in one of 3 types of Gallifreyan:
 
 * [Sherman's Circular](https://shermansplanet.com/gallifreyan/guide.pdf)
-* TARDIS Console
+* [TARDIS Console](https://tardisconsolegallifreyan.weebly.com/tutorials.html)
 * [Doctor's Cot](https://doctorscotgallifreyan.com/walk-through/4lnekzojej4p5klcph0ppntibb19ib)
 
 More details on how the translators for each one can be found below.
@@ -21,17 +21,10 @@ The underlying translator is fully complete but draws the designs of letters fro
 
 ## Doctor's Cot (WIP)
 
-This one is the most complicated of the 3 languages as it transcribes the exact phonetics of words instead of just their letters. As such, to get a meaningful input, the user is provided with an on-screen IPA ([International Phonetic Alphabet](https://en.wikipedia.org/wiki/International_Phonetic_Alphabet))
+This one is the most complicated of the 3 languages as it transcribes the exact phonetics of words instead of just their letters. Hence, the user is given an on-screen IPA ([International Phonetic Alphabet](https://en.wikipedia.org/wiki/International_Phonetic_Alphabet)) keyboard.
 
-### IPALetter
+Translation takes the input string through 3 steps:
 
-When "Translate" is pressed, the text input is first converted into an array of IPALetter objects which contain outline and decoration information for each sound as it is represented by Doctor's Cot:
-
-```js
-class IPALetter {
-	constructor(ol, d) {
-		this.outlines = ol;
-		this.decoration = d;
-	}
-}
-```
+1. PhoneticUnits - input is broken up into words and each word into its constituent sounds, which are either consonants or vowels.
+2. CotGlyphs - consecutive PhoneticUnits are grouped into Doctor's Cot glyphs, which can represent up to 2 consonants + 1 vowel.
+3. Drawing - outline and decoration info are looked up for each CotGlyph and drawn on the canvas.
