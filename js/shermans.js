@@ -78,6 +78,34 @@ var shermansDeco = {
   ph : "1d",
   ch : "2d"
 };
+function shermansGroup(input){
+  //creates a multidimensional array for
+  //sentence -> words -> groups -> single letters
+  var sentence = [];
+  var splitinput = input.split(" "); //split input to single words and iterate through these
+  splitinput.forEach(function(sword){
+    sentence.push([]); //init new word
+    var group = [];
+    for (var i = 0; i < sword.length; i++){ //iterate through word 
+      var nexttwo = sword[i] + sword[i+1];
+      //add double latin characters to group
+      if (nexttwo == "th" || nexttwo == "gh" || nexttwo == "ng" || nexttwo == "qu" || nexttwo == "wh" || nexttwo == "sh" || nexttwo == "ph" || nexttwo == "ch") {
+        group.push([nexttwo]);
+        i++;
+      }
+      else {
+        //add vowels to former group if none or one of the same kind
+        if ("aeiou".indexOf(sword[i]) > -1 && group.length > 0 && ("aeiou".indexOf(group[group.length - 1][group[group.length - 1].length - 1]) < 0 || sword[i] == group[group.length - 1][group[group.length - 1].length - 1]))
+          group[group.length - 1].push(sword[i])
+        //add consonants to group
+        else
+          group.push([sword[i]]);
+      }
+    }
+    sentence[sentence.length - 1].push(group); //append group to last word
+  });
+  return sentence;
+}
 
 //scroll trough input and draw every letter
 function shermansTranslate(input) {
