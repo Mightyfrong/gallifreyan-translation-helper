@@ -24,19 +24,11 @@ function translate() {
       doctorsCotTranslate(ctx, input);
       break;
     case "tardis":
-      tardisTranslate(input);
+      tardisTranslate(ctx, input);
       break;
     default:
       shermansTranslate(input);
   }
-}
-
-function isVowel(input) {
-  //friendly suggestion: "aeiou".indexOf(input)>-1 returns true if input is a vowel. no urgent need for a function.
-  if (input == "a" || input == "e" || input == "i" || input == "o" || input == "u") {
-    return true;
-  }
-  return false;
 }
 
 document.forms[0].onsubmit = (event) => {
