@@ -32,6 +32,7 @@ function translate() {
 }
 
 function isVowel(input) {
+  //friendly suggestion: "aeiou".indexOf(input)>-1 returns true if input is a vowel. no urgent need for a function.
   if (input == "a" || input == "e" || input == "i" || input == "o" || input == "u") {
     return true;
   }

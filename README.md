@@ -11,7 +11,7 @@ More details on how the translators for each one can be found below.
 
 ## Sherman's
 
-Designed as a pattern memory aid, this translator draws each letter as in individual glyph, not stacking vowels with consonants or two consonants of the same base. Also displays the glyphs in horizontal lines instead of writing them in the expected circular fashion for ease of reading.
+Designed as a pattern memory aid, this translator draws each letter either as an individual glyph, or stacking vowels with consonants depending on choice. Also displays the glyphs in horizontal lines instead of writing them in the expected circular fashion for ease of reading. Optional translation of c to phonetic k or s.
 
 Currently, this is the only one of the three translators that are completely functional.
 
