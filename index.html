@@ -11,28 +11,35 @@
 <body>
   <p id="info">Still very early and WIP. Please don't spell check your tattoo with this!</p>
 
-  <form>
-    <label for="language">Choose a System:</label>
-    <select id="language">
-      <option value="shermans">Sherman's</option>
-      <option value="cot">Doctor's Cot(WIP)</option>
-      <option value="tardis">TARDIS Console(WIP)</option>
-    </select>
-    <input type="text" id="text">
-    <input type="checkbox" id="scgg" checked /><label for="scgg"> group vowels for sherman's</label>
-    <input type="checkbox" id="scgc" checked /><label for="scgc"> convert c for sherman's</label>
-    <input type="submit" value="Translate">
 
-    <div id="ipa-keys" class="hidden">
-      <div id="ipa-consons"></div>
-      <div id="ipa-vowels"></div>
+  <form>
+    <div>
+      <label for="language">Choose a System:</label>
+      <select id="language">
+        <option value="shermans">Sherman's</option>
+        <option value="cot">Doctor's Cot(WIP)</option>
+        <option value="tardis">TARDIS Console(WIP)</option>
+      </select>
     </div>
+
+    <fieldset id="lang-controls">
+      <div id="shermans-options" class="active">
+        <input type="checkbox" id="scgg" checked /><label for="scgg"> group vowels</label>
+        <input type="checkbox" id="scgc" checked /><label for="scgc"> convert C</label>
+      </div>
+
+      <div id="ipa-keys">
+        <div id="ipa-consons"></div>
+        <div id="ipa-vowels"></div>
+      </div>
+    </fieldset>
+
+    <input type="text" id="text">
+    <input type="submit" value="Translate">
   </form>
   <canvas id="canvas"></canvas>
 
-  <div class="">
-    <p id="output"></p>
-  </div>
+  <p id="output"></p>
 
   <script src="js/shermans.js"></script>
   <script src="js/tardisC.js"></script>
