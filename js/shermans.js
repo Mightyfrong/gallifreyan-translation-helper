@@ -5,6 +5,15 @@ let width;
 let height;
 //specify base for every letter
 var shermansBase = {
+  "." : "punctuation",
+  "?" : "punctuation",
+  "!" : "punctuation",
+  "\"" : "punctuation",
+  "'" : "punctuation",
+  "-" : "punctuation",
+  "," : "punctuation",
+  ";" : "punctuation",
+  ":" : "punctuation",
   a : "v",
   b : "b",
   c : "j",
@@ -43,6 +52,15 @@ var shermansBase = {
 
 //specify decoration for every letter
 var shermansDeco = {
+  "." : "",
+  "?" : "",
+  "!" : "",
+  "\"" : "",
+  "'" : "",
+  "-" : "",
+  "," : "",
+  ";" : "",
+  ":" : "",
   a : "",
   b : "",
   c : "4d",
@@ -81,11 +99,12 @@ var shermansDeco = {
 
 //scroll trough input and draw every letter
 function shermansTranslate(input) {
-  x = 50 * shermansScale;
+  x = 0; //50 * shermansScale;
   y = 100 * shermansScale;
   cLetter = false;
   qLetter = false;
-  input = input.toLowerCase();
+  //convert string to grouped array
+  groupedinput = shermansGrouped.groups(input.toLowerCase());
   //set canvas scale for words
   var canvas = document.getElementById('canvas');
   if (canvas.getContext) {
@@ -101,16 +120,20 @@ function shermansTranslate(input) {
     ctx.canvas.width = width;
     ctx.canvas.height = height;
   }
-  for (var i = 0; i < input.length; i++) {
-    var nexttwo = input[i] + input[i+1];
-    if (nexttwo == "th" || nexttwo == "gh" || nexttwo == "ng" || nexttwo == "qu" || nexttwo == "wh" || nexttwo == "sh" || nexttwo == "ph" || nexttwo == "ch") {
-      shermansDraw(nexttwo);
-      i++;
-    }
-    else {
-      shermansDraw(input[i]);
-    }
-  }
+  groupedinput.forEach(function(words){
+    words.forEach(function(groups){
+      groups.forEach(function(group){
+        shermansGrouped.resetOffset();
+        for (var l = 0; l < group.length; l++){
+          //consonants always come first, vowels after first item are always grouped
+          if (l > 0) shermansGrouped.setOffset(group[l-1],group[l]);
+          shermansDraw(group[l], shermansGrouped);
+        }
+      })
+    });
+    shermansGrouped.resetOffset();
+    shermansDraw(" ", shermansGrouped);
+  });
   //complain about c and q
   let output = "";
   if (cLetter) {
@@ -122,8 +145,110 @@ function shermansTranslate(input) {
   document.getElementById("output").innerHTML = output;
 }
 
+function shermansC(word){
+  var cword="";
+  for (var i = 0; i < word.length; i++){ //iterate through word 
+    if (word[i] == "c") {
+      if (word[i+1] == "k") continue; //omit ck
+      else if (["e","i","y"].indexOf(word[i+1]) > -1) cword += "s";
+      else cword += "k"; //end of the word
+    }
+    else cword += word[i];
+  }
+  return cword;
+}
+
+//set rules for grouping
+var shermansGrouped = {
+  groups: function(input){
+    //creates a multidimensional array for
+    //sentence -> words -> groups -> single letters
+    var sentence = [];
+    var splitinput = input.split(" "); //split input to single words and iterate through these
+    splitinput.forEach(function(sword){
+      sentence.push([]); //init new word
+      var group = [];
+      if (document.getElementById('scgc').checked) sword=shermansC(sword);
+      for (var i = 0; i < sword.length; i++){ //iterate through word 
+        var nexttwo = sword[i] + sword[i+1];
+        //add double latin characters to group
+        if (["th", "gh", "ng", "qu", "wh", "sh", "ph", "ch"].indexOf(nexttwo) > -1) {
+          group.push([nexttwo]);
+          i++;
+        }
+        else {
+          //add vowels to former group if none or one of the same kind
+          if (document.getElementById('scgg').checked && "aeiou".indexOf(sword[i]) > -1 && group.length > 0 && ("aeiou".indexOf(group[group.length - 1][group[group.length - 1].length - 1]) < 0 || sword[i] == group[group.length - 1][group[group.length - 1].length - 1]))
+            group[group.length - 1].push(sword[i])
+          //add consonants to group
+          else
+            group.push([sword[i]]);
+        }
+      }
+      sentence[sentence.length - 1].push(group); //append group to last word
+    });
+    return sentence;
+  },
+  resetOffset: function(){
+    this.carriagereturn = false;
+    this.xoffset = 0;
+    this.yoffset = 0;
+    this.resize = 1;
+    this.offset = 0;
+  },
+  setOffset: function(former, actual){
+    this.offset ++;
+    this.carriagereturn = true;
+    if (shermansBase[former] == "b"){
+      if (actual == "a") {}
+      else if (actual == "o"){
+        this.xoffset = 20 * Math.cos(Math.PI / 4);
+        this.yoffset = 20 * Math.sin(Math.PI / 4);
+      }
+      else /*eiu*/ { this.yoffset = -22; }
+    }
+    else if (shermansBase[former] == "j"){
+      if (actual == "a") {}
+      else if (actual == "o"){
+        this.xoffset = 20 * Math.cos(Math.PI / 4);
+        this.yoffset = 20 * Math.sin(Math.PI / 4);
+      }
+      else /*eiu*/ { this.yoffset = -25; }
+    }
+    else if (shermansBase[former] == "t"){
+      if (actual == "a") {}
+      else if (actual == "o"){
+        this.xoffset = 20 * Math.cos(Math.PI / 4);
+        this.yoffset = 20 * Math.sin(Math.PI / 4) - 25;
+      }
+      else /*eiu*/ {}
+    }
+    else if (shermansBase[former] == "th"){
+      if (actual == "a") {}
+      else if (actual == "o"){
+        this.xoffset = 20 * Math.cos(Math.PI / 4);
+        this.yoffset = 20 * Math.sin(Math.PI / 4) - 25;
+      }
+      else /*eiu*/ {}
+    }
+    else /*vovel*/ {
+      this.resize *= 1.2;
+      if (actual == "a") {}
+      else if (actual == "o"){}
+      else /*eiu*/ {}
+    }
+  }
+}
+
 //draw instructions for base + decoration
-function shermansDraw(letter) {
+function shermansDraw(letter, grouped) {
+  if (!grouped.carriagereturn){
+    if (x + 50 * shermansScale >= width) {
+      y += 100 * shermansScale;
+      x = 0
+    }
+    else x += 50 * shermansScale;
+  }
   if (letter != " ") {
     var canvas = document.getElementById('canvas');
     if (canvas.getContext) {
@@ -139,41 +264,117 @@ function shermansDraw(letter) {
       ctx.beginPath();
       ctx.moveTo(x,y);
       switch(shermansBase[letter]) {
-        case "v":
+        case "punctuation":
           ctx.lineTo(x + 50 * shermansScale, y);
           ctx.stroke();
+          ctx.moveTo(x , y + 25 * shermansScale);
+          ctx.lineTo(x + 50 * shermansScale, y + 25 * shermansScale);
+          ctx.stroke();
+      switch (letter) {
+            case ".":
+              ctx.beginPath();
+              ctx.arc(x + 25 * shermansScale, y + 25 * shermansScale , 10 * shermansScale, 0, 2 * Math.PI, true)
+              ctx.stroke();
+              break;
+            case "?":
+              ctx.beginPath();
+              ctx.arc(x + 17.5 * shermansScale, y + 15 * shermansScale, 5 * shermansScale, 0, 2 * Math.PI, true)
+              ctx.fill();
+              ctx.beginPath();
+              ctx.arc(x + 32.5 * shermansScale, y + 15 * shermansScale, 5 * shermansScale, 0, 2 * Math.PI, true)
+              ctx.fill();
+              break;
+            case "!":
+              ctx.beginPath();
+              ctx.arc(x + 10 * shermansScale, y + 15 * shermansScale, 5 * shermansScale, 0, 2 * Math.PI, true)
+              ctx.fill();
+              ctx.beginPath();
+              ctx.arc(x + 25 * shermansScale, y + 15 * shermansScale, 5 * shermansScale, 0, 2 * Math.PI, true)
+              ctx.fill();
+              ctx.beginPath();
+              ctx.arc(x + 40 * shermansScale, y + 15 * shermansScale, 5 * shermansScale, 0, 2 * Math.PI, true)
+              ctx.fill();
+              break;
+            case "\"":
+              ctx.beginPath();
+              ctx.moveTo(x + 25 * shermansScale, y + 25 * shermansScale);
+              ctx.lineTo(x + 25 * shermansScale, y + 15 * shermansScale);
+              ctx.stroke();
+              break;
+            case "'":
+              ctx.beginPath();
+              ctx.moveTo(x + 20 * shermansScale, y + 25 * shermansScale);
+              ctx.lineTo(x + 20 * shermansScale, y + 15 * shermansScale);
+              ctx.moveTo(x + 30 * shermansScale, y + 25 * shermansScale);
+              ctx.lineTo(x + 30 * shermansScale, y + 15 * shermansScale);
+              ctx.stroke();
+              break;
+            case "-":
+              ctx.beginPath();
+              ctx.moveTo(x + 15 * shermansScale, y + 25 * shermansScale);
+              ctx.lineTo(x + 15 * shermansScale, y + 15 * shermansScale);
+              ctx.moveTo(x + 25 * shermansScale, y + 25 * shermansScale);
+              ctx.lineTo(x + 25 * shermansScale, y + 15 * shermansScale);
+              ctx.moveTo(x + 35 * shermansScale, y + 25 * shermansScale);
+              ctx.lineTo(x + 35 * shermansScale, y + 15 * shermansScale);
+              ctx.stroke();
+              break;
+            case ",":
+              ctx.beginPath();
+              ctx.arc(x + 25 * shermansScale, y + 25 * shermansScale , 10 * shermansScale, 0, 2 * Math.PI, true)
+              ctx.fill();
+              break;
+            case ";":
+              ctx.beginPath();
+              ctx.arc(x + 25 * shermansScale, y + 15 * shermansScale, 5 * shermansScale, 0, 2 * Math.PI, true)
+              ctx.fill();
+              break;
+            case ":":
+              ctx.beginPath();
+              ctx.arc(x + 25 * shermansScale, y + 25 * shermansScale , 10 * shermansScale, 0, 2 * Math.PI, true)
+              ctx.stroke();
+              ctx.arc(x + 25 * shermansScale, y + 25 * shermansScale , 7.5 * shermansScale, 0, 2 * Math.PI, true)
+              ctx.stroke();
+              break;
+            }
+          break;
+        case "v":
+          if (!grouped.carriagereturn) {
+            ctx.lineTo(x + 50 * shermansScale, y);
+            ctx.stroke();
+          }
           switch (letter) {
             case "a":
               ctx.beginPath();
-              ctx.arc(x + 25 * shermansScale, y + 25 * shermansScale, 10 * shermansScale, 0, 2 * Math.PI, true)
+              ctx.arc(x + (25 + shermansGrouped.xoffset) * shermansScale, y + (25 + shermansGrouped.yoffset) * shermansScale , 10 * shermansScale * shermansGrouped.resize, 0, 2 * Math.PI, true)
               ctx.stroke();
               break;
             case "e":
               ctx.beginPath();
-              ctx.arc(x + 25 * shermansScale, y, 10 * shermansScale, 0, 2 * Math.PI, true)
+              ctx.arc(x + (25 + shermansGrouped.xoffset) * shermansScale, y + shermansGrouped.yoffset * shermansScale, 10 * shermansScale * shermansGrouped.resize, 0, 2 * Math.PI, true)
               ctx.stroke();
               break;
             case "i":
               ctx.beginPath();
-              ctx.arc(x + 25 * shermansScale, y, 10 * shermansScale, 0, 2 * Math.PI, true)
+              ctx.arc(x + (25 + shermansGrouped.xoffset) * shermansScale, y + shermansGrouped.yoffset * shermansScale, 10 * shermansScale * shermansGrouped.resize, 0, 2 * Math.PI, true)
               ctx.stroke();
               ctx.beginPath();
-              ctx.moveTo(x + 25 * shermansScale, y - 10 * shermansScale);
-              ctx.lineTo(x + 25 * shermansScale, y - 30 * shermansScale);
+              ctx.moveTo(x + (25 + shermansGrouped.xoffset) * shermansScale, y - (10 - shermansGrouped.yoffset) * shermansScale);
+              ctx.lineTo(x + (25 + shermansGrouped.xoffset) * shermansScale, y - (30 - shermansGrouped.yoffset) * shermansScale);
               ctx.stroke();
               break;
             case "o":
               ctx.beginPath();
-              ctx.arc(x + 25 * shermansScale, y - 25 * shermansScale, 10 * shermansScale, 0, 2 * Math.PI, true)
+              ctx.arc(x + (25 + shermansGrouped.xoffset) * shermansScale, y - (25 + shermansGrouped.yoffset) * shermansScale, 10 * shermansScale * shermansGrouped.resize, 0, 2 * Math.PI, true)
               ctx.stroke();
               break;
             case "u":
               ctx.beginPath();
-              ctx.arc(x + 25 * shermansScale, y, 10 * shermansScale, 0, 2 * Math.PI, true)
+              ctx.arc(x + (25 + shermansGrouped.xoffset) * shermansScale, y + shermansGrouped.yoffset * shermansScale, 10 * shermansScale * shermansGrouped.resize, 0, 2 * Math.PI, true)
               ctx.stroke();
               ctx.beginPath();
-              ctx.moveTo(x + 25 * shermansScale, y + 10 * shermansScale);
-              ctx.lineTo(x + 25 * shermansScale, y + 30 * shermansScale);
+              ctx.moveTo(x + (25 + shermansGrouped.xoffset) * shermansScale, y + (10 + shermansGrouped.yoffset) * shermansScale);
+              ctx.lineTo(x + (25 + shermansGrouped.xoffset) * shermansScale, y + (30 + shermansGrouped.yoffset) * shermansScale);
               ctx.stroke();
               break;
           }
@@ -288,12 +489,7 @@ function shermansDraw(letter) {
         }
       }
       ctx.beginPath();
-      ctx.fillText(letter, x + 25 * shermansScale, y - 50 * shermansScale);
+      ctx.fillText(letter, x + (25 + shermansGrouped.offset * 5) * shermansScale, y - 50 * shermansScale);
     }
   }
-  if (x >= width) {
-    y += 100 * shermansScale;
-    x = 0
-  }
-  x += 50 * shermansScale;
 }
