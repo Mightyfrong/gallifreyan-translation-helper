@@ -97,14 +97,16 @@ var shermansDeco = {
   ch : "2d"
 };
 
+let x; //draw coordinate x
+let y; //draw coordinate y
 //scroll trough input and draw every letter
-function shermansTranslate(input) {
+export function shermansTranslate(input) {
   x = 0; //50 * shermansScale;
   y = 100 * shermansScale;
   cLetter = false;
   qLetter = false;
   //convert string to grouped array
-  groupedinput = shermansGrouped.groups(input.toLowerCase());
+  let groupedinput = shermansGrouped.groups(input.toLowerCase());
   //set canvas scale for words
   var canvas = document.getElementById('canvas');
   if (canvas.getContext) {

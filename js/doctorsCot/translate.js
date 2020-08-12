@@ -20,8 +20,6 @@ export function doctorsCotTranslate(ctx, input) {
     ctx.canvas.width = maxWordSize * glyphWidth;
     ctx.canvas.height = numOfLines * lineHeight;
 
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
     ctx.strokeStyle = '#d7703a';
 
     ctx.translate(glyphSpacing + glyphRadius, textSpace + glyphRadius);

@@ -1,16 +1,19 @@
-import { doctorsCotTranslate } from './doctorsCot/main.js'
+import { shermansTranslate } from './shermans.js'
+import { tardisTranslate } from './tardisC.js'
+import { doctorsCotTranslate } from './doctorsCot/translate.js'
 import { genKeyboard, consonantTable, vowelTable } from './doctorsCot/setup.js'
 
-let x; //draw coordinate x
-let y; //draw coordinate y
 //Clear canvas and pass word to specific language
 function translate() {
 	var canvas = document.getElementById('canvas');
 	if (canvas.getContext) {
 		var ctx = canvas.getContext('2d');
 
-		ctx.setTransform(1, 0, 0, 1, 0, 0);
+		ctx.resetTransform();
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
 	}
 	let input = document.getElementById("text").value;
 	let lang = document.getElementById("language").value;
