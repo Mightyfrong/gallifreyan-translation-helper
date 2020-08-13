@@ -1,37 +1,39 @@
 import { PhoneticUnit } from './PhoneticUnit.js'
 
 export const consonantTable = {
-	"1thin"   : " j ts ŋ v dʒ  f  ʒ ɢ  ç ɬ ʎ",
-	"2thin"   : " n  h l p  w tʃ st ɴ  ð ɮ ß",
-	"1thic"   : " t  s ɹ d  m  ʃ  θ q  ʝ ʋ x",
+	"1thin": " j ts ŋ v dʒ  f  ʒ ɢ  ç ɬ ʎ",
+	"2thin": " n  h l p  w tʃ st ɴ  ð ɮ ß",
+	"1thic": " t  s ɹ d  m  ʃ  θ q  ʝ ʋ x",
 	"thicthin": "ks  k z b  א  g  r ɻ  ɣ ɰ  ",
-	"2thic"   : " χ  ɲ ɳ ʈ  ɖ  c  ɟ ħ  ɭ ɸ  ",
+	"2thic": " χ  ɲ ɳ ʈ  ɖ  c  ɟ ħ  ɭ ɸ  ",
 	"thinthic": " ʁ  ʙ ʀ ⱱ  ɾ  ɽ  ʂ ʐ fi ʟ  "
 }
 export const vowelTable = {
-	"1thin"   : "ɑ  i  u a y",
-	"2thin"   : "e  ɪ ou æ ʉ",
-	"1thic"   : "ɛ ai  ʌ ɜ ø",
+	"1thin": "ɑ  i  u a y",
+	"2thin": "e  ɪ ou æ ʉ",
+	"1thic": "ɛ ai  ʌ ɜ ø",
 	"thicthin": "ʊ  ɘ  ɐ ɤ ɵ",
-	"2thic"   : "ɯ  ɨ  ə ɔ o",
+	"2thic": "ɯ  ɨ  ə ɔ o",
 	"thinthic": "œ  ɞ  ɒ ɶ  "
 }
 
 const outline = {
-    "1thin": [1],
-    "2thin": [1, 1],
-    "1thic": [2],
-    "thicthin": [2, 1],
-    "2thic": [2, 2],
-    "thinthic": [1, 2]
+	"1thin": [1],
+	"2thin": [1, 1],
+	"1thic": [2],
+	"thicthin": [2, 1],
+	"2thic": [2, 2],
+	"thinthic": [1, 2]
 };
 
-
+export const glyphCol = "#d7703a";
 export const glyphRadius = 50;
-export const outlineSpace = 1;
+export const innerRad = glyphRadius * 2 / 5;
 
-const innerRad = glyphRadius/5;
-const circPos = glyphRadius/2;
+export const outlineGap = 1;
+
+const vowelRad = (glyphRadius - innerRad) / 4;
+const circPos = (glyphRadius + innerRad) / 2;
 const decRad = 10;
 
 //turn polar coords to string of rectangular ones
@@ -63,14 +65,14 @@ function fullLine(ctx) {
 	ctx.lineTo(...pos300);
 	ctx.stroke();
 }
-function circ(ctx, r, θ, fill){
+function circ(ctx, r, θ, fill) {
 	ctx.beginPath();
-	ctx.arc(...polar(r, θ), 10, 0, 2*Math.PI);
-	ctx[fill? "fill": "stroke"]();
+	ctx.arc(...polar(r, θ), 10, 0, 2 * Math.PI);
+	ctx[fill ? (ctx.fillStyle = glyphCol, "fill") : "stroke"]();
 }
-function arc(ctx, start, end){
+function arc(ctx, start, end) {
 	ctx.beginPath();
-	ctx.arc(0, 0, glyphRadius/4, start, end);
+	ctx.arc(0, 0, innerRad + 2, start, end);
 	ctx.stroke();
 }
 
@@ -79,29 +81,92 @@ export const decorate = [
 	halfLine,
 	fullLine,
 	ctx => {
-		circ(ctx, circPos, 60);
-		circ(ctx, circPos, 120);
+		circ(ctx, circPos, 65);
+		circ(ctx, circPos, 115);
 	},
 	ctx => {
-		circ(ctx, circPos, 60);
-		circ(ctx, circPos, 120, true);
+		circ(ctx, circPos, 65);
+		circ(ctx, circPos, 115, true);
 	},
 	ctx => circ(ctx, circPos, 60),
 	ctx => circ(ctx, circPos, 60, true),
 	ctx => {
 		fullLine(ctx);
-		arc(ctx, Math.PI*5/3, Math.PI*2/3);
+		arc(ctx, Math.PI * 5 / 3, Math.PI * 2 / 3);
 	},
 	ctx => {
 		bentLine(ctx);
-		arc(ctx, Math.PI*23/12, Math.PI*2/3);
+		arc(ctx, Math.PI * 23 / 12, Math.PI * 2 / 3);
 	},
 	ctx => {
 		bentLine(ctx);
-		arc(ctx, Math.PI*2/3, Math.PI*23/12);
+		arc(ctx, Math.PI * 2 / 3, Math.PI * 23 / 12);
 	},
-	ctx => circ(ctx, innerRad+decRad, Math.PI*5/4)
+	ctx => circ(ctx, innerRad + decRad, Math.PI * 5 / 4)
 ];
+
+export function drawArc(ctx, radius, ol, start, end) {
+	start = start ? start : 0;
+	end = end ? end : 2 * Math.PI;
+
+	let currentRad = radius;
+	outline[ol].forEach(thicness => {
+		currentRad -= thicness / 2;
+
+		ctx.lineWidth = thicness;
+
+		ctx.beginPath();
+		ctx.arc(0, 0, currentRad, start, end);
+		ctx.fillStyle = "#fff";
+		ctx.fill();
+		ctx.stroke();
+
+		currentRad -= outlineGap + thicness / 2;
+	});
+}
+
+export const drawVowel = [
+	(ctx, vow, con) => {
+		drawArc(ctx, innerRad, con);
+		ctx.save();
+		ctx.rotate(Math.PI * 3 / 4);
+		ctx.translate(glyphRadius, 0);
+		drawArc(ctx, glyphRadius - innerRad / 2, vow);
+		ctx.restore();
+	},
+	(ctx, vow, con) => {
+		drawArc(ctx, innerRad, con);
+		ctx.save();
+		ctx.rotate(-Math.PI / 4);
+		ctx.translate(circPos, 0);
+		drawArc(ctx, vowelRad, vow);
+		ctx.restore();
+	},
+	(ctx, vow, con) => {
+		drawArc(ctx, innerRad, con);
+		ctx.save();
+		ctx.rotate(Math.PI / 4);
+		ctx.translate(innerRad, 0);
+		drawArc(ctx, vowelRad, vow);
+		ctx.restore();
+	},
+	(ctx, vow, con) => {
+		drawArc(ctx, innerRad, con);
+		ctx.save();
+		ctx.rotate(-Math.PI * 3 / 4);
+		ctx.translate(vowelRad, 0);
+		drawArc(ctx, vowelRad, vow);
+		ctx.restore();
+	},
+	(ctx, vow, con) => {
+		ctx.save();
+		ctx.rotate(Math.PI / 4);
+		ctx.translate(innerRad, 0);
+		drawArc(ctx, vowelRad, vow);
+		ctx.restore();
+		drawArc(ctx, innerRad, con);
+	}
+]
 
 // to be filled up outline and deco info
 export const letter = [];
@@ -109,31 +174,31 @@ export const letter = [];
  * with outline and decoration info
  */
 [[consonantTable, false], [vowelTable, true]].forEach(([table, isVowel]) => {
-    for (let r in table) {
-        const row = table[r].trim().split(/\s+/);
+	for (let outlines in table) {
+		const row = table[outlines].trim().split(/\s+/);
 
-        row.forEach((ltr, deco) =>
-            letter.push(new PhoneticUnit(ltr, outline[r], deco, isVowel))
-        );
-    }
+		row.forEach((ltr, deco) =>
+			letter.push(new PhoneticUnit(ltr, outlines, deco, isVowel))
+		);
+	}
 });
 
 // create HTML button elements laid out same as letter table
 export function genKeyboard(elem, table) {
-		for (let styl in table) {
-				const tableRow = table[styl].trim().split(/\s+/); // turn string to array, removing white space
-				const keyRow = document.createElement('div');
+	for (let styl in table) {
+		const tableRow = table[styl].trim().split(/\s+/); // turn string to array, removing white space
+		const keyRow = document.createElement('div');
 
-				tableRow.forEach(letter => {
-						const keyInput = document.createElement('input');
+		tableRow.forEach(letter => {
+			const keyInput = document.createElement('input');
 
-						keyInput.type = "button";
-						keyInput.value = letter;
-						keyInput.onclick = () =>
-								document.getElementById('text').value += letter;
+			keyInput.type = "button";
+			keyInput.value = letter;
+			keyInput.onclick = () =>
+				document.getElementById('text').value += letter;
 
-						keyRow.appendChild(keyInput);
-				});
-				elem.appendChild(keyRow);
-		}
+			keyRow.appendChild(keyInput);
+		});
+		elem.appendChild(keyRow);
+	}
 }

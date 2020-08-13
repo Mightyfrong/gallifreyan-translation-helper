@@ -60,9 +60,6 @@ if (canvas.getContext) {
 	ctx.resetTransform();
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-	ctx.textAlign = 'center';
-	ctx.textBaseline = 'middle';
-
 	document.forms[0].onsubmit = (event) => {
 		translate(ctx);
 		event.preventDefault();

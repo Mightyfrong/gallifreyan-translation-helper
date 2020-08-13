@@ -1,4 +1,4 @@
-import { letter, glyphRadius } from './setup.js';
+import { letter, glyphRadius, glyphCol } from './setup.js';
 import { CotGlyph } from './CotGlyph.js';
 
 const glyphSpacing = 5;
@@ -20,7 +20,9 @@ export function doctorsCotTranslate(ctx, input) {
     ctx.canvas.width = maxWordSize * glyphWidth;
     ctx.canvas.height = numOfLines * lineHeight;
 
-    ctx.strokeStyle = '#d7703a';
+	ctx.textAlign = 'center';
+	ctx.textBaseline = 'middle';
+    ctx.strokeStyle = glyphCol;
 
     ctx.translate(glyphSpacing + glyphRadius, textSpace + glyphRadius);
     
@@ -30,7 +32,7 @@ export function doctorsCotTranslate(ctx, input) {
             ctx.fillStyle = '#444';
             ctx.fillText(glyph.toString, 0, - glyphRadius - textSpace / 2);
 
-            glyph.draw(ctx, glyphRadius, textSpace);
+            glyph.draw(ctx);
             ctx.translate(glyphWidth, 0);
         });
         ctx.restore();
