@@ -1,12 +1,10 @@
 import { decorate, drawVowel } from "./setup.js"
 
 export class CotGlyph {
-	constructor(out, inn, vow) {
-		this.outer = out;
-		this.inner = inn || null;
-		this.vowel = vow || null;
-
-		const [a, b] = out.outlines;
+	constructor(cons1, cons2, vowel) {
+		this.outer = cons1;
+		this.inner = cons2 || null;
+		this.vowel = vowel || null;
 
 		this.toString = this.outer.toString;
 		if (this.inner) this.toString += this.inner.toString;

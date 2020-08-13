@@ -8,7 +8,7 @@ const textSpace = 20;
 const lineHeight = textSpace + 2 * glyphRadius;
 
 export function doctorsCotTranslate(ctx, input) {
-    const result = translateWords(input);
+    const result = translateWords(input.toLowerCase().replace(/[-ːˈ]/g, ""));
 
     document.getElementById('output').innerHTML = result.error || "";
 

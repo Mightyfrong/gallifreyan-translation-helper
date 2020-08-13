@@ -1,30 +1,30 @@
 import { PhoneticUnit } from './PhoneticUnit.js'
 
-export const consonantTable = {
-	"1thin": " j ts ŋ v dʒ  f  ʒ ɢ  ç ɬ ʎ",
-	"2thin": " n  h l p  w tʃ st ɴ  ð ɮ ß",
-	"1thic": " t  s ɹ d  m  ʃ  θ q  ʝ ʋ x",
-	"thicthin": "ks  k z b  א  g  r ɻ  ɣ ɰ  ",
-	"2thic": " χ  ɲ ɳ ʈ  ɖ  c  ɟ ħ  ɭ ɸ  ",
-	"thinthic": " ʁ  ʙ ʀ ⱱ  ɾ  ɽ  ʂ ʐ fi ʟ  "
-}
-export const vowelTable = {
-	"1thin": "ɑ  i  u a y",
-	"2thin": "e  ɪ ou æ ʉ",
-	"1thic": "ɛ ai  ʌ ɜ ø",
-	"thicthin": "ʊ  ɘ  ɐ ɤ ɵ",
-	"2thic": "ɯ  ɨ  ə ɔ o",
-	"thinthic": "œ  ɞ  ɒ ɶ  "
-}
+export const consonantTable = [
+	" j ts ŋ v ʤ f  ʒ ɢ  ç ɬ ʎ",
+	" n  h l p w ʧ st ɴ  ð ɮ ß",
+	" t  s ɹ d m ʃ  θ q  ʝ ʋ x",
+	"ks  k z b א g  r ɻ  ɣ ɰ  ",
+	" χ  ɲ ɳ ʈ ɖ c  ɟ ħ  ɭ ɸ  ",
+	" ʁ  ʙ ʀ ⱱ ɾ ɽ  ʂ ʐ fi ʟ  "
+]
+export const vowelTable = [
+	"ɑ  i  u a y",
+	"e  ɪ ou æ ʉ",
+	"ɛ ai  ʌ ɜ ø",
+	"ʊ  ɘ  ɐ ɤ ɵ",
+	"ɯ  ɨ  ə ɔ o",
+	"œ  ɞ  ɒ ɶ  "
+];
 
-const outline = {
-	"1thin": [1],
-	"2thin": [1, 1],
-	"1thic": [2],
-	"thicthin": [2, 1],
-	"2thic": [2, 2],
-	"thinthic": [1, 2]
-};
+const outline = [
+	[1],
+	[1, 1],
+	[2],
+	[2, 1],
+	[2, 2],
+	[1, 2]
+];
 
 export const glyphCol = "#d7703a";
 export const glyphRadius = 50;
@@ -174,19 +174,19 @@ export const letter = [];
  * with outline and decoration info
  */
 [[consonantTable, false], [vowelTable, true]].forEach(([table, isVowel]) => {
-	for (let outlines in table) {
-		const row = table[outlines].trim().split(/\s+/);
+	table.forEach((row, outlines) => {
+		const tableRow = row.trim().split(/\s+/);
 
-		row.forEach((ltr, deco) =>
+		tableRow.forEach((ltr, deco) =>
 			letter.push(new PhoneticUnit(ltr, outlines, deco, isVowel))
 		);
-	}
+	});
 });
 
 // create HTML button elements laid out same as letter table
 export function genKeyboard(elem, table) {
-	for (let styl in table) {
-		const tableRow = table[styl].trim().split(/\s+/); // turn string to array, removing white space
+	table.forEach(row => {
+		const tableRow = row.trim().split(/\s+/); // turn string to array, removing white space
 		const keyRow = document.createElement('div');
 
 		tableRow.forEach(letter => {
@@ -194,7 +194,7 @@ export function genKeyboard(elem, table) {
 
 			keyInput.type = "button";
 			keyInput.value = letter;
-			keyInput.onclick = event => {
+			keyInput.onclick = () => {
 				let input = document.getElementById('text');
 				const pos = input.selectionStart;
 				const val = input.value;
@@ -206,5 +206,5 @@ export function genKeyboard(elem, table) {
 			keyRow.appendChild(keyInput);
 		});
 		elem.appendChild(keyRow);
-	}
+	});
 }
