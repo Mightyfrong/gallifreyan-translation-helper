@@ -24,13 +24,21 @@ export class CotGlyph {
 		ctx.restore();
 
 		if (this.vowel) {
-			const innerCons = this.inner || this.outer;
-			drawVowel[this.vowel.decoration](ctx, this.vowel.outlines, innerCons.outlines);
+			if (this.inner) {
+				ctx.save();
+				ctx.rotate(Math.PI / 2);
+				ctx.lineWidth = 1;
+				decorate[this.inner.decoration](ctx);
+				ctx.restore();
+
+				drawVowel[this.vowel.decoration](ctx, this.vowel.outlines, this.inner.outlines);
+			} else
+				drawVowel[this.vowel.decoration](ctx, this.vowel.outlines, this.outer.outlines);
 		} else {
 			if (this.inner) {
 				ctx.save();
 				ctx.rotate(Math.PI / 2);
-
+				ctx.lineWidth = 1;
 				decorate[this.inner.decoration](ctx);
 				ctx.restore();
 

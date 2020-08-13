@@ -10,8 +10,7 @@ const lineHeight = textSpace + 2 * glyphRadius;
 export function doctorsCotTranslate(ctx, input) {
     const result = translateWords(input);
 
-    if (result.error)
-        document.getElementById('output').innerHTML = result.error;
+    document.getElementById('output').innerHTML = result.error || "";
 
     const translation = result.output.map(translateGlyphs);
 
