@@ -16,15 +16,8 @@ const ipaVowels = document.getElementById('ipa-vowels');
 genKeyboard(ipaConsons, consonantTable);
 genKeyboard(ipaVowels, vowelTable);
 
-
-// only show IPA keyboard when Doctor's Cot selected
-langSelect.addEventListener('input', event => {
-	// First hide all controls
-	[...langControls.getElementsByClassName('active')]
-		.forEach(elem => elem.classList.remove('active'));
-
-	// Then display selected ones
-	switch (event.target.value) {
+function activateControls(lang){
+	switch (lang) {
 		case "shermans":
 			shermansOpts.classList.add('active');
 			break;
@@ -32,7 +25,17 @@ langSelect.addEventListener('input', event => {
 			ipaKeys.classList.add('active');
 			break;
 	}
+}
+// only show IPA keyboard when Doctor's Cot selected
+langSelect.addEventListener('input', event => {
+	// First hide all controls
+	[...langControls.getElementsByClassName('active')]
+		.forEach(elem => elem.classList.remove('active'));
+
+	// Then display selected ones
+	activateControls(event.target.value)
 });
+activateControls(langSelect.value);
 
 //Clear canvas and pass word to specific language
 function translate(ctx) {
