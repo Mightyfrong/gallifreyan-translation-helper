@@ -1,4 +1,4 @@
-import { decorate, outlineGap, drawArc, drawVowel } from "./setup.js"
+import { decorate, drawVowel } from "./setup.js"
 
 export class CotGlyph {
 	constructor(out, inn, vow) {
@@ -7,7 +7,6 @@ export class CotGlyph {
 		this.vowel = vow || null;
 
 		const [a, b] = out.outlines;
-		this.thicness = b ? a + outlineGap + b / 2 : a / 2;
 
 		this.toString = this.outer.toString;
 		if (this.inner) this.toString += this.inner.toString;
@@ -30,7 +29,7 @@ export class CotGlyph {
 		} else {
 			if (this.inner) {
 				ctx.save();
-				ctx.rotate(Math.PI * 2 / 3);
+				ctx.rotate(Math.PI / 2);
 
 				decorate[this.inner.decoration](ctx);
 				ctx.restore();

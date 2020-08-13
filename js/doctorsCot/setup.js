@@ -34,7 +34,7 @@ export const outlineGap = 1;
 
 const vowelRad = (glyphRadius - innerRad) / 4;
 const circPos = (glyphRadius + innerRad) / 2;
-const decRad = 10;
+const decRad = 5;
 
 //turn polar coords to string of rectangular ones
 function polar(radius, degrees) {
@@ -67,7 +67,7 @@ function fullLine(ctx) {
 }
 function circ(ctx, r, θ, fill) {
 	ctx.beginPath();
-	ctx.arc(...polar(r, θ), 10, 0, 2 * Math.PI);
+	ctx.arc(...polar(r, θ), decRad, 0, 2 * Math.PI);
 	ctx[fill ? (ctx.fillStyle = glyphCol, "fill") : "stroke"]();
 }
 function arc(ctx, start, end) {
@@ -81,15 +81,15 @@ export const decorate = [
 	halfLine,
 	fullLine,
 	ctx => {
-		circ(ctx, circPos, 65);
-		circ(ctx, circPos, 115);
+		circ(ctx, circPos, 75);
+		circ(ctx, circPos, 105);
 	},
 	ctx => {
-		circ(ctx, circPos, 65);
-		circ(ctx, circPos, 115, true);
+		circ(ctx, circPos, 75);
+		circ(ctx, circPos, 105, true);
 	},
-	ctx => circ(ctx, circPos, 60),
-	ctx => circ(ctx, circPos, 60, true),
+	ctx => circ(ctx, circPos, 75),
+	ctx => circ(ctx, circPos, 75, true),
 	ctx => {
 		fullLine(ctx);
 		arc(ctx, Math.PI * 5 / 3, Math.PI * 2 / 3);
