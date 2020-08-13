@@ -32,7 +32,7 @@ export const innerRad = glyphRadius * 2 / 5;
 
 export const outlineGap = 1;
 
-const vowelRad = (glyphRadius - innerRad) / 4;
+const vowelRad = (glyphRadius - innerRad) / 3;
 const circPos = (glyphRadius + innerRad) / 2;
 const decRad = 5;
 
@@ -154,7 +154,7 @@ export const drawVowel = [
 		drawArc(ctx, innerRad, con);
 		ctx.save();
 		ctx.rotate(-Math.PI * 3 / 4);
-		ctx.translate(vowelRad, 0);
+		ctx.translate(innerRad - vowelRad, 0);
 		drawArc(ctx, vowelRad, vow);
 		ctx.restore();
 	},
@@ -194,8 +194,14 @@ export function genKeyboard(elem, table) {
 
 			keyInput.type = "button";
 			keyInput.value = letter;
-			keyInput.onclick = () =>
-				document.getElementById('text').value += letter;
+			keyInput.onclick = event => {
+				let input = document.getElementById('text');
+				const pos = input.selectionStart;
+				const val = input.value;
+				input.value = val.slice(0, pos) + letter + val.slice(pos);
+				input.focus();
+				input.selectionStart = input.selectionEnd = pos + letter.length;
+			}
 
 			keyRow.appendChild(keyInput);
 		});
