@@ -11,19 +11,18 @@
 <body>
   <p id="info">Still very early and WIP. Please don't spell check your tattoo with this!</p>
 
-
   <form>
     <div>
       <label for="language">Choose a System:</label>
       <select id="language">
         <option value="shermans">Sherman's</option>
-        <option value="cot">Doctor's Cot(WIP)</option>
+        <option value="cot">Doctor's Cot</option>
         <option value="tardis">TARDIS Console(WIP)</option>
       </select>
     </div>
 
     <fieldset id="lang-controls">
-      <div id="shermans-options" class="active">
+      <div id="shermans-options">
         <input type="checkbox" id="scgg" checked /><label for="scgg"> group vowels</label>
         <input type="checkbox" id="scgc" checked /><label for="scgc"> convert C</label>
       </div>
@@ -41,9 +40,7 @@
 
   <p id="output"></p>
 
-  <script src="js/shermans.js"></script>
-  <script src="js/tardisC.js"></script>
-  <script type="module" src="js/generalTranslate.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 
 </html>

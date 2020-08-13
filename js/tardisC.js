@@ -37,7 +37,9 @@ var tardisLetters = {
 	"": new Path2D()
 };
 
-function tardisTranslate(ctx, input) {
+let x, y; //current drawing coords
+let width, height; //canvas dimensions
+export function tardisTranslate(ctx, input) {
 	x = 50 * tardisScale;
 	y = 50 * tardisScale;
 	input = input.toLowerCase();

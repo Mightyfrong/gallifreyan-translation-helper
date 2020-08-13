@@ -11,15 +11,15 @@ More details on how the translators for each one can be found below.
 
 ## Sherman's
 
-Designed as a pattern memory aid, this translator draws each letter either as an individual glyph, or stacking vowels with consonants depending on choice. Also displays the glyphs in horizontal lines instead of writing them in the expected circular fashion for ease of reading. Optional translation of c to phonetic k or s.
+Designed as a pattern memory aid, this translator draws each letter either as an individual glyph, or stacking vowels with consonants depending on choice. Also displays the glyphs in horizontal lines instead of writing them in the expected circular fashion for ease of reading.
 
-Currently, this is the only one of the three translators that are completely functional.
+One can optionally toggle whether C is transcribed to K/S in the language controls.
 
 ## TARDIS Console (WIP)
 
 The underlying translator is fully complete but draws the designs of letters from a dictionary of their visual representations which is only partly filled. Thus, most letters won't yield a visible result on the canvas.
 
-## Doctor's Cot (WIP)
+## Doctor's Cot
 
 This one is the most complicated of the 3 languages as it transcribes the exact phonetics of words instead of just their letters. Hence, the user is given an on-screen IPA ([International Phonetic Alphabet](https://en.wikipedia.org/wiki/International_Phonetic_Alphabet)) keyboard.
 
