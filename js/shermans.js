@@ -4,104 +4,46 @@ let shermansScale = 1.5 //scale of letters
 let width;
 let height;
 //specify base for every letter
-var shermansBase = {
-	".": "punctuation",
-	"?": "punctuation",
-	"!": "punctuation",
-	"\"": "punctuation",
-	"'": "punctuation",
-	"-": "punctuation",
-	",": "punctuation",
-	";": "punctuation",
-	":": "punctuation",
-	a: "v",
-	b: "b",
-	c: "j",
-	d: "b",
-	e: "v",
-	f: "b",
-	g: "b",
-	h: "b",
-	i: "v",
-	j: "j",
-	k: "j",
-	l: "j",
-	m: "j",
-	n: "j",
-	o: "v",
-	p: "j",
-	q: "th",
-	r: "t",
-	s: "t",
-	t: "t",
-	u: "v",
-	v: "t",
-	w: "t",
-	x: "th",
-	y: "th",
-	z: "th",
-	th: "th",
-	gh: "th",
-	ng: "th",
-	qu: "th",
-	wh: "t",
-	sh: "t",
-	ph: "j",
-	ch: "b"
+function shermansBase(char) {
+	let scgtable = {
+		"punctuation": [".", "?", "!", "\"", "'", "-", ",", ",", ":"],
+		"v": ["a", "e", "i", "o", "u"],
+		"b":["b", "ch", "d", "g", "h", "f"],
+		"j": ["j", "ph", "k", "l", "c", "n", "p", "m"],
+		"t": ["t", "wh", "sh", "r", "v", "w", "s"],
+		"th": ["th", "gh", "y", "z", "q", "qu", "x", "ng"]
+	};
+	let rtrn="";
+	Object.keys(scgtable).forEach(function (row){
+		if (scgtable[row].indexOf(char) > -1) rtrn = row;
+	});
+	return rtrn;
 };
 
 //specify decoration for every letter
-var shermansDeco = {
-	".": "",
-	"?": "",
-	"!": "",
-	"\"": "",
-	"'": "",
-	"-": "",
-	",": "",
-	";": "",
-	":": "",
-	a: "",
-	b: "",
-	c: "4d",
-	d: "3d",
-	e: "",
-	f: "3l",
-	g: "1l",
-	h: "2l",
-	i: "1l",
-	j: "",
-	k: "2d",
-	l: "3d",
-	m: "3l",
-	n: "1l",
-	o: "",
-	p: "2l",
-	q: "4d",
-	r: "3d",
-	s: "3l",
-	t: "",
-	u: "1l",
-	v: "1l",
-	w: "2l",
-	x: "2l",
-	y: "2d",
-	z: "3d",
-	th: "",
-	gh: "1d",
-	ng: "3l",
-	qu: "1l",
-	wh: "1d",
-	sh: "2d",
-	ph: "1d",
-	ch: "2d"
+function shermansDeco(char) {
+	let scgtable = {
+		"null": [".", "?", "!", "\"", "'", "-", ",", ",", ":", "a", "e", "i", "o", "u", "b", "j", "t", "th"],
+		"1l":["g", "n", "v", "qu"],
+		"2l":["h", "p", "w", "x"],
+		"3l":["f", "m", "s", "ng"],
+		"1d":["ph", "wh", "gh"],
+		"2d":["ch", "k", "sh", "y"],
+		"3d":["d", "l", "r", "z"],
+		"4d":["c", "q"]
+	};
+	let rtrn="";
+	Object.keys(scgtable).forEach(function (row){
+		if (scgtable[row].indexOf(char) > -1) rtrn = row;
+	});
+	return rtrn == "null" ? "" : rtrn;
 };
 
 let x; //draw coordinate x
 let y; //draw coordinate y
-//scroll trough input and draw every letter
+//scroll through input and draw every letter
 export function shermansTranslate(ctx, input) {
-	x = 0; //50 * shermansScale;
+	x = -50 * shermansScale;
 	y = 100 * shermansScale;
 	cLetter = false;
 	qLetter = false;
@@ -199,7 +141,7 @@ var shermansGrouped = {
 	setOffset: function (former, actual) {
 		this.offset++;
 		this.carriagereturn = true;
-		if (shermansBase[former] == "b") {
+		if (shermansBase(former) == "b") {
 			if (actual == "a") { }
 			else if (actual == "o") {
 				this.xoffset = 20 * Math.cos(Math.PI / 4);
@@ -207,7 +149,7 @@ var shermansGrouped = {
 			}
 			else /*eiu*/ { this.yoffset = -22; }
 		}
-		else if (shermansBase[former] == "j") {
+		else if (shermansBase(former) == "j") {
 			if (actual == "a") { }
 			else if (actual == "o") {
 				this.xoffset = 20 * Math.cos(Math.PI / 4);
@@ -215,7 +157,7 @@ var shermansGrouped = {
 			}
 			else /*eiu*/ { this.yoffset = -25; }
 		}
-		else if (shermansBase[former] == "t") {
+		else if (shermansBase(former) == "t") {
 			if (actual == "a") { }
 			else if (actual == "o") {
 				this.xoffset = 20 * Math.cos(Math.PI / 4);
@@ -223,7 +165,7 @@ var shermansGrouped = {
 			}
 			else /*eiu*/ { }
 		}
-		else if (shermansBase[former] == "th") {
+		else if (shermansBase(former) == "th") {
 			if (actual == "a") { }
 			else if (actual == "o") {
 				this.xoffset = 20 * Math.cos(Math.PI / 4);
@@ -260,7 +202,7 @@ function shermansDraw(ctx, letter, grouped) {
 		}
 		ctx.beginPath();
 		ctx.moveTo(x, y);
-		switch (shermansBase[letter]) {
+		switch (shermansBase(letter)) {
 			case "punctuation":
 				ctx.lineTo(x + 50 * shermansScale, y);
 				ctx.stroke();
@@ -413,8 +355,8 @@ function shermansDraw(ctx, letter, grouped) {
 				ctx.stroke();
 				break;
 		}
-		if (shermansBase[letter] != "v") {
-			switch (shermansDeco[letter]) {
+		if (shermansBase(letter) != "v") {
+			switch (shermansDeco(letter)) {
 				case "1d":
 					ctx.beginPath();
 					ctx.arc(x + 25 * shermansScale, y - 10 * shermansScale, 5 * shermansScale, 0, 2 * Math.PI, true)
