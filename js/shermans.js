@@ -6,7 +6,7 @@ let height;
 //specify base for every letter
 function shermansBase(char) {
 	let scgtable = {
-		"punctuation": [".", "?", "!", "\"", "'", "-", ",", ",", ":"],
+		"punctuation": [".", "?", "!", "\"", "'", "-", ",", ";", ":"],
 		"v": ["a", "e", "i", "o", "u"],
 		"b":["b", "ch", "d", "g", "h", "f"],
 		"j": ["j", "ph", "k", "l", "c", "n", "p", "m"],
@@ -47,6 +47,8 @@ export function shermansTranslate(ctx, input) {
 	y = 120 * shermansScale;
 	cLetter = false;
 	qLetter = false;
+	draw.init(ctx, 1);
+
 	//convert string to grouped array
 	let groupedinput = shermansGrouped.groups(input.toLowerCase());
 
@@ -202,6 +204,41 @@ function baseRelatedPosition(base, radiant){
 	}
 }
 
+var draw={
+	init: function(ctx, linewidth){
+		this.ctx = ctx;
+		this.linewidth = linewidth;
+	},
+	circle:function(x, y, r, lw){
+		this.ctx.beginPath();
+		this.ctx.arc(x, y, r, 0, 2 * Math.PI, true);
+		if (lw !== undefined) this.ctx.lineWidth = lw;
+		this.ctx.stroke();
+		this.ctx.lineWidth = this.linewidth;
+	},
+	arc:function(x, y, r, a, o, lw){ //could be unified with circle with optional params but separated for readibilities sake...
+		this.ctx.beginPath();
+		this.ctx.arc(x, y, r, a, o, true);
+		if (lw !== undefined) this.ctx.lineWidth = lw;
+		this.ctx.stroke();
+		this.ctx.lineWidth = this.linewidth;
+	},
+	dot:function(x, y, r, lw){
+		this.ctx.beginPath();
+		this.ctx.arc(x, y, r, 0, 2 * Math.PI, true);
+		this.ctx.fill();
+	},
+	line:function(fx, fy, tx, ty, lw){
+		this.ctx.beginPath();
+		this.ctx.moveTo(fx, fy);
+		this.ctx.lineTo(tx, ty);
+		if (lw !== undefined) this.ctx.lineWidth = lw;
+		this.ctx.stroke();
+		this.ctx.lineWidth = this.linewidth;
+	}
+};
+
+
 //draw instructions for base + decoration
 function shermansDraw(ctx, letter, grouped) {
 	if (!grouped.carriagereturn) {
@@ -224,247 +261,134 @@ function shermansDraw(ctx, letter, grouped) {
 		ctx.moveTo(x, y);
 		switch (shermansBase(letter)) {
 			case "punctuation":
-				ctx.lineTo(x + 50 * shermansScale, y);
-				ctx.stroke();
-				ctx.moveTo(x, y + 25 * shermansScale);
-				ctx.lineTo(x + 50 * shermansScale, y + 25 * shermansScale);
-				ctx.stroke();
+				draw.line(x, y, x + 50 * shermansScale, y);
+				draw.line(x, y + 25 * shermansScale, x + 50 * shermansScale, y + 25 * shermansScale);
 				switch (letter) {
 					case ".":
-						ctx.beginPath();
-						ctx.arc(x + 25 * shermansScale, y + 25 * shermansScale, 10 * shermansScale, 0, 2 * Math.PI, true);
-						ctx.stroke();
+						draw.circle(x + 25 * shermansScale, y + 25 * shermansScale, 10 * shermansScale);	
 						break;
 					case "?":
-						ctx.beginPath();
-						ctx.arc(x + 17.5 * shermansScale, y + 15 * shermansScale, 5 * shermansScale, 0, 2 * Math.PI, true);
-						ctx.fill();
-						ctx.beginPath();
-						ctx.arc(x + 32.5 * shermansScale, y + 15 * shermansScale, 5 * shermansScale, 0, 2 * Math.PI, true);
-						ctx.fill();
+						draw.dot(x + 17.5 * shermansScale, y + 15 * shermansScale, 5 * shermansScale);
+						draw.dot(x + 32.5 * shermansScale, y + 15 * shermansScale, 5 * shermansScale);
 						break;
 					case "!":
-						ctx.beginPath();
-						ctx.arc(x + 10 * shermansScale, y + 15 * shermansScale, 5 * shermansScale, 0, 2 * Math.PI, true);
-						ctx.fill();
-						ctx.beginPath();
-						ctx.arc(x + 25 * shermansScale, y + 15 * shermansScale, 5 * shermansScale, 0, 2 * Math.PI, true);
-						ctx.fill();
-						ctx.beginPath();
-						ctx.arc(x + 40 * shermansScale, y + 15 * shermansScale, 5 * shermansScale, 0, 2 * Math.PI, true);
-						ctx.fill();
+						draw.dot(x + 10 * shermansScale, y + 15 * shermansScale, 5 * shermansScale);
+						draw.dot(x + 25 * shermansScale, y + 15 * shermansScale, 5 * shermansScale);
+						draw.dot(x + 40 * shermansScale, y + 15 * shermansScale, 5 * shermansScale);
 						break;
 					case "\"":
-						ctx.beginPath();
-						ctx.moveTo(x + 25 * shermansScale, y + 25 * shermansScale);
-						ctx.lineTo(x + 25 * shermansScale, y + 15 * shermansScale);
-						ctx.stroke();
+						draw.line(x + 25 * shermansScale, y + 25 * shermansScale, x + 25 * shermansScale, y + 15 * shermansScale);
 						break;
 					case "'":
-						ctx.beginPath();
-						ctx.moveTo(x + 20 * shermansScale, y + 25 * shermansScale);
-						ctx.lineTo(x + 20 * shermansScale, y + 15 * shermansScale);
-						ctx.moveTo(x + 30 * shermansScale, y + 25 * shermansScale);
-						ctx.lineTo(x + 30 * shermansScale, y + 15 * shermansScale);
-						ctx.stroke();
+						draw.line(x + 20 * shermansScale, y + 25 * shermansScale, x + 20 * shermansScale, y + 15 * shermansScale);
+						draw.line(x + 30 * shermansScale, y + 25 * shermansScale, x + 30 * shermansScale, y + 15 * shermansScale);
 						break;
 					case "-":
-						ctx.beginPath();
-						ctx.moveTo(x + 15 * shermansScale, y + 25 * shermansScale);
-						ctx.lineTo(x + 15 * shermansScale, y + 15 * shermansScale);
-						ctx.moveTo(x + 25 * shermansScale, y + 25 * shermansScale);
-						ctx.lineTo(x + 25 * shermansScale, y + 15 * shermansScale);
-						ctx.moveTo(x + 35 * shermansScale, y + 25 * shermansScale);
-						ctx.lineTo(x + 35 * shermansScale, y + 15 * shermansScale);
-						ctx.stroke();
+						draw.line(x + 15 * shermansScale, y + 25 * shermansScale, x + 15 * shermansScale, y + 15 * shermansScale);
+						draw.line(x + 25 * shermansScale, y + 25 * shermansScale, x + 25 * shermansScale, y + 15 * shermansScale);
+						draw.line(x + 35 * shermansScale, y + 25 * shermansScale, x + 35 * shermansScale, y + 15 * shermansScale);
 						break;
 					case ",":
-						ctx.beginPath();
-						ctx.arc(x + 25 * shermansScale, y + 25 * shermansScale, 10 * shermansScale, 0, 2 * Math.PI, true);
-						ctx.fill();
+						draw.dot(x + 25 * shermansScale, y + 25 * shermansScale, 10 * shermansScale);
 						break;
 					case ";":
-						ctx.beginPath();
-						ctx.arc(x + 25 * shermansScale, y + 15 * shermansScale, 5 * shermansScale, 0, 2 * Math.PI, true);
-						ctx.fill();
+						draw.dot(x + 25 * shermansScale, y + 15 * shermansScale, 5 * shermansScale);
 						break;
 					case ":":
-						ctx.beginPath();
-						ctx.arc(x + 25 * shermansScale, y + 25 * shermansScale, 10 * shermansScale, 0, 2 * Math.PI, true);
-						ctx.stroke();
-						ctx.arc(x + 25 * shermansScale, y + 25 * shermansScale, 7.5 * shermansScale, 0, 2 * Math.PI, true);
-						ctx.stroke();
+						draw.circle(x + 25 * shermansScale, y + 25 * shermansScale, 10 * shermansScale);
+						draw.circle(x + 25 * shermansScale, y + 25 * shermansScale, 7.5 * shermansScale);
 						break;
 				}
 				break;
 			case "v":
-				if (!grouped.carriagereturn) {
-					ctx.lineTo(x + 50 * shermansScale, y);
-					ctx.stroke();
-				}
+				if (!grouped.carriagereturn) draw.line(x, y, x + 50 * shermansScale, y);
 				switch (letter) {
 					case "a":
-						ctx.beginPath();
-						ctx.arc(x + (25 + grouped.voweloffset.x) * shermansScale, y + (25 + grouped.voweloffset.y) * shermansScale, 10 * shermansScale * grouped.vresize, 0, 2 * Math.PI, true);
-						ctx.stroke();
+						draw.circle(x + (25 + grouped.voweloffset.x) * shermansScale, y + (25 + grouped.voweloffset.y) * shermansScale, 10 * shermansScale * grouped.vresize);
 						break;
 					case "e":
-						ctx.beginPath();
-						ctx.arc(x + (25 + grouped.voweloffset.x) * shermansScale, y + grouped.voweloffset.y * shermansScale, 10 * shermansScale * grouped.vresize, 0, 2 * Math.PI, true);
-						ctx.stroke();
+						draw.circle(x + (25 + grouped.voweloffset.x) * shermansScale, y + grouped.voweloffset.y * shermansScale, 10 * shermansScale * grouped.vresize);
 						break;
 					case "i":
-						ctx.beginPath();
-						ctx.arc(x + (25 + grouped.voweloffset.x) * shermansScale, y + grouped.voweloffset.y * shermansScale, 10 * shermansScale * grouped.vresize, 0, 2 * Math.PI, true);
-						ctx.stroke();
-						ctx.beginPath();
-						ctx.moveTo(x + (25 + grouped.voweloffset.x) * shermansScale, y - (10 - grouped.voweloffset.y) * shermansScale);
-						ctx.lineTo(x + (25 + grouped.voweloffset.x) * shermansScale, y - (30 - grouped.voweloffset.y) * shermansScale);
-						ctx.stroke();
+						draw.circle(x + (25 + grouped.voweloffset.x) * shermansScale, y + grouped.voweloffset.y * shermansScale, 10 * shermansScale * grouped.vresize);
+						draw.line(x + (25 + grouped.voweloffset.x) * shermansScale, y - (10 - grouped.voweloffset.y) * shermansScale, x + (25 + grouped.voweloffset.x) * shermansScale, y - (30 - grouped.voweloffset.y) * shermansScale);
 						break;
 					case "o":
-						ctx.beginPath();
-						ctx.arc(x + (25 + grouped.voweloffset.x) * shermansScale, y - (25 + grouped.voweloffset.y) * shermansScale, 10 * shermansScale * grouped.vresize, 0, 2 * Math.PI, true);
-						ctx.stroke();
+						draw.circle(x + (25 + grouped.voweloffset.x) * shermansScale, y - (25 + grouped.voweloffset.y) * shermansScale, 10 * shermansScale * grouped.vresize);
 						break;
 					case "u":
-						ctx.beginPath();
-						ctx.arc(x + (25 + grouped.voweloffset.x) * shermansScale, y + grouped.voweloffset.y * shermansScale, 10 * shermansScale * grouped.vresize, 0, 2 * Math.PI, true);
-						ctx.stroke();
-						ctx.beginPath();
-						ctx.moveTo(x + (25 + grouped.voweloffset.x) * shermansScale, y + (10 + grouped.voweloffset.y) * shermansScale);
-						ctx.lineTo(x + (25 + grouped.voweloffset.x) * shermansScale, y + (30 + grouped.voweloffset.y) * shermansScale);
-						ctx.stroke();
+						draw.circle(x + (25 + grouped.voweloffset.x) * shermansScale, y + grouped.voweloffset.y * shermansScale, 10 * shermansScale * grouped.vresize);
+						draw.line(x + (25 + grouped.voweloffset.x) * shermansScale, y + (10 + grouped.voweloffset.y) * shermansScale, x + (25 + grouped.voweloffset.x) * shermansScale, y + (30 + grouped.voweloffset.y) * shermansScale);
 						break;
 				}
 				break;
 			case "b":
-				ctx.lineTo(x + 18 * shermansScale, y);
-				ctx.stroke();
-				ctx.beginPath();
-				ctx.arc(x + 25 * shermansScale, y - 22 * shermansScale, 23 * shermansScale * grouped.cresize, Math.PI - Math.asin(22 / 23 / grouped.cresize), 2 * Math.PI + Math.asin(22 / 23 / grouped.cresize), false);
-				ctx.lineWidth = grouped.linewidth;
-				ctx.stroke();
-				ctx.lineWidth = 1;
-				ctx.beginPath();
-				ctx.moveTo(x + 32 * shermansScale, y);
-				ctx.lineTo(x + 50 * shermansScale, y);
-				ctx.stroke();
+				if (!grouped.carriagereturn) {
+					draw.line(x, y, x + 18 * shermansScale, y);
+					draw.line(x + 32 * shermansScale, y, x + 50 * shermansScale, y);
+				}
+				draw.arc(x + 25 * shermansScale, y - 22 * shermansScale, 23 * shermansScale * grouped.cresize, 2 * Math.PI + Math.asin(22 / 23 / grouped.cresize), Math.PI - Math.asin(22 / 23 / grouped.cresize), grouped.linewidth);
 				break;
 			case "j":
-				ctx.lineTo(x + 50 * shermansScale, y);
-				ctx.stroke();
-				ctx.beginPath();
-				ctx.arc(x + 25 * shermansScale, y - 25 * shermansScale, 20 * shermansScale * grouped.cresize, 0, 2 * Math.PI, true);
-				ctx.lineWidth = grouped.linewidth;
-				ctx.stroke();
-				ctx.lineWidth = 1;
+				if (!grouped.carriagereturn) draw.line(x, y, x + 50 * shermansScale, y);
+				draw.arc(x + 25 * shermansScale, y - 25 * shermansScale, 20 * shermansScale * grouped.cresize, 0, 2 * Math.PI, grouped.linewidth);
 				break;
 			case "t":
-				ctx.lineTo(x + 5 * shermansScale, y);
-				ctx.stroke();
-				ctx.beginPath();
-				ctx.arc(x + 25 * shermansScale, y, 20 * shermansScale * grouped.cresize, 0, Math.PI, true);
-				ctx.lineWidth = grouped.linewidth;
-				ctx.stroke();
-				ctx.lineWidth = 1;
-				ctx.beginPath();
-				ctx.moveTo(x + 45 * shermansScale, y);
-				ctx.lineTo(x + 50 * shermansScale, y);
-				ctx.stroke();
+				if (!grouped.carriagereturn) {
+					draw.line(x, y, x + 5 * shermansScale, y);
+					draw.line(x + 45 * shermansScale, y, x + 50 * shermansScale, y);
+				}
+				draw.arc(x + 25 * shermansScale, y, 20 * shermansScale * grouped.cresize, 0, Math.PI, grouped.linewidth);
 				break;
 			case "th":
-				ctx.lineTo(x + 50 * shermansScale, y);
-				ctx.stroke();
-				ctx.beginPath();
-				ctx.arc(x + 25 * shermansScale, y, 20 * shermansScale * grouped.cresize, 0, 2 * Math.PI, true);
-				ctx.lineWidth = grouped.linewidth;
-				ctx.stroke();
-				ctx.lineWidth = 1;
+				if (!grouped.carriagereturn) draw.line(x, y, x + 50 * shermansScale, y);
+				draw.circle(x + 25 * shermansScale, y, 20 * shermansScale * grouped.cresize, grouped.linewidth);
 				break;
 		}
 		if (shermansBase(letter) != "v") {
 			let radiant, xy;
 			switch (shermansDeco(letter)) {
 				case "1d":
-					ctx.beginPath();
-					ctx.arc(x + 25 * shermansScale, y - 10 * shermansScale, 2 * shermansScale, 0, 2 * Math.PI, true);
-					ctx.fill();
+					draw.dot(x + 25 * shermansScale, y - 10 * shermansScale, 2 * shermansScale);
 					break;
 				case "2d":
-					ctx.beginPath();
-					ctx.arc(x + 18 * shermansScale, y - 13 * shermansScale, 2 * shermansScale, 0, 2 * Math.PI, true);
-					ctx.fill();
-					ctx.beginPath();
-					ctx.arc(x + 32 * shermansScale, y - 13 * shermansScale, 2 * shermansScale, 0, 2 * Math.PI, true);
-					ctx.fill();
+					draw.dot(x + 18 * shermansScale, y - 13 * shermansScale, 2 * shermansScale);
+					draw.dot(x + 32 * shermansScale, y - 13 * shermansScale, 2 * shermansScale);
 					break;
 				case "3d":
-					ctx.beginPath();
-					ctx.arc(x + 12 * shermansScale, y - 10 * shermansScale, 2 * shermansScale, 0, 2 * Math.PI, true);
-					ctx.fill();
-					ctx.beginPath();
-					ctx.arc(x + 25 * shermansScale, y - 15 * shermansScale, 2 * shermansScale, 0, 2 * Math.PI, true);
-					ctx.fill();
-					ctx.beginPath();
-					ctx.arc(x + 38 * shermansScale, y - 10 * shermansScale, 2 * shermansScale, 0, 2 * Math.PI, true);
-					ctx.fill();
+					draw.dot(x + 12 * shermansScale, y - 10 * shermansScale, 2 * shermansScale);
+					draw.dot(x + 25 * shermansScale, y - 15 * shermansScale, 2 * shermansScale);
+					draw.dot(x + 38 * shermansScale, y - 10 * shermansScale, 2 * shermansScale);
 					break;
 				case "4d":
-					ctx.beginPath();
-					ctx.arc(x + 7 * shermansScale, y - 5 * shermansScale, 2 * shermansScale, 0, 2 * Math.PI, true);
-					ctx.fill();
-					ctx.beginPath();
-					ctx.arc(x + 43 * shermansScale, y - 5 * shermansScale, 2 * shermansScale, 0, 2 * Math.PI, true);
-					ctx.fill();
-					ctx.beginPath();
-					ctx.arc(x + 17 * shermansScale, y - 17 * shermansScale, 2 * shermansScale, 0, 2 * Math.PI, true);
-					ctx.fill();
-					ctx.beginPath();
-					ctx.arc(x + 33 * shermansScale, y - 17 * shermansScale, 2 * shermansScale, 0, 2 * Math.PI, true);
-					ctx.fill();
+					draw.dot(x + 7 * shermansScale, y - 5 * shermansScale, 2 * shermansScale);
+					draw.dot(x + 43 * shermansScale, y - 5 * shermansScale, 2 * shermansScale);
+					draw.dot(x + 17 * shermansScale, y - 17 * shermansScale, 2 * shermansScale);
+					draw.dot(x + 33 * shermansScale, y - 17 * shermansScale, 2 * shermansScale);
 					break;
 				case "1l":
-					ctx.beginPath();
 					radiant = Math.PI * .35
 					xy = baseRelatedPosition(shermansBase(letter), radiant);
-					ctx.moveTo(x + (25 - xy.x - Math.cos(radiant)) * shermansScale, y - (25 + xy.y + Math.sin(radiant)) * shermansScale);
-					ctx.lineTo(x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
-					ctx.stroke();
+					draw.line(x + (25 - xy.x - Math.cos(radiant)) * shermansScale, y - (25 + xy.y + Math.sin(radiant)) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
 					break;
 				case "2l":
-					ctx.beginPath();
 					radiant = Math.PI * .30
 					xy = baseRelatedPosition(shermansBase(letter), radiant);
-					ctx.moveTo(x + (25 - xy.x - Math.cos(radiant)) * shermansScale, y - (25 + xy.y + Math.sin(radiant)) * shermansScale);
-					ctx.lineTo(x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
-					ctx.stroke();
-					ctx.beginPath();
+					draw.line(x + (25 - xy.x - Math.cos(radiant)) * shermansScale, y - (25 + xy.y + Math.sin(radiant)) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
 					radiant = Math.PI * .20
 					xy = baseRelatedPosition(shermansBase(letter), radiant);
-					ctx.moveTo(x + (25 - xy.x - Math.cos(radiant)) * shermansScale, y - (25 + xy.y + Math.sin(radiant)) * shermansScale);
-					ctx.lineTo(x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
-					ctx.stroke();
+					draw.line(x + (25 - xy.x - Math.cos(radiant)) * shermansScale, y - (25 + xy.y + Math.sin(radiant)) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
 					break;
 				case "3l":
-					ctx.beginPath();
 					radiant = Math.PI * .15
 					xy = baseRelatedPosition(shermansBase(letter), radiant);
-					ctx.moveTo(x + (25 - xy.x - Math.cos(radiant)) * shermansScale, y - (25 + xy.y + Math.sin(radiant)) * shermansScale);
-					ctx.lineTo(x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
-					ctx.stroke();
-					ctx.beginPath();
+					draw.line(x + (25 - xy.x - Math.cos(radiant)) * shermansScale, y - (25 + xy.y + Math.sin(radiant)) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
 					radiant = Math.PI * .25
 					xy = baseRelatedPosition(shermansBase(letter), radiant);
-					ctx.moveTo(x + (25 - xy.x - Math.cos(radiant)) * shermansScale, y - (25 + xy.y + Math.sin(radiant)) * shermansScale);
-					ctx.lineTo(x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
-					ctx.stroke();
-					ctx.beginPath();
+					draw.line(x + (25 - xy.x - Math.cos(radiant)) * shermansScale, y - (25 + xy.y + Math.sin(radiant)) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
 					radiant = Math.PI * .05
 					xy = baseRelatedPosition(shermansBase(letter), radiant);
-					ctx.moveTo(x + (25 - xy.x - Math.cos(radiant)) * shermansScale, y - (25 + xy.y + Math.sin(radiant)) * shermansScale);
-					ctx.lineTo(x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
-					ctx.stroke();
+					draw.line(x + (25 - xy.x - Math.cos(radiant)) * shermansScale, y - (25 + xy.y + Math.sin(radiant)) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
 					break;
 			}
 		}
