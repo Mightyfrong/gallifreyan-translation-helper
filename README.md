@@ -11,9 +11,11 @@ More details on how the translators for each one can be found below.
 
 ## Sherman's
 
-Designed as a pattern memory aid, this translator draws each letter either as an individual glyph, or stacking vowels with consonants depending on choice. Also displays the glyphs in horizontal lines instead of writing them in the expected circular fashion for ease of reading.
+Designed as a pattern memory aid, this translator draws each character either as an individual glyph, or stacking characters depending on choice. Also displays the glyphs in horizontal lines instead of writing them in the expected circular fashion for ease of reading.
 
 One can optionally toggle whether C is transcribed to K/S in the language controls.
+
+Numbers are a bit flawed as individual glyphs and currently don't support negative numbers. To keep things easier within the algorithm a zero is added to each number by default, so don't wonder about the top translation.
 
 ## TARDIS Console (WIP)
 
