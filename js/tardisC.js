@@ -1,64 +1,60 @@
+import { polar } from "./utils.js";
+
 let tardisScale = 3;
 
-var tardisLetters = {
-	a: new Path2D(),
-	b: new Path2D("m 0,0 a 7.8622813,7.8622813 0 0 1 -7.8622813,7.8622813 7.8622813,7.8622813 0 0 1 -7.8622812,-7.8622813 7.8622813,7.8622813 0 0 1 7.8622812,-7.8622809 7.8622813,7.8622813 0 0 1 7.8622813,7.8622809 z m 1.9118275,0 a 9.7741089,9.7741089 0 0 1 -9.7741088,9.7741089 9.7741089,9.7741089 0 0 1 -9.7741092,-9.7741089 9.7741089,9.7741089 0 0 1 9.7741092,-9.7741089 9.7741089,9.7741089 0 0 1 9.7741088,9.7741089 z"),
-	c: new Path2D(),
-	ch: new Path2D(),
-	d: new Path2D(),
-	e: new Path2D(),
-	f: new Path2D(),
-	g: new Path2D(),
-	h: new Path2D(),
-	i: new Path2D(),
-	j: new Path2D(),
-	k: new Path2D(),
-	l: new Path2D(),
-	m: new Path2D(),
-	n: new Path2D(),
-	o: new Path2D(),
-	p: new Path2D(),
-	q: new Path2D(),
-	ng: new Path2D(),
-	qu: new Path2D(),
-	r: new Path2D(),
-	s: new Path2D(),
-	sh: new Path2D(),
-	t: new Path2D(),
-	th: new Path2D(),
-	u: new Path2D(),
-	v: new Path2D(),
-	w: new Path2D(),
-	x: new Path2D(),
-	y: new Path2D(),
-	z: new Path2D(),
-	ß: new Path2D(),
-	ph: new Path2D(),
-	"": new Path2D()
+function circle(r){
+	const r0 = r+',0';
+	const rr001 = r+','+r+' 0 0 1';
+	return `M${r0}A${rr001} -${r0} ${rr001} ${r0}`
+}
+
+const tardisLetters = {
+	a:`;M${polar(60,150)}L${polar(60,330)};${circle(10)}`,
+	b:`M45,0A45,45 0 1 1 ${polar(45,300)} 25,25 0 0 0 45,0;${circle(50)};`,
+	c: "",
+	ch: "",
+	d: "",
+	e: "",
+	f: "",
+	g: "",
+	h: "",
+	i: "",
+	j: "",
+	k: "",
+	l: "",
+	m: "",
+	n: "",
+	o: "",
+	p: "",
+	q: "",
+	ng: "",
+	qu: "",
+	r: "",
+	s: "",
+	sh: "",
+	t: "",
+	th: "",
+	u: "",
+	v: "",
+	w: "",
+	x: "",
+	y: "",
+	z: "",
+	ß: "",
+	ph: "",
+	"": ""
 };
 
 let x, y; //current drawing coords
-let width, height; //canvas dimensions
 export function tardisTranslate(ctx, input) {
-	x = 50 * tardisScale;
-	y = 50 * tardisScale;
+	x = y = 0;
 	input = input.toLowerCase();
 
-	if (window.innerWidth < (50 + input.length * 50) * tardisScale) {
-		width = Math.floor(window.innerWidth / (50 * tardisScale)) * 50 * tardisScale - 50 * tardisScale;
-		height = (Math.ceil(((50 + input.length * 50) * tardisScale) / window.innerWidth)) * 50 * tardisScale + 100 * tardisScale;
-	}
-	else {
-		width = (50 + input.length * 50) * tardisScale;
-		height = 150 * tardisScale;
-	}
-	ctx.canvas.width = width;
-	ctx.canvas.height = height;
-
+	ctx.translate(100, 100);
 	for (var i = 0; i < input.length; i++) {
 		let nextTwo = input[i] + input[i + 1];
 		if (nextTwo == "ch" || nextTwo == "ng" || nextTwo == "qu" || nextTwo == "sh" || nextTwo == "th" || nextTwo == "ph") {
-			if (isVowel(input[i + 2])) {
+			if (isVowel(input[i + 12])) {
 				tardisDraw(ctx, nextTwo, input[i + 2]);
 				i += 2;
 			}
@@ -85,24 +81,34 @@ export function tardisTranslate(ctx, input) {
 }
 
 function tardisDraw(ctx, consonant, vowel) {
-	let m = document.createElementNS("http://www.w3.org/2000/svg", "svg").createSVGMatrix();
-	m.a = 1.5 * tardisScale; m.b = 0;
-	m.c = 0; m.d = 1.5 * tardisScale;
-	m.e = x - 25; m.f = y - 25;
-	
-	let p = new Path2D();
-	p.addPath(tardisLetters[consonant], m);
-	p.addPath(tardisLetters[vowel], m);
-	ctx.stroke(p);
-	
+	ctx.save();
+	ctx.translate(x, y);
+
+	drawGlyph(ctx, tardisLetters[consonant]);
+	drawGlyph(ctx, tardisLetters[vowel]);
+
+	ctx.restore();
 	ctx.fillText(consonant + vowel, x - 22 * tardisScale, y - 30 * tardisScale);
 
-	if (x >= width) {
+	if (x >= ctx.canvas.width) {
 		y += 50 * tardisScale;
 		x = 0
 	}
 	x += 50 * tardisScale;
 }
+
+function drawGlyph(ctx, pathString){
+	pathString.split(";").forEach((str, i) => {
+		if(str.length){
+			drawFuncs[i](ctx, new Path2D(str));
+		}
+	});
+}
+const drawFuncs = [
+	(ctx, path) => {ctx.lineWidth = 1; ctx.stroke(path)},
+	(ctx, path) => {ctx.lineWidth = 2; ctx.stroke(path)},
+	(ctx, path) => {ctx.fill(path)},
+]
 
 function isVowel(input) {
 	//friendly suggestion: "aeiou".indexOf(input)>-1 returns true if input is a vowel. no urgent need for a function.

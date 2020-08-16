@@ -59,11 +59,10 @@ function translate(ctx) {
 let canvas = document.getElementById('canvas');
 if (canvas.getContext) {
 	let ctx = canvas.getContext('2d');
-
-	ctx.resetTransform();
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-
 	document.forms[0].onsubmit = (event) => {
+		ctx.resetTransform();
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+	
 		translate(ctx);
 		event.preventDefault();
 	};

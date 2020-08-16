@@ -1,4 +1,5 @@
-import { PhoneticUnit } from './PhoneticUnit.js'
+import { polar } from '../utils.js';
+import { PhoneticUnit } from './PhoneticUnit.js';
 
 export const consonantTable = [
 	" j ts ŋ v ʤ f  ʒ ɢ  ç ɬ ʎ",
@@ -35,12 +36,6 @@ export const outlineGap = 1;
 const vowelRad = (glyphRadius - innerRad) / 3;
 const circPos = (glyphRadius + innerRad) / 2;
 const decRad = 5;
-
-//turn polar coords to string of rectangular ones
-function polar(radius, degrees) {
-	const radians = degrees * Math.PI / 180;
-	return [radius * Math.cos(radians), radius * Math.sin(radians)];
-}
 
 const pos120 = polar(glyphRadius, 120);
 const pos300 = polar(glyphRadius, 300);
