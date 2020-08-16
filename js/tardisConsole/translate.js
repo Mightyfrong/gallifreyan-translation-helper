@@ -1,49 +1,4 @@
-import { polar } from "./utils.js";
-
-let tardisScale = 3;
-
-function circle(r){
-	const r0 = r+',0';
-	const rr001 = r+','+r+' 0 0 1';
-	return `M${r0}A${rr001} -${r0} ${rr001} ${r0}`
-}
-
-const tardisLetters = {
-	a:`;M${polar(60,150)}L${polar(60,330)};${circle(10)}`,
-	b:`M45,0A45,45 0 1 1 ${polar(45,300)} 25,25 0 0 0 45,0;${circle(50)};`,
-	c: "",
-	ch: "",
-	d: "",
-	e: "",
-	f: "",
-	g: "",
-	h: "",
-	i: "",
-	j: "",
-	k: "",
-	l: "",
-	m: "",
-	n: "",
-	o: "",
-	p: "",
-	q: "",
-	ng: "",
-	qu: "",
-	r: "",
-	s: "",
-	sh: "",
-	t: "",
-	th: "",
-	u: "",
-	v: "",
-	w: "",
-	x: "",
-	y: "",
-	z: "",
-	ß: "",
-	ph: "",
-	"": ""
-};
+import {letters as tardisLetters} from './letters.js'
 
 let x, y; //current drawing coords
 export function tardisTranslate(ctx, input) {
@@ -88,27 +43,26 @@ function tardisDraw(ctx, consonant, vowel) {
 	drawGlyph(ctx, tardisLetters[vowel]);
 
 	ctx.restore();
-	ctx.fillText(consonant + vowel, x - 22 * tardisScale, y - 30 * tardisScale);
+	ctx.fillText(consonant + vowel, x - 66, y - 90);
 
 	if (x >= ctx.canvas.width) {
-		y += 50 * tardisScale;
+		y += 150;
 		x = 0
 	}
-	x += 50 * tardisScale;
+	x += 150;
 }
 
 function drawGlyph(ctx, pathString){
-	pathString.split(";").forEach((str, i) => {
-		if(str.length){
-			drawFuncs[i](ctx, new Path2D(str));
-		}
+	pathString.split(";").forEach((str, idx) => {
+		const path = new Path2D(str);
+		
+		if(idx){
+			ctx.lineWidth = idx;
+			ctx.stroke(path);
+		} else
+			ctx.fill(path);
 	});
 }
-const drawFuncs = [
-	(ctx, path) => {ctx.lineWidth = 1; ctx.stroke(path)},
-	(ctx, path) => {ctx.lineWidth = 2; ctx.stroke(path)},
-	(ctx, path) => {ctx.fill(path)},
-]
 
 function isVowel(input) {
 	//friendly suggestion: "aeiou".indexOf(input)>-1 returns true if input is a vowel. no urgent need for a function.

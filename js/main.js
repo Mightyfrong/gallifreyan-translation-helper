@@ -1,5 +1,5 @@
 import { shermansTranslate } from './shermans.js'
-import { tardisTranslate } from './tardisC.js'
+import { tardisTranslate } from './tardisConsole/translate.js'
 import { doctorsCotTranslate } from './doctorsCot/translate.js'
 import { genKeyboard, consonantTable, vowelTable } from './doctorsCot/setup.js'
 
