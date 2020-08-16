@@ -1,11 +1,18 @@
-import {letters as tardisLetters} from './letters.js'
+import { letters as tardisLetters } from './letters.js'
 
-let x, y; //current drawing coords
+const glyphSize = 105;
+const textSpace = 20;
+const lineSpace = 20;
+
 export function tardisTranslate(ctx, input) {
-	x = y = 0;
 	input = input.toLowerCase();
 
-	ctx.translate(100, 100);
+	ctx.textAlign = 'center';
+	ctx.textBaseline = 'middle';
+
+	ctx.translate(glyphSize / 2, textSpace + glyphSize / 2);
+	ctx.save();
+
 	for (var i = 0; i < input.length; i++) {
 		let nextTwo = input[i] + input[i + 1];
 		if (nextTwo == "ch" || nextTwo == "ng" || nextTwo == "qu" || nextTwo == "sh" || nextTwo == "th" || nextTwo == "ph") {
@@ -36,27 +43,25 @@ export function tardisTranslate(ctx, input) {
 }
 
 function tardisDraw(ctx, consonant, vowel) {
-	ctx.save();
-	ctx.translate(x, y);
+	if (ctx.getTransform().e >= ctx.canvas.width - glyphSize) {
+		ctx.restore();
+		ctx.translate(0, glyphSize + textSpace + lineSpace);
+		ctx.save();
+	}
 
 	drawGlyph(ctx, tardisLetters[consonant]);
 	drawGlyph(ctx, tardisLetters[vowel]);
 
-	ctx.restore();
-	ctx.fillText(consonant + vowel, x - 66, y - 90);
+	ctx.fillText(consonant + vowel, 0, (glyphSize + textSpace) / 2);
 
-	if (x >= ctx.canvas.width) {
-		y += 150;
-		x = 0
-	}
-	x += 150;
+	ctx.translate(glyphSize, 0);
 }
 
-function drawGlyph(ctx, pathString){
+function drawGlyph(ctx, pathString) {
 	pathString.split(";").forEach((str, idx) => {
 		const path = new Path2D(str);
-		
-		if(idx){
+
+		if (idx) {
 			ctx.lineWidth = idx;
 			ctx.stroke(path);
 		} else
