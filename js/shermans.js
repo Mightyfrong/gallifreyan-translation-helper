@@ -375,26 +375,26 @@ function shermansDraw(ctx, letter, grouped) {
 				case "1l":
 					radiant = Math.PI * .35
 					xy = baseRelatedPosition(shermansBase(letter), radiant);
-					draw.line(x + (25 - xy.x - Math.cos(radiant)) * shermansScale, y - (25 + xy.y + Math.sin(radiant)) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
+					draw.line(x + (25 - xy.x - Math.cos(radiant)) * shermansScale + 1, y - (25 + xy.y + Math.sin(radiant)) * shermansScale + 1, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
 					break;
 				case "2l":
 					radiant = Math.PI * .30
 					xy = baseRelatedPosition(shermansBase(letter), radiant);
-					draw.line(x + (25 - xy.x - Math.cos(radiant)) * shermansScale, y - (25 + xy.y + Math.sin(radiant)) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
+					draw.line(x + (25 - xy.x - Math.cos(radiant)) * shermansScale + 1, y - (25 + xy.y + Math.sin(radiant)) * shermansScale + 1, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
 					radiant = Math.PI * .20
 					xy = baseRelatedPosition(shermansBase(letter), radiant);
-					draw.line(x + (25 - xy.x - Math.cos(radiant)) * shermansScale, y - (25 + xy.y + Math.sin(radiant)) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
+					draw.line(x + (25 - xy.x - Math.cos(radiant)) * shermansScale + 1, y - (25 + xy.y + Math.sin(radiant)) * shermansScale + 1, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
 					break;
 				case "3l":
 					radiant = Math.PI * .15
 					xy = baseRelatedPosition(shermansBase(letter), radiant);
-					draw.line(x + (25 - xy.x - Math.cos(radiant)) * shermansScale, y - (25 + xy.y + Math.sin(radiant)) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
+					draw.line(x + (25 - xy.x - Math.cos(radiant)) * shermansScale + 1, y - (25 + xy.y + Math.sin(radiant)) * shermansScale + 1, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
 					radiant = Math.PI * .25
 					xy = baseRelatedPosition(shermansBase(letter), radiant);
-					draw.line(x + (25 - xy.x - Math.cos(radiant)) * shermansScale, y - (25 + xy.y + Math.sin(radiant)) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
+					draw.line(x + (25 - xy.x - Math.cos(radiant)) * shermansScale + 1, y - (25 + xy.y + Math.sin(radiant)) * shermansScale + 1, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
 					radiant = Math.PI * .05
 					xy = baseRelatedPosition(shermansBase(letter), radiant);
-					draw.line(x + (25 - xy.x - Math.cos(radiant)) * shermansScale, y - (25 + xy.y + Math.sin(radiant)) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
+					draw.line(x + (25 - xy.x - Math.cos(radiant)) * shermansScale + 1, y - (25 + xy.y + Math.sin(radiant)) * shermansScale + 1, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
 					break;
 			}
 		}
