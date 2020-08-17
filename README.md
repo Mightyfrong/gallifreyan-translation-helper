@@ -3,9 +3,9 @@
 
 This is an online tool aimed at artists and hobbyists who produce designs in one of 3 types of Gallifreyan:
 
-* [Sherman's](https://shermansplanet.com/gallifreyan/guide.pdf)
-* [TARDIS Console](https://tardisconsolegallifreyan.weebly.com/tutorials.html)
-* [Doctor's Cot](https://doctorscotgallifreyan.com/walk-through/4lnekzojej4p5klcph0ppntibb19ib)
+* [Sherman's][1]
+* [TARDIS Console][2]
+* [Doctor's Cot][3]
 
 More details on how the translators for each one can be found below.
 
@@ -19,14 +19,21 @@ Numbers are a bit flawed as individual glyphs and currently don't support negati
 
 ## TARDIS Console (WIP)
 
-The underlying translator is fully complete but draws the designs of letters from a dictionary of their visual representations which is only partly filled. Thus, most letters won't yield a visible result on the canvas.
+Due to the detail in TARDIS Console glyphs, a look-up table of some sort of drawing instructions is needed for each individual letter. The format we chose was [SVG path data][4], which can be parsed by the `CanvasRenderContext2D.prototype.stroke()` and `.fill()` methods.
 
 ## Doctor's Cot
 
-This one is the most complicated of the 3 languages as it transcribes the exact phonetics of words instead of just their letters. Hence, the user is given an on-screen IPA ([International Phonetic Alphabet](https://en.wikipedia.org/wiki/International_Phonetic_Alphabet)) keyboard.
+This one is the most complicated of the 3 languages as it transcribes the exact phonetics of words instead of just their letters. Hence, the user is given an on-screen IPA ([International Phonetic Alphabet][4]) keyboard.
 
 Translation takes the input string through 3 steps:
 
 1. **Phonetic Units** - input is broken up into words and each word into its constituent sounds, which are either consonants or vowels.
 2. **Cot Glyphs** - consecutive PhoneticUnits are grouped into Doctor's Cot glyphs, which can represent up to 2 consonants + 1 vowel.
 3. **Drawing** - outline and decoration info are looked up for each CotGlyph and drawn on the canvas.
+
+[1]: https://shermansplanet.com/gallifreyan/guide.pdf
+[2]: https://tardisconsolegallifreyan.weebly.com/tutorials.html
+[3]: https://doctorscotgallifreyan.com/walk-through/4lnekzojej4p5klcph0ppntibb19ib
+
+[4]: https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
+[5]: https://en.wikipedia.org/wiki/International_Phonetic_Alphabet
