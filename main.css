@@ -3,8 +3,16 @@
     font-weight: bold;
 }
 
-.hidden {
+#lang-controls {
+    margin: .25em 0;
+    padding: 0;
+}
+#lang-controls > div {
     display: none;
+    padding: .5em;
+}
+#lang-controls > div.active {
+    display: block;
 }
 
 
@@ -17,4 +25,8 @@
     width: 2em;
     padding: 0;
     text-align: center;
+}
+
+#canvas{
+    border: 1px solid #000;
 }
