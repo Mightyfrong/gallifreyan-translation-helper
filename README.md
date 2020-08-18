@@ -21,9 +21,26 @@ Numbers are a bit flawed as individual glyphs and currently don't support negati
 
 Due to the detail in TARDIS Console glyphs, a look-up table of some sort of drawing instructions is needed for each individual letter. The format we chose was [SVG path data][4], which can be parsed by the `CanvasRenderContext2D.prototype.stroke()` and `.fill()` methods.
 
+Because glyphs consist of a mixture of filled shapes and different line thicknesses, one set path data was insufficient for each letter. 3 line thicknesses were identified, and so each glyph is described by 4 sets of path data, the first being filled shapes. A semi-colon was chosen to separate the path strings, so the code which processes them looks like this:
+
+```js
+function drawGlyph(ctx, pathString) {
+	pathString.split(";")              
+		.forEach((str, idx) => { 
+			const path = new Path2D(str);
+
+			if (idx) {
+				ctx.lineWidth = idx;
+				ctx.stroke(path);
+			} else
+				ctx.fill(path);
+		});
+}
+```
+
 ## Doctor's Cot
 
-This one is the most complicated of the 3 languages as it transcribes the exact phonetics of words instead of just their letters. Hence, the user is given an on-screen IPA ([International Phonetic Alphabet][4]) keyboard.
+This one is the most complicated of the 3 languages as it transcribes the exact phonetics of words instead of just their letters. Hence, the user is given an on-screen IPA ([International Phonetic Alphabet][5]) keyboard.
 
 Translation takes the input string through 3 steps:
 
