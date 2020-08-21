@@ -47,7 +47,7 @@ Grouping of characters makes resizing of the base necessary. The index for the l
 In case of numbers a bigger line thickness indicates the end of the number or the decimal point so it has to be checked if it applies to the current character.
 The positioning offsets for drawing of the current character in relation to the former is set and the [character is drawn](#Character-Drawing).
 
-Sherman's takes the phonetical (k or s instead of c)[#C-Handling)]. C and single q are "allowed" in names only so there is a reminder thrown if these characters are detected.
+Sherman's takes the phonetical [k or s instead of c](#C-Handling). C and single q are "allowed" in names only so there is a reminder thrown if these characters are detected.
 
 ### C-Handling
 **shermansC(word)** returns the full word after converting c to k or s depending on position, following vowel, or reduced ck.
@@ -55,16 +55,18 @@ Sherman's takes the phonetical (k or s instead of c)[#C-Handling)]. C and single
 ### Grouping
 **shermansGrouped.groups(input)** returns a multidimensional array of grouped characters. It initiates the sentence array and loops through the whitespace-splitted input.
 The word group is initiated and the word optionally converted in regards of [c-handling](#C-Handling).
-The following loop iterates over each character of the word, sets the current character and occasionally overrides single characters to double ones (like th, gh, ng, etc.) and corrects the index in this case.
+The following loop iterates over each character of the word, sets the current character, occasionally overrides single characters to double ones (like th, gh, ng, etc.) and corrects the index in this case.
 
 If grouping is active the current characters is added to the former group if
 * there is a former group and
 * it's a vocal and the former isn't a vocal or number, or the same vocal or
-* it's a consonant with the same base than the former character or
+* it's a consonant with the same base as the former character or
 * it's a number and the former one is too or a decimal sign
 
 Otherwise the current character is added to the recent group.
+
 *a bit of a dirty hack for the moment:* currently a zero is added to integer numbers to have the thick inner circle.
+
 The group is then pushed to the last word.
 
 **shermansGrouped.resetOffset(lastStackedConsonantIndex)** resets all positioning offsets and resizing factors. The lastStackedConsonantIndex sets the initial resizing factor for the first drawn consonant. stacked consonants are bigger and following shrink down to default size.
@@ -99,10 +101,10 @@ switch (base) {
 
 ### General Drawing
 The **draw-object** serves methods to reuse the plain geometric shapes in context of canvas drawing. The respective shape is called with the necessary coordinates, radii and line widths while beginPaths and moveTos, strokes and fills are set up once instead of repetitively for every character setup.
-The object is set up in advance to handle the canvas object as well as the default lineWidth. Afterwards any geometric shape can be easily placed.
+The object is set up in advance to handle the canvas object as well as the default lineWidth (if applicable). Afterwards any geometric shape can be easily placed.
 ```js
 draw.init(ctx,1)
-draw.dot(xcoordinate, ycoordinate, radius, linewidth);
+draw.dot(xcoordinate, ycoordinate, radius);
 ```
 where
 ```js
@@ -114,7 +116,7 @@ dot: function (x, y, r) {
 ```
 
 ### Character Drawing
-**shermansDraw(ctx, letter, grouped, thicknumberline)** actually draws a character to the canvas. X and y coordiantes are set. if not grouped the x-"pointer" is set to the next charachters position, if the end of the viewport is reached the next line is set. Stroke- and fill-styles are set.
+**shermansDraw(ctx, letter, grouped, thicknumberline)** actually draws a character to the canvas. X and y coordiantes are set. If not grouped the x-"pointer" is set to the next characters position, if the end of the viewport is reached the next line is set. Stroke- and fill-styles are set.
 
 ***The switch-blocks are the current handling solution. this might/should be refactored within the future to have a more modular option to implement diacritics***
 
@@ -126,9 +128,9 @@ case "?": /*base "punctuation"*/
 	draw.dot(x + 32.5 * shermansScale, y + 15 * shermansScale, 5 * shermansScale);
 	break;
 ```
-...unless [thicknumberline](#Translation) is set. then the current "," is supposed to be the decimal sign that is of course not to be displayed as an actual "," but a thick line within the number-group.
+...unless [thicknumberline](#Translation) is set. Then the current "," is supposed to be the decimal sign that is of course not to be displayed as an actual "," but a thick line within the number-group.
 
-Vowels have the base line drawn unless they are grouped. Then come the drawing instructions:
+Vowels have the base line drawn unless they are grouped. Then follow the drawing instructions:
 ```js
 case "a": /*base "vowel"*/
 	draw.circle(x + (25 + grouped.voweloffset.x) * shermansScale, y + (25 + grouped.voweloffset.y) * shermansScale, 10 * shermansScale * grouped.vresize);
@@ -149,9 +151,9 @@ switch (shermansDeco(letter)) {
 		draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
 		break;
 ```
-numbers are processed here as well. small circles for 5, lines for everything else.
+Numbers are processed here as well. Small circles for 5, lines for everything else.
 
-finally above the letter/group the respective latin characters are drawn.
+Finally above the letter/group the respective latin characters are drawn.
 
 
 ## TARDIS Console (WIP)
