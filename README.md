@@ -3,9 +3,9 @@
 
 This is an online tool aimed at artists and hobbyists who produce designs in one of 3 types of Gallifreyan:
 
-* [Sherman's][1]
-* [TARDIS Console][2]
-* [Doctor's Cot][3]
+* [Sherman's][SCG]
+* [TARDIS Console][TCG]
+* [Doctor's Cot][DCG]
 
 More details on how the translators for each one can be found below.
 
@@ -24,6 +24,7 @@ Numbers are a bit flawed as individual glyphs and currently don't support negati
 
 ### Construction Dictionaries
 Sherman's follows a quite easy pattern consisting of big and small circles, arcs, dots and lines all arranged in a clear fashion following plain rules. Like in the original guidance table consonants are grouped to their respective base (b,j,t,th), also vowels, punctuation and numbers. Same goes for the decorators. This serves to identify the base plus decorator for the characters to combine and handle the correct drawing instructions. shermansBase() and shermansDeco() are functions with the built-in dictionaries and loops to return the correct base or decorators.
+
 ```js
 function shermansBase(char) {
 	let scgtable = {
@@ -158,7 +159,7 @@ Finally above the letter/group the respective latin characters are drawn.
 
 ## TARDIS Console (WIP)
 
-Due to the detail in TARDIS Console glyphs, a look-up table of some sort of drawing instructions is needed for each individual letter. The format we chose was [SVG path data][4], which can be parsed by the `CanvasRenderContext2D.prototype.stroke()` and `.fill()` methods.
+Due to the detail in TARDIS Console glyphs, a look-up table of some sort of drawing instructions is needed for each individual letter. The format we chose was [SVG path data][1], which can be parsed by the `CanvasRenderContext2D.prototype.stroke()` and `.fill()` methods.
 
 Because glyphs consist of a mixture of filled shapes and different line thicknesses, one set path data was insufficient for each letter. 3 line thicknesses were identified, and so each glyph is described by 4 sets of path data, the first being filled shapes. A semi-colon was chosen to separate the path strings, so the code which processes them looks like this:
 
@@ -179,7 +180,7 @@ function drawGlyph(ctx, pathString) {
 
 ## Doctor's Cot
 
-This one is the most complicated of the 3 languages as it transcribes the exact phonetics of words instead of just their letters. Hence, the user is given an on-screen IPA ([International Phonetic Alphabet][5]) keyboard.
+This one is the most complicated of the 3 languages as it transcribes the exact phonetics of words instead of just their letters. Hence, the user is given an on-screen IPA ([International Phonetic Alphabet][2]) keyboard.
 
 Translation takes the input string through 3 steps:
 
@@ -187,9 +188,33 @@ Translation takes the input string through 3 steps:
 2. **Cot Glyphs** - consecutive PhoneticUnits are grouped into Doctor's Cot glyphs, which can represent up to 2 consonants + 1 vowel.
 3. **Drawing** - outline and decoration info are looked up for each CotGlyph and drawn on the canvas.
 
-[1]: https://shermansplanet.com/gallifreyan/guide.pdf
-[2]: https://tardisconsolegallifreyan.weebly.com/tutorials.html
-[3]: https://doctorscotgallifreyan.com/walk-through/4lnekzojej4p5klcph0ppntibb19ib
+## Copyright & Licence Notice
 
-[4]: https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
-[5]: https://en.wikipedia.org/wiki/International_Phonetic_Alphabet
+Copyright 2020 [Mightyfrong][MF], [erroronline1][EOL1], [ModisR][MR]
+ 
+This file is part of the Gallifreyan Translation Helper,
+henceforth referred to as "the GTH".
+
+The GTH is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+The GTH is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with the GTH.  If not, see <https://www.gnu.org/licenses/>.
+
+[MF]: https://github.com/Mightyfrong
+[EOL1]: https://github.com/erroronline1
+[MR]: https://github.com/ModisR
+
+[SCG]: https://shermansplanet.com/gallifreyan/guide.pdf
+[TCG]: https://tardisconsolegallifreyan.weebly.com/tutorials.html
+[DCG]: https://doctorscotgallifreyan.com/walk-through/4lnekzojej4p5klcph0ppntibb19ib
+
+[1]: https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
+[2]: https://en.wikipedia.org/wiki/International_Phonetic_Alphabet
