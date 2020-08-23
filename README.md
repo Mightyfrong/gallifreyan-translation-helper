@@ -60,7 +60,7 @@ The following loop iterates over each character of the word, sets the current ch
 
 If grouping is active the current characters is added to the former group if
 * there is a former group and
-* it's a vocal and the former isn't a vocal or number, or the same vocal or
+* it's a vowel and the former isn't a vowel or number, or the same vowel or
 * it's a consonant with the same base as the former character or
 * it's a number and the former one is too or a decimal sign
 
@@ -91,12 +91,12 @@ if (shermansBase(former) == "b") {
 It also sets the carriage return to true to have the characters drawn at the same x-position on the canvas.
 
 ### Base Related Position
-For line-decorators and grouped o-vowels correct placing on the circles and arcs is essential. **baseRelatedPosition(base, radiant)** returns x and y offsets for the respective base and given radiant, taking the current resizing into account.
+For line-decorators and grouped o-vowels correct placing on the circles and arcs is essential. **baseRelatedPosition(base, radian)** returns x and y offsets for the respective base and given radian, taking the current resizing into account.
 ```js
 switch (base) {
 	case "b":
 		return {
-			"x": 20 * shermansGrouped.cresize * Math.cos(radiant), "y": 20 * shermansGrouped.cresize * Math.sin(radiant)
+			"x": 20 * shermansGrouped.cresize * Math.cos(radian), "y": 20 * shermansGrouped.cresize * Math.sin(radian)
 		};
 ```
 
@@ -147,9 +147,9 @@ switch (shermansDeco(letter)) {
 		draw.dot(x + 32 * shermansScale, y - 13 * shermansScale, 2 * shermansScale);
 		break;
 	case "1l": /*one line like g or n*/
-		radiant = Math.PI * .35
-		xy = baseRelatedPosition(shermansBase(letter), radiant);
-		draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
+		radian = Math.PI * .35
+		xy = baseRelatedPosition(shermansBase(letter), radian);
+		draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
 		break;
 ```
 Numbers are processed here as well. Small circles for 5, lines for everything else.

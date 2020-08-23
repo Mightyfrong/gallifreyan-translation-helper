@@ -206,28 +206,28 @@ let shermansGrouped = {
 }
 
 //get relative x,y positions for line decorators depending on base
-function baseRelatedPosition(base, radiant) {
-	if (radiant === undefined) radiant = Math.PI * .25;
+function baseRelatedPosition(base, radian) {
+	if (radian === undefined) radian = Math.PI * .25;
 	switch (base) {
 		case "b":
 			return {
-				"x": 20 * shermansGrouped.cresize * Math.cos(radiant), "y": 20 * shermansGrouped.cresize * Math.sin(radiant)
+				"x": 20 * shermansGrouped.cresize * Math.cos(radian), "y": 20 * shermansGrouped.cresize * Math.sin(radian)
 			};
 		case "j":
 			return {
-				"x": 20 * shermansGrouped.cresize * Math.cos(radiant), "y": 20 * shermansGrouped.cresize * Math.sin(radiant)
+				"x": 20 * shermansGrouped.cresize * Math.cos(radian), "y": 20 * shermansGrouped.cresize * Math.sin(radian)
 			};
 		case "t":
 			return {
-				"x": 20 * shermansGrouped.cresize * Math.cos(radiant), "y": 20 * shermansGrouped.cresize * Math.sin(radiant) - 25
+				"x": 20 * shermansGrouped.cresize * Math.cos(radian), "y": 20 * shermansGrouped.cresize * Math.sin(radian) - 25
 			};
 		case "th":
 			return {
-				"x": 20 * shermansGrouped.cresize * Math.cos(radiant), "y": 20 * shermansGrouped.cresize * Math.sin(radiant) - 25
+				"x": 20 * shermansGrouped.cresize * Math.cos(radian), "y": 20 * shermansGrouped.cresize * Math.sin(radian) - 25
 			};
 		case "number":
 			return {
-				"x": 20 * shermansGrouped.cresize * Math.cos(radiant), "y": 20 * shermansGrouped.cresize * Math.sin(radiant)
+				"x": 20 * shermansGrouped.cresize * Math.cos(radian), "y": 20 * shermansGrouped.cresize * Math.sin(radian)
 			};
 	}
 }
@@ -382,7 +382,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 				break;
 		}
 		if (shermansBase(letter) != "v") {
-			let radiant, xy;
+			let radian, xy;
 			switch (shermansDeco(letter)) {
 				case "1d":
 					draw.dot(x + 25 * shermansScale, y - 10 * shermansScale, 2 * shermansScale);
@@ -403,36 +403,36 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 					draw.dot(x + 33 * shermansScale, y - 17 * shermansScale, 2 * shermansScale);
 					break;
 				case "1l":
-					radiant = Math.PI * .35
-					xy = baseRelatedPosition(shermansBase(letter), radiant);
-					draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
+					radian = Math.PI * .35
+					xy = baseRelatedPosition(shermansBase(letter), radian);
+					draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
 					break;
 				case "2l":
-					radiant = Math.PI * .30
-					xy = baseRelatedPosition(shermansBase(letter), radiant);
-					draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
-					radiant = Math.PI * .20
-					xy = baseRelatedPosition(shermansBase(letter), radiant);
-					draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
+					radian = Math.PI * .30
+					xy = baseRelatedPosition(shermansBase(letter), radian);
+					draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
+					radian = Math.PI * .20
+					xy = baseRelatedPosition(shermansBase(letter), radian);
+					draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
 					break;
 				case "3l":
-					radiant = Math.PI * .15
-					xy = baseRelatedPosition(shermansBase(letter), radiant);
-					draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
-					radiant = Math.PI * .25
-					xy = baseRelatedPosition(shermansBase(letter), radiant);
-					draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
-					radiant = Math.PI * .05
-					xy = baseRelatedPosition(shermansBase(letter), radiant);
-					draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radiant) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radiant) * 20) * shermansScale);
+					radian = Math.PI * .15
+					xy = baseRelatedPosition(shermansBase(letter), radian);
+					draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
+					radian = Math.PI * .25
+					xy = baseRelatedPosition(shermansBase(letter), radian);
+					draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
+					radian = Math.PI * .05
+					xy = baseRelatedPosition(shermansBase(letter), radian);
+					draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
 					break;
 				case "number":
 					shermansGrouped.linewidth = 1;
 					var number = parseInt(letter),
 						rad = .95;
 					for (var n = number; n > 0; n--) {
-						radiant = Math.PI * rad
-						xy = baseRelatedPosition(shermansBase(letter), radiant);
+						radian = Math.PI * rad
+						xy = baseRelatedPosition(shermansBase(letter), radian);
 						if (n > 4) {
 							draw.circle(x + (25 + xy.x * .9) * shermansScale, y - (25 + xy.y * .9) * shermansScale, (xy.y - xy.y * .4) * shermansScale);
 							n -= 4;
