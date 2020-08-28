@@ -45,6 +45,21 @@ function shermansDeco(char) {
 	return rtrn == "null" ? false : rtrn;
 };
 
+//replacements
+function replacements(word) {
+	var cword = "";
+	for (var i = 0; i < word.length; i++) { //iterate through word 
+		if (word[i] == "c" && document.getElementById('scgc').checked) {
+			if (word[i + 1] == "k") continue; //omit ck
+			else if (["e", "i", "y"].indexOf(word[i + 1]) > -1) cword += "s";
+			else cword += "k"; //end of the word
+		}
+		else if (word[i]=="ß") cword +="ss";
+		else cword += word[i];
+	}
+	return cword;
+}
+
 let x; //draw coordinate x
 let y; //draw coordinate y
 //scroll through input and draw every letter
@@ -106,18 +121,6 @@ export function shermansTranslate(ctx, input) {
 	document.getElementById("output").innerHTML = output;
 }
 
-function shermansC(word) {
-	var cword = "";
-	for (var i = 0; i < word.length; i++) { //iterate through word 
-		if (word[i] == "c") {
-			if (word[i + 1] == "k") continue; //omit ck
-			else if (["e", "i", "y"].indexOf(word[i + 1]) > -1) cword += "s";
-			else cword += "k"; //end of the word
-		} else cword += word[i];
-	}
-	return cword;
-}
-
 //set rules for grouping
 let shermansGrouped = {
 	groups: function (input) {
@@ -128,7 +131,7 @@ let shermansGrouped = {
 		splitinput.forEach(sword => {
 			sentence.push([]); //init new word
 			var group = [];
-			if (document.getElementById('scgc').checked) sword = shermansC(sword);
+			sword=replacements(sword)
 			for (var i = 0; i < sword.length; i++) { //iterate through word 
 				var current = sword[i],
 					currenttwo = sword[i] + sword[i + 1];

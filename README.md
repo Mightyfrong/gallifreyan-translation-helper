@@ -23,7 +23,7 @@ Numbers are a bit flawed as individual glyphs and currently don't support negati
 * shermansScale: initial factor to resize within the viewport. multiplies the absolute units.
 
 ### Construction Dictionaries
-Sherman's follows a quite easy pattern consisting of big and small circles, arcs, dots and lines all arranged in a clear fashion following plain rules. Like in the original guidance table consonants are grouped to their respective base (b,j,t,th), also vowels, punctuation and numbers. Same goes for the decorators. This serves to identify the base plus decorator for the characters to combine and handle the correct drawing instructions. shermansBase() and shermansDeco() are functions with the built-in dictionaries and loops to return the correct base or decorators.
+Sherman's follows a quite easy pattern consisting of big and small circles, arcs, dots and lines all arranged in a clear fashion following plain rules. Like in the original guidance table consonants are grouped to their respective base (b,j,t,th), also vowels with base e (for e,i,u), a and o, punctuation and numbers. Same goes for the decorators. This serves to identify the base plus decorator for the characters to combine and handle the correct drawing instructions. shermansBase() and shermansDeco() are functions with the built-in dictionaries and loops to return the correct base or decorators.
 
 ```js
 function shermansBase(char) {
@@ -40,6 +40,9 @@ function shermansBase(char) {
 };
 ```
 
+### Replacements
+**replacements(word)** returns the full word after converting c to k or s depending on position, following vowel, or reduced ck, if selected. Always replaces ß with ss.
+
 ### Translation
 **shermansTranslate(ctx, input)** is the main wrapper for the algorithm and is passed the canvas object and the actual input. It sets up the initial coordinates for the words baseline, initiates the [general draw object](#General-Drawing), sets up an [array of characters](#Grouping) and sets the canvas size according to the number of (grouped) characters.
 
@@ -49,9 +52,6 @@ In case of numbers a bigger line thickness indicates the end of the number or th
 The positioning offsets for drawing of the current character in relation to the former is set and the [character is drawn](#Character-Drawing).
 
 Sherman's takes the phonetical [k or s instead of c](#C-Handling). C and single q are "allowed" in names only so there is a reminder thrown if these characters are detected.
-
-### C-Handling
-**shermansC(word)** returns the full word after converting c to k or s depending on position, following vowel, or reduced ck.
 
 ### Grouping
 **shermansGrouped.groups(input)** returns a multidimensional array of grouped characters. It initiates the sentence array and loops through the whitespace-splitted input.
@@ -118,8 +118,6 @@ dot: function (x, y, r) {
 
 ### Character Drawing
 **shermansDraw(ctx, letter, grouped, thicknumberline)** actually draws a character to the canvas. X and y coordiantes are set. If not grouped the x-"pointer" is set to the next characters position, if the end of the viewport is reached the next line is set. Stroke- and fill-styles are set.
-
-***The switch-blocks are the current handling solution. this might/should be refactored within the future to have a more modular option to implement diacritics***
 
 Actual drawing instructions start with the decision about the base.
 If its punctuation the words base line and sentences base line is drawn and the instructions for the actual letter are processed eg...
