@@ -21,7 +21,7 @@ let shermansBase = {
 			centerYoffset: consonant * 1.25
 		},
 		number: {
-			contains: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
+			contains: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "/", "\\"], //last ones are control characters for number ending and negative numbers
 			centerYoffset: -consonant * 1.25,
 			radialPlacement: function (radiant = Math.PI * .25) {
 				return {
@@ -198,7 +198,7 @@ let shermansDeco = {
 			fromto: [.5, 1.5]
 		},
 		"1l": {
-			contains: ["g", "n", "v", "qu"],
+			contains: ["g", "n", "v", "qu", "ñ"],
 			radiants: [.6],
 			fromto: [1, 2]
 		},
@@ -241,6 +241,11 @@ let shermansDeco = {
 			contains: ["ñ"],
 			radiants: [1.75],
 			fromto: [1]
+		},
+		"minus": {
+			contains: ["\\"],
+			radiants: [1.1],
+			fromto: [-1, 1]
 		},
 	},
 	getDeco: function (char) {
@@ -369,7 +374,7 @@ let shermansGrouped = {
 					if (
 						( /*vowels */ ["ve", "va", "vo"].indexOf(shermansBase.getBase(current)) > -1 && (["ve", "va", "vo", "number"].indexOf(shermansBase.getBase(former)) < 0 || shermansBase.getBase(current) == shermansBase.getBase(former))) ||
 						( /*same base consonant*/ [false, "punctuation", "ve", "va", "vo", "number"].indexOf(shermansBase.getBase(current)) < 0 && group[group.length - 1].length > 0 && shermansBase.getBase(current) == shermansBase.getBase(former)) ||
-						( /*numbers, data is of string type here*/ "1234567890,.".indexOf(current) > -1 && group[group.length - 1].length > 0 && "1234567890,.".indexOf(former) > -1)
+						( /*numbers, data is of string type here*/ "-1234567890,.".indexOf(current) > -1 && group[group.length - 1].length > 0 && "-1234567890,.".indexOf(former) > -1)
 					)
 						group[group.length - 1].push(current)
 					else
@@ -377,8 +382,12 @@ let shermansGrouped = {
 				} else
 					group.push([current]);
 			}
-			//instead of the strain to draw the numeral closing circle just add a zero to the number group
-			if (Boolean("1234567890".indexOf(group[group.length - 1][0]) + 1)) group[group.length - 1].push("0");
+			//add control characters to the number group
+			if (Boolean("1234567890".indexOf(group[group.length - 1][0]) + 1)) group[group.length - 1].push("/");
+			if (group[group.length - 1][0]==="-" && Boolean("1234567890".indexOf(group[group.length - 1][1]) + 1)) {
+				group[group.length - 1].shift();
+				group[group.length - 1][group[group.length - 1].length]=("\\");}
+
 			sentence[sentence.length - 1].push(group); //append group to last word
 		});
 		return sentence;
@@ -613,7 +622,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * grouped.cresize,
 							vowel, Math.PI * 1.7, Math.PI * .8, grouped.linewidth
 						);
-						//overdraw base body
+						//overpaint base body
 						ctx.strokeStyle = 'white';
 						draw.arc(
 							x + center.x,
@@ -623,6 +632,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 
 					});
 				} else {
+					/* lines, diacritics, minus for numbers*/
 					shermansDeco.scgtable[deco].radiants.forEach(rad => {
 						let fromto = shermansDeco.scgtable[deco].fromto;
 						draw.line(
@@ -635,7 +645,8 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 			});
 		}
 		ctx.beginPath();
-		ctx.fillText(letter, x + lettercenter + grouped.offset * 8, y - letterheight * .5);
+		//print character unless it's a (numeral) control character
+		if (["/", "\\"].indexOf(letter) < 0) ctx.fillText(letter, x + lettercenter + grouped.offset * 8, y - letterheight * .5);
 	}
 }
 
