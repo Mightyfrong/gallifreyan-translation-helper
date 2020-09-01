@@ -15,9 +15,9 @@ Designed as a pattern memory aid, this translator draws each character either as
 
 One can optionally toggle whether C is transcribed to K/S in the language controls.
 
-Numbers are a bit flawed as individual glyphs and currently don't support negative numbers. To keep things easier within the algorithm a zero is added to each number by default, so don't wonder about the top translation. Numbers only make sense with grouping enabled.
+Numbers are supported, but only make sense with grouping enabled. Dot and comma both are valid decimal separators in number groups.
 
-currently diacritics are supported for german umlauts, accent acute, accent grave, ñ and scandinavian å, ø and æ.
+Diacritics are supported according to the [official guide][SCG] for german umlauts, accent acute, accent grave, ñ and scandinavian å, ø and æ.
 
 ### Recurring Variables Within Global Scope
 * cLetter: false by default, true if detected. if true a warning is displayed and drawings are red.
