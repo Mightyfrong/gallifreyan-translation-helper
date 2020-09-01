@@ -100,7 +100,7 @@ If grouping is active the current characters is added to the former group if
 
 Otherwise the current character is added to the recent group.
 
-*a bit of a dirty hack for the moment:* currently a zero is added to integer numbers to have the thick inner circle.
+If the current word is a number there are control characters added to the end of the word that will add the last thick circle or the minus sign for negative numbers. control characters will not show up on the top translations.
 
 The group is then pushed to the last word.
 
