@@ -1,27 +1,155 @@
 let cLetter; //is there a "c"?
 let qLetter; //is there a "q"?
 let shermansScale = 1.5 //scale of letters
+let consonant = 30; //radius of consonants
+let vowel = 15; // radius of vowels
 let width;
 let height;
-//specify base for every letter
-function shermansBase(char) {
-	let scgtable = {
-		"punctuation": [".", "?", "!", "\"", "'", "-", ",", ";", ":"],
-		"number": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
-		"ve": ["e", "é", "è", "i", "í", "ì", "u", "ü", "ú", "ù"],
-		"va": ["a", "ä", "á", "à"],
-		"vo": ["o", "ö", "ó", "ò"],
-		"b": ["b", "ch", "d", "g", "h", "f"],
-		"j": ["j", "ph", "k", "l", "c", "n", "p", "m"],
-		"t": ["t", "wh", "sh", "r", "v", "w", "s"],
-		"th": ["th", "gh", "y", "z", "q", "qu", "x", "ng"]
-	};
-	let rtrn = false;
-	Object.keys(scgtable).forEach(row => {
-		if (scgtable[row].indexOf(char) > -1) rtrn = row;
-	});
-	return rtrn;
-};
+//specify base for every letter, assign base to latin characters and specify geometric properties
+let shermansBase = {
+	scgtable: {
+		punctuation: {
+			contains: [".", "?", "!", "\"", "'", "-", ",", ";", ":"],
+			centerYoffset: consonant * 1.25
+		},
+		number: {
+			contains: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
+			centerYoffset: 0
+		},
+		ve: {
+			contains: ["e", "é", "è", "i", "í", "ì", "u", "ü", "ú", "ù"],
+			centerYoffset: 0,
+			radialPlacement: function (item, radiant) {
+				if (radiant === undefined) radiant = Math.PI * .25
+				return {
+					x: vowel * Math.cos(radiant),
+					y: -vowel * Math.sin(radiant)
+				}
+			}
+		},
+		va: {
+			contains: ["a", "ä", "á", "à"],
+			centerYoffset: vowel * 1.75,
+			radialPlacement: function (item, radiant) {
+				if (radiant === undefined) radiant = Math.PI * .25
+				return {
+					x: vowel * Math.cos(radiant),
+					y: -vowel * Math.sin(radiant)
+				}
+			}
+		},
+		vo: {
+			contains: ["o", "ö", "ó", "ò"],
+			centerYoffset: -vowel * 1.75,
+			radialPlacement: function (item, radiant) {
+				if (radiant === undefined) radiant = Math.PI * .25
+				return {
+					x: vowel * Math.cos(radiant),
+					y: -vowel * Math.sin(radiant)
+				}
+			}
+		},
+		b: {
+			contains: ["b", "ch", "d", "g", "h", "f"],
+			centerYoffset: -consonant * .9,
+			radialPlacement: function (item, radiant) {
+				if (radiant === undefined) radiant = Math.PI * .25
+				let options = {
+					ve: {
+						x: 0,
+						y: 0
+					},
+					va: {
+						x: 0,
+						y: consonant * .9//-this.centerYoffset
+					},
+					vo: {
+						x: consonant * Math.cos(radiant),
+						y: -consonant * Math.sin(radiant)
+					}
+				}
+				if (!(item in options)) item = "vo";
+				return options[item];
+			}
+		},
+		j: {
+			contains: ["j", "ph", "k", "l", "c", "n", "p", "m"],
+			centerYoffset: -consonant * 1.25,
+			radialPlacement: function (item, radiant) {
+				if (radiant === undefined) radiant = Math.PI * .25
+				let options = {
+					ve: {
+						x: 0,
+						y: 0
+					},
+					va: {
+						x: 0,
+						y: -this.centerYoffset
+					},
+					vo: {
+						x: consonant * Math.cos(radiant),
+						y: -consonant * Math.sin(radiant)
+					}
+				}
+				if (!(item in options)) item = "vo";
+				return options[item];
+			}
+		},
+		t: {
+			contains: ["t", "wh", "sh", "r", "v", "w", "s"],
+			centerYoffset: 0,
+			radialPlacement: function (item, radiant) {
+				if (radiant === undefined) radiant = Math.PI * .25
+				let options = {
+					ve: {
+						x: 0,
+						y: 0
+					},
+					va: {
+						x: 0,
+						y: vowel * 1.75
+					},
+					vo: {
+						x: consonant * Math.cos(radiant),
+						y: -consonant * Math.sin(radiant)
+					}
+				}
+				if (!(item in options)) item = "vo";
+				return options[item];
+			}
+		},
+		th: {
+			contains: ["th", "gh", "y", "z", "q", "qu", "x", "ng"],
+			centerYoffset: 0,
+			radialPlacement: function (item, radiant) {
+				if (radiant === undefined) radiant = Math.PI * .25
+				let options = {
+					ve: {
+						x: 0,
+						y: 0
+					},
+					va: {
+						x: 0,
+						y: vowel * 1.75
+					},
+					vo: {
+						x: consonant * Math.cos(radiant),
+						y: -consonant * Math.sin(radiant)
+					}
+				}
+				if (!(item in options)) item = "vo";
+				return options[item];
+			}
+		}
+	},
+	getBase: function (char) {
+		let rtrn = false;
+		Object.keys(this.scgtable).forEach(row => {
+			if (this.scgtable[row]["contains"].indexOf(char) > -1) rtrn = row;
+		});
+		return rtrn;
+	}
+}
 
 //specify decoration for every letter
 function shermansDeco(char) {
@@ -45,7 +173,7 @@ function shermansDeco(char) {
 	Object.keys(scgtable).forEach(row => {
 		if (scgtable[row].indexOf(char) > -1) rtrn.push(row);
 	});
-	return (!rtrn.length || (rtrn.length==1 && rtrn[0]== "null")) ? false : rtrn;
+	return (!rtrn.length || (rtrn.length == 1 && rtrn[0] == "null")) ? false : rtrn;
 };
 
 //replacements
@@ -64,25 +192,30 @@ function replacements(word) {
 
 let x; //draw coordinate x
 let y; //draw coordinate y
+let letterwidth;
+let letterheight;
 //scroll through input and draw every letter
 export function shermansTranslate(ctx, input) {
-	x = -50 * shermansScale;
-	y = 120 * shermansScale;
+	letterwidth = consonant * 2.5
+	letterheight = consonant * 6
+
+	x = -letterwidth * .5;
+	y = letterheight * .6;
 	cLetter = false;
 	qLetter = false;
 	draw.init(ctx, 1);
 
-	//convert string to grouped array
-	let groupedinput = shermansGrouped.groups(input.toLowerCase());
+	//convert string to grouped array and determine number of groups
+	let groupedinput = shermansGrouped.groups(input.toLowerCase()),
+		lettergroups = 0;
+	groupedinput.forEach(word => {
+		lettergroups += word.length + 1;
+	})
 
-	//set canvas scale for words
-	if (window.innerWidth < (50 + input.length * 50) * shermansScale) {
-		width = Math.floor(window.innerWidth / (50 * shermansScale)) * 50 * shermansScale - 50 * shermansScale;
-		height = (Math.ceil(((50 + input.length * 50) * shermansScale) / window.innerWidth)) * 120 * shermansScale + 50 * shermansScale;
-	} else {
-		width = (50 + input.length * 50) * shermansScale;
-		height = 170 * shermansScale;
-	}
+	//set canvas scale for groups
+	width = Math.floor(window.innerWidth / letterwidth) * letterwidth - letterwidth;
+	height = letterheight * 1.5 * Math.ceil(Math.floor(window.innerWidth / letterwidth) / --lettergroups);
+
 	ctx.canvas.width = width;
 	ctx.canvas.height = height;
 
@@ -146,8 +279,8 @@ let shermansGrouped = {
 				if (document.getElementById('scgg').checked && group.length > 0) {
 					var former = group[group.length - 1][group[group.length - 1].length - 1];
 					if (
-						( /*vowels */ ["ve", "va", "vo"].indexOf(shermansBase(current)) > -1 && (["ve", "va", "vo", "number"].indexOf(shermansBase(former)) < 0 || shermansBase(current) == shermansBase(former))) ||
-						( /*same base consonant*/ [false, "punctuation", "ve", "va", "vo", "number"].indexOf(shermansBase(current)) < 0 && group[group.length - 1].length > 0 && shermansBase(current) == shermansBase(former)) ||
+						( /*vowels */ ["ve", "va", "vo"].indexOf(shermansBase.getBase(current)) > -1 && (["ve", "va", "vo", "number"].indexOf(shermansBase.getBase(former)) < 0 || shermansBase.getBase(current) == shermansBase.getBase(former))) ||
+						( /*same base consonant*/ [false, "punctuation", "ve", "va", "vo", "number"].indexOf(shermansBase.getBase(current)) < 0 && group[group.length - 1].length > 0 && shermansBase.getBase(current) == shermansBase.getBase(former)) ||
 						( /*numbers, data is of string type here*/ "1234567890,.".indexOf(current) > -1 && group[group.length - 1].length > 0 && "1234567890,.".indexOf(former) > -1)
 					)
 						group[group.length - 1].push(current)
@@ -165,8 +298,12 @@ let shermansGrouped = {
 	resetOffset: function (lastStackedConsonantIndex) {
 		this.carriagereturn = false;
 		this.voweloffset = {
-			"x": 0,
-			"y": 0
+			x: 0,
+			y: 0
+		};
+		this.consonantcenter = {
+			x: 0,
+			y: 0
 		};
 		this.vresize = 1;
 		if (lastStackedConsonantIndex === undefined) lastStackedConsonantIndex = 0;
@@ -177,39 +314,20 @@ let shermansGrouped = {
 	setOffset: function (former, actual) {
 		this.offset++;
 		this.carriagereturn = true;
-		if (shermansBase(former) == "number") {
-			this.cresize *= .8;
-		} else if (shermansBase(former) == "b") {
-			if (actual == "a") {} else if (actual == "o") this.voweloffset = baseRelatedPosition("b");
-			else if (shermansBase(actual) == "b") {
+		let actualbase = shermansBase.getBase(actual)
+		let formerbase = shermansBase.getBase(former)
+		if (["b", "j", "t", "th"].indexOf(formerbase) > -1) {
+			this.consonantcenter.x = 0;
+			this.consonantcenter.y = shermansBase.scgtable[formerbase].centerYoffset;
+		}
+		if (["b", "j", "t", "th"].indexOf(formerbase) > -1) {
+			if (["ve", "va", "vo"].indexOf(actualbase) > -1) this.voweloffset = shermansBase.scgtable[formerbase].radialPlacement(actualbase);
+			else if (actualbase === formerbase) {
 				this.cresize *= .8;
 				if (former != actual) this.linewidth += 1;
-			} else /*eiu*/ {
-				this.voweloffset.y = -22;
 			}
-		} else if (shermansBase(former) == "j") {
-			if (actual == "a") {} else if (actual == "o") this.voweloffset = baseRelatedPosition("j");
-			else if (shermansBase(actual) == "j") {
-				this.cresize *= .8;
-				if (former != actual) this.linewidth += 1;
-			} else /*eiu*/ {
-				this.voweloffset.y = -25;
-			}
-		} else if (shermansBase(former) == "t") {
-			if (actual == "a") {} else if (actual == "o") this.voweloffset = baseRelatedPosition("t");
-			else if (shermansBase(actual) == "t") {
-				this.cresize *= .8;
-				if (former != actual) this.linewidth += 1;
-			} else /*eiu*/ {}
-		} else if (shermansBase(former) == "th") {
-			if (actual == "a") {} else if (actual == "o") this.voweloffset = baseRelatedPosition("th");
-			else if (shermansBase(actual) == "th") {
-				this.cresize *= .8;
-				if (former != actual) this.linewidth += 1;
-			} else /*eiu*/ {}
-		} else /*vovel*/ {
+		} else /*number and vovel*/ {
 			this.vresize *= .8;
-			if (actual == "a") {} else if (actual == "o") {} else /*eiu*/ {}
 		}
 	}
 }
@@ -220,23 +338,23 @@ function baseRelatedPosition(base, radian) {
 	switch (base) {
 		case "b":
 			return {
-				"x": 20 * shermansGrouped.cresize * Math.cos(radian), "y": 20 * shermansGrouped.cresize * Math.sin(radian)
+				"x": consonant * shermansGrouped.cresize * Math.cos(radian), "y": consonant * shermansGrouped.cresize * Math.sin(radian) - consonant * 1.45
 			};
 		case "j":
 			return {
-				"x": 20 * shermansGrouped.cresize * Math.cos(radian), "y": 20 * shermansGrouped.cresize * Math.sin(radian)
+				"x": consonant * shermansGrouped.cresize * Math.cos(radian), "y": consonant * shermansGrouped.cresize * Math.sin(radian) - consonant * 1.75
 			};
 		case "t":
 			return {
-				"x": 20 * shermansGrouped.cresize * Math.cos(radian), "y": 20 * shermansGrouped.cresize * Math.sin(radian) - 25
+				"x": consonant * shermansGrouped.cresize * Math.cos(radian), "y": consonant * shermansGrouped.cresize * Math.sin(radian) - consonant * .7
 			};
 		case "th":
 			return {
-				"x": 20 * shermansGrouped.cresize * Math.cos(radian), "y": 20 * shermansGrouped.cresize * Math.sin(radian) - 25
+				"x": consonant * shermansGrouped.cresize * Math.cos(radian), "y": consonant * shermansGrouped.cresize * Math.sin(radian) - consonant * .7
 			};
 		case "number":
 			return {
-				"x": 20 * shermansGrouped.cresize * Math.cos(radian), "y": 20 * shermansGrouped.cresize * Math.sin(radian)
+				"x": consonant * shermansGrouped.cresize * Math.cos(radian), "y": consonant * shermansGrouped.cresize * Math.sin(radian)
 			};
 	}
 }
@@ -278,10 +396,10 @@ let draw = {
 //draw instructions for base + decoration
 function shermansDraw(ctx, letter, grouped, thicknumberline) {
 	if (!grouped.carriagereturn) {
-		if (x + 50 * shermansScale >= width) {
-			y += 120 * shermansScale;
-			x = 0;
-		} else x += 50 * shermansScale;
+		if (x + letterwidth * 2 >= width) {
+			y += letterheight;
+			x = letterwidth * .5;
+		} else x += letterwidth;
 	}
 	if (letter != " ") {
 		ctx.strokeStyle = "black";
@@ -295,169 +413,160 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 				qLetter = true;
 			}
 		}
-		switch (shermansBase(letter)) {
-			case "punctuation":
-				if (!thicknumberline) {
-					draw.line(x, y, x + 50 * shermansScale, y);
-					draw.line(x, y + 25 * shermansScale, x + 50 * shermansScale, y + 25 * shermansScale);
-					switch (letter) {
-						case ".":
-							draw.circle(x + 25 * shermansScale, y + 25 * shermansScale, 10 * shermansScale);
-							break;
-						case "?":
-							draw.dot(x + 17.5 * shermansScale, y + 15 * shermansScale, 5 * shermansScale);
-							draw.dot(x + 32.5 * shermansScale, y + 15 * shermansScale, 5 * shermansScale);
-							break;
-						case "!":
-							draw.dot(x + 10 * shermansScale, y + 15 * shermansScale, 5 * shermansScale);
-							draw.dot(x + 25 * shermansScale, y + 15 * shermansScale, 5 * shermansScale);
-							draw.dot(x + 40 * shermansScale, y + 15 * shermansScale, 5 * shermansScale);
-							break;
-						case "\"":
-							draw.line(x + 25 * shermansScale, y + 25 * shermansScale, x + 25 * shermansScale, y + 15 * shermansScale);
-							break;
-						case "'":
-							draw.line(x + 20 * shermansScale, y + 25 * shermansScale, x + 20 * shermansScale, y + 15 * shermansScale);
-							draw.line(x + 30 * shermansScale, y + 25 * shermansScale, x + 30 * shermansScale, y + 15 * shermansScale);
-							break;
-						case "-":
-							draw.line(x + 15 * shermansScale, y + 25 * shermansScale, x + 15 * shermansScale, y + 15 * shermansScale);
-							draw.line(x + 25 * shermansScale, y + 25 * shermansScale, x + 25 * shermansScale, y + 15 * shermansScale);
-							draw.line(x + 35 * shermansScale, y + 25 * shermansScale, x + 35 * shermansScale, y + 15 * shermansScale);
-							break;
-						case ",":
-							draw.dot(x + 25 * shermansScale, y + 25 * shermansScale, 10 * shermansScale);
-							break;
-						case ";":
-							draw.dot(x + 25 * shermansScale, y + 15 * shermansScale, 5 * shermansScale);
-							break;
-						case ":":
-							draw.circle(x + 25 * shermansScale, y + 25 * shermansScale, 10 * shermansScale);
-							draw.circle(x + 25 * shermansScale, y + 25 * shermansScale, 7.5 * shermansScale);
-							break;
-					}
-				} else {
-					shermansGrouped.linewidth = 2;
+		let lettercenter = letterwidth * .5;
+		let currentbase = shermansBase.getBase(letter);
+		let centerYoffset = shermansBase.scgtable[currentbase].centerYoffset;
+		//draw base
+		if (["punctuation"].indexOf(currentbase) > -1) {
+			if (!thicknumberline) {
+				draw.line(x, y, x + letterwidth, y);
+				draw.line(x, y + centerYoffset, x + letterwidth, y + centerYoffset);
+				switch (letter) {
+					case ".":
+						draw.circle(x + lettercenter, y + centerYoffset, vowel);
+						break;
+					case "?":
+						draw.dot(x + lettercenter * .7, y + centerYoffset * .8, vowel * .5);
+						draw.dot(x + lettercenter * 1.3, y + centerYoffset * .8, vowel * .5);
+						break;
+					case "!":
+						draw.dot(x + lettercenter * .4, y + centerYoffset * .8, vowel * .5);
+						draw.dot(x + lettercenter, y + centerYoffset * .8, vowel * .5);
+						draw.dot(x + lettercenter * 1.6, y + centerYoffset * .8, vowel * .5);
+						break;
+					case "\"":
+						draw.line(x + lettercenter, y + centerYoffset, x + lettercenter, y + centerYoffset * .8);
+						break;
+					case "'":
+						draw.line(x + lettercenter * .8, y + centerYoffset, x + lettercenter * .8, y + centerYoffset * .8);
+						draw.line(x + lettercenter * 1.2, y + centerYoffset, x + lettercenter * 1.2, y + centerYoffset * .8);
+						break;
+					case "-":
+						draw.line(x + lettercenter * .6, y + centerYoffset, x + lettercenter * .6, y + centerYoffset * .8);
+						draw.line(x + lettercenter, y + centerYoffset, x + lettercenter, y + centerYoffset * .8);
+						draw.line(x + lettercenter * 1.4, y + centerYoffset, x + lettercenter * 1.4, y + centerYoffset * .8);
+						break;
+					case ",":
+						draw.dot(x + lettercenter, y + centerYoffset, vowel);
+						break;
+					case ";":
+						draw.dot(x + lettercenter, y + centerYoffset * .8, vowel * .5);
+						break;
+					case ":":
+						draw.circle(x + lettercenter, y + centerYoffset, vowel);
+						draw.circle(x + lettercenter, y + centerYoffset, vowel * .75);
+						break;
 				}
-				break;
-			case "ve":
-				if (!grouped.carriagereturn) draw.line(x, y, x + 50 * shermansScale, y);
-				draw.circle(x + (25 + grouped.voweloffset.x) * shermansScale, y + grouped.voweloffset.y * shermansScale, 10 * shermansScale * grouped.vresize);
-				break;
-			case "va":
-				if (!grouped.carriagereturn) draw.line(x, y, x + 50 * shermansScale, y);
-				draw.circle(x + (25 + grouped.voweloffset.x) * shermansScale, y + (25 + grouped.voweloffset.y) * shermansScale, 10 * shermansScale * grouped.vresize);
-				break;
-			case "vo":
-				if (!grouped.carriagereturn) draw.line(x, y, x + 50 * shermansScale, y);
-				draw.circle(x + (25 + grouped.voweloffset.x) * shermansScale, y - (25 + grouped.voweloffset.y) * shermansScale, 10 * shermansScale * grouped.vresize);
-				break;
-			case "b":
-				if (!grouped.carriagereturn) {
-					draw.line(x, y, x + 18 * shermansScale, y);
-					draw.line(x + 32 * shermansScale, y, x + 50 * shermansScale, y);
-				}
-				draw.arc(x + 25 * shermansScale, y - 22 * shermansScale, 23 * shermansScale * grouped.cresize, 2 * Math.PI + Math.asin(22 / 23 / grouped.cresize), Math.PI - Math.asin(22 / 23 / grouped.cresize), grouped.linewidth);
-				break;
-			case "j":
-				if (!grouped.carriagereturn) draw.line(x, y, x + 50 * shermansScale, y);
-				draw.circle(x + 25 * shermansScale, y - 25 * shermansScale, 20 * shermansScale * grouped.cresize, grouped.linewidth);
-				break;
-			case "t":
-				if (!grouped.carriagereturn) {
-					draw.line(x, y, x + 5 * shermansScale, y);
-					draw.line(x + 45 * shermansScale, y, x + 50 * shermansScale, y);
-				}
-				draw.arc(x + 25 * shermansScale, y, 20 * shermansScale * grouped.cresize, 0, Math.PI, grouped.linewidth);
-				break;
-			case "th":
-				if (!grouped.carriagereturn) draw.line(x, y, x + 50 * shermansScale, y);
-				draw.circle(x + 25 * shermansScale, y, 20 * shermansScale * grouped.cresize, grouped.linewidth);
-				break;
-			case "number":
-				if (!grouped.carriagereturn) draw.line(x, y, x + 50 * shermansScale, y);
-				if (thicknumberline) shermansGrouped.linewidth = 2;
-				draw.circle(x + 25 * shermansScale, y - 25 * shermansScale, 20 * shermansScale * grouped.cresize, grouped.linewidth);
-				break;
-			default:
-				break;
+			} else {
+				shermansGrouped.linewidth = 2;
+			}
+		}
+		if (["ve", "va", "vo"].indexOf(currentbase) > -1) {
+			if (!grouped.carriagereturn) draw.line(x, y, x + letterwidth, y);
+			draw.circle(x + lettercenter + grouped.consonantcenter.x + grouped.voweloffset.x, y + ((grouped.consonantcenter.y + grouped.voweloffset.y) || centerYoffset), vowel * grouped.vresize);
+		}
+		if (["b"].indexOf(currentbase) > -1) {
+			if (!grouped.carriagereturn) {
+				draw.line(x, y, x + letterwidth * .5 - Math.sin(.5) * consonant, y);
+				draw.line(x + letterwidth * .5 + Math.sin(.5) * consonant, y, x + letterwidth, y);
+			}
+			draw.arc(x + lettercenter, y + centerYoffset, consonant * grouped.cresize, 2 * Math.PI + Math.asin(.9 / grouped.cresize), Math.PI - Math.asin(.9 / grouped.cresize), grouped.linewidth);
+		}
+		if (["t"].indexOf(currentbase) > -1) {
+			if (!grouped.carriagereturn) {
+				draw.line(x, y, x + lettercenter - consonant, y);
+				draw.line(x + lettercenter + consonant, y, x + letterwidth, y);
+			}
+			draw.arc(x + lettercenter, y + centerYoffset, consonant * grouped.cresize, 0, Math.PI, grouped.linewidth);
+		}
+		if (["j", "th"].indexOf(currentbase) > -1) {
+			if (!grouped.carriagereturn) draw.line(x, y, x + letterwidth, y);
+			draw.circle(x + lettercenter, y + centerYoffset, consonant * grouped.cresize, grouped.linewidth);
+		}
+		if (["number"].indexOf(currentbase) > -1) {
+			if (!grouped.carriagereturn) draw.line(x, y, x + letterwidth, y);
+			if (thicknumberline) shermansGrouped.linewidth = 2;
+			draw.circle(x + lettercenter, y + centerYoffset, consonant * grouped.cresize, grouped.linewidth);
 		}
 
-		let radian, xy,	decorators=shermansDeco(letter);
-		if (decorators){
-			if(decorators.indexOf("1d") > -1){
-				draw.dot(x + 25 * shermansScale, y - 10 * shermansScale, 2 * shermansScale);
+		//draw decorators
+		let radian, xy, decorators = shermansDeco(letter);
+		if (decorators) {
+			if (decorators.indexOf("1d") > -1) {
+				draw.dot(x + lettercenter, y - vowel * 1.5, vowel * .25);
 			}
-			if(decorators.indexOf("2d") > -1){
-				draw.dot(x + 18 * shermansScale, y - 13 * shermansScale, 2 * shermansScale);
-				draw.dot(x + 32 * shermansScale, y - 13 * shermansScale, 2 * shermansScale);
+			if (decorators.indexOf("2d") > -1) {
+				draw.dot(x + lettercenter * .7, y - vowel * 1.25, vowel * .25);
+				draw.dot(x + lettercenter * 1.3, y - vowel * 1.25, vowel * .25);
 			}
-			if(decorators.indexOf("3d") > -1){
-				draw.dot(x + 12 * shermansScale, y - 10 * shermansScale, 2 * shermansScale);
-				draw.dot(x + 25 * shermansScale, y - 15 * shermansScale, 2 * shermansScale);
-				draw.dot(x + 38 * shermansScale, y - 10 * shermansScale, 2 * shermansScale);
+			if (decorators.indexOf("3d") > -1) {
+				draw.dot(x + lettercenter * .5, y - vowel, vowel * .25);
+				draw.dot(x + lettercenter, y - vowel * 1.5, vowel * .25);
+				draw.dot(x + lettercenter * 1.5, y - vowel, vowel * .25);
 			}
-			if(decorators.indexOf("4d") > -1){
-				draw.dot(x + 7 * shermansScale, y - 5 * shermansScale, 2 * shermansScale);
-				draw.dot(x + 43 * shermansScale, y - 5 * shermansScale, 2 * shermansScale);
-				draw.dot(x + 17 * shermansScale, y - 17 * shermansScale, 2 * shermansScale);
-				draw.dot(x + 33 * shermansScale, y - 17 * shermansScale, 2 * shermansScale);
+			if (decorators.indexOf("4d") > -1) {
+				draw.dot(x + lettercenter * .2, y - vowel, vowel * .25);
+				draw.dot(x + lettercenter * .7, y - vowel * 1.5, vowel * .25);
+				draw.dot(x + lettercenter * 1.3, y - vowel * 1.5, vowel * .25);
+				draw.dot(x + lettercenter * 1.8, y - vowel, vowel * .25);
 			}
-			if(decorators.indexOf("1l") > -1){
-				radian = Math.PI * .35
-				xy = baseRelatedPosition(shermansBase(letter), radian);
-				draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
+			if (decorators.indexOf("1l") > -1) {
+				radian = Math.PI * .45
+				xy = baseRelatedPosition(shermansBase.getBase(letter), radian);
+				draw.dot(x + lettercenter - xy.x * 1.25, y - consonant + xy.y * 1.25, 4);
+				draw.dot(x + lettercenter - xy.x * 1.25 - Math.cos(radian) * consonant, y - consonant + xy.y * 1.25 - Math.sin(radian) * consonant, 4);
+				draw.line(x + lettercenter + xy.x, y - consonant + xy.y, x + lettercenter + xy.x - Math.cos(radian) * consonant, y - consonant + xy.y + Math.sin(radian) * consonant);
 			}
-			if(decorators.indexOf("2l") > -1){
+			if (decorators.indexOf("2l") > -1) {
 				radian = Math.PI * .30
-				xy = baseRelatedPosition(shermansBase(letter), radian);
+				xy = baseRelatedPosition(shermansBase.getBase(letter), radian);
 				draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
 				radian = Math.PI * .20
-				xy = baseRelatedPosition(shermansBase(letter), radian);
+				xy = baseRelatedPosition(shermansBase.getBase(letter), radian);
 				draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
 			}
-			if(decorators.indexOf("3l") > -1){
+			if (decorators.indexOf("3l") > -1) {
 				radian = Math.PI * .15
-				xy = baseRelatedPosition(shermansBase(letter), radian);
+				xy = baseRelatedPosition(shermansBase.getBase(letter), radian);
 				draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
 				radian = Math.PI * .25
-				xy = baseRelatedPosition(shermansBase(letter), radian);
+				xy = baseRelatedPosition(shermansBase.getBase(letter), radian);
 				draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
 				radian = Math.PI * .05
-				xy = baseRelatedPosition(shermansBase(letter), radian);
+				xy = baseRelatedPosition(shermansBase.getBase(letter), radian);
 				draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
 			}
-			if(decorators.indexOf("il") > -1){
-				draw.line(x + (25 + grouped.voweloffset.x) * shermansScale, y - (10 - grouped.voweloffset.y) * shermansScale, x + (25 + grouped.voweloffset.x) * shermansScale, y - (30 - grouped.voweloffset.y) * shermansScale);
+			if (decorators.indexOf("il") > -1) {
+				draw.line(x + lettercenter, y - vowel + grouped.voweloffset.y, x + lettercenter, y - vowel * 3 + grouped.voweloffset.y);
 			}
-			if(decorators.indexOf("ul") > -1){
-				draw.line(x + (25 + grouped.voweloffset.x) * shermansScale, y + (10 + grouped.voweloffset.y) * shermansScale, x + (25 + grouped.voweloffset.x) * shermansScale, y + (30 + grouped.voweloffset.y) * shermansScale);
+			if (decorators.indexOf("ul") > -1) {
+				draw.line(x + lettercenter, y + vowel + grouped.voweloffset.y, x + lettercenter, y + vowel * 3 + grouped.voweloffset.y);
 			}
-			if(decorators.indexOf("d1l") > -1){
-				radian=Math.PI * .35
+			if (decorators.indexOf("d1l") > -1) {
+				radian = Math.PI * .35
 				//draw.line(x + (25 + grouped.voweloffset.x - Math.cos(radian) * 7) * shermansScale, y - (10 - grouped.voweloffset.y - Math.cos(radian) * 5) * shermansScale, x + (25 + grouped.voweloffset.x - Math.cos(radian) * 15) * shermansScale, y - (30 - grouped.voweloffset.y - Math.cos(radian) * 15) * shermansScale);
 			}
-			if(decorators.indexOf("d2l") > -1){
-				radian=Math.PI * .30
+			if (decorators.indexOf("d2l") > -1) {
+				radian = Math.PI * .30
 				//draw.line(x + (25 + grouped.voweloffset.x - xy.x - Math.cos(radian) * 5) * shermansScale, y - (10 - grouped.voweloffset.y - Math.cos(radian) * 5) * shermansScale, x + (25 + grouped.voweloffset.x - Math.cos(radian) * 15) * shermansScale, y - (30 - grouped.voweloffset.y - Math.cos(radian) * 15) * shermansScale);
-				radian=Math.PI * .20
+				radian = Math.PI * .20
 				//draw.line(x + (25 + grouped.voweloffset.x - Math.cos(radian) * 5) * shermansScale, y - (10 - grouped.voweloffset.y - Math.cos(radian) * 5) * shermansScale, x + (25 + grouped.voweloffset.x - Math.cos(radian) * 15) * shermansScale, y - (30 - grouped.voweloffset.y - Math.cos(radian) * 15) * shermansScale);
 			}
-			if(decorators.indexOf("d3l") > -1){
-				radian=Math.PI * .15
+			if (decorators.indexOf("d3l") > -1) {
+				radian = Math.PI * .15
 				//draw.line(x + (25 + grouped.voweloffset.x - Math.cos(radian) * 5) * shermansScale, y - (10 - grouped.voweloffset.y - Math.cos(radian) * 5) * shermansScale, x + (25 + grouped.voweloffset.x - Math.cos(radian) * 15) * shermansScale, y - (30 - grouped.voweloffset.y - Math.cos(radian) * 15) * shermansScale);
-				radian=Math.PI * .25
+				radian = Math.PI * .25
 				//draw.line(x + (25 + grouped.voweloffset.x - Math.cos(radian) * 5) * shermansScale, y - (10 - grouped.voweloffset.y - Math.cos(radian) * 5) * shermansScale, x + (25 + grouped.voweloffset.x - Math.cos(radian) * 15) * shermansScale, y - (30 - grouped.voweloffset.y - Math.cos(radian) * 15) * shermansScale);
-				radian=Math.PI * .05
+				radian = Math.PI * .05
 				//draw.line(x + (25 + grouped.voweloffset.x - Math.cos(radian) * 5) * shermansScale, y - (10 - grouped.voweloffset.y - Math.cos(radian) * 5) * shermansScale, x + (25 + grouped.voweloffset.x - Math.cos(radian) * 15) * shermansScale, y - (30 - grouped.voweloffset.y - Math.cos(radian) * 15) * shermansScale);
 			}
-			if(decorators.indexOf("number") > -1){
+			if (decorators.indexOf("number") > -1) {
 				shermansGrouped.linewidth = 1;
 				var number = parseInt(letter),
 					rad = .95;
 				for (var n = number; n > 0; n--) {
 					radian = Math.PI * rad
-					xy = baseRelatedPosition(shermansBase(letter), radian);
+					xy = baseRelatedPosition(shermansBase.getBase(letter), radian);
 					if (n > 4) {
 						draw.circle(x + (25 + xy.x * .9) * shermansScale, y - (25 + xy.y * .9) * shermansScale, (xy.y - xy.y * .4) * shermansScale);
 						n -= 4;
@@ -467,7 +576,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 			}
 		}
 		ctx.beginPath();
-		ctx.fillText(letter, x + (25 + grouped.offset * 5) * shermansScale, y - 60 * shermansScale);
+		ctx.fillText(letter, x + lettercenter + grouped.offset * 8, y - letterheight * .5);
 	}
 }
 
