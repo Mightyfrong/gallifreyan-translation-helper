@@ -1,9 +1,13 @@
 let cLetter; //is there a "c"?
 let qLetter; //is there a "q"?
 let consonant = 30; //radius of consonants
-let vowel = Math.floor(consonant/2); // radius of vowels
-let width;
-let height;
+let vowel = Math.floor(consonant / 2); // radius of vowels
+let width; //canvas width
+let height; //canvas height
+let x; //current coordinate x
+let y; //current coordinate y
+let letterwidth; //you'll figure that one out for yourself
+let letterheight; //you'll figure that one out for yourself
 //    _                                 _ ___ _         _   _
 //   | |_ ___ ___ ___   ___ ___ ___ ___|_|  _|_|___ ___| |_|_|___ ___ ___
 //   | . | .'|_ -| -_| |_ -| . | -_|  _| |  _| |  _| .'|  _| | . |   |_ -|
@@ -27,7 +31,7 @@ let shermansBase = {
 			}
 		},
 		ve: {
-			contains: ["e", "é", "è", "i", "í", "ì", "u", "ü", "ú", "ù","æ"],
+			contains: ["e", "é", "è", "i", "í", "ì", "u", "ü", "ú", "ù", "æ"],
 			centerYoffset: 0,
 			radialPlacement: function (radiant = Math.PI * .25) {
 				return {
@@ -37,7 +41,7 @@ let shermansBase = {
 			}
 		},
 		va: {
-			contains: ["a", "ä", "á", "à","å"],
+			contains: ["a", "ä", "á", "à", "å"],
 			centerYoffset: vowel * 1.75,
 			radialPlacement: function (radiant = Math.PI * .25) {
 				return {
@@ -47,7 +51,7 @@ let shermansBase = {
 			}
 		},
 		vo: {
-			contains: ["o", "ö", "ó", "ò","ø"],
+			contains: ["o", "ö", "ó", "ò", "ø"],
 			centerYoffset: -vowel * 1.75,
 			radialPlacement: function (radiant = Math.PI * .25) {
 				return {
@@ -79,7 +83,7 @@ let shermansBase = {
 			}
 		},
 		j: {
-			contains: ["j", "ph", "k", "l", "c", "n", "p", "m"],
+			contains: ["j", "ph", "k", "l", "c", "n", "p", "m", "ñ"],
 			centerYoffset: -consonant * 1.25,
 			radialPlacement: function (radiant = Math.PI * .25, item = "vo") {
 				let options = {
@@ -229,8 +233,13 @@ let shermansDeco = {
 			fromto: [1]
 		},
 		"2ndvowel": {
-			contains: ["å", "ø","æ"],
+			contains: ["å", "ø", "æ"],
 			radiants: [0],
+			fromto: [1]
+		},
+		"divot": {
+			contains: ["ñ"],
+			radiants: [1.75],
 			fromto: [1]
 		},
 	},
@@ -242,11 +251,6 @@ let shermansDeco = {
 		return (!rtrn.length || (rtrn.length == 1 && rtrn[0] == "null")) ? false : rtrn;
 	}
 }
-
-let x; //draw coordinate x
-let y; //draw coordinate y
-let letterwidth;
-let letterheight;
 
 //    _                   _     _   _
 //   | |_ ___ ___ ___ ___| |___| |_|_|___ ___
@@ -267,10 +271,10 @@ export function shermansTranslate(ctx, input) {
 	let groupedinput = shermansGrouped.groups(input.toLowerCase()),
 		lettergroups = 0;
 	groupedinput.forEach(word => {
-		word.forEach(group=>{
+		word.forEach(group => {
 			lettergroups += group.length;
 		});
-		lettergroups+=1;
+		lettergroups += 1;
 	})
 
 	//set canvas scale for groups
@@ -600,6 +604,23 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 							x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * grouped.cresize,
 							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * grouped.cresize,
 							vowel);
+					});
+				} else if (["divot"].indexOf(deco) > -1) {
+					shermansDeco.scgtable[deco].radiants.forEach(rad => {
+						let fromto = shermansDeco.scgtable[deco].fromto;
+						draw.arc(
+							x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * grouped.cresize,
+							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * grouped.cresize,
+							vowel, Math.PI * 1.7, Math.PI * .8, grouped.linewidth
+						);
+						//overdraw base body
+						ctx.strokeStyle = 'white';
+						draw.arc(
+							x + center.x,
+							y + center.y,
+							consonant * grouped.cresize, Math.PI * .4, Math.PI * .1, grouped.linewidth + 1
+						);
+
 					});
 				} else {
 					shermansDeco.scgtable[deco].radiants.forEach(rad => {

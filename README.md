@@ -17,13 +17,20 @@ One can optionally toggle whether C is transcribed to K/S in the language contro
 
 Numbers are a bit flawed as individual glyphs and currently don't support negative numbers. To keep things easier within the algorithm a zero is added to each number by default, so don't wonder about the top translation. Numbers only make sense with grouping enabled.
 
-currently diacritics are supported for german umlauts, accent acute, accent grave and scandinavian å, ø and æ.
+currently diacritics are supported for german umlauts, accent acute, accent grave, ñ and scandinavian å, ø and æ.
 
 ### Recurring Variables Within Global Scope
 * cLetter: false by default, true if detected. if true a warning is displayed and drawings are red.
 * qLetter: false by default, true if detected. if true a warning is displayed and drawings are red.
 * consonant: initial radius for consonants
 * vowel: initial radius for vowels
+* width: width of the canvas
+* height: height of the canvas
+* x: current x coordinate for drawing
+* y: current y coordinate for drawing
+* letterwidth: width of letters/groups
+* letterheight: height of letters/groups
+
 
 ### Construction Dictionaries
 Sherman's follows a quite easy pattern consisting of big and small circles, arcs, dots and lines all arranged in a clear fashion following plain rules. Like in the original guidance table consonants are grouped to their respective base (b,j,t,th), also vowels with base e (for e,i,u), a and o, punctuation and numbers.
@@ -75,14 +82,14 @@ Grouping of characters makes resizing of the base necessary. The index for the l
 In case of numbers a bigger line thickness indicates the end of the number or the decimal point so it has to be checked if it applies to the current character.
 The positioning offsets for drawing of the current character in relation to the former is set and the [character is drawn](#Character-Drawing).
 
-Sherman's takes the phonetical [k or s instead of c](#C-Handling). C and single q are "allowed" in names only so there is a reminder thrown if these characters are detected.
+Sherman's takes the phonetical [k or s instead of c](#Replacements). C and single q are "allowed" in names only so there is a reminder thrown if these characters are detected.
 
 ### Replacements
 **replacements(word)** returns the full word after converting c to k or s depending on position, following vowel, or reduced ck, if selected. Always replaces ß with ss.
 
 ### Grouping
 **shermansGrouped.groups(input)** returns a multidimensional array of grouped characters. It initiates the sentence array and loops through the whitespace-splitted input.
-The word group is initiated and the word optionally converted in regards of [c-handling](#C-Handling).
+The word group is initiated and the word optionally converted in regards of [c-handling](#Replacements).
 The following loop iterates over each character of the word, sets the current character, occasionally overrides single characters to double ones (like th, gh, ng, etc.) and corrects the index in this case.
 
 If grouping is active the current characters is added to the former group if
