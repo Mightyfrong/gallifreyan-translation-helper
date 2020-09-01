@@ -19,7 +19,7 @@ let shermansBase = {
 		ve: {
 			contains: ["e", "é", "è", "i", "í", "ì", "u", "ü", "ú", "ù"],
 			centerYoffset: 0,
-			radialPlacement: function (item, radiant) {
+			radialPlacement: function (radiant) {
 				if (radiant === undefined) radiant = Math.PI * .25
 				return {
 					x: vowel * Math.cos(radiant),
@@ -30,7 +30,7 @@ let shermansBase = {
 		va: {
 			contains: ["a", "ä", "á", "à"],
 			centerYoffset: vowel * 1.75,
-			radialPlacement: function (item, radiant) {
+			radialPlacement: function (radiant) {
 				if (radiant === undefined) radiant = Math.PI * .25
 				return {
 					x: vowel * Math.cos(radiant),
@@ -41,7 +41,7 @@ let shermansBase = {
 		vo: {
 			contains: ["o", "ö", "ó", "ò"],
 			centerYoffset: -vowel * 1.75,
-			radialPlacement: function (item, radiant) {
+			radialPlacement: function (radiant) {
 				if (radiant === undefined) radiant = Math.PI * .25
 				return {
 					x: vowel * Math.cos(radiant),
@@ -52,7 +52,7 @@ let shermansBase = {
 		b: {
 			contains: ["b", "ch", "d", "g", "h", "f"],
 			centerYoffset: -consonant * .9,
-			radialPlacement: function (item, radiant) {
+			radialPlacement: function (radiant, item) {
 				if (radiant === undefined) radiant = Math.PI * .25
 				let options = {
 					ve: {
@@ -61,7 +61,7 @@ let shermansBase = {
 					},
 					va: {
 						x: 0,
-						y: consonant * .9//-this.centerYoffset
+						y: -this.centerYoffset
 					},
 					vo: {
 						x: consonant * Math.cos(radiant),
@@ -75,7 +75,7 @@ let shermansBase = {
 		j: {
 			contains: ["j", "ph", "k", "l", "c", "n", "p", "m"],
 			centerYoffset: -consonant * 1.25,
-			radialPlacement: function (item, radiant) {
+			radialPlacement: function (radiant, item) {
 				if (radiant === undefined) radiant = Math.PI * .25
 				let options = {
 					ve: {
@@ -98,7 +98,7 @@ let shermansBase = {
 		t: {
 			contains: ["t", "wh", "sh", "r", "v", "w", "s"],
 			centerYoffset: 0,
-			radialPlacement: function (item, radiant) {
+			radialPlacement: function (radiant, item) {
 				if (radiant === undefined) radiant = Math.PI * .25
 				let options = {
 					ve: {
@@ -121,7 +121,7 @@ let shermansBase = {
 		th: {
 			contains: ["th", "gh", "y", "z", "q", "qu", "x", "ng"],
 			centerYoffset: 0,
-			radialPlacement: function (item, radiant) {
+			radialPlacement: function (radiant, item) {
 				if (radiant === undefined) radiant = Math.PI * .25
 				let options = {
 					ve: {
@@ -145,36 +145,91 @@ let shermansBase = {
 	getBase: function (char) {
 		let rtrn = false;
 		Object.keys(this.scgtable).forEach(row => {
-			if (this.scgtable[row]["contains"].indexOf(char) > -1) rtrn = row;
+			if (this.scgtable[row].contains.indexOf(char) > -1) rtrn = row;
 		});
 		return rtrn;
 	}
 }
 
 //specify decoration for every letter
-function shermansDeco(char) {
-	let scgtable = {
-		"null": [".", "?", "!", "\"", "'", "-", ",", ",", ":", "a", "e", "o", "b", "j", "t", "th"],
-		"number": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
-		"il": ["i", "í", "ì"],
-		"ul": ["u", "ü", "ú", "ù"],
-		"d1l": ["á", "é", "í", "ó", "ú"],
-		"d2l": ["ä", "ö", "ü"],
-		"d3l": ["à", "è", "ì", "ò", "ù"],
-		"1l": ["g", "n", "v", "qu"],
-		"2l": ["h", "p", "w", "x"],
-		"3l": ["f", "m", "s", "ng"],
-		"1d": ["ph", "wh", "gh"],
-		"2d": ["ch", "k", "sh", "y"],
-		"3d": ["d", "l", "r", "z"],
-		"4d": ["c", "q"],
-	};
-	let rtrn = [];
-	Object.keys(scgtable).forEach(row => {
-		if (scgtable[row].indexOf(char) > -1) rtrn.push(row);
-	});
-	return (!rtrn.length || (rtrn.length == 1 && rtrn[0] == "null")) ? false : rtrn;
-};
+let shermansDeco = {
+	scgtable: {
+		"null": {
+			contains: [".", "?", "!", "\"", "'", "-", ",", ",", ":", "a", "e", "o", "b", "j", "t", "th"],
+		},
+		"number": {
+			contains: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
+		},
+		"il": {
+			contains: ["i", "í", "ì"],
+			radiants: [.5],
+			fromto: [1, 3]
+		},
+		"ul": {
+			contains: ["u", "ü", "ú", "ù"],
+			radiants: [1.5],
+			fromto: [1, 3]
+		},
+		"d1l": {
+			contains: ["á", "é", "í", "ó", "ú"],
+			radiants: [.8],
+			fromto: [.5, 1.5]
+		},
+		"d2l": {
+			contains: ["ä", "ö", "ü"],
+			radiants: [.8, .7],
+			fromto: [.5, 1.5]
+		},
+		"d3l": {
+			contains: ["à", "è", "ì", "ò", "ù"],
+			radiants: [.8, .7, .6],
+			fromto: [.5, 1.5]
+		},
+		"1l": {
+			contains: ["g", "n", "v", "qu"],
+			radiants: [.6],
+			fromto: [1, 2]
+		},
+		"2l": {
+			contains: ["h", "p", "w", "x"],
+			radiants: [.85, .75],
+			fromto: [1, 2]
+		},
+		"3l": {
+			contains: ["f", "m", "s", "ng"],
+			radiants: [.9, .8, .7],
+			fromto: [1, 2]
+		},
+		"1d": {
+			contains: ["ph", "wh", "gh"],
+			radiants: [2],
+			fromto: [1]
+		},
+		"2d": {
+			contains: ["ch", "k", "sh", "y"],
+			radiants: [2, 1.9],
+			fromto: [1]
+		},
+		"3d": {
+			contains: ["d", "l", "r", "z"],
+			radiants: [2, 1.9, 1.8],
+			fromto: [1]
+		},
+		"4d": {
+			contains: ["c", "q"],
+			radiants: [2, 1.9, 1.8,1.7],
+			fromto: [1]
+		},
+	},
+	getDeco: function (char) {
+		let rtrn = [];
+		Object.keys(this.scgtable).forEach(row => {
+			if (this.scgtable[row].contains.indexOf(char) > -1) rtrn.push(row);
+		});
+		return (!rtrn.length || (rtrn.length == 1 && rtrn[0] == "null")) ? false : rtrn;
+	}
+}
+
 
 //replacements
 function replacements(word) {
@@ -321,7 +376,7 @@ let shermansGrouped = {
 			this.consonantcenter.y = shermansBase.scgtable[formerbase].centerYoffset;
 		}
 		if (["b", "j", "t", "th"].indexOf(formerbase) > -1) {
-			if (["ve", "va", "vo"].indexOf(actualbase) > -1) this.voweloffset = shermansBase.scgtable[formerbase].radialPlacement(actualbase);
+			if (["ve", "va", "vo"].indexOf(actualbase) > -1) this.voweloffset = shermansBase.scgtable[formerbase].radialPlacement(null, actualbase);
 			else if (actualbase === formerbase) {
 				this.cresize *= .8;
 				if (former != actual) this.linewidth += 1;
@@ -415,7 +470,11 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		}
 		let lettercenter = letterwidth * .5;
 		let currentbase = shermansBase.getBase(letter);
-		let centerYoffset = shermansBase.scgtable[currentbase].centerYoffset;
+		let center = {
+			x: lettercenter + grouped.consonantcenter.x + grouped.voweloffset.x,
+			y: ((grouped.consonantcenter.y + grouped.voweloffset.y) || shermansBase.scgtable[currentbase].centerYoffset)
+		};
+
 		//draw base
 		if (["punctuation"].indexOf(currentbase) > -1) {
 			if (!thicknumberline) {
@@ -463,25 +522,25 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		}
 		if (["ve", "va", "vo"].indexOf(currentbase) > -1) {
 			if (!grouped.carriagereturn) draw.line(x, y, x + letterwidth, y);
-			draw.circle(x + lettercenter + grouped.consonantcenter.x + grouped.voweloffset.x, y + ((grouped.consonantcenter.y + grouped.voweloffset.y) || centerYoffset), vowel * grouped.vresize);
+			draw.circle(x + center.x, y + center.y, vowel * grouped.vresize);
 		}
 		if (["b"].indexOf(currentbase) > -1) {
 			if (!grouped.carriagereturn) {
 				draw.line(x, y, x + letterwidth * .5 - Math.sin(.5) * consonant, y);
 				draw.line(x + letterwidth * .5 + Math.sin(.5) * consonant, y, x + letterwidth, y);
 			}
-			draw.arc(x + lettercenter, y + centerYoffset, consonant * grouped.cresize, 2 * Math.PI + Math.asin(.9 / grouped.cresize), Math.PI - Math.asin(.9 / grouped.cresize), grouped.linewidth);
+			draw.arc(x + center.x, y + center.y, consonant * grouped.cresize, 2 * Math.PI + Math.asin(.9 / grouped.cresize), Math.PI - Math.asin(.9 / grouped.cresize), grouped.linewidth);
 		}
 		if (["t"].indexOf(currentbase) > -1) {
 			if (!grouped.carriagereturn) {
 				draw.line(x, y, x + lettercenter - consonant, y);
 				draw.line(x + lettercenter + consonant, y, x + letterwidth, y);
 			}
-			draw.arc(x + lettercenter, y + centerYoffset, consonant * grouped.cresize, 0, Math.PI, grouped.linewidth);
+			draw.arc(x + center.x, y + center.y, consonant * grouped.cresize, 0, Math.PI, grouped.linewidth);
 		}
 		if (["j", "th"].indexOf(currentbase) > -1) {
 			if (!grouped.carriagereturn) draw.line(x, y, x + letterwidth, y);
-			draw.circle(x + lettercenter, y + centerYoffset, consonant * grouped.cresize, grouped.linewidth);
+			draw.circle(x + center.x, y + center.y, consonant * grouped.cresize, grouped.linewidth);
 		}
 		if (["number"].indexOf(currentbase) > -1) {
 			if (!grouped.carriagereturn) draw.line(x, y, x + letterwidth, y);
@@ -490,90 +549,41 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		}
 
 		//draw decorators
-		let radian, xy, decorators = shermansDeco(letter);
+		let radian, xy, decorators = shermansDeco.getDeco(letter);
 		if (decorators) {
-			if (decorators.indexOf("1d") > -1) {
-				draw.dot(x + lettercenter, y - vowel * 1.5, vowel * .25);
-			}
-			if (decorators.indexOf("2d") > -1) {
-				draw.dot(x + lettercenter * .7, y - vowel * 1.25, vowel * .25);
-				draw.dot(x + lettercenter * 1.3, y - vowel * 1.25, vowel * .25);
-			}
-			if (decorators.indexOf("3d") > -1) {
-				draw.dot(x + lettercenter * .5, y - vowel, vowel * .25);
-				draw.dot(x + lettercenter, y - vowel * 1.5, vowel * .25);
-				draw.dot(x + lettercenter * 1.5, y - vowel, vowel * .25);
-			}
-			if (decorators.indexOf("4d") > -1) {
-				draw.dot(x + lettercenter * .2, y - vowel, vowel * .25);
-				draw.dot(x + lettercenter * .7, y - vowel * 1.5, vowel * .25);
-				draw.dot(x + lettercenter * 1.3, y - vowel * 1.5, vowel * .25);
-				draw.dot(x + lettercenter * 1.8, y - vowel, vowel * .25);
-			}
-			if (decorators.indexOf("1l") > -1) {
-				radian = Math.PI * .45
-				xy = baseRelatedPosition(shermansBase.getBase(letter), radian);
-				draw.dot(x + lettercenter - xy.x * 1.25, y - consonant + xy.y * 1.25, 4);
-				draw.dot(x + lettercenter - xy.x * 1.25 - Math.cos(radian) * consonant, y - consonant + xy.y * 1.25 - Math.sin(radian) * consonant, 4);
-				draw.line(x + lettercenter + xy.x, y - consonant + xy.y, x + lettercenter + xy.x - Math.cos(radian) * consonant, y - consonant + xy.y + Math.sin(radian) * consonant);
-			}
-			if (decorators.indexOf("2l") > -1) {
-				radian = Math.PI * .30
-				xy = baseRelatedPosition(shermansBase.getBase(letter), radian);
-				draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
-				radian = Math.PI * .20
-				xy = baseRelatedPosition(shermansBase.getBase(letter), radian);
-				draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
-			}
-			if (decorators.indexOf("3l") > -1) {
-				radian = Math.PI * .15
-				xy = baseRelatedPosition(shermansBase.getBase(letter), radian);
-				draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
-				radian = Math.PI * .25
-				xy = baseRelatedPosition(shermansBase.getBase(letter), radian);
-				draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
-				radian = Math.PI * .05
-				xy = baseRelatedPosition(shermansBase.getBase(letter), radian);
-				draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
-			}
-			if (decorators.indexOf("il") > -1) {
-				draw.line(x + lettercenter, y - vowel + grouped.voweloffset.y, x + lettercenter, y - vowel * 3 + grouped.voweloffset.y);
-			}
-			if (decorators.indexOf("ul") > -1) {
-				draw.line(x + lettercenter, y + vowel + grouped.voweloffset.y, x + lettercenter, y + vowel * 3 + grouped.voweloffset.y);
-			}
-			if (decorators.indexOf("d1l") > -1) {
-				radian = Math.PI * .35
-				//draw.line(x + (25 + grouped.voweloffset.x - Math.cos(radian) * 7) * shermansScale, y - (10 - grouped.voweloffset.y - Math.cos(radian) * 5) * shermansScale, x + (25 + grouped.voweloffset.x - Math.cos(radian) * 15) * shermansScale, y - (30 - grouped.voweloffset.y - Math.cos(radian) * 15) * shermansScale);
-			}
-			if (decorators.indexOf("d2l") > -1) {
-				radian = Math.PI * .30
-				//draw.line(x + (25 + grouped.voweloffset.x - xy.x - Math.cos(radian) * 5) * shermansScale, y - (10 - grouped.voweloffset.y - Math.cos(radian) * 5) * shermansScale, x + (25 + grouped.voweloffset.x - Math.cos(radian) * 15) * shermansScale, y - (30 - grouped.voweloffset.y - Math.cos(radian) * 15) * shermansScale);
-				radian = Math.PI * .20
-				//draw.line(x + (25 + grouped.voweloffset.x - Math.cos(radian) * 5) * shermansScale, y - (10 - grouped.voweloffset.y - Math.cos(radian) * 5) * shermansScale, x + (25 + grouped.voweloffset.x - Math.cos(radian) * 15) * shermansScale, y - (30 - grouped.voweloffset.y - Math.cos(radian) * 15) * shermansScale);
-			}
-			if (decorators.indexOf("d3l") > -1) {
-				radian = Math.PI * .15
-				//draw.line(x + (25 + grouped.voweloffset.x - Math.cos(radian) * 5) * shermansScale, y - (10 - grouped.voweloffset.y - Math.cos(radian) * 5) * shermansScale, x + (25 + grouped.voweloffset.x - Math.cos(radian) * 15) * shermansScale, y - (30 - grouped.voweloffset.y - Math.cos(radian) * 15) * shermansScale);
-				radian = Math.PI * .25
-				//draw.line(x + (25 + grouped.voweloffset.x - Math.cos(radian) * 5) * shermansScale, y - (10 - grouped.voweloffset.y - Math.cos(radian) * 5) * shermansScale, x + (25 + grouped.voweloffset.x - Math.cos(radian) * 15) * shermansScale, y - (30 - grouped.voweloffset.y - Math.cos(radian) * 15) * shermansScale);
-				radian = Math.PI * .05
-				//draw.line(x + (25 + grouped.voweloffset.x - Math.cos(radian) * 5) * shermansScale, y - (10 - grouped.voweloffset.y - Math.cos(radian) * 5) * shermansScale, x + (25 + grouped.voweloffset.x - Math.cos(radian) * 15) * shermansScale, y - (30 - grouped.voweloffset.y - Math.cos(radian) * 15) * shermansScale);
-			}
-			if (decorators.indexOf("number") > -1) {
-				shermansGrouped.linewidth = 1;
-				var number = parseInt(letter),
-					rad = .95;
-				for (var n = number; n > 0; n--) {
-					radian = Math.PI * rad
-					xy = baseRelatedPosition(shermansBase.getBase(letter), radian);
-					if (n > 4) {
-						draw.circle(x + (25 + xy.x * .9) * shermansScale, y - (25 + xy.y * .9) * shermansScale, (xy.y - xy.y * .4) * shermansScale);
-						n -= 4;
-					} else draw.line(x + (25 + xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 + xy.x * .8) * shermansScale, y - (25 + xy.y * .8) * shermansScale);
-					rad -= .15;
+			decorators.forEach(deco => {
+				if (deco.indexOf("number") > -1) {
+					shermansGrouped.linewidth = 1;
+					var number = parseInt(letter),
+						rad = .95;
+					for (var n = number; n > 0; n--) {
+						radian = Math.PI * rad
+						xy = baseRelatedPosition(shermansBase.getBase(letter), radian);
+						if (n > 4) {
+							draw.circle(x + (25 + xy.x * .9) * shermansScale, y - (25 + xy.y * .9) * shermansScale, (xy.y - xy.y * .4) * shermansScale);
+							n -= 4;
+						} else draw.line(x + (25 + xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 + xy.x * .8) * shermansScale, y - (25 + xy.y * .8) * shermansScale);
+						rad -= .15;
+					}
+				} else if (["1d", "2d", "3d", "4d"].indexOf(deco) > -1) {
+					shermansDeco.scgtable[deco].radiants.forEach(rad => {
+						let fromto = shermansDeco.scgtable[deco].fromto;
+						draw.dot(
+							x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0]*grouped.cresize,
+							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0]*grouped.cresize,
+							vowel * .25);
+					});
+				} else {
+					shermansDeco.scgtable[deco].radiants.forEach(rad => {
+						let fromto = shermansDeco.scgtable[deco].fromto;
+						draw.line(
+							x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0]*grouped.cresize,
+							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0]*grouped.cresize,
+							x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[1]*grouped.cresize,
+							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[1]*grouped.cresize);
+					});
 				}
-			}
+			});
 		}
 		ctx.beginPath();
 		ctx.fillText(letter, x + lettercenter + grouped.offset * 8, y - letterheight * .5);
