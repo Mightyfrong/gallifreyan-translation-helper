@@ -1,7 +1,17 @@
-import { shermansTranslate } from './shermans.js'
-import { tardisTranslate } from './tardisConsole/translate.js'
-import { doctorsCotTranslate } from './doctorsCot/translate.js'
-import { genKeyboard, consonantTable, vowelTable } from './doctorsCot/setup.js'
+import {
+	shermansTranslate
+} from './shermans.js'
+import {
+	tardisTranslate
+} from './tardisConsole/translate.js'
+import {
+	doctorsCotTranslate
+} from './doctorsCot/translate.js'
+import {
+	genKeyboard,
+	consonantTable,
+	vowelTable
+} from './doctorsCot/setup.js'
 
 // Initialise event handlers and language-specific form controls
 const langSelect = document.getElementById('language');
@@ -16,7 +26,7 @@ const ipaVowels = document.getElementById('ipa-vowels');
 genKeyboard(ipaConsons, consonantTable);
 genKeyboard(ipaVowels, vowelTable);
 
-function activateControls(lang){
+function activateControls(lang) {
 	switch (lang) {
 		case "shermans":
 			shermansOpts.classList.add('active');
@@ -30,7 +40,7 @@ function activateControls(lang){
 langSelect.addEventListener('input', event => {
 	// First hide all controls
 	[...langControls.getElementsByClassName('active')]
-		.forEach(elem => elem.classList.remove('active'));
+	.forEach(elem => elem.classList.remove('active'));
 
 	// Then display selected ones
 	activateControls(event.target.value)
@@ -62,10 +72,30 @@ if (canvas.getContext) {
 	document.forms[0].onsubmit = (event) => {
 		ctx.resetTransform();
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-	
 		translate(ctx);
 		event.preventDefault();
 	};
+}
+
+//useful multipurpose functions
+Array.prototype.Contains = function (values) {
+	if (Array.isArray(values)){
+		for (let i = 0; i < values.length - 1; i++) {
+			if (Boolean(this.indexOf(values[i]) + 1)) return true;
+		}
+	}
+	else if (Boolean(this.indexOf(values) + 1)) return true;
+	return false;
+}
+
+String.prototype.Contains = function (values) {
+	if (Array.isArray(values)){
+		for (let i = 0; i < values.length - 1; i++) {
+			if (Boolean(this.indexOf(values[i]) + 1)) return true;
+		}
+	}
+	else if (Boolean(this.indexOf(values) + 1)) return true;
+	return false;
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR

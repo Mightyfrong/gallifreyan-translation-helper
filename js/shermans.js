@@ -153,7 +153,7 @@ let shermansBase = {
 	getBase: function (char) {
 		let rtrn = false;
 		Object.keys(this.scgtable).forEach(row => {
-			if (this.scgtable[row].contains.indexOf(char) > -1) rtrn = row;
+			if (this.scgtable[row].contains.Contains(char)) rtrn = row;
 		});
 		return rtrn;
 	}
@@ -252,7 +252,7 @@ let shermansDeco = {
 	getDeco: function (char) {
 		let rtrn = [];
 		Object.keys(this.scgtable).forEach(row => {
-			if (this.scgtable[row].contains.indexOf(char) > -1) rtrn.push(row);
+			if (this.scgtable[row].contains.Contains(char)) rtrn.push(row);
 		});
 		return (!rtrn.length || (rtrn.length == 1 && rtrn[0] == "null")) ? false : rtrn;
 	}
@@ -303,9 +303,9 @@ export function shermansTranslate(ctx, input) {
 				shermansGrouped.resetOffset(lastStackedConsonantIndex);
 				//iterate through characters
 				for (var l = 0; l < group.length; l++) {
-					var thicknumberline = /*is number group */ Boolean("1234567890".indexOf(group[0]) + 1) && (
-						( /*is comma*/ ",.".indexOf(group[l]) > -1) ||
-						( /*is last digit without comma*/ l == group.length - 1 && (group.indexOf(",") < 0 && group.indexOf(".") < 0))
+					var thicknumberline = /*is number group */ "1234567890".Contains(group[0]) && (
+						 /*is comma*/ ",.".Contains(group[l]) ||
+						( /*is last digit without comma*/ l == group.length - 1 && !group.Contains([",","."]))
 					);
 
 					if (l > 0) shermansGrouped.setOffset(group[l - 1], group[l]);
@@ -337,7 +337,7 @@ function replacements(word) {
 	for (var i = 0; i < word.length; i++) { //iterate through word 
 		if (word[i] == "c" && document.getElementById('scgc').checked) {
 			if (word[i + 1] == "k") continue; //omit ck
-			else if (["e", "i", "y"].indexOf(word[i + 1]) > -1) cword += "s";
+			else if (["e", "i", "y"].Contains(word[i + 1])) cword += "s";
 			else cword += "k"; //end of the word
 		} else if (word[i] == "ß") cword += "ss";
 		else cword += word[i];
@@ -365,7 +365,7 @@ let shermansGrouped = {
 				var current = sword[i],
 					currenttwo = sword[i] + sword[i + 1];
 				//add double latin characters to group
-				if (["th", "gh", "ng", "qu", "wh", "sh", "ph", "ch"].indexOf(currenttwo) > -1) {
+				if (["th", "gh", "ng", "qu", "wh", "sh", "ph", "ch"].Contains(currenttwo)) {
 					current = currenttwo;
 					i++;
 				}
@@ -373,9 +373,9 @@ let shermansGrouped = {
 				if (document.getElementById('scgg').checked && group.length > 0) {
 					var former = group[group.length - 1][group[group.length - 1].length - 1];
 					if (
-						( /*vowels */ ["ve", "va", "vo"].indexOf(shermansBase.getBase(current)) > -1 && (["ve", "va", "vo", "number"].indexOf(shermansBase.getBase(former)) < 0 || shermansBase.getBase(current) == shermansBase.getBase(former))) ||
-						( /*same base consonant*/ [false, "punctuation", "ve", "va", "vo", "number"].indexOf(shermansBase.getBase(current)) < 0 && group[group.length - 1].length > 0 && shermansBase.getBase(current) == shermansBase.getBase(former)) ||
-						( /*numbers, data is of string type here*/ "-1234567890,.".indexOf(current) > -1 && group[group.length - 1].length > 0 && "-1234567890,.".indexOf(former) > -1)
+						( /*vowels */ ["ve", "va", "vo"].Contains(shermansBase.getBase(current)) && (!["ve", "va", "vo", "number"].Contains(shermansBase.getBase(former)) || shermansBase.getBase(current) == shermansBase.getBase(former))) ||
+						( /*same base consonant*/ ![false, "punctuation", "ve", "va", "vo", "number"].Contains(shermansBase.getBase(current)) && group[group.length - 1].length > 0 && shermansBase.getBase(current) == shermansBase.getBase(former)) ||
+						( /*numbers, data is of string type here*/ "-1234567890,.".Contains(current) && group[group.length - 1].length > 0 && "-1234567890,.".Contains(former))
 					)
 						group[group.length - 1].push(current)
 					else
@@ -384,8 +384,8 @@ let shermansGrouped = {
 					group.push([current]);
 			}
 			//add control characters to the number group
-			if (Boolean("1234567890".indexOf(group[group.length - 1][0]) + 1)) group[group.length - 1].push("/");
-			if (group[group.length - 1][0]==="-" && Boolean("1234567890".indexOf(group[group.length - 1][1]) + 1)) {
+			if ("1234567890".Contains(group[group.length - 1][0])) group[group.length - 1].push("/");
+			if (group[group.length - 1][0]==="-" && "1234567890".Contains(group[group.length - 1][1])) {
 				group[group.length - 1].shift();
 				group[group.length - 1][group[group.length - 1].length]=("\\");}
 
@@ -414,15 +414,15 @@ let shermansGrouped = {
 		this.carriagereturn = true;
 		let actualbase = shermansBase.getBase(actual)
 		let formerbase = shermansBase.getBase(former)
-		if (["b", "j", "t", "th"].indexOf(formerbase) > -1) {
+		if (["b", "j", "t", "th"].Contains(formerbase)) {
 			this.consonantcenter.x = 0;
 			this.consonantcenter.y = shermansBase.scgtable[formerbase].centerYoffset;
-			if (["ve", "va", "vo"].indexOf(actualbase) > -1) this.voweloffset = shermansBase.scgtable[formerbase].radialPlacement(Math.PI * .25, actualbase);
+			if (["ve", "va", "vo"].Contains(actualbase)) this.voweloffset = shermansBase.scgtable[formerbase].radialPlacement(Math.PI * .25, actualbase);
 			else if (actualbase === formerbase) {
 				this.cresize *= .8;
 				if (former != actual) this.linewidth += 1;
 			}
-		} else if (["number"].indexOf(formerbase) > -1) {
+		} else if (["number"].Contains(formerbase)) {
 			this.cresize *= .8;
 		} else
 		/*vovel*/
@@ -504,7 +504,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		};
 
 		//draw base
-		if (["punctuation"].indexOf(currentbase) > -1) {
+		if (["punctuation"].Contains(currentbase)) {
 			if (!thicknumberline) {
 				let sentenceline = shermansBase.scgtable.punctuation.centerYoffset;
 				draw.line(x, y, x + letterwidth, y);
@@ -549,29 +549,29 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 				shermansGrouped.linewidth = 2;
 			}
 		}
-		if (["ve", "va", "vo"].indexOf(currentbase) > -1) {
+		if (["ve", "va", "vo"].Contains(currentbase)) {
 			if (!grouped.carriagereturn) draw.line(x, y, x + letterwidth, y);
 			draw.circle(x + center.x, y + center.y, vowel * grouped.vresize);
 		}
-		if (["b"].indexOf(currentbase) > -1) {
+		if (["b"].Contains(currentbase)) {
 			if (!grouped.carriagereturn) {
 				draw.line(x, y, x + letterwidth * .5 - Math.sin(.5) * consonant, y);
 				draw.line(x + letterwidth * .5 + Math.sin(.5) * consonant, y, x + letterwidth, y);
 			}
 			draw.arc(x + center.x, y + center.y, consonant * grouped.cresize, 2 * Math.PI + Math.asin(.9 / grouped.cresize), Math.PI - Math.asin(.9 / grouped.cresize), grouped.linewidth);
 		}
-		if (["t"].indexOf(currentbase) > -1) {
+		if (["t"].Contains(currentbase)) {
 			if (!grouped.carriagereturn) {
 				draw.line(x, y, x + lettercenter - consonant, y);
 				draw.line(x + lettercenter + consonant, y, x + letterwidth, y);
 			}
 			draw.arc(x + center.x, y + center.y, consonant * grouped.cresize, 0, Math.PI, grouped.linewidth);
 		}
-		if (["j", "th"].indexOf(currentbase) > -1) {
+		if (["j", "th"].Contains(currentbase)) {
 			if (!grouped.carriagereturn) draw.line(x, y, x + letterwidth, y);
 			draw.circle(x + center.x, y + center.y, consonant * grouped.cresize, grouped.linewidth);
 		}
-		if (["number"].indexOf(currentbase) > -1) {
+		if (["number"].Contains(currentbase)) {
 			if (!grouped.carriagereturn) draw.line(x, y, x + letterwidth, y);
 			if (thicknumberline) shermansGrouped.linewidth = 2;
 			draw.circle(x + center.x, y + center.y, consonant * grouped.cresize, grouped.linewidth);
@@ -581,7 +581,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		let decorators = shermansDeco.getDeco(letter);
 		if (decorators) {
 			decorators.forEach(deco => {
-				if (["number"].indexOf(deco) > -1) {
+				if (["number"].Contains(deco)) {
 					shermansGrouped.linewidth = 1;
 					var number = parseInt(letter),
 						rad = .95;
@@ -599,7 +599,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 							y + center.y + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).y * grouped.cresize * .8);
 						rad -= .15;
 					}
-				} else if (["1d", "2d", "3d", "4d"].indexOf(deco) > -1) {
+				} else if (["1d", "2d", "3d", "4d"].Contains(deco)) {
 					shermansDeco.scgtable[deco].radiants.forEach(rad => {
 						let fromto = shermansDeco.scgtable[deco].fromto;
 						draw.dot(
@@ -607,7 +607,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * grouped.cresize,
 							vowel * .25);
 					});
-				} else if (["2ndvowel"].indexOf(deco) > -1) {
+				} else if (["2ndvowel"].Contains(deco)) {
 					shermansDeco.scgtable[deco].radiants.forEach(rad => {
 						let fromto = shermansDeco.scgtable[deco].fromto;
 						draw.circle(
@@ -615,7 +615,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * grouped.cresize,
 							vowel);
 					});
-				} else if (["divot"].indexOf(deco) > -1) {
+				} else if (["divot"].Contains(deco)) {
 					shermansDeco.scgtable[deco].radiants.forEach(rad => {
 						let fromto = shermansDeco.scgtable[deco].fromto;
 						draw.arc(
@@ -646,7 +646,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		}
 		ctx.beginPath();
 		//print character unless it's a (numeral) control character
-		if (["/", "\\"].indexOf(letter) < 0) ctx.fillText(letter, x + lettercenter + grouped.offset * 8, y - letterheight * .5);
+		if (!["/", "\\"].Contains(letter)) ctx.fillText(letter, x + lettercenter + grouped.offset * 8, y - letterheight * .5);
 	}
 }
 
