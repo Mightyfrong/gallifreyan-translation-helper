@@ -15,36 +15,58 @@ Designed as a pattern memory aid, this translator draws each character either as
 
 One can optionally toggle whether C is transcribed to K/S in the language controls.
 
-Numbers are a bit flawed as individual glyphs and currently don't support negative numbers. To keep things easier within the algorithm a zero is added to each number by default, so don't wonder about the top translation. numbers only make sense with grouping enabled.
+Numbers are a bit flawed as individual glyphs and currently don't support negative numbers. To keep things easier within the algorithm a zero is added to each number by default, so don't wonder about the top translation. Numbers only make sense with grouping enabled.
 
 ### Recurring Variables Within Global Scope
 * cLetter: false by default, true if detected. if true a warning is displayed and drawings are red.
 * qLetter: false by default, true if detected. if true a warning is displayed and drawings are red.
-* shermansScale: initial factor to resize within the viewport. multiplies the absolute units.
+* consonant: initial radius for consonants
+* vowel: initial radius for vowels
 
 ### Construction Dictionaries
-Sherman's follows a quite easy pattern consisting of big and small circles, arcs, dots and lines all arranged in a clear fashion following plain rules. Like in the original guidance table consonants are grouped to their respective base (b,j,t,th), also vowels with base e (for e,i,u), a and o, punctuation and numbers. Same goes for the decorators. This serves to identify the base plus decorator for the characters to combine and handle the correct drawing instructions. shermansBase() and shermansDeco() are functions with the built-in dictionaries and loops to return the correct base or decorators.
+Sherman's follows a quite easy pattern consisting of big and small circles, arcs, dots and lines all arranged in a clear fashion following plain rules. Like in the original guidance table consonants are grouped to their respective base (b,j,t,th), also vowels with base e (for e,i,u), a and o, punctuation and numbers.
+On stacking characters every base has its own center and positioning of elements to its arc, relative to the base center, therefore every base has its specific properties and methods to return the specific relative placements.
+To determine the characters base the **shermansBase**-Object has a method to return the correct base.
+
+The decorator object **shermansDeco** has a comparable pattern. It returns an array of decorators (e.g. diacritics and u-line for ü). Decorators can be sets of multiple radiants to be processed and given relative positions or ranges of relative diameters of the parent character circle/arc.
 
 ```js
-function shermansBase(char) {
-	let scgtable = {
-		"punctuation": [".", "?", "!", "\"", "'", "-", ",", ";", ":"],
-		....
-		"th": ["th", "gh", "y", "z", "q", "qu", "x", "ng"]
-	};
-	let rtrn = false;
-	Object.keys(scgtable).forEach(row => {
-		if (scgtable[row].indexOf(char) > -1) rtrn = row;
-	});
-	return rtrn;
-};
+let shermansBase = {
+	scgtable: {
+		punctuation: {
+			contains: [".", "?", "!", "\"", "'", "-", ",", ";", ":"],
+			centerYoffset: consonant * 1.25
+		},
+		/*...*/
+		th: {
+			contains: ["th", "gh", "y", "z", "q", "qu", "x", "ng"],
+			centerYoffset: 0,
+			radialPlacement: function (radiant = Math.PI * .25, item = "vo") {
+				let options = {
+					ve: { x: 0,	y: 0 },
+					va: { x: 0,	y: vowel * 1.75	},
+					vo: {
+						x: consonant * Math.cos(radiant),
+						y: -consonant * Math.sin(radiant)
+					}
+				}
+				if (!(item in options)) item = "vo";
+				return options[item];
+			}
+		}
+	},
+	getBase: function (char) {
+		let rtrn = false;
+		Object.keys(this.scgtable).forEach(row => {
+			if (this.scgtable[row].contains.indexOf(char) > -1) rtrn = row;
+		});
+		return rtrn;
+	}
+}
 ```
 
-### Replacements
-**replacements(word)** returns the full word after converting c to k or s depending on position, following vowel, or reduced ck, if selected. Always replaces ß with ss.
-
 ### Translation
-**shermansTranslate(ctx, input)** is the main wrapper for the algorithm and is passed the canvas object and the actual input. It sets up the initial coordinates for the words baseline, initiates the [general draw object](#General-Drawing), sets up an [array of characters](#Grouping) and sets the canvas size according to the number of (grouped) characters.
+**shermansTranslate(ctx, input)** is the main wrapper for the algorithm and is passed the canvas object and the actual input. It sets up the initial coordinates for the words baseline, initiates the [general draw object](#Multipurpose-Drawing), sets up an [array of characters](#Grouping) and sets the canvas size according to the number of (grouped) characters.
 
 Then the array of characters is processed for each word and each group of characters.
 Grouping of characters makes resizing of the base necessary. The index for the last consonant of the group is determined and used as a resizing factor.
@@ -52,6 +74,9 @@ In case of numbers a bigger line thickness indicates the end of the number or th
 The positioning offsets for drawing of the current character in relation to the former is set and the [character is drawn](#Character-Drawing).
 
 Sherman's takes the phonetical [k or s instead of c](#C-Handling). C and single q are "allowed" in names only so there is a reminder thrown if these characters are detected.
+
+### Replacements
+**replacements(word)** returns the full word after converting c to k or s depending on position, following vowel, or reduced ck, if selected. Always replaces ß with ss.
 
 ### Grouping
 **shermansGrouped.groups(input)** returns a multidimensional array of grouped characters. It initiates the sentence array and loops through the whitespace-splitted input.
@@ -72,35 +97,11 @@ The group is then pushed to the last word.
 
 **shermansGrouped.resetOffset(lastStackedConsonantIndex)** resets all positioning offsets and resizing factors. The lastStackedConsonantIndex sets the initial resizing factor for the first drawn consonant. stacked consonants are bigger and following shrink down to default size.
 
-**shermansGrouped.setOffset(former, actual)** sets the resizing, linewidth and positioning offsets. the example for base b sets
-* no offset for a
-* [special offset for o](#Base-Related-Position)
-* consonant resize factor and line width for same base consonants
-* y-offset for e,i,u
-```js
-if (shermansBase(former) == "b") {
-	if (actual == "a") {} else if (actual == "o") this.voweloffset = baseRelatedPosition("b");
-	else if (shermansBase(actual) == "b") {
-		this.cresize *= .8;
-		if (former != actual) this.linewidth += 1;
-	} else /*eiu*/ {
-		this.voweloffset.y = -22;
-	}
-}
-```
+**shermansGrouped.setOffset(former, actual)** sets the resizing, linewidth and positioning offsets fetching the respective values for offsets from the methods and properties of the parent base.
+
 It also sets the carriage return to true to have the characters drawn at the same x-position on the canvas.
 
-### Base Related Position
-For line-decorators and grouped o-vowels correct placing on the circles and arcs is essential. **baseRelatedPosition(base, radian)** returns x and y offsets for the respective base and given radian, taking the current resizing into account.
-```js
-switch (base) {
-	case "b":
-		return {
-			"x": 20 * shermansGrouped.cresize * Math.cos(radian), "y": 20 * shermansGrouped.cresize * Math.sin(radian)
-		};
-```
-
-### General Drawing
+### Multipurpose Drawing
 The **draw-object** serves methods to reuse the plain geometric shapes in context of canvas drawing. The respective shape is called with the necessary coordinates, radii and line widths while beginPaths and moveTos, strokes and fills are set up once instead of repetitively for every character setup.
 The object is set up in advance to handle the canvas object as well as the default lineWidth (if applicable). Afterwards any geometric shape can be easily placed.
 ```js
@@ -120,7 +121,7 @@ dot: function (x, y, r) {
 **shermansDraw(ctx, letter, grouped, thicknumberline)** actually draws a character to the canvas. X and y coordiantes are set. If not grouped the x-"pointer" is set to the next characters position, if the end of the viewport is reached the next line is set. Stroke- and fill-styles are set.
 
 Actual drawing instructions start with the decision about the base.
-If its punctuation the words base line and sentences base line is drawn and the instructions for the actual letter are processed eg...
+If it is punctuation the words base line and sentences base line is drawn and the instructions for the actual letter are processed eg...
 ```js
 case "?": /*base "punctuation"*/
 	draw.dot(x + 17.5 * shermansScale, y + 15 * shermansScale, 5 * shermansScale);
@@ -129,26 +130,28 @@ case "?": /*base "punctuation"*/
 ```
 ...unless [thicknumberline](#Translation) is set. Then the current "," is supposed to be the decimal sign that is of course not to be displayed as an actual "," but a thick line within the number-group.
 
-Vowels have the base line drawn unless they are grouped. Then follow the drawing instructions:
+Vowels and consonants have the base line drawn unless they are grouped. Then follow the drawing instructions for the base/body of the character:
 ```js
-case "a": /*base "vowel"*/
-	draw.circle(x + (25 + grouped.voweloffset.x) * shermansScale, y + (25 + grouped.voweloffset.y) * shermansScale, 10 * shermansScale * grouped.vresize);
-	break;
+if (["ve", "va", "vo"].indexOf(currentbase) > -1) {
+	if (!grouped.carriagereturn) draw.line(x, y, x + letterwidth, y);
+	draw.circle(x + center.x, y + center.y, vowel * grouped.vresize);
+}
 ```
 ...and so on.
 
-Next are the decorators, that follow a similar pattern:
+Next are the decorators, that iterate through the list of decorators for the current character, iterate through the deocrators radiants and apply the drawing instruction considering the relative positioning to the center of the bases body and bases radius:
 ```js
-switch (shermansDeco(letter)) {
-	case "2d": /*two dots like k or y*/
-		draw.dot(x + 18 * shermansScale, y - 13 * shermansScale, 2 * shermansScale);
-		draw.dot(x + 32 * shermansScale, y - 13 * shermansScale, 2 * shermansScale);
-		break;
-	case "1l": /*one line like g or n*/
-		radian = Math.PI * .35
-		xy = baseRelatedPosition(shermansBase(letter), radian);
-		draw.line(x + (25 - xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 - xy.x - Math.cos(radian) * 20) * shermansScale, y - (25 + xy.y + Math.sin(radian) * 20) * shermansScale);
-		break;
+	decorators.forEach(deco => {
+		/*e.g. line decorators*/
+		shermansDeco.scgtable[deco].radiants.forEach(rad => {
+			let fromto = shermansDeco.scgtable[deco].fromto;
+			draw.line(
+				x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * grouped.cresize,
+				y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * grouped.cresize,
+				x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[1] * grouped.cresize,
+				y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[1] * grouped.cresize);
+		});
+}
 ```
 Numbers are processed here as well. Small circles for 5, lines for everything else.
 
