@@ -1,10 +1,14 @@
 let cLetter; //is there a "c"?
 let qLetter; //is there a "q"?
-let shermansScale = 1.5 //scale of letters
 let consonant = 30; //radius of consonants
 let vowel = 15; // radius of vowels
 let width;
 let height;
+//    _                                 _ ___ _         _   _
+//   | |_ ___ ___ ___   ___ ___ ___ ___|_|  _|_|___ ___| |_|_|___ ___ ___
+//   | . | .'|_ -| -_| |_ -| . | -_|  _| |  _| |  _| .'|  _| | . |   |_ -|
+//   |___|__,|___|___| |___|  _|___|___|_|_| |_|___|__,|_| |_|___|_|_|___|
+//                         |_|
 //specify base for every letter, assign base to latin characters and specify geometric properties
 let shermansBase = {
 	scgtable: {
@@ -15,8 +19,7 @@ let shermansBase = {
 		number: {
 			contains: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
 			centerYoffset: -consonant * 1.25,
-			radialPlacement: function (radiant) {
-				if (radiant === undefined) radiant = Math.PI * .25
+			radialPlacement: function (radiant = Math.PI * .25) {
 				return {
 					x: consonant * Math.cos(radiant),
 					y: -consonant * Math.sin(radiant)
@@ -26,8 +29,7 @@ let shermansBase = {
 		ve: {
 			contains: ["e", "é", "è", "i", "í", "ì", "u", "ü", "ú", "ù"],
 			centerYoffset: 0,
-			radialPlacement: function (radiant) {
-				if (radiant === undefined) radiant = Math.PI * .25
+			radialPlacement: function (radiant = Math.PI * .25) {
 				return {
 					x: vowel * Math.cos(radiant),
 					y: -vowel * Math.sin(radiant)
@@ -37,8 +39,7 @@ let shermansBase = {
 		va: {
 			contains: ["a", "ä", "á", "à"],
 			centerYoffset: vowel * 1.75,
-			radialPlacement: function (radiant) {
-				if (radiant === undefined) radiant = Math.PI * .25
+			radialPlacement: function (radiant = Math.PI * .25) {
 				return {
 					x: vowel * Math.cos(radiant),
 					y: -vowel * Math.sin(radiant)
@@ -48,8 +49,7 @@ let shermansBase = {
 		vo: {
 			contains: ["o", "ö", "ó", "ò"],
 			centerYoffset: -vowel * 1.75,
-			radialPlacement: function (radiant) {
-				if (radiant === undefined) radiant = Math.PI * .25
+			radialPlacement: function (radiant = Math.PI * .25) {
 				return {
 					x: vowel * Math.cos(radiant),
 					y: -vowel * Math.sin(radiant)
@@ -59,8 +59,7 @@ let shermansBase = {
 		b: {
 			contains: ["b", "ch", "d", "g", "h", "f"],
 			centerYoffset: -consonant * .9,
-			radialPlacement: function (radiant, item) {
-				if (radiant === undefined) radiant = Math.PI * .25
+			radialPlacement: function (radiant = Math.PI * .25, item = "vo") {
 				let options = {
 					ve: {
 						x: 0,
@@ -82,8 +81,7 @@ let shermansBase = {
 		j: {
 			contains: ["j", "ph", "k", "l", "c", "n", "p", "m"],
 			centerYoffset: -consonant * 1.25,
-			radialPlacement: function (radiant, item) {
-				if (radiant === undefined) radiant = Math.PI * .25
+			radialPlacement: function (radiant = Math.PI * .25, item = "vo") {
 				let options = {
 					ve: {
 						x: 0,
@@ -105,8 +103,7 @@ let shermansBase = {
 		t: {
 			contains: ["t", "wh", "sh", "r", "v", "w", "s"],
 			centerYoffset: 0,
-			radialPlacement: function (radiant, item) {
-				if (radiant === undefined) radiant = Math.PI * .25
+			radialPlacement: function (radiant = Math.PI * .25, item = "vo") {
 				let options = {
 					ve: {
 						x: 0,
@@ -128,8 +125,7 @@ let shermansBase = {
 		th: {
 			contains: ["th", "gh", "y", "z", "q", "qu", "x", "ng"],
 			centerYoffset: 0,
-			radialPlacement: function (radiant, item) {
-				if (radiant === undefined) radiant = Math.PI * .25
+			radialPlacement: function (radiant = Math.PI * .25, item = "vo") {
 				let options = {
 					ve: {
 						x: 0,
@@ -158,6 +154,11 @@ let shermansBase = {
 	}
 }
 
+//      _                     _                             _ ___ _         _   _
+//    _| |___ ___ ___ ___ ___| |_ ___ ___   ___ ___ ___ ___|_|  _|_|___ ___| |_|_|___ ___ ___
+//   | . | -_|  _| . |  _| .'|  _| . |  _| |_ -| . | -_|  _| |  _| |  _| .'|  _| | . |   |_ -|
+//   |___|___|___|___|_| |__,|_| |___|_|   |___|  _|___|___|_|_| |_|___|__,|_| |_|___|_|_|___|
+//                                             |_|
 //specify decoration for every letter
 let shermansDeco = {
 	scgtable: {
@@ -237,8 +238,11 @@ let shermansDeco = {
 	}
 }
 
-
-//replacements
+//                _                           _
+//    ___ ___ ___| |___ ___ ___ _____ ___ ___| |_ ___
+//   |  _| -_| . | | .'|  _| -_|     | -_|   |  _|_ -|
+//   |_| |___|  _|_|__,|___|___|_|_|_|___|_|_|_| |___|
+//           |_|
 function replacements(word) {
 	var cword = "";
 	for (var i = 0; i < word.length; i++) { //iterate through word 
@@ -256,6 +260,11 @@ let x; //draw coordinate x
 let y; //draw coordinate y
 let letterwidth;
 let letterheight;
+
+//    _                   _     _   _
+//   | |_ ___ ___ ___ ___| |___| |_|_|___ ___
+//   |  _|  _| .'|   |_ -| | .'|  _| | . |   |
+//   |_| |_| |__,|_|_|___|_|__,|_| |_|___|_|_|
 //scroll through input and draw every letter
 export function shermansTranslate(ctx, input) {
 	letterwidth = consonant * 2.5
@@ -318,6 +327,11 @@ export function shermansTranslate(ctx, input) {
 	document.getElementById("output").innerHTML = output;
 }
 
+//                        _
+//    ___ ___ ___ _ _ ___|_|___ ___
+//   | . |  _| . | | | . | |   | . |
+//   |_  |_| |___|___|  _|_|_|_|_  |
+//   |___|           |_|       |___|
 //set rules for grouping
 let shermansGrouped = {
 	groups: function (input) {
@@ -396,6 +410,11 @@ let shermansGrouped = {
 	}
 }
 
+//              _ _   _                                 _               _
+//    _____ _ _| | |_|_|___ _ _ ___ ___ ___ ___ ___   _| |___ ___ _ _ _|_|___ ___
+//   |     | | | |  _| | . | | |  _| . | . |_ -| -_| | . |  _| .'| | | | |   | . |
+//   |_|_|_|___|_|_| |_|  _|___|_| |  _|___|___|___| |___|_| |__,|_____|_|_|_|_  |
+//                     |_|         |_|                                       |___|
 let draw = {
 	init: function (ctx, linewidth) {
 		this.ctx = ctx;
@@ -430,6 +449,11 @@ let draw = {
 	}
 };
 
+//                    _ ___ _         _               _
+//    ___ ___ ___ ___|_|  _|_|___   _| |___ ___ _ _ _|_|___ ___
+//   |_ -| . | -_|  _| |  _| |  _| | . |  _| .'| | | | |   | . |
+//   |___|  _|___|___|_|_| |_|___| |___|_| |__,|_____|_|_|_|_  |
+//       |_|                                               |___|
 //draw instructions for base + decoration
 function shermansDraw(ctx, letter, grouped, thicknumberline) {
 	if (!grouped.carriagereturn) {
