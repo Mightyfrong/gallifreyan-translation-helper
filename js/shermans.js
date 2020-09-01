@@ -14,7 +14,14 @@ let shermansBase = {
 		},
 		number: {
 			contains: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
-			centerYoffset: 0
+			centerYoffset: -consonant * 1.25,
+			radialPlacement: function (radiant) {
+				if (radiant === undefined) radiant = Math.PI * .25
+				return {
+					x: consonant * Math.cos(radiant),
+					y: -consonant * Math.sin(radiant)
+				}
+			}
 		},
 		ve: {
 			contains: ["e", "é", "è", "i", "í", "ì", "u", "ü", "ú", "ù"],
@@ -202,22 +209,22 @@ let shermansDeco = {
 		},
 		"1d": {
 			contains: ["ph", "wh", "gh"],
-			radiants: [2],
+			radiants: [.5],
 			fromto: [1]
 		},
 		"2d": {
 			contains: ["ch", "k", "sh", "y"],
-			radiants: [2, 1.9],
+			radiants: [.55, .45],
 			fromto: [1]
 		},
 		"3d": {
 			contains: ["d", "l", "r", "z"],
-			radiants: [2, 1.9, 1.8],
+			radiants: [.6, .5, .4],
 			fromto: [1]
 		},
 		"4d": {
 			contains: ["c", "q"],
-			radiants: [2, 1.9, 1.8,1.7],
+			radiants: [.65, .55, .45, .35],
 			fromto: [1]
 		},
 	},
@@ -374,43 +381,18 @@ let shermansGrouped = {
 		if (["b", "j", "t", "th"].indexOf(formerbase) > -1) {
 			this.consonantcenter.x = 0;
 			this.consonantcenter.y = shermansBase.scgtable[formerbase].centerYoffset;
-		}
-		if (["b", "j", "t", "th"].indexOf(formerbase) > -1) {
-			if (["ve", "va", "vo"].indexOf(actualbase) > -1) this.voweloffset = shermansBase.scgtable[formerbase].radialPlacement(null, actualbase);
+			if (["ve", "va", "vo"].indexOf(actualbase) > -1) this.voweloffset = shermansBase.scgtable[formerbase].radialPlacement(Math.PI * .25, actualbase);
 			else if (actualbase === formerbase) {
 				this.cresize *= .8;
 				if (former != actual) this.linewidth += 1;
 			}
-		} else /*number and vovel*/ {
+		} else if (["number"].indexOf(formerbase) > -1) {
+			this.cresize *= .8;
+		} else
+		/*vovel*/
+		{
 			this.vresize *= .8;
 		}
-	}
-}
-
-//get relative x,y positions for line decorators depending on base
-function baseRelatedPosition(base, radian) {
-	if (radian === undefined) radian = Math.PI * .25;
-	switch (base) {
-		case "b":
-			return {
-				"x": consonant * shermansGrouped.cresize * Math.cos(radian), "y": consonant * shermansGrouped.cresize * Math.sin(radian) - consonant * 1.45
-			};
-		case "j":
-			return {
-				"x": consonant * shermansGrouped.cresize * Math.cos(radian), "y": consonant * shermansGrouped.cresize * Math.sin(radian) - consonant * 1.75
-			};
-		case "t":
-			return {
-				"x": consonant * shermansGrouped.cresize * Math.cos(radian), "y": consonant * shermansGrouped.cresize * Math.sin(radian) - consonant * .7
-			};
-		case "th":
-			return {
-				"x": consonant * shermansGrouped.cresize * Math.cos(radian), "y": consonant * shermansGrouped.cresize * Math.sin(radian) - consonant * .7
-			};
-		case "number":
-			return {
-				"x": consonant * shermansGrouped.cresize * Math.cos(radian), "y": consonant * shermansGrouped.cresize * Math.sin(radian)
-			};
 	}
 }
 
@@ -478,42 +460,43 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		//draw base
 		if (["punctuation"].indexOf(currentbase) > -1) {
 			if (!thicknumberline) {
+				let sentenceline = shermansBase.scgtable.punctuation.centerYoffset;
 				draw.line(x, y, x + letterwidth, y);
-				draw.line(x, y + centerYoffset, x + letterwidth, y + centerYoffset);
+				draw.line(x, y + sentenceline, x + letterwidth, y + sentenceline);
 				switch (letter) {
 					case ".":
-						draw.circle(x + lettercenter, y + centerYoffset, vowel);
+						draw.circle(x + lettercenter, y + sentenceline, vowel);
 						break;
 					case "?":
-						draw.dot(x + lettercenter * .7, y + centerYoffset * .8, vowel * .5);
-						draw.dot(x + lettercenter * 1.3, y + centerYoffset * .8, vowel * .5);
+						draw.dot(x + lettercenter * .7, y + sentenceline * .8, vowel * .5);
+						draw.dot(x + lettercenter * 1.3, y + sentenceline * .8, vowel * .5);
 						break;
 					case "!":
-						draw.dot(x + lettercenter * .4, y + centerYoffset * .8, vowel * .5);
-						draw.dot(x + lettercenter, y + centerYoffset * .8, vowel * .5);
-						draw.dot(x + lettercenter * 1.6, y + centerYoffset * .8, vowel * .5);
+						draw.dot(x + lettercenter * .4, y + sentenceline * .8, vowel * .5);
+						draw.dot(x + lettercenter, y + sentenceline * .8, vowel * .5);
+						draw.dot(x + lettercenter * 1.6, y + sentenceline * .8, vowel * .5);
 						break;
 					case "\"":
-						draw.line(x + lettercenter, y + centerYoffset, x + lettercenter, y + centerYoffset * .8);
+						draw.line(x + lettercenter, y + sentenceline, x + lettercenter, y + sentenceline * .8);
 						break;
 					case "'":
-						draw.line(x + lettercenter * .8, y + centerYoffset, x + lettercenter * .8, y + centerYoffset * .8);
-						draw.line(x + lettercenter * 1.2, y + centerYoffset, x + lettercenter * 1.2, y + centerYoffset * .8);
+						draw.line(x + lettercenter * .8, y + sentenceline, x + lettercenter * .8, y + sentenceline * .8);
+						draw.line(x + lettercenter * 1.2, y + sentenceline, x + lettercenter * 1.2, y + sentenceline * .8);
 						break;
 					case "-":
-						draw.line(x + lettercenter * .6, y + centerYoffset, x + lettercenter * .6, y + centerYoffset * .8);
-						draw.line(x + lettercenter, y + centerYoffset, x + lettercenter, y + centerYoffset * .8);
-						draw.line(x + lettercenter * 1.4, y + centerYoffset, x + lettercenter * 1.4, y + centerYoffset * .8);
+						draw.line(x + lettercenter * .6, y + sentenceline, x + lettercenter * .6, y + sentenceline * .8);
+						draw.line(x + lettercenter, y + sentenceline, x + lettercenter, y + sentenceline * .8);
+						draw.line(x + lettercenter * 1.4, y + sentenceline, x + lettercenter * 1.4, y + sentenceline * .8);
 						break;
 					case ",":
-						draw.dot(x + lettercenter, y + centerYoffset, vowel);
+						draw.dot(x + lettercenter, y + sentenceline, vowel);
 						break;
 					case ";":
-						draw.dot(x + lettercenter, y + centerYoffset * .8, vowel * .5);
+						draw.dot(x + lettercenter, y + sentenceline * .8, vowel * .5);
 						break;
 					case ":":
-						draw.circle(x + lettercenter, y + centerYoffset, vowel);
-						draw.circle(x + lettercenter, y + centerYoffset, vowel * .75);
+						draw.circle(x + lettercenter, y + sentenceline, vowel);
+						draw.circle(x + lettercenter, y + sentenceline, vowel * .75);
 						break;
 				}
 			} else {
@@ -545,42 +528,47 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		if (["number"].indexOf(currentbase) > -1) {
 			if (!grouped.carriagereturn) draw.line(x, y, x + letterwidth, y);
 			if (thicknumberline) shermansGrouped.linewidth = 2;
-			draw.circle(x + lettercenter, y + centerYoffset, consonant * grouped.cresize, grouped.linewidth);
+			draw.circle(x + center.x, y + center.y, consonant * grouped.cresize, grouped.linewidth);
 		}
 
 		//draw decorators
-		let radian, xy, decorators = shermansDeco.getDeco(letter);
+		let decorators = shermansDeco.getDeco(letter);
 		if (decorators) {
 			decorators.forEach(deco => {
-				if (deco.indexOf("number") > -1) {
+				if (["number"].indexOf(deco) > -1) {
 					shermansGrouped.linewidth = 1;
 					var number = parseInt(letter),
 						rad = .95;
 					for (var n = number; n > 0; n--) {
-						radian = Math.PI * rad
-						xy = baseRelatedPosition(shermansBase.getBase(letter), radian);
 						if (n > 4) {
-							draw.circle(x + (25 + xy.x * .9) * shermansScale, y - (25 + xy.y * .9) * shermansScale, (xy.y - xy.y * .4) * shermansScale);
+							draw.circle(
+								x + center.x + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).x * grouped.cresize * .9,
+								y + center.y + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).y * grouped.cresize * .9,
+								shermansBase.scgtable.number.radialPlacement(Math.PI * 1.75).y * grouped.cresize * .15);
 							n -= 4;
-						} else draw.line(x + (25 + xy.x) * shermansScale, y - (25 + xy.y) * shermansScale, x + (25 + xy.x * .8) * shermansScale, y - (25 + xy.y * .8) * shermansScale);
+						} else draw.line(
+							x + center.x + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).x * grouped.cresize,
+							y + center.y + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).y * grouped.cresize,
+							x + center.x + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).x * grouped.cresize * .8,
+							y + center.y + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).y * grouped.cresize * .8);
 						rad -= .15;
 					}
 				} else if (["1d", "2d", "3d", "4d"].indexOf(deco) > -1) {
 					shermansDeco.scgtable[deco].radiants.forEach(rad => {
 						let fromto = shermansDeco.scgtable[deco].fromto;
 						draw.dot(
-							x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0]*grouped.cresize,
-							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0]*grouped.cresize,
+							x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * grouped.cresize,
+							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * grouped.cresize,
 							vowel * .25);
 					});
 				} else {
 					shermansDeco.scgtable[deco].radiants.forEach(rad => {
 						let fromto = shermansDeco.scgtable[deco].fromto;
 						draw.line(
-							x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0]*grouped.cresize,
-							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0]*grouped.cresize,
-							x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[1]*grouped.cresize,
-							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[1]*grouped.cresize);
+							x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * grouped.cresize,
+							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * grouped.cresize,
+							x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[1] * grouped.cresize,
+							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[1] * grouped.cresize);
 					});
 				}
 			});
