@@ -8,6 +8,7 @@ let x; //current coordinate x
 let y; //current coordinate y
 let letterwidth; //you'll figure that one out for yourself
 let letterheight; //you'll figure that one out for yourself
+
 //    _                                 _ ___ _         _   _
 //   | |_ ___ ___ ___   ___ ___ ___ ___|_|  _|_|___ ___| |_|_|___ ___ ___
 //   | . | .'|_ -| -_| |_ -| . | -_|  _| |  _| |  _| .'|  _| | . |   |_ -|
@@ -355,7 +356,7 @@ let shermansGrouped = {
 		//creates a multidimensional array for
 		//sentence -> words -> groups -> single letters
 		var sentence = [];
-		var splitinput = input.split(" "); //split input to single words and iterate through these
+		var splitinput = input.replace(/\s+/g," ").split(" "); //strip multiplex whitespaces, split input to single words and iterate through these
 		splitinput.forEach(sword => {
 			sentence.push([]); //init new word
 			var group = [];
@@ -629,7 +630,6 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 							y + center.y,
 							consonant * grouped.cresize, Math.PI * .4, Math.PI * .1, grouped.linewidth + 1
 						);
-
 					});
 				} else {
 					/* lines, diacritics, minus for numbers*/
