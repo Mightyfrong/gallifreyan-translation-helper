@@ -27,7 +27,7 @@ let shermansBase = {
 			}
 		},
 		ve: {
-			contains: ["e", "é", "è", "i", "í", "ì", "u", "ü", "ú", "ù"],
+			contains: ["e", "é", "è", "i", "í", "ì", "u", "ü", "ú", "ù","æ"],
 			centerYoffset: 0,
 			radialPlacement: function (radiant = Math.PI * .25) {
 				return {
@@ -37,7 +37,7 @@ let shermansBase = {
 			}
 		},
 		va: {
-			contains: ["a", "ä", "á", "à"],
+			contains: ["a", "ä", "á", "à","å"],
 			centerYoffset: vowel * 1.75,
 			radialPlacement: function (radiant = Math.PI * .25) {
 				return {
@@ -47,7 +47,7 @@ let shermansBase = {
 			}
 		},
 		vo: {
-			contains: ["o", "ö", "ó", "ò"],
+			contains: ["o", "ö", "ó", "ò","ø"],
 			centerYoffset: -vowel * 1.75,
 			radialPlacement: function (radiant = Math.PI * .25) {
 				return {
@@ -226,6 +226,11 @@ let shermansDeco = {
 		"4d": {
 			contains: ["c", "q"],
 			radiants: [.65, .55, .45, .35],
+			fromto: [1]
+		},
+		"2ndvowel": {
+			contains: ["å", "ø","æ"],
+			radiants: [0],
 			fromto: [1]
 		},
 	},
@@ -587,6 +592,14 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 							x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * grouped.cresize,
 							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * grouped.cresize,
 							vowel * .25);
+					});
+				} else if (["2ndvowel"].indexOf(deco) > -1) {
+					shermansDeco.scgtable[deco].radiants.forEach(rad => {
+						let fromto = shermansDeco.scgtable[deco].fromto;
+						draw.circle(
+							x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * grouped.cresize,
+							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * grouped.cresize,
+							vowel);
 					});
 				} else {
 					shermansDeco.scgtable[deco].radiants.forEach(rad => {

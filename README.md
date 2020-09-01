@@ -17,6 +17,8 @@ One can optionally toggle whether C is transcribed to K/S in the language contro
 
 Numbers are a bit flawed as individual glyphs and currently don't support negative numbers. To keep things easier within the algorithm a zero is added to each number by default, so don't wonder about the top translation. Numbers only make sense with grouping enabled.
 
+currently diacritics are supported for german umlauts, accent acute, accent grave and scandinavian å, ø and æ.
+
 ### Recurring Variables Within Global Scope
 * cLetter: false by default, true if detected. if true a warning is displayed and drawings are red.
 * qLetter: false by default, true if detected. if true a warning is displayed and drawings are red.
