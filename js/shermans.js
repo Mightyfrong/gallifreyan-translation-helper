@@ -514,31 +514,31 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 						draw.circle(x + lettercenter, y + sentenceline, vowel);
 						break;
 					case "?":
-						draw.dot(x + lettercenter * .7, y + sentenceline * .8, vowel * .5);
-						draw.dot(x + lettercenter * 1.3, y + sentenceline * .8, vowel * .5);
+						draw.dot(x + lettercenter * .7, y + sentenceline * .7, vowel * .5);
+						draw.dot(x + lettercenter * 1.3, y + sentenceline * .7, vowel * .5);
 						break;
 					case "!":
-						draw.dot(x + lettercenter * .4, y + sentenceline * .8, vowel * .5);
-						draw.dot(x + lettercenter, y + sentenceline * .8, vowel * .5);
-						draw.dot(x + lettercenter * 1.6, y + sentenceline * .8, vowel * .5);
+						draw.dot(x + lettercenter * .4, y + sentenceline * .7, vowel * .5);
+						draw.dot(x + lettercenter, y + sentenceline * .7, vowel * .5);
+						draw.dot(x + lettercenter * 1.6, y + sentenceline * .7, vowel * .5);
 						break;
 					case "\"":
-						draw.line(x + lettercenter, y + sentenceline, x + lettercenter, y + sentenceline * .8);
+						draw.line(x + lettercenter, y + sentenceline, x + lettercenter, y + sentenceline * .7);
 						break;
 					case "'":
-						draw.line(x + lettercenter * .8, y + sentenceline, x + lettercenter * .8, y + sentenceline * .8);
-						draw.line(x + lettercenter * 1.2, y + sentenceline, x + lettercenter * 1.2, y + sentenceline * .8);
+						draw.line(x + lettercenter * .8, y + sentenceline, x + lettercenter * .8, y + sentenceline * .7);
+						draw.line(x + lettercenter * 1.2, y + sentenceline, x + lettercenter * 1.2, y + sentenceline * .7);
 						break;
 					case "-":
-						draw.line(x + lettercenter * .6, y + sentenceline, x + lettercenter * .6, y + sentenceline * .8);
-						draw.line(x + lettercenter, y + sentenceline, x + lettercenter, y + sentenceline * .8);
-						draw.line(x + lettercenter * 1.4, y + sentenceline, x + lettercenter * 1.4, y + sentenceline * .8);
+						draw.line(x + lettercenter * .6, y + sentenceline, x + lettercenter * .6, y + sentenceline * .7);
+						draw.line(x + lettercenter, y + sentenceline, x + lettercenter, y + sentenceline * .7);
+						draw.line(x + lettercenter * 1.4, y + sentenceline, x + lettercenter * 1.4, y + sentenceline * .7);
 						break;
 					case ",":
 						draw.dot(x + lettercenter, y + sentenceline, vowel);
 						break;
 					case ";":
-						draw.dot(x + lettercenter, y + sentenceline * .8, vowel * .5);
+						draw.dot(x + lettercenter, y + sentenceline * .7, vowel * .5);
 						break;
 					case ":":
 						draw.circle(x + lettercenter, y + sentenceline, vowel);
