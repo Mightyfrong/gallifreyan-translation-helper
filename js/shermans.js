@@ -238,24 +238,6 @@ let shermansDeco = {
 	}
 }
 
-//                _                           _
-//    ___ ___ ___| |___ ___ ___ _____ ___ ___| |_ ___
-//   |  _| -_| . | | .'|  _| -_|     | -_|   |  _|_ -|
-//   |_| |___|  _|_|__,|___|___|_|_|_|___|_|_|_| |___|
-//           |_|
-function replacements(word) {
-	var cword = "";
-	for (var i = 0; i < word.length; i++) { //iterate through word 
-		if (word[i] == "c" && document.getElementById('scgc').checked) {
-			if (word[i + 1] == "k") continue; //omit ck
-			else if (["e", "i", "y"].indexOf(word[i + 1]) > -1) cword += "s";
-			else cword += "k"; //end of the word
-		} else if (word[i] == "ß") cword += "ss";
-		else cword += word[i];
-	}
-	return cword;
-}
-
 let x; //draw coordinate x
 let y; //draw coordinate y
 let letterwidth;
@@ -280,12 +262,17 @@ export function shermansTranslate(ctx, input) {
 	let groupedinput = shermansGrouped.groups(input.toLowerCase()),
 		lettergroups = 0;
 	groupedinput.forEach(word => {
-		lettergroups += word.length + 1;
+		word.forEach(group=>{
+			lettergroups += group.length;
+		});
+		lettergroups+=1;
 	})
+
+console.log (lettergroups, groupedinput);
 
 	//set canvas scale for groups
 	width = Math.floor(window.innerWidth / letterwidth) * letterwidth - letterwidth;
-	height = letterheight * 1.5 * Math.ceil(Math.floor(window.innerWidth / letterwidth) / --lettergroups);
+	height = letterheight * 1.5 * Math.ceil(--lettergroups / Math.floor(window.innerWidth / letterwidth));
 
 	ctx.canvas.width = width;
 	ctx.canvas.height = height;
@@ -325,6 +312,24 @@ export function shermansTranslate(ctx, input) {
 		output += "<br>I am guessing this is a name but if its not, what is a lone Q doing there?";
 	}
 	document.getElementById("output").innerHTML = output;
+}
+
+//                _                           _
+//    ___ ___ ___| |___ ___ ___ _____ ___ ___| |_ ___
+//   |  _| -_| . | | .'|  _| -_|     | -_|   |  _|_ -|
+//   |_| |___|  _|_|__,|___|___|_|_|_|___|_|_|_| |___|
+//           |_|
+function replacements(word) {
+	var cword = "";
+	for (var i = 0; i < word.length; i++) { //iterate through word 
+		if (word[i] == "c" && document.getElementById('scgc').checked) {
+			if (word[i + 1] == "k") continue; //omit ck
+			else if (["e", "i", "y"].indexOf(word[i + 1]) > -1) cword += "s";
+			else cword += "k"; //end of the word
+		} else if (word[i] == "ß") cword += "ss";
+		else cword += word[i];
+	}
+	return cword;
 }
 
 //                        _
