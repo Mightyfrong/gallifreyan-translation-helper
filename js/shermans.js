@@ -1,7 +1,7 @@
 let cLetter; //is there a "c"?
 let qLetter; //is there a "q"?
 let consonant = 30; //radius of consonants
-let vowel = 15; // radius of vowels
+let vowel = Math.floor(consonant/2); // radius of vowels
 let width;
 let height;
 //    _                                 _ ___ _         _   _
@@ -267,8 +267,6 @@ export function shermansTranslate(ctx, input) {
 		});
 		lettergroups+=1;
 	})
-
-console.log (lettergroups, groupedinput);
 
 	//set canvas scale for groups
 	width = Math.floor(window.innerWidth / letterwidth) * letterwidth - letterwidth;
