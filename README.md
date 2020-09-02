@@ -19,6 +19,9 @@ Numbers are supported, but only make sense with grouping enabled. Dot and comma 
 
 Diacritics are supported according to the [official guide][SCG] for german umlauts, accent acute, accent grave, ñ and scandinavian å, ø and æ.
 
+### What To Expect
+![sherman's circular gallifreyan](assets/scg.png)
+
 ### Recurring Variables Within Global Scope
 * cLetter: false by default, true if detected. if true a warning is displayed and drawings are red.
 * qLetter: false by default, true if detected. if true a warning is displayed and drawings are red.
@@ -191,6 +194,9 @@ function drawGlyph(ctx, pathString) {
 ## Doctor's Cot
 
 This one is the most complicated of the 3 languages as it transcribes the exact phonetics of words instead of just their letters. Hence, the user is given an on-screen IPA ([International Phonetic Alphabet][2]) keyboard.
+
+### What To Expect
+![doctors cot](assets/dc.png)
 
 Translation takes the input string through 3 steps:
 
