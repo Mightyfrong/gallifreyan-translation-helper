@@ -25,12 +25,12 @@ Diacritics are supported according to the [official guide][SCG] for german umlau
 ### Recurring Variables Within Global Scope
 * cLetter: false by default, true if detected. if true a warning is displayed and drawings are red.
 * qLetter: false by default, true if detected. if true a warning is displayed and drawings are red.
-* consonant: initial radius for consonants
+* consonant: initial radius for consonants, most important if not only value for resizing the whole output
 * vowel: initial radius for vowels
-* width: width of the canvas
-* height: height of the canvas
-* x: current x coordinate for drawing
-* y: current y coordinate for drawing
+* width: width of the output canvas
+* height: height of the output canvas
+* x: current x coordinate for drawing, representing the left starting coordinate
+* y: current y coordinate for drawing, representing the words baseline
 * letterwidth: width of letters/groups
 * letterheight: height of letters/groups
 
@@ -202,6 +202,12 @@ Translation takes the input string through 3 steps:
 1. **Phonetic Units** - input is broken up into words and each word into its constituent sounds, which are either consonants or vowels.
 2. **Cot Glyphs** - consecutive PhoneticUnits are grouped into Doctor's Cot glyphs, which can represent up to 2 consonants + 1 vowel.
 3. **Drawing** - outline and decoration info are looked up for each CotGlyph and drawn on the canvas.
+
+
+## Utils
+
+`String.prototype.Contains` and `Array.prototype.Contains` return booleans whether the string or array contains the given argument or one of the items in the passed array, can be used instead of `Array.indexOf(value) > -1` and handle multiple values as well.
+
 
 ## Copyright & Licence Notice
 
