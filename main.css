@@ -54,13 +54,15 @@ header {
     min-height:18em;
 }
 
-main {
+main, footer {
     text-align: center;
 }
 
 input[type=text] {
     width: 25vw
 }
+
+a> svg {height:1em; width:1em; }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
  * 
