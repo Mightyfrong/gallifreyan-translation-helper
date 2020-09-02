@@ -4,6 +4,28 @@ export function polar(radius, degrees) {
 	return [radius * Math.cos(radians), radius * Math.sin(radians)];
 }
 
+// does an array contain the value or one of the values?
+Array.prototype.Contains = function (values) {
+	if (Array.isArray(values)){
+		for (let i = 0; i < values.length - 1; i++) {
+			if (Boolean(this.indexOf(values[i]) + 1)) return true;
+		}
+	}
+	else if (Boolean(this.indexOf(values) + 1)) return true;
+	return false;
+}
+
+// does a string contain the value or one of the values?
+String.prototype.Contains = function (values) {
+	if (Array.isArray(values)){
+		for (let i = 0; i < values.length - 1; i++) {
+			if (Boolean(this.indexOf(values[i]) + 1)) return true;
+		}
+	}
+	else if (Boolean(this.indexOf(values) + 1)) return true;
+	return false;
+}
+
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
  * 
  * This file is part of the Gallifreyan Translation Helper,
