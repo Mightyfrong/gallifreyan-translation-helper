@@ -645,6 +645,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		ctx.beginPath();
 		//print character unless it's a (numeral) control character
 		if (!["/", "\\"].Contains(letter)) ctx.fillText(letter, x + lettercenter + grouped.offset * 8, y - letterheight * .5);
+		if (["\\"].Contains(letter)) ctx.fillText("-", x + lettercenter - 1 * 8, y - letterheight * .5);
 	}
 }
 
