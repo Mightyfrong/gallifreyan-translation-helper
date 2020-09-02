@@ -43,8 +43,8 @@ function fourDentCircle() {
 }
 
 function circle(r) {
-	const r0 = r + ',0';
-	const rr001 = r + ',' + r + ' 0 0 1';
+	const r0 = [r,0];
+	const rr001 = [r,r] + ' 0 0 1';
 	return `M${r0}A${rr001} -${r0} ${rr001} ${r0}`
 }
 function circles(...radii) {
