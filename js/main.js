@@ -29,10 +29,10 @@ genKeyboard(ipaVowels, vowelTable);
 function activateControls(lang) {
 	switch (lang) {
 		case "shermans":
-			shermansOpts.classList.add('active');
+			shermansOpts.classList.toggle('active');
 			break;
 		case "cot":
-			ipaKeys.classList.add('active');
+			ipaKeys.classList.toggle('active');
 			break;
 	}
 }
