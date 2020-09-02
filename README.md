@@ -11,7 +11,7 @@ More details on how the translators for each one can be found below.
 
 ## Sherman's
 
-Designed as a pattern memory aid, this translator draws each character either as an individual glyph, or stacking characters depending on choice. Also displays the glyphs in horizontal lines instead of writing them in the expected circular fashion for ease of reading.
+Designed as a pattern memory aid, this translator draws each character either as an individual glyph, or stacked depending on choice. It displays the glyphs in horizontal lines instead of writing them in the expected circular fashion for ease of reading.
 
 One can optionally toggle whether C is transcribed to K/S in the language controls.
 
@@ -39,8 +39,6 @@ Diacritics are supported according to the [official guide][SCG] for german umlau
 Sherman's follows a quite easy pattern consisting of big and small circles, arcs, dots and lines all arranged in a clear fashion following plain rules. Like in the original guidance table consonants are grouped to their respective base (b,j,t,th), also vowels with base e (for e,i,u), a and o, punctuation and numbers.
 On stacking characters every base has its own center and positioning of elements to its arc, relative to the base center, therefore every base has its specific properties and methods to return the specific relative placements.
 To determine the characters base the **shermansBase**-Object has a method to return the correct base.
-
-The decorator object **shermansDeco** has a comparable pattern. It returns an array of decorators (e.g. diacritics and u-line for ü). Decorators can be sets of multiple radiants to be processed and given relative positions or ranges of relative diameters of the parent character circle/arc.
 
 ```js
 let shermansBase = {
@@ -70,12 +68,14 @@ let shermansBase = {
 	getBase: function (char) {
 		let rtrn = false;
 		Object.keys(this.scgtable).forEach(row => {
-			if (this.scgtable[row].contains.indexOf(char) > -1) rtrn = row;
+			if (this.scgtable[row].contains.Contains(char)) rtrn = row;
 		});
 		return rtrn;
 	}
 }
 ```
+
+The decorator object **shermansDeco** has a comparable pattern. It returns an array of decorators (e.g. diacritics *and* u-line for ü). Decorators can be sets of multiple radiants to be processed and given relative positions or ranges of relative diameters of the parent character circle/arc.
 
 ### Translation
 **shermansTranslate(ctx, input)** is the main wrapper for the algorithm and is passed the canvas object and the actual input. It sets up the initial coordinates for the words baseline, initiates the [general draw object](#Multipurpose-Drawing), sets up an [array of characters](#Grouping) and sets the canvas size according to the number of (grouped) characters.
@@ -88,7 +88,7 @@ The positioning offsets for drawing of the current character in relation to the 
 Sherman's takes the phonetical [k or s instead of c](#Replacements). C and single q are "allowed" in names only so there is a reminder thrown if these characters are detected.
 
 ### Replacements
-**replacements(word)** returns the full word after converting c to k or s depending on position, following vowel, or reduced ck, if selected. Always replaces ß with ss.
+**replacements(word)** returns the full word after converting c to k or s depending on position, following vowel, or reduced ck, if selected. ß is always replaced with ss.
 
 ### Grouping
 **shermansGrouped.groups(input)** returns a multidimensional array of grouped characters. It initiates the sentence array and loops through the whitespace-splitted input.
@@ -99,15 +99,15 @@ If grouping is active the current characters is added to the former group if
 * there is a former group and
 * it's a vowel and the former isn't a vowel or number, or the same vowel or
 * it's a consonant with the same base as the former character or
-* it's a number and the former one is too or a decimal sign
+* it's a number and the former one is too a decimal- or a minus-sign
 
 Otherwise the current character is added to the recent group.
 
-If the current word is a number there are control characters added to the end of the word that will add the last thick circle or the minus sign for negative numbers. control characters will not show up on the top translations.
+If the current word is a number there are control characters added to the end of the word that will add the last thick circle or the minus sign for negative numbers. control characters will not show up on the top translations but may be drawn out of context. *The official guide has no recommendations for / and \ . Shown drawings of these characters in a single position do not represent these.*
 
 The group is then pushed to the last word.
 
-**shermansGrouped.resetOffset(lastStackedConsonantIndex)** resets all positioning offsets and resizing factors. The lastStackedConsonantIndex sets the initial resizing factor for the first drawn consonant. stacked consonants are bigger and following shrink down to default size.
+**shermansGrouped.resetOffset(lastStackedConsonantIndex)** resets all positioning offsets and resizing factors. The lastStackedConsonantIndex sets the initial resizing factor for the first drawn consonant. Stacked consonants are bigger and will shrink down to default size.
 
 **shermansGrouped.setOffset(former, actual)** sets the resizing, linewidth and positioning offsets fetching the respective values for offsets from the methods and properties of the parent base.
 
@@ -144,30 +144,29 @@ case "?": /*base "punctuation"*/
 
 Vowels and consonants have the base line drawn unless they are grouped. Then follow the drawing instructions for the base/body of the character:
 ```js
-if (["ve", "va", "vo"].indexOf(currentbase) > -1) {
+if (["ve", "va", "vo"].Contains(currentbase)) {
 	if (!grouped.carriagereturn) draw.line(x, y, x + letterwidth, y);
 	draw.circle(x + center.x, y + center.y, vowel * grouped.vresize);
 }
 ```
 ...and so on.
 
-Next are the decorators, that iterate through the list of decorators for the current character, iterate through the deocrators radiants and apply the drawing instruction considering the relative positioning to the center of the bases body and bases radius:
+Next are the decorators, that iterate through the list of decorators for the current character, iterate through the decorators radiants and apply the drawing instruction considering the relative positioning to the center of the bases body and bases radius:
 ```js
-	decorators.forEach(deco => {
-		/*e.g. line decorators*/
-		shermansDeco.scgtable[deco].radiants.forEach(rad => {
-			let fromto = shermansDeco.scgtable[deco].fromto;
-			draw.line(
-				x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * grouped.cresize,
-				y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * grouped.cresize,
-				x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[1] * grouped.cresize,
-				y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[1] * grouped.cresize);
-		});
-}
+decorators.forEach(deco => {
+	/*e.g. line decorators*/
+	shermansDeco.scgtable[deco].radiants.forEach(rad => {
+		let fromto = shermansDeco.scgtable[deco].fromto;
+		draw.line(
+			x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * grouped.cresize,
+			y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * grouped.cresize,
+			x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[1] * grouped.cresize,
+			y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[1] * grouped.cresize);
+	});
 ```
 Numbers are processed here as well. Small circles for 5, lines for everything else.
 
-Finally above the letter/group the respective latin characters are drawn.
+Finally above the letter/group the respective latin characters are drawn (again with exceptional control character handling).
 
 
 ## TARDIS Console (WIP)
