@@ -1,34 +1,65 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 #info {
     color: red;
     font-weight: bold;
 }
 
 #lang-controls {
-    margin: .25em 0;
+    margin: .25em 10em;
     padding: 0;
 }
-#lang-controls > div {
+
+#lang-controls>div {
     display: none;
     padding: .5em;
 }
-#lang-controls > div.active {
+
+#lang-controls>div.active {
     display: block;
 }
 
 
-#ipa-keys > div{
+#ipa-keys>div {
     display: inline-block;
     vertical-align: top;
     margin: .25em;
 }
-#ipa-keys input{
+
+#ipa-keys input {
     width: 2em;
     padding: 0;
     text-align: center;
 }
 
-#canvas{
-    border: 1px solid #000;
+#canvas {
+    border: 1px solid rgba(0,0,0,.1);
+}
+
+#headerbackground {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    z-index: -1;
+}
+
+header {
+    padding: 7em 0;
+    width: 50vw;
+    margin: 0 auto;
+    text-align: center;
+    min-height:18em;
+}
+
+main {
+    text-align: center;
+}
+
+input[type=text] {
+    width: 25vw
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR

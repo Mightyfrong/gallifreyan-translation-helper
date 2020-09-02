@@ -2,45 +2,45 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <title>Gallifreyan Translation Helper</title>
+	<meta charset="utf-8">
+	<title>Gallifreyan Translation Helper</title>
 
-  <link rel="stylesheet" href="main.css">
+	<link rel="stylesheet" href="main.css">
 </head>
 
 <body>
-  <p id="info">Still very early and WIP. Please don't spell check your tattoo with this!</p>
-
-  <form>
-    <div>
-      <label for="language">Choose a System:</label>
-      <select id="language">
-        <option value="shermans">Sherman's</option>
-        <option value="cot">Doctor's Cot</option>
-        <option value="tardis">TARDIS Console(WIP)</option>
-      </select>
-    </div>
-
-    <fieldset id="lang-controls">
-      <div id="shermans-options">
-        <input type="checkbox" id="scgg" checked /><label for="scgg"> character stacking</label>
-        <input type="checkbox" id="scgc" checked /><label for="scgc"> convert C</label>
-      </div>
-
-      <div id="ipa-keys">
-        <div id="ipa-consons"></div>
-        <div id="ipa-vowels"></div>
-      </div>
-    </fieldset>
-
-    <input type="text" id="text">
-    <input type="submit" value="Translate">
-  </form>
-  <canvas id="canvas" width=1280 height=720></canvas>
-
-  <p id="output"></p>
-
-  <script type="module" src="js/main.js"></script>
+	<header>
+		<img id="headerbackground" src="assets/bg.svg" />
+		<p id="info">Still very early and WIP. Please don't spell check your tattoo with this!</p>
+		<h1>Gallifreyan Translation Helper</h1>
+		<form>
+			<div>
+				<label for="language">Choose a System:</label>
+				<select id="language">
+					<option value="shermans">Sherman's</option>
+					<option value="cot">Doctor's Cot</option>
+					<option value="tardis">TARDIS Console(WIP)</option>
+				</select>
+			</div>
+			<fieldset id="lang-controls">
+				<div id="shermans-options">
+					<input type="checkbox" id="scgg" checked /><label for="scgg"> character stacking</label>
+					<input type="checkbox" id="scgc" checked /><label for="scgc"> convert C</label>
+				</div>
+				<div id="ipa-keys">
+					<div id="ipa-consons"></div>
+					<div id="ipa-vowels"></div>
+				</div>
+			</fieldset>
+			<input type="text" id="text" placeholder="type your text here">
+			<input type="submit" value="Translate">
+		</form>
+	</header>
+	<main>
+		<canvas id="canvas"></canvas>
+		<p id="output"></p>
+	</main>
+	<script type="module" src="js/main.js"></script>
 </body>
 
 </html>
