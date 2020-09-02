@@ -282,9 +282,8 @@ export function shermansTranslate(ctx, input) {
 		});
 		lettergroups += 1;
 	})
-
 	//set canvas scale for groups
-	width = Math.floor(window.innerWidth / letterwidth) * letterwidth - letterwidth;
+	width = Math.min(lettergroups + 1, Math.floor(window.innerWidth / letterwidth)) * letterwidth - letterwidth;
 	height = letterheight * 1.5 * Math.ceil(--lettergroups / Math.floor(window.innerWidth / letterwidth));
 
 	ctx.canvas.width = width;
@@ -304,10 +303,9 @@ export function shermansTranslate(ctx, input) {
 				//iterate through characters
 				for (var l = 0; l < group.length; l++) {
 					var thicknumberline = /*is number group */ "1234567890".Contains(group[0]) && (
-						 /*is comma*/ ",.".Contains(group[l]) ||
-						( /*is last digit without comma*/ l == group.length - 1 && !group.Contains([",","."]))
+						( /*is comma*/ ",.".Contains(group[l])) ||
+						( /*is last digit without comma*/ l == group.length - 1 && !group.Contains([",", "."]))
 					);
-
 					if (l > 0) shermansGrouped.setOffset(group[l - 1], group[l]);
 					shermansDraw(ctx, group[l], shermansGrouped, thicknumberline);
 				}
@@ -356,7 +354,7 @@ let shermansGrouped = {
 		//creates a multidimensional array for
 		//sentence -> words -> groups -> single letters
 		var sentence = [];
-		var splitinput = input.replace(/\s+/g," ").split(" "); //strip multiplex whitespaces, split input to single words and iterate through these
+		var splitinput = input.replace(/\s+/g, " ").split(" "); //strip multiplex whitespaces, split input to single words and iterate through these
 		splitinput.forEach(sword => {
 			sentence.push([]); //init new word
 			var group = [];
@@ -385,10 +383,10 @@ let shermansGrouped = {
 			}
 			//add control characters to the number group
 			if ("1234567890".Contains(group[group.length - 1][0])) group[group.length - 1].push("/");
-			if (group[group.length - 1][0]==="-" && "1234567890".Contains(group[group.length - 1][1])) {
+			if (group[group.length - 1][0] === "-" && "1234567890".Contains(group[group.length - 1][1])) {
 				group[group.length - 1].shift();
-				group[group.length - 1][group[group.length - 1].length]=("\\");}
-
+				group[group.length - 1][group[group.length - 1].length] = ("\\");
+			}
 			sentence[sentence.length - 1].push(group); //append group to last word
 		});
 		return sentence;
