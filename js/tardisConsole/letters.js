@@ -1,5 +1,54 @@
 import { polar } from "../utils.js";
 
+const consonants = {
+	b: {
+		path: "",
+		// vowel: {x: offset from consonant center, y: offset from consonant center, r1: resizing of ellisis, r2:resizing of ellisis, n: ellipsis negative (filled) },
+		a: false,
+		e: {x: +3, y: -3, r1: 1, r2: 1, n: false},
+		i: {x: +13, y: -13, r1: 1, r2: 1, n: false},
+		o: false,
+		u: {x: +3, y: -3, r1: 1, r2: 1, n: false},
+	},
+	c: {
+		path: "",
+		// vowel: {x: offset from consonant center, y: offset from consonant center, r1: resizing of ellisis, r2:resizing of ellisis, n: ellipsis negative (filled) },
+		a: false,
+		e: {x: 0, y: 0, r1: 1, r2: 1, n: false},
+		i: {x: +13, y: -13, r1: 1, r2: 1, n: false},
+		o: false,
+		u: {x: +3, y: -3, r1: 1, r2: 1, n: false},
+	},
+	/*...*/
+	sh: {
+		path: "",
+		// vowel: {x: offset from consonant center, y: offset from consonant center, r1: resizing of ellisis, r2:resizing of ellisis, n: ellipsis negative (filled) },
+		a: {x: 0, y: 0, r1: 1, r2: 1, n: true},
+		e: {x: 0, y: 0, r1: 1, r2: 1, n: true},
+		i: {x: +13, y: -13, r1: 1, r2: 1, n: false},
+		o: {x: 0, y: 0, r1: 1, r2: 1, n: true},
+		u: {x: +3, y: +3, r1: 1, r2: 1, n: false},
+	},
+};
+
+const vowels = {
+	a: function(x, y, param){
+		//we could make use of something like the general purpose drawing methods of sherman's with added ellipsis, put all of that to the utils.js
+		draw.line(x + param.x + startingpoint,
+			x + param.y + startingpoint,
+			x + param.x + endingpoint,
+			y + param.y + endingpoint);
+		draw.ellipse(parameters);
+	},
+	e: function(x, y, param){
+		draw.ellipse(parameters);
+	},
+	/*...*/
+	alepha: function(x, y, param){},
+	alephe: function(x, y, param){},
+	/*...*/
+};
+
 export const letters = {
 	a: circle(9.5) + `;;M${polar(60, 150)}L${polar(60, 330)}`,
 	b: `;${dentedCircle(44.5, "24.5 -60 0 0")};${circle(49)}`,
