@@ -1,4 +1,11 @@
-//turn polar coords to Cartesian
+//general color settings
+export const color = {
+	background: "#fff",
+	foreground: "#000",
+	warning: "#f00"
+};
+
+// turn polar coords to Cartesian
 export function polar(radius, degrees) {
 	const radians = degrees * Math.PI / 180;
 	return [radius * Math.cos(radians), radius * Math.sin(radians)];
@@ -25,6 +32,55 @@ String.prototype.Contains = function (values) {
 	else if (Boolean(this.indexOf(values) + 1)) return true;
 	return false;
 }
+
+// general drawing instructions
+export let draw = {
+	init: function (ctx, linewidth) {
+		this.ctx = ctx;
+		this.linewidth = linewidth;
+	},
+	circle: function (x, y, r, lw) {
+		this.ctx.beginPath();
+		this.ctx.arc(x, y, r, 0, 2 * Math.PI, true);
+		if (lw !== undefined) this.ctx.lineWidth = lw;
+		this.ctx.stroke();
+		this.ctx.lineWidth = this.linewidth;
+	},
+	arc: function (x, y, r, a, o, lw) { // could be unified with circle with optional params but separated for readibilities sake...
+		this.ctx.beginPath();
+		this.ctx.arc(x, y, r, a, o, true);
+		if (lw !== undefined) this.ctx.lineWidth = lw;
+		this.ctx.stroke();
+		this.ctx.lineWidth = this.linewidth;
+	},
+	ellipse: function(x, y, r1, r2, rot=0, filled, lw) {
+		this.ctx.beginPath();
+		this.ctx.ellipse(x, y, r1, r2, rot, 0, 2 * Math.PI);
+		if (lw !== undefined) this.ctx.lineWidth = lw;
+		if (filled===undefined || !filled) this.ctx.stroke();
+		else {
+			this.ctx.fillStyle = filled;
+			this.ctx.fill();
+			this.ctx.fillStyle = color.foreground;
+		}
+		this.ctx.lineWidth = this.linewidth;
+	},
+	dot: function (x, y, r, filled) {
+		this.ctx.beginPath();
+		this.ctx.arc(x, y, r, 0, 2 * Math.PI, true);
+		if (filled!==undefined && filled) this.ctx.fillStyle = filled;
+		this.ctx.fill();
+		this.ctx.fillStyle = color.foreground;
+	},
+	line: function (fx, fy, tx, ty, lw) {
+		this.ctx.beginPath();
+		this.ctx.moveTo(fx, fy);
+		this.ctx.lineTo(tx, ty);
+		if (lw !== undefined) this.ctx.lineWidth = lw;
+		this.ctx.stroke();
+		this.ctx.lineWidth = this.linewidth;
+	}
+};
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
  * 

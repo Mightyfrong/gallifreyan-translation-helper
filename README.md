@@ -113,22 +113,6 @@ The group is then pushed to the last word.
 
 It also sets the carriage return to true to have the characters drawn at the same x-position on the canvas.
 
-### Multipurpose Drawing
-The **draw-object** serves methods to reuse the plain geometric shapes in context of canvas drawing. The respective shape is called with the necessary coordinates, radii and line widths while beginPaths and moveTos, strokes and fills are set up once instead of repetitively for every character setup.
-The object is set up in advance to handle the canvas object as well as the default lineWidth (if applicable). Afterwards any geometric shape can be easily placed.
-```js
-draw.init(ctx,1)
-draw.dot(xcoordinate, ycoordinate, radius);
-```
-where
-```js
-dot: function (x, y, r) {
-	this.ctx.beginPath();
-	this.ctx.arc(x, y, r, 0, 2 * Math.PI, true);
-	this.ctx.fill();
-}
-```
-
 ### Character Drawing
 **shermansDraw(ctx, letter, grouped, thicknumberline)** actually draws a character to the canvas. X and y coordiantes are set. If not grouped the x-"pointer" is set to the next characters position, if the end of the viewport is reached the next line is set. Stroke- and fill-styles are set.
 
@@ -206,8 +190,27 @@ Translation takes the input string through 3 steps:
 
 ## Utils
 
+### Colors
+An object to set up colors, make them usable for all modules and create a meshed interface
+
+### Prototype Functions
 `String.prototype.Contains` and `Array.prototype.Contains` return booleans whether the string or array contains the given argument or one of the items in the passed array, can be used instead of `Array.indexOf(value) > -1` and handle multiple values as well.
 
+### Multipurpose Drawing
+The **draw-object** serves methods to reuse the plain geometric shapes in context of canvas drawing. The respective shape is called with the necessary coordinates, radii and line widths while beginPaths and moveTos, strokes and fills are set up once instead of repetitively for every character setup.
+The object is set up in advance to handle the canvas object as well as the default lineWidth (if applicable). Afterwards any geometric shape can be easily placed.
+```js
+draw.init(ctx,1)
+draw.dot(xcoordinate, ycoordinate, radius);
+```
+where
+```js
+dot: function (x, y, r) {
+	this.ctx.beginPath();
+	this.ctx.arc(x, y, r, 0, 2 * Math.PI, true);
+	this.ctx.fill();
+}
+```
 
 ## Copyright & Licence Notice
 

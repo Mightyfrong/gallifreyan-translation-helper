@@ -8,6 +8,9 @@ let x; // current coordinate x
 let y; // current coordinate y
 let letterwidth; // you'll figure that one out for yourself
 let letterheight; // you'll figure that one out for yourself
+import {
+	color, draw
+} from './utils.js'
 
 //    _                                 _ ___ _         _   _
 //   | |_ ___ ___ ___   ___ ___ ___ ___|_|  _|_|___ ___| |_|_|___ ___ ___
@@ -454,45 +457,6 @@ let shermansGrouped = {
 	}
 }
 
-//              _ _   _                                 _               _
-//    _____ _ _| | |_|_|___ _ _ ___ ___ ___ ___ ___   _| |___ ___ _ _ _|_|___ ___
-//   |     | | | |  _| | . | | |  _| . | . |_ -| -_| | . |  _| .'| | | | |   | . |
-//   |_|_|_|___|_|_| |_|  _|___|_| |  _|___|___|___| |___|_| |__,|_____|_|_|_|_  |
-//                     |_|         |_|                                       |___|
-let draw = {
-	init: function (ctx, linewidth) {
-		this.ctx = ctx;
-		this.linewidth = linewidth;
-	},
-	circle: function (x, y, r, lw) {
-		this.ctx.beginPath();
-		this.ctx.arc(x, y, r, 0, 2 * Math.PI, true);
-		if (lw !== undefined) this.ctx.lineWidth = lw;
-		this.ctx.stroke();
-		this.ctx.lineWidth = this.linewidth;
-	},
-	arc: function (x, y, r, a, o, lw) { // could be unified with circle with optional params but separated for readibilities sake...
-		this.ctx.beginPath();
-		this.ctx.arc(x, y, r, a, o, true);
-		if (lw !== undefined) this.ctx.lineWidth = lw;
-		this.ctx.stroke();
-		this.ctx.lineWidth = this.linewidth;
-	},
-	dot: function (x, y, r) {
-		this.ctx.beginPath();
-		this.ctx.arc(x, y, r, 0, 2 * Math.PI, true);
-		this.ctx.fill();
-	},
-	line: function (fx, fy, tx, ty, lw) {
-		this.ctx.beginPath();
-		this.ctx.moveTo(fx, fy);
-		this.ctx.lineTo(tx, ty);
-		if (lw !== undefined) this.ctx.lineWidth = lw;
-		this.ctx.stroke();
-		this.ctx.lineWidth = this.linewidth;
-	}
-};
-
 //                    _ ___ _         _               _
 //    ___ ___ ___ ___|_|  _|_|___   _| |___ ___ _ _ _|_|___ ___
 //   |_ -| . | -_|  _| |  _| |  _| | . |  _| .'| | | | |   | . |
@@ -507,11 +471,11 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		} else x += letterwidth;
 	}
 	if (letter != " ") {
-		ctx.strokeStyle = "black";
-		ctx.fillStyle = "black"
+		ctx.strokeStyle = color.foreground;
+		ctx.fillStyle = color.foreground;
 		if (letter == "c" || letter == "q") {
-			ctx.strokeStyle = 'red';
-			ctx.fillStyle = 'red';
+			ctx.strokeStyle = color.warning;
+			ctx.fillStyle = color.warning;
 			if (letter == "c") {
 				cLetter = true;
 			} else {
@@ -647,7 +611,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 							vowel, Math.PI * 1.7, Math.PI * .8, grouped.linewidth
 						);
 						// overpaint base body
-						ctx.strokeStyle = 'white';
+						ctx.strokeStyle = color.background;
 						draw.arc(
 							x + center.x,
 							y + center.y,
