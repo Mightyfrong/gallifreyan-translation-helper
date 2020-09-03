@@ -1,13 +1,13 @@
-let cLetter; //is there a "c"?
-let qLetter; //is there a "q"?
-let consonant = 30; //radius of consonants
+let cLetter; // is there a "c"?
+let qLetter; // is there a "q"?
+let consonant = 30; // radius of consonants
 let vowel = Math.floor(consonant / 2); // radius of vowels
-let width; //canvas width
-let height; //canvas height
-let x; //current coordinate x
-let y; //current coordinate y
-let letterwidth; //you'll figure that one out for yourself
-let letterheight; //you'll figure that one out for yourself
+let width; // canvas width
+let height; // canvas height
+let x; // current coordinate x
+let y; // current coordinate y
+let letterwidth; // you'll figure that one out for yourself
+let letterheight; // you'll figure that one out for yourself
 
 //    _                                 _ ___ _         _   _
 //   | |_ ___ ___ ___   ___ ___ ___ ___|_|  _|_|___ ___| |_|_|___ ___ ___
@@ -17,12 +17,28 @@ let letterheight; //you'll figure that one out for yourself
 //specify base for every letter, assign base to latin characters and specify geometric properties
 let shermansBase = {
 	scgtable: {
+		/* example: { // name of group
+			contains: [...], // array of characters for which the handling and properties apply
+			centerYoffset: NUMBER, // relative offset to the y-position of the word line/circle
+			radialPlacement: function (radiant=DEFAULTVALUE){ // position of items to be placed relative to the center of the base
+				let options = {
+					ve: {x: 0, y: 0}, // e.g. placing of e-vowel on the center of the base
+					va: {x: 0, y: -this.centerYoffset}, // e.g. placing of the a-vowel still outside of the word-circle
+					vo: { // e.g. placing of the o-vowel or everything else on the base-circle/-arc
+						x: consonant * Math.cos(radiant),
+						y: -consonant * Math.sin(radiant)
+					}
+				}
+				if (!(item in options)) item = "vo"; // same rules for o, diacritics, line-decorators
+				return options[item]; // returns x- and y-properties
+			}
+		}*/
 		punctuation: {
 			contains: [".", "?", "!", "\"", "'", "-", ",", ";", ":"],
 			centerYoffset: consonant * 1.25
 		},
 		number: {
-			contains: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "/", "\\"], //last ones are control characters for number ending and negative numbers
+			contains: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "/", "\\"], // last ones are control characters for number ending and negative numbers
 			centerYoffset: -consonant * 1.25,
 			radialPlacement: function (radiant = Math.PI * .25) {
 				return {
@@ -150,7 +166,7 @@ let shermansBase = {
 			}
 		}
 	},
-	getBase: function (char) {
+	getBase: function (char) { // return name of base the given character is assigned to
 		let rtrn = false;
 		Object.keys(this.scgtable).forEach(row => {
 			if (this.scgtable[row].contains.Contains(char)) rtrn = row;
@@ -164,9 +180,14 @@ let shermansBase = {
 //   | . | -_|  _| . |  _| .'|  _| . |  _| |_ -| . | -_|  _| |  _| |  _| .'|  _| | . |   |_ -|
 //   |___|___|___|___|_| |__,|_| |___|_|   |___|  _|___|___|_|_| |_|___|__,|_| |_|___|_|_|___|
 //                                             |_|
-//specify decoration for every letter
+// specify decoration for every letter
 let shermansDeco = {
 	scgtable: {
+		/* example: { // name of group
+			contains: [...], // array of characters for which the handling and properties apply
+			radiants: [.8, .7], // array of one or multiple radiant-proportions to place the deocrator on
+			fromto: [.5, 1.5] // array of one or two radius factors to place all decorators, first for circles, both for line-starts and -endings
+		}*/
 		"null": {
 			contains: [".", "?", "!", "\"", "'", "-", ",", ",", ":", "a", "e", "o", "b", "j", "t", "th"],
 		},
@@ -249,7 +270,7 @@ let shermansDeco = {
 			fromto: [-1, 1]
 		},
 	},
-	getDeco: function (char) {
+	getDeco: function (char) { // return array of names of decorators the given character is assigned to
 		let rtrn = [];
 		Object.keys(this.scgtable).forEach(row => {
 			if (this.scgtable[row].contains.Contains(char)) rtrn.push(row);
@@ -262,8 +283,9 @@ let shermansDeco = {
 //   | |_ ___ ___ ___ ___| |___| |_|_|___ ___
 //   |  _|  _| .'|   |_ -| | .'|  _| | . |   |
 //   |_| |_| |__,|_|_|___|_|__,|_| |_|___|_|_|
-//scroll through input and draw every letter
+// scroll through input and draw every letter
 export function shermansTranslate(ctx, input) {
+	// initialize widths, heights, default-values, draw-object
 	letterwidth = consonant * 2.5
 	letterheight = consonant * 6
 
@@ -273,7 +295,7 @@ export function shermansTranslate(ctx, input) {
 	qLetter = false;
 	draw.init(ctx, 1);
 
-	//convert string to grouped array and determine number of groups
+	// convert input-string to grouped array and determine number of groups
 	let groupedinput = shermansGrouped.groups(input.toLowerCase()),
 		lettergroups = 0;
 	groupedinput.forEach(word => {
@@ -282,31 +304,35 @@ export function shermansTranslate(ctx, input) {
 		});
 		lettergroups += 1;
 	})
-	//set canvas scale for groups
+	// set canvas scale according to number of letters/groups
 	width = Math.min(lettergroups + 1, Math.floor(window.innerWidth / letterwidth)) * letterwidth - letterwidth;
 	height = letterheight * 1.5 * Math.ceil(--lettergroups / Math.floor(window.innerWidth / letterwidth));
-
 	ctx.canvas.width = width;
 	ctx.canvas.height = height;
 
-	groupedinput.forEach(words => {
-		words.forEach(groups => {
-			groups.forEach(group => {
-				//prepare resizing for stacked characters but vowels
+	groupedinput.forEach(words => { // loop through sentence
+		words.forEach(groups => { // loop through words
+			groups.forEach(group => { // loop through character-groups 
+				// prepare resizing for stacked characters but vowels
 				var lastStackedConsonantIndex = group.length - 1,
 					vowelindex;
+				// correction of initial resizing factor depending on last vowel within group
 				"aeiou.,".split("").forEach(vowel => {
 					vowelindex = group.indexOf(vowel);
 					if (vowelindex > -1 && vowelindex <= lastStackedConsonantIndex) lastStackedConsonantIndex = vowelindex - 1;
 				});
+				// reset offsets but hand over possible resizing factor
 				shermansGrouped.resetOffset(lastStackedConsonantIndex);
-				//iterate through characters
+				// iterate through characters within group
 				for (var l = 0; l < group.length; l++) {
+					// check whether an occuring dot or comma is a decimal sign or not
 					var thicknumberline = /*is number group */ "1234567890".Contains(group[0]) && (
 						( /*is comma*/ ",.".Contains(group[l])) ||
 						( /*is last digit without comma*/ l == group.length - 1 && !group.Contains([",", "."]))
 					);
+					// adjust offset properties according to former character/base
 					if (l > 0) shermansGrouped.setOffset(group[l - 1], group[l]);
+					// draw
 					shermansDraw(ctx, group[l], shermansGrouped, thicknumberline);
 				}
 			});
@@ -314,7 +340,7 @@ export function shermansTranslate(ctx, input) {
 		shermansGrouped.resetOffset();
 		shermansDraw(ctx, " ", shermansGrouped);
 	});
-	//complain about c and q
+	// complain about c and q
 	let output = "";
 	if (cLetter) {
 		output = "Consider replacing C (marked red) with K or S exept when it's a name.";
@@ -332,11 +358,11 @@ export function shermansTranslate(ctx, input) {
 //           |_|
 function replacements(word) {
 	var cword = "";
-	for (var i = 0; i < word.length; i++) { //iterate through word 
+	for (var i = 0; i < word.length; i++) { // iterate through word 
 		if (word[i] == "c" && document.getElementById('scgc').checked) {
-			if (word[i + 1] == "k") continue; //omit ck
+			if (word[i + 1] == "k") continue; // omit ck
 			else if (["e", "i", "y"].Contains(word[i + 1])) cword += "s";
-			else cword += "k"; //end of the word
+			else cword += "k"; // end of the word
 		} else if (word[i] == "ß") cword += "ss";
 		else cword += word[i];
 	}
@@ -348,27 +374,27 @@ function replacements(word) {
 //   | . |  _| . | | | . | |   | . |
 //   |_  |_| |___|___|  _|_|_|_|_  |
 //   |___|           |_|       |___|
-//set rules for grouping
+// set rules for grouping
 let shermansGrouped = {
 	groups: function (input) {
-		//creates a multidimensional array for
-		//sentence -> words -> groups -> single letters
+		// creates a multidimensional array for
+		// sentence -> words -> groups -> single letters
 		var sentence = [];
-		var splitinput = input.replace(/\s+/g, " ").split(" "); //strip multiplex whitespaces, split input to single words and iterate through these
+		var splitinput = input.replace(/\s+/g, " ").split(" "); // strip multiple whitespaces, split input to single words and iterate through these
 		splitinput.forEach(sword => {
-			sentence.push([]); //init new word
+			sentence.push([]); // init new word
 			var group = [];
 			sword = replacements(sword)
-			for (var i = 0; i < sword.length; i++) { //iterate through word 
+			for (var i = 0; i < sword.length; i++) { // iterate through word 
 				var current = sword[i],
 					currenttwo = sword[i] + sword[i + 1];
-				//add double latin characters to group
+				// add double latin characters to group
 				if (["th", "gh", "ng", "qu", "wh", "sh", "ph", "ch"].Contains(currenttwo)) {
 					current = currenttwo;
 					i++;
 				}
-				//add vowels if none or the same, consonants of same base, numbers to former group if selected
 				if (document.getElementById('scgg').checked && group.length > 0) {
+					// add vowels if none or the same, consonants of same base, numbers to former group if selected
 					var former = group[group.length - 1][group[group.length - 1].length - 1];
 					if (
 						( /*vowels */ ["ve", "va", "vo"].Contains(shermansBase.getBase(current)) && (!["ve", "va", "vo", "number"].Contains(shermansBase.getBase(former)) || shermansBase.getBase(current) == shermansBase.getBase(former))) ||
@@ -376,36 +402,36 @@ let shermansGrouped = {
 						( /*numbers, data is of string type here*/ "-1234567890,.".Contains(current) && group[group.length - 1].length > 0 && "-1234567890,.".Contains(former))
 					)
 						group[group.length - 1].push(current)
-					else
+					else // create/add to current group
 						group.push([current]);
-				} else
+				} else // create/add to current group
 					group.push([current]);
 			}
-			//add control characters to the number group
+			// add control characters to the number group
 			if ("1234567890".Contains(group[group.length - 1][0])) group[group.length - 1].push("/");
 			if (group[group.length - 1][0] === "-" && "1234567890".Contains(group[group.length - 1][1])) {
 				group[group.length - 1].shift();
 				group[group.length - 1][group[group.length - 1].length] = ("\\");
 			}
-			sentence[sentence.length - 1].push(group); //append group to last word
+			sentence[sentence.length - 1].push(group); // append group to last word
 		});
 		return sentence;
 	},
 	resetOffset: function (lastStackedConsonantIndex) {
-		this.carriagereturn = false;
-		this.voweloffset = {
+		this.carriagereturn = false; // true overrides setting the pointer-position to the next character
+		this.voweloffset = { // no offset for vowels places them to the default position
 			x: 0,
 			y: 0
 		};
-		this.consonantcenter = {
+		this.consonantcenter = { // default is baseline
 			x: 0,
 			y: 0
 		};
-		this.vresize = 1;
+		this.vresize = 1; // vowel-size-factor
 		if (lastStackedConsonantIndex === undefined) lastStackedConsonantIndex = 0;
-		this.cresize = (1 / .8) ** lastStackedConsonantIndex;
-		this.offset = 0;
-		this.linewidth = 1;
+		this.cresize = (1 / .8) ** lastStackedConsonantIndex; // consonant-resize-factor, something the power of null is one
+		this.offset = 0; // counter of stacked objects, used for positioning the translated letters on top of the drawings
+		this.linewidth = 1; // initial line width
 	},
 	setOffset: function (former, actual) {
 		this.offset++;
@@ -422,9 +448,7 @@ let shermansGrouped = {
 			}
 		} else if (["number"].Contains(formerbase)) {
 			this.cresize *= .8;
-		} else
-		/*vovel*/
-		{
+		} else { /*vovel*/
 			this.vresize *= .8;
 		}
 	}
@@ -447,7 +471,7 @@ let draw = {
 		this.ctx.stroke();
 		this.ctx.lineWidth = this.linewidth;
 	},
-	arc: function (x, y, r, a, o, lw) { //could be unified with circle with optional params but separated for readibilities sake...
+	arc: function (x, y, r, a, o, lw) { // could be unified with circle with optional params but separated for readibilities sake...
 		this.ctx.beginPath();
 		this.ctx.arc(x, y, r, a, o, true);
 		if (lw !== undefined) this.ctx.lineWidth = lw;
@@ -474,9 +498,9 @@ let draw = {
 //   |_ -| . | -_|  _| |  _| |  _| | . |  _| .'| | | | |   | . |
 //   |___|  _|___|___|_|_| |_|___| |___|_| |__,|_____|_|_|_|_  |
 //       |_|                                               |___|
-//draw instructions for base + decoration
+// draw instructions for base + decoration
 function shermansDraw(ctx, letter, grouped, thicknumberline) {
-	if (!grouped.carriagereturn) {
+	if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
 		if (x + letterwidth * 2 >= width) {
 			y += letterheight;
 			x = letterwidth * .5;
@@ -494,14 +518,15 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 				qLetter = true;
 			}
 		}
+		// define basic positional arguments
 		let lettercenter = letterwidth * .5;
 		let currentbase = shermansBase.getBase(letter);
-		let center = {
+		let center = { // relative center of base of vowel
 			x: lettercenter + grouped.consonantcenter.x + grouped.voweloffset.x,
 			y: ((grouped.consonantcenter.y + grouped.voweloffset.y) || shermansBase.scgtable[currentbase].centerYoffset)
 		};
 
-		//draw base
+		// draw base
 		if (["punctuation"].Contains(currentbase)) {
 			if (!thicknumberline) {
 				let sentenceline = shermansBase.scgtable.punctuation.centerYoffset;
@@ -543,7 +568,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 						draw.circle(x + lettercenter, y + sentenceline, vowel * .75);
 						break;
 				}
-			} else {
+			} else { // should be a number. handles the display of decimal signs
 				shermansGrouped.linewidth = 2;
 			}
 		}
@@ -575,7 +600,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 			draw.circle(x + center.x, y + center.y, consonant * grouped.cresize, grouped.linewidth);
 		}
 
-		//draw decorators
+		// draw decorators
 		let decorators = shermansDeco.getDeco(letter);
 		if (decorators) {
 			decorators.forEach(deco => {
@@ -584,13 +609,13 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 					var number = parseInt(letter),
 						rad = .95;
 					for (var n = number; n > 0; n--) {
-						if (n > 4) {
+						if (n > 4) { // circle for 5
 							draw.circle(
 								x + center.x + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).x * grouped.cresize * .9,
 								y + center.y + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).y * grouped.cresize * .9,
 								shermansBase.scgtable.number.radialPlacement(Math.PI * 1.75).y * grouped.cresize * .15);
 							n -= 4;
-						} else draw.line(
+						} else draw.line( // lines for every other digit
 							x + center.x + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).x * grouped.cresize,
 							y + center.y + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).y * grouped.cresize,
 							x + center.x + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).x * grouped.cresize * .8,
@@ -621,7 +646,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * grouped.cresize,
 							vowel, Math.PI * 1.7, Math.PI * .8, grouped.linewidth
 						);
-						//overpaint base body
+						// overpaint base body
 						ctx.strokeStyle = 'white';
 						draw.arc(
 							x + center.x,
@@ -643,8 +668,9 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 			});
 		}
 		ctx.beginPath();
-		//print character unless it's a (numeral) control character
+		// print character translation above the drawings unless it's a (numeral) control character
 		if (!["/", "\\"].Contains(letter)) ctx.fillText(letter, x + lettercenter + grouped.offset * 8, y - letterheight * .5);
+		// add a minus sign in from of the translation above the drawings if applicable
 		if (["\\"].Contains(letter)) ctx.fillText("-", x + lettercenter - 1 * 8, y - letterheight * .5);
 	}
 }
