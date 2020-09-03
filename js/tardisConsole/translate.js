@@ -10,36 +10,33 @@ export function tardisTranslate(ctx, input) {
 	ctx.textAlign = 'center';
 	ctx.textBaseline = 'middle';
 
+	// process input to groups of consonants and vowels
+	let glyphs=[], two=false;
+	for (var i = 0; i < input.length; i++) {
+		two=false
+		let nextTwo = input[i] + input[i + 1];
+		if (["ch","ng","qu","sh","th","ph"].Contains(nextTwo)) { // add double letters
+			glyphs.push([nextTwo]);
+			two=true;
+			i++;
+		}
+		else glyphs.push([input[i]]); // add single letters
+		if(!two && "aeiou".Contains(input[i])) continue; // if current letter is a vowel treat it as aleph and skip next commands
+		else if ("aeiou".Contains(input[i+1])) { // if following character is a vowel add to former letter group
+			glyphs[glyphs.length-1].push(input[i + 1]);
+			i++;
+		}
+	}
+	// resize canvas according to number of groups
+	ctx.canvas.width = Math.min(glyphs.length + 1, Math.floor(window.innerWidth / glyphSize)) * glyphSize - glyphSize;
+	ctx.canvas.height = glyphSize * 1.5 * Math.ceil(--glyphs.length / Math.floor(window.innerWidth / glyphSize));
 	ctx.translate(glyphSize / 2, textSpace + glyphSize / 2);
 	ctx.save();
 
-	for (var i = 0; i < input.length; i++) {
-		let nextTwo = input[i] + input[i + 1];
-		if (nextTwo == "ch" || nextTwo == "ng" || nextTwo == "qu" || nextTwo == "sh" || nextTwo == "th" || nextTwo == "ph") {
-			if (isVowel(input[i + 12])) {
-				tardisDraw(ctx, nextTwo, input[i + 2]);
-				i += 2;
-			}
-			else {
-				tardisDraw(ctx, nextTwo, "");
-				i++;
-			}
-		}
-		else {
-			if (isVowel(input[i])) {
-				tardisDraw(ctx, "", input[i])
-			}
-			else {
-				if (isVowel(input[i + 1])) {
-					tardisDraw(ctx, input[i], input[i + 1]);
-					i++;
-				}
-				else {
-					tardisDraw(ctx, input[i], "");
-				}
-			}
-		}
-	}
+	// iterate through groups and draw
+	glyphs.forEach(set=>{
+		tardisDraw(ctx, set[0], (set[1]!==undefined ? set[1] : ""));
+	});
 }
 
 function tardisDraw(ctx, consonant, vowel) {
@@ -67,11 +64,6 @@ function drawGlyph(ctx, pathString) {
 		} else
 			ctx.fill(path);
 	});
-}
-
-function isVowel(input) {
-	//friendly suggestion: "aeiou".indexOf(input)>-1 returns true if input is a vowel. no urgent need for a function.
-	return input == "a" || input == "e" || input == "i" || input == "o" || input == "u";
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
