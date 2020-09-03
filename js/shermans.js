@@ -383,7 +383,7 @@ let shermansGrouped = {
 		// creates a multidimensional array for
 		// sentence -> words -> groups -> single letters
 		var sentence = [];
-		var splitinput = input.replace(/\s+/g, " ").split(" "); // strip multiple whitespaces, split input to single words and iterate through these
+		var splitinput = input.trim().replace(/\s+/g, " ").split(" "); // trim and strip multiple whitespaces, split input to single words and iterate through these
 		splitinput.forEach(sword => {
 			sentence.push([]); // init new word
 			var group = [];
@@ -470,7 +470,9 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 			x = letterwidth * .5;
 		} else x += letterwidth;
 	}
-	if (letter != " ") {
+	let currentbase = shermansBase.getBase(letter);
+	let lettercenter = letterwidth * .5;
+	if (currentbase) { // works only for defined characters
 		ctx.strokeStyle = color.foreground;
 		ctx.fillStyle = color.foreground;
 		if (letter == "c" || letter == "q") {
@@ -483,8 +485,6 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 			}
 		}
 		// define basic positional arguments
-		let lettercenter = letterwidth * .5;
-		let currentbase = shermansBase.getBase(letter);
 		let center = { // relative center of base of vowel
 			x: lettercenter + grouped.consonantcenter.x + grouped.voweloffset.x,
 			y: ((grouped.consonantcenter.y + grouped.voweloffset.y) || shermansBase.scgtable[currentbase].centerYoffset)
@@ -631,12 +631,13 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 				}
 			});
 		}
-		ctx.beginPath();
-		// print character translation above the drawings unless it's a (numeral) control character
-		if (!["/", "\\"].Contains(letter)) ctx.fillText(letter, x + lettercenter + grouped.offset * 8, y - letterheight * .5);
-		// add a minus sign in from of the translation above the drawings if applicable
-		if (["\\"].Contains(letter)) ctx.fillText("-", x + lettercenter - 1 * 8, y - letterheight * .5);
 	}
+	// text output for undefined characters as well for informational purpose
+	ctx.beginPath();
+	// print character translation above the drawings unless it's a (numeral) control character
+	if (!["/", "\\"].Contains(letter)) ctx.fillText(letter, x + lettercenter + grouped.offset * 8, y - letterheight * .5);
+	// add a minus sign in from of the translation above the drawings if applicable
+	if (["\\"].Contains(letter)) ctx.fillText("-", x + lettercenter - 1 * 8, y - letterheight * .5);
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
