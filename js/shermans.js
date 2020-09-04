@@ -9,7 +9,8 @@ let y; // current coordinate y
 let letterwidth; // you'll figure that one out for yourself
 let letterheight; // you'll figure that one out for yourself
 import {
-	color, draw
+	color,
+	draw
 } from './utils.js'
 
 //    _                                 _ ___ _         _   _
@@ -38,7 +39,47 @@ let shermansBase = {
 		}*/
 		punctuation: {
 			contains: [".", "?", "!", "\"", "'", "-", ",", ";", ":"],
-			centerYoffset: consonant * 1.25
+			centerYoffset: consonant * 1.25,
+			draw:function(letter, x,y, r){
+				draw.line(x - r * 1.25, y , x + r * 1.25, y );
+				draw.line(x - r * 1.25, y + this.centerYoffset, x + r * 1.25, y + this.centerYoffset);
+				switch (letter) {
+					case ".":
+						draw.circle(x , y + this.centerYoffset, r);
+						break;
+					case "?":
+						draw.dot(x -r, y + this.centerYoffset * .7, r * .5);
+						draw.dot(x + r, y + this.centerYoffset * .7, r * .5);
+						break;
+					case "!":
+						draw.dot(x -r, y + this.centerYoffset * .7, r * .5);
+						draw.dot(x , y + this.centerYoffset * .7, r * .5);
+						draw.dot(x + r, y + this.centerYoffset * .7, r * .5);
+						break;
+					case "\"":
+						draw.line(x , y + this.centerYoffset, x , y + this.centerYoffset * .7);
+						break;
+					case "'":
+						draw.line(x -r, y + this.centerYoffset, x -r, y + this.centerYoffset * .7);
+						draw.line(x + r, y + this.centerYoffset, x + r, y + this.centerYoffset * .7);
+						break;
+					case "-":
+						draw.line(x -r, y + this.centerYoffset, x -r, y + this.centerYoffset * .7);
+						draw.line(x , y + this.centerYoffset, x , y + this.centerYoffset * .7);
+						draw.line(x + r, y + this.centerYoffset, x + r, y + this.centerYoffset * .7);
+						break;
+					case ",":
+						draw.dot(x , y + this.centerYoffset, r);
+						break;
+					case ";":
+						draw.dot(x , y + this.centerYoffset * .7, r * .5);
+						break;
+					case ":":
+						draw.circle(x , y + this.centerYoffset, r);
+						draw.circle(x , y + this.centerYoffset, r * .75);
+						break;
+				}
+			}
 		},
 		number: {
 			contains: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "/", "\\"], // last ones are control characters for number ending and negative numbers
@@ -48,6 +89,10 @@ let shermansBase = {
 					x: consonant * Math.cos(radiant),
 					y: -consonant * Math.sin(radiant)
 				}
+			},
+			draw: function (x, y, r, baseline, rad = .5, lw = false) {
+				if (baseline) draw.line(x - r * 1.25, y - this.centerYoffset, x + r * 1.25, y - this.centerYoffset);
+				draw.circle(x, y, r);
 			}
 		},
 		ve: {
@@ -58,6 +103,10 @@ let shermansBase = {
 					x: vowel * Math.cos(radiant),
 					y: -vowel * Math.sin(radiant)
 				}
+			},
+			draw: function (x, y, r, baseline, rad = .5, lw = false) {
+				if (baseline) draw.line(x - r * 1.25, y - this.centerYoffset, x + r * 1.25, y - this.centerYoffset);
+				draw.circle(x, y, r);
 			}
 		},
 		va: {
@@ -68,6 +117,10 @@ let shermansBase = {
 					x: vowel * Math.cos(radiant),
 					y: -vowel * Math.sin(radiant)
 				}
+			},
+			draw: function (x, y, r, baseline, rad = .5, lw = false) {
+				if (baseline) draw.line(x - r * 1.25, y - this.centerYoffset, x + r * 1.25, y - this.centerYoffset);
+				draw.circle(x, y, r);
 			}
 		},
 		vo: {
@@ -78,6 +131,10 @@ let shermansBase = {
 					x: vowel * Math.cos(radiant),
 					y: -vowel * Math.sin(radiant)
 				}
+			},
+			draw: function (x, y, r, baseline, rad = .5, lw = false) {
+				if (baseline) draw.line(x - r * 1.25, y - this.centerYoffset, x + r * 1.25, y - this.centerYoffset);
+				draw.circle(x, y, r);
 			}
 		},
 		b: {
@@ -100,6 +157,12 @@ let shermansBase = {
 				}
 				if (!(item in options)) item = "vo";
 				return options[item];
+			},
+			draw: function (x, y, r, baseline, rad = .5, lw = false) {
+				draw.line(x - r * 1.25, y - this.centerYoffset, x + r * 1.25, y - this.centerYoffset);
+				draw.dot(x, y, r, color.background);
+				draw.arc(x, y, r, 2 * Math.PI + Math.asin(.9), Math.PI - Math.asin(.9), lw);
+				//				draw.arc(x, y, r, 2 * Math.PI + Math.asin(.9 / grouped.cresize), Math.PI - Math.asin(.9 / grouped.cresize), lw);
 			}
 		},
 		j: {
@@ -122,6 +185,10 @@ let shermansBase = {
 				}
 				if (!(item in options)) item = "vo";
 				return options[item];
+			},
+			draw: function (x, y, r, baseline, rad = .5, lw = false) {
+				draw.line(x - r * 1.25, y - this.centerYoffset, x + r * 1.25, y - this.centerYoffset);
+				draw.circle(x, y, r, lw);
 			}
 		},
 		t: {
@@ -144,6 +211,11 @@ let shermansBase = {
 				}
 				if (!(item in options)) item = "vo";
 				return options[item];
+			},
+			draw: function (x, y, r, baseline, rad = .5, lw = false) {
+				draw.line(x - r * 1.25, y - this.centerYoffset, x + r * 1.25, y - this.centerYoffset);
+				draw.dot(x, y, r, color.background);
+				draw.arc(x, y, r, 0, Math.PI, lw);
 			}
 		},
 		th: {
@@ -166,6 +238,10 @@ let shermansBase = {
 				}
 				if (!(item in options)) item = "vo";
 				return options[item];
+			},
+			draw: function (x, y, r, baseline, rad = .5, lw = false) {
+				if (baseline) draw.line(x - r * 1.25, y - this.centerYoffset, x + r * 1.25, y - this.centerYoffset);
+				draw.circle(x, y, r, lw);
 			}
 		}
 	},
@@ -451,7 +527,8 @@ let shermansGrouped = {
 			}
 		} else if (["number"].Contains(formerbase)) {
 			this.cresize *= .8;
-		} else { /*vovel*/
+		} else {
+			/*vovel*/
 			this.vresize *= .8;
 		}
 	}
@@ -493,75 +570,16 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		// draw base
 		if (["punctuation"].Contains(currentbase)) {
 			if (!thicknumberline) {
-				let sentenceline = shermansBase.scgtable.punctuation.centerYoffset;
-				draw.line(x, y, x + letterwidth, y);
-				draw.line(x, y + sentenceline, x + letterwidth, y + sentenceline);
-				switch (letter) {
-					case ".":
-						draw.circle(x + lettercenter, y + sentenceline, vowel);
-						break;
-					case "?":
-						draw.dot(x + lettercenter * .7, y + sentenceline * .7, vowel * .5);
-						draw.dot(x + lettercenter * 1.3, y + sentenceline * .7, vowel * .5);
-						break;
-					case "!":
-						draw.dot(x + lettercenter * .4, y + sentenceline * .7, vowel * .5);
-						draw.dot(x + lettercenter, y + sentenceline * .7, vowel * .5);
-						draw.dot(x + lettercenter * 1.6, y + sentenceline * .7, vowel * .5);
-						break;
-					case "\"":
-						draw.line(x + lettercenter, y + sentenceline, x + lettercenter, y + sentenceline * .7);
-						break;
-					case "'":
-						draw.line(x + lettercenter * .8, y + sentenceline, x + lettercenter * .8, y + sentenceline * .7);
-						draw.line(x + lettercenter * 1.2, y + sentenceline, x + lettercenter * 1.2, y + sentenceline * .7);
-						break;
-					case "-":
-						draw.line(x + lettercenter * .6, y + sentenceline, x + lettercenter * .6, y + sentenceline * .7);
-						draw.line(x + lettercenter, y + sentenceline, x + lettercenter, y + sentenceline * .7);
-						draw.line(x + lettercenter * 1.4, y + sentenceline, x + lettercenter * 1.4, y + sentenceline * .7);
-						break;
-					case ",":
-						draw.dot(x + lettercenter, y + sentenceline, vowel);
-						break;
-					case ";":
-						draw.dot(x + lettercenter, y + sentenceline * .7, vowel * .5);
-						break;
-					case ":":
-						draw.circle(x + lettercenter, y + sentenceline, vowel);
-						draw.circle(x + lettercenter, y + sentenceline, vowel * .75);
-						break;
-				}
+				shermansBase.scgtable[currentbase].draw(letter, x + center.x, y + center.y, vowel);
 			} else { // should be a number. handles the display of decimal signs
 				shermansGrouped.linewidth = 2;
 			}
 		}
-		if (["ve", "va", "vo"].Contains(currentbase)) {
-			if (!grouped.carriagereturn) draw.line(x, y, x + letterwidth, y);
-			draw.circle(x + center.x, y + center.y, vowel * grouped.vresize);
-		}
-		if (["b"].Contains(currentbase)) {
-			if (!grouped.carriagereturn) {
-				draw.line(x, y, x + letterwidth * .5 - Math.sin(.5) * consonant, y);
-				draw.line(x + letterwidth * .5 + Math.sin(.5) * consonant, y, x + letterwidth, y);
-			}
-			draw.arc(x + center.x, y + center.y, consonant * grouped.cresize, 2 * Math.PI + Math.asin(.9 / grouped.cresize), Math.PI - Math.asin(.9 / grouped.cresize), grouped.linewidth);
-		}
-		if (["t"].Contains(currentbase)) {
-			if (!grouped.carriagereturn) {
-				draw.line(x, y, x + lettercenter - consonant, y);
-				draw.line(x + lettercenter + consonant, y, x + letterwidth, y);
-			}
-			draw.arc(x + center.x, y + center.y, consonant * grouped.cresize, 0, Math.PI, grouped.linewidth);
-		}
-		if (["j", "th"].Contains(currentbase)) {
-			if (!grouped.carriagereturn) draw.line(x, y, x + letterwidth, y);
-			draw.circle(x + center.x, y + center.y, consonant * grouped.cresize, grouped.linewidth);
-		}
-		if (["number"].Contains(currentbase)) {
-			if (!grouped.carriagereturn) draw.line(x, y, x + letterwidth, y);
-			if (thicknumberline) shermansGrouped.linewidth = 2;
-			draw.circle(x + center.x, y + center.y, consonant * grouped.cresize, grouped.linewidth);
+		if (!["punctuation"].Contains(currentbase)) {
+			let r = consonant * grouped.cresize;
+			if (["ve", "va", "vo"].Contains(currentbase)) r = vowel * grouped.vresize;
+			if (thicknumberline) grouped.linewidth = 2;
+			shermansBase.scgtable[currentbase].draw(x + center.x, y + center.y, r, !grouped.carriagereturn, null, grouped.linewidth);
 		}
 
 		// draw decorators
