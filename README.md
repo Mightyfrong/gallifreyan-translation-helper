@@ -3,12 +3,16 @@
 
 This is an online tool aimed at artists and hobbyists who produce designs in one of 4 types of Gallifreyan:
 
-* [Sherman's][SCG]
-* [TARDIS Console][TCG]
-* [Doctor's Cot][DCG]
-* [DotScript][DS]
+* [Sherman's Circular Gallifreyan by Loren Sherman][SCG]
+* [TARDIS Console by Purple Emily][TCG]
+* [Doctor's Cot by Brittany Goodman][DCG]
+* [DotScript by Rachel Sutherland][DS]
 
-More details on how the translators for each one can be found below.
+More details on what the translators for each system does can be found below:
+* [Sherman's](#Shermans)
+* [TARDIS Console](#TARDIS-Console-WIP)
+* [Doctors's Cot](#Doctors-Cot)
+* [DotScript](#DotScript)
 
 ---
 
@@ -233,7 +237,7 @@ let characters = {
 
 ### Translation / Drawing
 
-Since this writing style is just a linear stringed representation of shapes instead of latin characters there is no need for grouping like for any other style. **dotscriptTranslate(ctx, input)** resizes the canvas according to number of the inputs characters and just iterates through the input string. There is not much of magic happening. Only setting the pointer to the next characters position depents on whether the character is a consonant or vowel for a slightly grouped appearance.
+Since this writing style is just a linear stringed representation of shapes instead of latin characters there is no need for grouping like for any other style. **dotscriptTranslate(ctx, input)** resizes the canvas according to number of the inputs characters and just iterates through the input string. There is not much of magic happening. Only setting the pointer to the next characters position depends on whether the character is a consonant or vowel for a slightly grouped appearance.
 The base line is drawn for the next character for not interfering with the former. This occasionally leads to weird results on linebreaks with this translator.
 
 ---
