@@ -40,43 +40,43 @@ let shermansBase = {
 		punctuation: {
 			contains: [".", "?", "!", "\"", "'", "-", ",", ";", ":"],
 			centerYoffset: consonant * 1.25,
-			draw:function(letter, x,y, r){
-				draw.line(x - r * 1.25, y , x + r * 1.25, y );
+			draw: function (letter, x, y, r) {
+				draw.line(x - r * 1.25, y, x + r * 1.25, y);
 				draw.line(x - r * 1.25, y + this.centerYoffset, x + r * 1.25, y + this.centerYoffset);
 				switch (letter) {
 					case ".":
-						draw.circle(x , y + this.centerYoffset, r);
+						draw.circle(x, y + this.centerYoffset, r);
 						break;
 					case "?":
-						draw.dot(x -r, y + this.centerYoffset * .7, r * .5);
+						draw.dot(x - r, y + this.centerYoffset * .7, r * .5);
 						draw.dot(x + r, y + this.centerYoffset * .7, r * .5);
 						break;
 					case "!":
-						draw.dot(x -r, y + this.centerYoffset * .7, r * .5);
-						draw.dot(x , y + this.centerYoffset * .7, r * .5);
+						draw.dot(x - r, y + this.centerYoffset * .7, r * .5);
+						draw.dot(x, y + this.centerYoffset * .7, r * .5);
 						draw.dot(x + r, y + this.centerYoffset * .7, r * .5);
 						break;
 					case "\"":
-						draw.line(x , y + this.centerYoffset, x , y + this.centerYoffset * .7);
+						draw.line(x, y + this.centerYoffset, x, y + this.centerYoffset * .7);
 						break;
 					case "'":
-						draw.line(x -r, y + this.centerYoffset, x -r, y + this.centerYoffset * .7);
+						draw.line(x - r, y + this.centerYoffset, x - r, y + this.centerYoffset * .7);
 						draw.line(x + r, y + this.centerYoffset, x + r, y + this.centerYoffset * .7);
 						break;
 					case "-":
-						draw.line(x -r, y + this.centerYoffset, x -r, y + this.centerYoffset * .7);
-						draw.line(x , y + this.centerYoffset, x , y + this.centerYoffset * .7);
+						draw.line(x - r, y + this.centerYoffset, x - r, y + this.centerYoffset * .7);
+						draw.line(x, y + this.centerYoffset, x, y + this.centerYoffset * .7);
 						draw.line(x + r, y + this.centerYoffset, x + r, y + this.centerYoffset * .7);
 						break;
 					case ",":
-						draw.dot(x , y + this.centerYoffset, r);
+						draw.dot(x, y + this.centerYoffset, r);
 						break;
 					case ";":
-						draw.dot(x , y + this.centerYoffset * .7, r * .5);
+						draw.dot(x, y + this.centerYoffset * .7, r * .5);
 						break;
 					case ":":
-						draw.circle(x , y + this.centerYoffset, r);
-						draw.circle(x , y + this.centerYoffset, r * .75);
+						draw.circle(x, y + this.centerYoffset, r);
+						draw.circle(x, y + this.centerYoffset, r * .75);
 						break;
 				}
 			}
@@ -105,7 +105,7 @@ let shermansBase = {
 				}
 			},
 			draw: function (x, y, r, baseline, rad = .5, lw = false) {
-				if (baseline) draw.line(x - r * 1.25, y - this.centerYoffset, x + r * 1.25, y - this.centerYoffset);
+				if (baseline) draw.line(x - r * 1.25 * 2, y - this.centerYoffset, x + r * 1.25 * 2, y - this.centerYoffset);
 				draw.circle(x, y, r);
 			}
 		},
@@ -119,7 +119,7 @@ let shermansBase = {
 				}
 			},
 			draw: function (x, y, r, baseline, rad = .5, lw = false) {
-				if (baseline) draw.line(x - r * 1.25, y - this.centerYoffset, x + r * 1.25, y - this.centerYoffset);
+				if (baseline) draw.line(x - r * 1.25 * 2, y - this.centerYoffset, x + r * 1.25 * 2, y - this.centerYoffset);
 				draw.circle(x, y, r);
 			}
 		},
@@ -133,7 +133,7 @@ let shermansBase = {
 				}
 			},
 			draw: function (x, y, r, baseline, rad = .5, lw = false) {
-				if (baseline) draw.line(x - r * 1.25, y - this.centerYoffset, x + r * 1.25, y - this.centerYoffset);
+				if (baseline) draw.line(x - r * 1.25 * 2, y - this.centerYoffset, x + r * 1.25 * 2, y - this.centerYoffset);
 				draw.circle(x, y, r);
 			}
 		},
@@ -161,8 +161,7 @@ let shermansBase = {
 			draw: function (x, y, r, baseline, rad = .5, lw = false) {
 				draw.line(x - r * 1.25, y - this.centerYoffset, x + r * 1.25, y - this.centerYoffset);
 				draw.dot(x, y, r, color.background);
-				draw.arc(x, y, r, 2 * Math.PI + Math.asin(.9), Math.PI - Math.asin(.9), lw);
-				//				draw.arc(x, y, r, 2 * Math.PI + Math.asin(.9 / grouped.cresize), Math.PI - Math.asin(.9 / grouped.cresize), lw);
+				draw.arc(x, y, r, 2 * Math.PI + Math.asin(.9 / shermansGrouped.cresize), Math.PI - Math.asin(.9 / shermansGrouped.cresize), lw);
 			}
 		},
 		j: {
@@ -349,7 +348,7 @@ let shermansDeco = {
 			fromto: [-1, 1]
 		},
 	},
-	draw:function(deco,x,y,currentbase,cresize,letter){
+	draw: function (deco, x, y, currentbase, cresize, letter) {
 		if (["number"].Contains(deco)) {
 			shermansGrouped.linewidth = 1;
 			var number = parseInt(letter),
@@ -357,46 +356,46 @@ let shermansDeco = {
 			for (var n = number; n > 0; n--) {
 				if (n > 4) { // circle for 5
 					draw.circle(
-						x  + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).x * cresize * .9,
-						y  + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).y * cresize * .9,
+						x + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).x * cresize * .9,
+						y + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).y * cresize * .9,
 						shermansBase.scgtable.number.radialPlacement(Math.PI * 1.75).y * cresize * .15);
 					n -= 4;
 				} else draw.line( // lines for every other digit
-					x  + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).x * cresize,
-					y  + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).y * cresize,
-					x  + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).x * cresize * .8,
-					y  + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).y * cresize * .8);
+					x + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).x * cresize,
+					y + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).y * cresize,
+					x + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).x * cresize * .8,
+					y + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).y * cresize * .8);
 				rad -= .15;
 			}
 		} else if (["1d", "2d", "3d", "4d"].Contains(deco)) {
 			shermansDeco.scgtable[deco].radiants.forEach(rad => {
 				let fromto = shermansDeco.scgtable[deco].fromto;
 				draw.dot(
-					x  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * cresize,
-					y  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * cresize,
+					x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * cresize,
+					y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * cresize,
 					vowel * .25);
 			});
 		} else if (["2ndvowel"].Contains(deco)) {
 			shermansDeco.scgtable[deco].radiants.forEach(rad => {
 				let fromto = shermansDeco.scgtable[deco].fromto;
 				draw.circle(
-					x  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * cresize,
-					y  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * cresize,
+					x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * cresize,
+					y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * cresize,
 					vowel);
 			});
 		} else if (["divot"].Contains(deco)) {
 			shermansDeco.scgtable[deco].radiants.forEach(rad => {
 				let fromto = shermansDeco.scgtable[deco].fromto;
 				draw.arc(
-					x  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * cresize,
-					y  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * cresize,
+					x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * cresize,
+					y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * cresize,
 					vowel, Math.PI * 1.7, Math.PI * .8, linewidth
 				);
 				// overpaint base body
 				ctx.strokeStyle = color.background;
 				draw.arc(
-					x ,
-					y ,
+					x,
+					y,
 					consonant * cresize, Math.PI * .4, Math.PI * .1, linewidth + 1
 				);
 			});
@@ -405,10 +404,10 @@ let shermansDeco = {
 			shermansDeco.scgtable[deco].radiants.forEach(rad => {
 				let fromto = shermansDeco.scgtable[deco].fromto;
 				draw.line(
-					x  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * cresize,
-					y  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * cresize,
-					x  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[1] * cresize,
-					y  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[1] * cresize);
+					x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * cresize,
+					y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * cresize,
+					x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[1] * cresize,
+					y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[1] * cresize);
 			});
 		}
 	},
@@ -502,7 +501,7 @@ function replacements(word) {
 	var cword = "";
 	for (var i = 0; i < word.length; i++) { // iterate through word 
 		if (word[i] == "c" && document.getElementById('scgc').checked) {
-			if (word[i + 1] == "h") cword+="c"; // ch is still allowed
+			if (word[i + 1] == "h") cword += "c"; // ch is still allowed
 			else if (word[i + 1] == "k") continue; // omit ck
 			else if (["e", "i", "y"].Contains(word[i + 1])) cword += "s";
 			else cword += "k"; // end of the word
@@ -650,7 +649,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		let decorators = shermansDeco.getDeco(letter);
 		if (decorators) {
 			decorators.forEach(deco => {
-				shermansDeco.draw(deco, x + center.x, y + center.y, currentbase, grouped.cresize,letter);
+				shermansDeco.draw(deco, x + center.x, y + center.y, currentbase, grouped.cresize, letter);
 			});
 		}
 	}
