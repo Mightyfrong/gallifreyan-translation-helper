@@ -502,7 +502,8 @@ function replacements(word) {
 	var cword = "";
 	for (var i = 0; i < word.length; i++) { // iterate through word 
 		if (word[i] == "c" && document.getElementById('scgc').checked) {
-			if (word[i + 1] == "k") continue; // omit ck
+			if (word[i + 1] == "h") cword+="c"; // ch is still allowed
+			else if (word[i + 1] == "k") continue; // omit ck
 			else if (["e", "i", "y"].Contains(word[i + 1])) cword += "s";
 			else cword += "k"; // end of the word
 		} else if (word[i] == "ß") cword += "ss";
