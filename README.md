@@ -1,7 +1,7 @@
 # Gallifreyan Translation Helper
 ###### by MightyFrong
 
-This is an online tool aimed at artists and hobbyists who produce designs in one of 4 types of Gallifreyan:
+This is an online tool aimed at artists and hobbyists who produce designs in one of 5 types of Gallifreyan:
 
 * [Sherman's Circular Gallifreyan by Loren Sherman][SCG]
 * [TARDIS Console by Purple Emily][TCG]
@@ -264,7 +264,7 @@ Grouping of characters makes resizing of the base necessary. The index for the c
 The word group is initiated.
 The following loop iterates over each character of the word, sets the current character, occasionally overrides single characters to double ones (th, ng) and corrects the index in this case.
 
-as long as the former group has less items as the set amount characters will be added. Otherwise the current character initiates a new group.
+As long as the former group has less items as the set amount characters will be added. Otherwise the current character initiates a new group.
 
 The group is then pushed to the last word.
 
@@ -292,7 +292,7 @@ Finally above the letter/group the respective latin characters are drawn (again 
 
 ## DotScript
 
-This writing system may be not widely used but is quite easy and was quick and fun to program. Each character is assigned one of five geometric shapes that have a special placement regarding the base line for consonants and a smaller representation for vowels. The character `z` has it's own form.
+This writing system may be not widely used but is quite easy and was quick and fun to program. Each character is assigned one of five geometric shapes that have a special placement regarding the base line for consonants and a smaller representation for vowels. The character `z` has it's own form. This system of a distinct glyph for every character makes DotScript more of a font than a writing system. But implementing it was a useful experience.
 
 ### What To Expect
 ![dotscript](assets/ds.png)
