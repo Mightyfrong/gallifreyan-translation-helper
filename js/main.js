@@ -8,6 +8,9 @@ import {
 	doctorsCotTranslate
 } from './doctorsCot/translate.js'
 import {
+	dotscriptTranslate
+} from './dotscript.js'
+import {
 	genKeyboard,
 	consonantTable,
 	vowelTable
@@ -60,6 +63,9 @@ function translate(ctx) {
 			break;
 		case "tardis":
 			tardisTranslate(ctx, input);
+			break;
+		case "dotscript":
+			dotscriptTranslate(ctx, input);
 			break;
 		default:
 			shermansTranslate(ctx, input);

@@ -13,23 +13,21 @@ export function polar(radius, degrees) {
 
 // does an array contain the value or one of the values?
 Array.prototype.Contains = function (values) {
-	if (Array.isArray(values)){
+	if (Array.isArray(values)) {
 		for (let i = 0; i < values.length - 1; i++) {
 			if (Boolean(this.indexOf(values[i]) + 1)) return true;
 		}
-	}
-	else if (Boolean(this.indexOf(values) + 1)) return true;
+	} else if (Boolean(this.indexOf(values) + 1)) return true;
 	return false;
 }
 
 // does a string contain the value or one of the values?
 String.prototype.Contains = function (values) {
-	if (Array.isArray(values)){
+	if (Array.isArray(values)) {
 		for (let i = 0; i < values.length - 1; i++) {
 			if (Boolean(this.indexOf(values[i]) + 1)) return true;
 		}
-	}
-	else if (Boolean(this.indexOf(values) + 1)) return true;
+	} else if (Boolean(this.indexOf(values) + 1)) return true;
 	return false;
 }
 
@@ -53,11 +51,11 @@ export let draw = {
 		this.ctx.stroke();
 		this.ctx.lineWidth = this.linewidth;
 	},
-	ellipse: function(x, y, r1, r2, rot=0, filled, lw) {
+	ellipse: function (x, y, r1, r2, rot = 0, filled, lw) {
 		this.ctx.beginPath();
 		this.ctx.ellipse(x, y, r1, r2, rot, 0, 2 * Math.PI);
 		if (lw !== undefined) this.ctx.lineWidth = lw;
-		if (filled===undefined || !filled) this.ctx.stroke();
+		if (filled === undefined || !filled) this.ctx.stroke();
 		else {
 			this.ctx.fillStyle = filled;
 			this.ctx.fill();
@@ -68,16 +66,18 @@ export let draw = {
 	dot: function (x, y, r, filled) {
 		this.ctx.beginPath();
 		this.ctx.arc(x, y, r, 0, 2 * Math.PI, true);
-		if (filled!==undefined && filled) this.ctx.fillStyle = filled;
+		if (filled !== undefined && filled) this.ctx.fillStyle = filled;
 		this.ctx.fill();
 		this.ctx.fillStyle = color.foreground;
 	},
-	line: function (fx, fy, tx, ty, lw) {
+	line: function (fx, fy, tx, ty, lw, style) {
 		this.ctx.beginPath();
 		this.ctx.moveTo(fx, fy);
 		this.ctx.lineTo(tx, ty);
 		if (lw !== undefined) this.ctx.lineWidth = lw;
+		if (style !== undefined && style) this.ctx.strokeStyle = style;
 		this.ctx.stroke();
+		this.ctx.strokeStyle = color.foreground
 		this.ctx.lineWidth = this.linewidth;
 	}
 };

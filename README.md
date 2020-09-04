@@ -1,13 +1,16 @@
 # Gallifreyan Translation Helper
 ###### by MightyFrong
 
-This is an online tool aimed at artists and hobbyists who produce designs in one of 3 types of Gallifreyan:
+This is an online tool aimed at artists and hobbyists who produce designs in one of 4 types of Gallifreyan:
 
 * [Sherman's][SCG]
 * [TARDIS Console][TCG]
 * [Doctor's Cot][DCG]
+* [DotScript][DS]
 
 More details on how the translators for each one can be found below.
+
+---
 
 ## Sherman's
 
@@ -152,6 +155,7 @@ Numbers are processed here as well. Small circles for 5, lines for everything el
 
 Finally above the letter/group the respective latin characters are drawn (again with exceptional control character handling).
 
+---
 
 ## TARDIS Console (WIP)
 
@@ -174,6 +178,8 @@ function drawGlyph(ctx, pathString) {
 }
 ```
 
+---
+
 ## Doctor's Cot
 
 This one is the most complicated of the 3 languages as it transcribes the exact phonetics of words instead of just their letters. Hence, the user is given an on-screen IPA ([International Phonetic Alphabet][2]) keyboard.
@@ -187,6 +193,50 @@ Translation takes the input string through 3 steps:
 2. **Cot Glyphs** - consecutive PhoneticUnits are grouped into Doctor's Cot glyphs, which can represent up to 2 consonants + 1 vowel.
 3. **Drawing** - outline and decoration info are looked up for each CotGlyph and drawn on the canvas.
 
+---
+
+## DotScript
+
+This writing system may be not widely used but is quite easy and was quick and fun to program. Each character is assigned one of five geometric shapes that have a special placement regarding the base line for consonants and a smaller representation for vowels. The character `z` has it's own form.
+
+### What To Expect
+![dotscript](assets/ds.png)
+
+### Character Setup
+
+This is really easy and consists only of the selected drawing instructions for the geometric shapes and the respective properties for each character. The only peculiarity for this translator is the alignment of characters overlapping, therefore needing to draw a background-colored filled circle before drawing lines and shapes.
+```js
+let characters = {
+	form: {
+		circle: function (x, y, size) { draw.circle(...) },
+		doublecircle: function (x, y, size) { draw.circle(...) },
+		divotcircle: function (x, y, size) { draw.arc(...) },
+		spiral: function (x, y, size) { draw.arc(...) },
+		dot: function (x, y, size) { draw.dot(...) },
+		z: function (x, y, size) { draw.arc(...) }
+	},
+	characters: {
+		a: {
+			form: "circle", // referring to the used form
+			float: -2, // -times consonant radius as yOffset
+			size: .5 // -times consonant radius
+		},
+		b: {
+			form: "circle",
+			float: -1.25,
+			size: 1
+		},
+		/*...*/
+	}
+}
+```
+
+### Translation / Drawing
+
+Since this writing style is just a linear stringed representation of shapes instead of latin characters there is no need for grouping like for any other style. **dotscriptTranslate(ctx, input)** resizes the canvas according to number of the inputs characters and just iterates through the input string. There is not much of magic happening. Only setting the pointer to the next characters position depents on whether the character is a consonant or vowel for a slightly grouped appearance.
+The base line is drawn for the next character for not interfering with the former. This occasionally leads to weird results on linebreaks with this translator.
+
+---
 
 ## Utils
 
@@ -211,6 +261,8 @@ dot: function (x, y, r) {
 	this.ctx.fill();
 }
 ```
+
+---
 
 ## Copyright & Licence Notice
 
@@ -239,6 +291,7 @@ along with the GTH.  If not, see <https://www.gnu.org/licenses/>.
 [SCG]: https://shermansplanet.com/gallifreyan/guide.pdf
 [TCG]: https://tardisconsolegallifreyan.weebly.com/tutorials.html
 [DCG]: https://doctorscotgallifreyan.com/walk-through/4lnekzojej4p5klcph0ppntibb19ib
+[DS]: https://www.deviantart.com/rachelsutherland/gallery/58931409/dotscript-gallifreyan-guide
 
 [1]: https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
 [2]: https://en.wikipedia.org/wiki/International_Phonetic_Alphabet
