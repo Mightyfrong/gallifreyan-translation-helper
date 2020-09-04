@@ -8,6 +8,9 @@ import {
 	doctorsCotTranslate
 } from './doctorsCot/translate.js'
 import {
+	ccTranslate
+} from './cc.js'
+import {
 	dotscriptTranslate
 } from './dotscript.js'
 import {
@@ -29,6 +32,8 @@ const ipaVowels = document.getElementById('ipa-vowels');
 genKeyboard(ipaConsons, consonantTable);
 genKeyboard(ipaVowels, vowelTable);
 
+const ccOpts = document.getElementById('cc-options');
+
 function activateControls(lang) {
 	switch (lang) {
 		case "shermans":
@@ -37,7 +42,10 @@ function activateControls(lang) {
 		case "cot":
 			ipaKeys.classList.toggle('active');
 			break;
-	}
+		case "cc":
+			ccOpts.classList.toggle('active');
+			break;
+		}
 }
 // only show IPA keyboard when Doctor's Cot selected
 langSelect.addEventListener('input', event => {
@@ -66,6 +74,9 @@ function translate(ctx) {
 			break;
 		case "dotscript":
 			dotscriptTranslate(ctx, input);
+			break;
+		case "cc":
+			ccTranslate(ctx, input);
 			break;
 		default:
 			shermansTranslate(ctx, input);
