@@ -231,6 +231,11 @@ export function dotscriptTranslate(ctx, input) {
 			let lw = directions.float > 0 ? linewidth : 0;
 			characters.form[directions.form](x + consonant, y + consonant * directions.float + lw, consonant * directions.size);
 		} else warning += ", " + input[i];
+
+		ctx.beginPath();
+		// print character translation above the drawings
+		ctx.fillText(input[i], x + consonant, y - letterheight * .5);
+	
 	}
 
 	// complain about undefined characters
