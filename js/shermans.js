@@ -92,7 +92,7 @@ let shermansBase = {
 			},
 			draw: function (x, y, r, baseline, rad = .5, lw = false) {
 				if (baseline) draw.line(x - r * 1.25, y - this.centerYoffset, x + r * 1.25, y - this.centerYoffset);
-				draw.circle(x, y, r);
+				draw.circle(x, y, r, lw);
 			}
 		},
 		ve: {
@@ -349,6 +349,69 @@ let shermansDeco = {
 			fromto: [-1, 1]
 		},
 	},
+	draw:function(deco,x,y,currentbase,cresize,letter){
+		if (["number"].Contains(deco)) {
+			shermansGrouped.linewidth = 1;
+			var number = parseInt(letter),
+				rad = .95;
+			for (var n = number; n > 0; n--) {
+				if (n > 4) { // circle for 5
+					draw.circle(
+						x  + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).x * cresize * .9,
+						y  + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).y * cresize * .9,
+						shermansBase.scgtable.number.radialPlacement(Math.PI * 1.75).y * cresize * .15);
+					n -= 4;
+				} else draw.line( // lines for every other digit
+					x  + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).x * cresize,
+					y  + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).y * cresize,
+					x  + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).x * cresize * .8,
+					y  + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).y * cresize * .8);
+				rad -= .15;
+			}
+		} else if (["1d", "2d", "3d", "4d"].Contains(deco)) {
+			shermansDeco.scgtable[deco].radiants.forEach(rad => {
+				let fromto = shermansDeco.scgtable[deco].fromto;
+				draw.dot(
+					x  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * cresize,
+					y  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * cresize,
+					vowel * .25);
+			});
+		} else if (["2ndvowel"].Contains(deco)) {
+			shermansDeco.scgtable[deco].radiants.forEach(rad => {
+				let fromto = shermansDeco.scgtable[deco].fromto;
+				draw.circle(
+					x  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * cresize,
+					y  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * cresize,
+					vowel);
+			});
+		} else if (["divot"].Contains(deco)) {
+			shermansDeco.scgtable[deco].radiants.forEach(rad => {
+				let fromto = shermansDeco.scgtable[deco].fromto;
+				draw.arc(
+					x  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * cresize,
+					y  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * cresize,
+					vowel, Math.PI * 1.7, Math.PI * .8, linewidth
+				);
+				// overpaint base body
+				ctx.strokeStyle = color.background;
+				draw.arc(
+					x ,
+					y ,
+					consonant * cresize, Math.PI * .4, Math.PI * .1, linewidth + 1
+				);
+			});
+		} else {
+			/* lines, diacritics, minus for numbers*/
+			shermansDeco.scgtable[deco].radiants.forEach(rad => {
+				let fromto = shermansDeco.scgtable[deco].fromto;
+				draw.line(
+					x  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * cresize,
+					y  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * cresize,
+					x  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[1] * cresize,
+					y  + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[1] * cresize);
+			});
+		}
+	},
 	getDeco: function (char) { // return array of names of decorators the given character is assigned to
 		let rtrn = [];
 		Object.keys(this.scgtable).forEach(row => {
@@ -586,67 +649,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		let decorators = shermansDeco.getDeco(letter);
 		if (decorators) {
 			decorators.forEach(deco => {
-				if (["number"].Contains(deco)) {
-					shermansGrouped.linewidth = 1;
-					var number = parseInt(letter),
-						rad = .95;
-					for (var n = number; n > 0; n--) {
-						if (n > 4) { // circle for 5
-							draw.circle(
-								x + center.x + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).x * grouped.cresize * .9,
-								y + center.y + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).y * grouped.cresize * .9,
-								shermansBase.scgtable.number.radialPlacement(Math.PI * 1.75).y * grouped.cresize * .15);
-							n -= 4;
-						} else draw.line( // lines for every other digit
-							x + center.x + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).x * grouped.cresize,
-							y + center.y + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).y * grouped.cresize,
-							x + center.x + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).x * grouped.cresize * .8,
-							y + center.y + shermansBase.scgtable.number.radialPlacement(Math.PI * rad).y * grouped.cresize * .8);
-						rad -= .15;
-					}
-				} else if (["1d", "2d", "3d", "4d"].Contains(deco)) {
-					shermansDeco.scgtable[deco].radiants.forEach(rad => {
-						let fromto = shermansDeco.scgtable[deco].fromto;
-						draw.dot(
-							x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * grouped.cresize,
-							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * grouped.cresize,
-							vowel * .25);
-					});
-				} else if (["2ndvowel"].Contains(deco)) {
-					shermansDeco.scgtable[deco].radiants.forEach(rad => {
-						let fromto = shermansDeco.scgtable[deco].fromto;
-						draw.circle(
-							x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * grouped.cresize,
-							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * grouped.cresize,
-							vowel);
-					});
-				} else if (["divot"].Contains(deco)) {
-					shermansDeco.scgtable[deco].radiants.forEach(rad => {
-						let fromto = shermansDeco.scgtable[deco].fromto;
-						draw.arc(
-							x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * grouped.cresize,
-							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * grouped.cresize,
-							vowel, Math.PI * 1.7, Math.PI * .8, grouped.linewidth
-						);
-						// overpaint base body
-						ctx.strokeStyle = color.background;
-						draw.arc(
-							x + center.x,
-							y + center.y,
-							consonant * grouped.cresize, Math.PI * .4, Math.PI * .1, grouped.linewidth + 1
-						);
-					});
-				} else {
-					/* lines, diacritics, minus for numbers*/
-					shermansDeco.scgtable[deco].radiants.forEach(rad => {
-						let fromto = shermansDeco.scgtable[deco].fromto;
-						draw.line(
-							x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * grouped.cresize,
-							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * grouped.cresize,
-							x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[1] * grouped.cresize,
-							y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[1] * grouped.cresize);
-					});
-				}
+				shermansDeco.draw(deco, x + center.x, y + center.y, currentbase, grouped.cresize,letter);
 			});
 		}
 	}
