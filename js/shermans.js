@@ -35,6 +35,10 @@ let shermansBase = {
 				}
 				if (!(item in options)) item = "vo"; // same rules for o, diacritics, line-decorators
 				return options[item]; // returns x- and y-properties
+			},
+			draw: function (x, y, r, baseline, rad = .5, lw = false) { // drawing instructions based on center of character. rad might define a rotation in the future
+				if (baseline) draw.line(x - r * 1.25, y - this.centerYoffset, x + r * 1.25, y - this.centerYoffset);
+				draw.circle(x, y, r, lw);
 			}
 		}*/
 		punctuation: {
