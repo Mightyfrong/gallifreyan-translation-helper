@@ -1,13 +1,14 @@
 let cLetter; // is there a "c"?
 let qLetter; // is there a "q"?
-let consonant = 30; // radius of consonants
-let vowel = Math.floor(consonant / 2); // radius of vowels
+const consonant = 30; // radius of consonants
+const vowel = Math.floor(consonant / 2); // radius of vowels
 let width; // canvas width
 let height; // canvas height
 let x; // current coordinate x
 let y; // current coordinate y
-let glyphwidth; // you'll figure that one out for yourself
-let glyphheight; // you'll figure that one out for yourself
+let glyphwidth = consonant * 2.5; // you'll figure that one out for yourself
+let glyphheight = consonant * 4; // you'll figure that one out for yourself
+
 import {
 	color,
 	draw
@@ -19,7 +20,7 @@ import {
 //   |___|__,|___|___| |___|  _|___|___|_|_| |_|___|__,|_| |_|___|_|_|___|
 //                         |_|
 //specify base for every letter, assign base to latin characters and specify geometric properties
-let shermansBase = {
+const shermansBase = {
 	scgtable: {
 		/* example: { // name of group
 			contains: [...], // array of characters for which the handling and properties apply
@@ -254,7 +255,7 @@ let shermansBase = {
 //   |___|___|___|___|_| |__,|_| |___|_|   |___|  _|___|___|_|_| |_|___|__,|_| |_|___|_|_|___|
 //                                             |_|
 // specify decoration for every letter
-let shermansDeco = {
+const shermansDeco = {
 	scgtable: {
 		/* example: { // name of group
 			contains: [...], // array of characters for which the handling and properties apply
@@ -343,12 +344,12 @@ let shermansDeco = {
 			fromto: [-1, 1]
 		},
 	},
-	draw: function (deco, x, y, currentbase, cresize, letter) {
+	draw: function (deco, x, y, currentbase, baserad, cresize, letter) {
 		if (["number"].Contains(deco)) {
 			shermansGrouped.linewidth = 1;
-			var number = parseInt(letter),
+			let number = parseInt(letter),
 				rad = .95;
-			for (var n = number; n > 0; n--) {
+			for (let n = number; n > 0; n--) {
 				if (n > 4) { // circle for 5
 					draw.circle(
 						x + shermansBase.scgtable.number.radialPlacement(rad).x * cresize * .9,
@@ -366,24 +367,24 @@ let shermansDeco = {
 			shermansDeco.scgtable[deco].radiants.forEach(rad => {
 				let fromto = shermansDeco.scgtable[deco].fromto;
 				draw.dot(
-					x + shermansBase.scgtable[currentbase].radialPlacement(rad).x * fromto[0] * cresize,
-					y + shermansBase.scgtable[currentbase].radialPlacement(rad).y * fromto[0] * cresize,
+					x + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).x * fromto[0] * cresize,
+					y + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).y * fromto[0] * cresize,
 					vowel * .25);
 			});
 		} else if (["2ndvowel"].Contains(deco)) {
 			shermansDeco.scgtable[deco].radiants.forEach(rad => {
 				let fromto = shermansDeco.scgtable[deco].fromto;
 				draw.circle(
-					x + shermansBase.scgtable[currentbase].radialPlacement(rad).x * fromto[0] * cresize,
-					y + shermansBase.scgtable[currentbase].radialPlacement(rad).y * fromto[0] * cresize,
+					x + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).x * fromto[0] * cresize,
+					y + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).y * fromto[0] * cresize,
 					vowel);
 			});
 		} else if (["divot"].Contains(deco)) {
 			shermansDeco.scgtable[deco].radiants.forEach(rad => {
 				let fromto = shermansDeco.scgtable[deco].fromto;
 				draw.arc(
-					x + shermansBase.scgtable[currentbase].radialPlacement(rad).x * fromto[0] * cresize,
-					y + shermansBase.scgtable[currentbase].radialPlacement(rad).y * fromto[0] * cresize,
+					x + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).x * fromto[0] * cresize,
+					y + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).y * fromto[0] * cresize,
 					vowel, Math.PI * 1.7, Math.PI * .8, linewidth
 				);
 				// overpaint base body
@@ -391,7 +392,7 @@ let shermansDeco = {
 				draw.arc(
 					x,
 					y,
-					consonant * cresize, Math.PI * .4, Math.PI * .1, linewidth + 1
+					consonant * cresize, Math.PI * (.4-baserad), Math.PI * (.1-baserad), linewidth + 1
 				);
 			});
 		} else {
@@ -399,10 +400,10 @@ let shermansDeco = {
 			shermansDeco.scgtable[deco].radiants.forEach(rad => {
 				let fromto = shermansDeco.scgtable[deco].fromto;
 				draw.line(
-					x + shermansBase.scgtable[currentbase].radialPlacement(rad).x * fromto[0] * cresize,
-					y + shermansBase.scgtable[currentbase].radialPlacement(rad).y * fromto[0] * cresize,
-					x + shermansBase.scgtable[currentbase].radialPlacement(rad).x * fromto[1] * cresize,
-					y + shermansBase.scgtable[currentbase].radialPlacement(rad).y * fromto[1] * cresize);
+					x + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).x * fromto[0] * cresize,
+					y + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).y * fromto[0] * cresize,
+					x + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).x * fromto[1] * cresize,
+					y + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).y * fromto[1] * cresize);
 			});
 		}
 	},
@@ -422,11 +423,8 @@ let shermansDeco = {
 // scroll through input and draw every letter
 export function shermansTranslate(ctx, input) {
 	// initialize widths, heights, default-values, draw-object
-	glyphwidth = consonant * 2.5
-	glyphheight = consonant * 6
-
-	x = -glyphwidth * .5;
-	y = glyphheight * .6;
+	x = 0;
+	y = -glyphheight * .5;
 	cLetter = false;
 	qLetter = false;
 	draw.init(ctx, 1);
@@ -442,9 +440,15 @@ export function shermansTranslate(ctx, input) {
 	})
 	// set canvas scale according to number of letters/groups
 	width = Math.min(lettergroups + 1, Math.floor(window.innerWidth / glyphwidth)) * glyphwidth - glyphwidth;
-	height = glyphheight * 1.5 * Math.ceil(--lettergroups / Math.floor(window.innerWidth / glyphwidth));
-	ctx.canvas.width = width;
-	ctx.canvas.height = height;
+	height = glyphheight * 2 * Math.ceil(--lettergroups / Math.floor(window.innerWidth / glyphwidth));
+	if (document.getElementById('scgcirc').checked) {
+		ctx.canvas.width = 800;
+		ctx.canvas.height = 800;
+	} else {
+
+		ctx.canvas.width = width;
+		ctx.canvas.height = height;
+	}
 
 	groupedinput.forEach(words => { // loop through sentence
 		words.forEach(groups => { // loop through words
@@ -452,7 +456,7 @@ export function shermansTranslate(ctx, input) {
 			groups.forEach(group => { // loop through character-groups 
 				groupnum++;
 				// prepare resizing for stacked characters but vowels
-				var lastStackedConsonantIndex = group.length - 1,
+				let lastStackedConsonantIndex = group.length - 1,
 					vowelindex;
 				// correction of initial resizing factor depending on last vowel within group
 				"aeiou.,".split("").forEach(vowel => {
@@ -462,9 +466,9 @@ export function shermansTranslate(ctx, input) {
 				// reset offsets but hand over possible resizing factor, first base, current group related to number of groups
 				shermansGrouped.resetOffset(lastStackedConsonantIndex, shermansBase.getBase(group[0]), groups.length, groupnum);
 				// iterate through characters within group
-				for (var l = 0; l < group.length; l++) {
+				for (let l = 0; l < group.length; l++) {
 					// check whether an occuring dot or comma is a decimal sign or not
-					var thicknumberline = /*is number group */ "1234567890".Contains(group[0]) && (
+					let thicknumberline = /*is number group */ "1234567890".Contains(group[0]) && (
 						( /*is comma*/ ",.".Contains(group[l])) ||
 						( /*is last digit without comma*/ l == group.length - 1 && !group.Contains([",", "."]))
 					);
@@ -495,8 +499,8 @@ export function shermansTranslate(ctx, input) {
 //   |_| |___|  _|_|__,|___|___|_|_|_|___|_|_|_| |___|
 //           |_|
 function replacements(word) {
-	var cword = "";
-	for (var i = 0; i < word.length; i++) { // iterate through word 
+	let cword = "";
+	for (let i = 0; i < word.length; i++) { // iterate through word 
 		if (word[i] == "c" && document.getElementById('scgc').checked) {
 			if (word[i + 1] == "h") cword += "c"; // ch is still allowed
 			else if (word[i + 1] == "k") continue; // omit ck
@@ -518,14 +522,14 @@ let shermansGrouped = {
 	groups: function (input) {
 		// creates a multidimensional array for
 		// sentence -> words -> groups -> single letters
-		var sentence = [];
-		var splitinput = input.trim().replace(/\s+/g, " ").split(" "); // trim and strip multiple whitespaces, split input to single words and iterate through these
+		let sentence = [];
+		let splitinput = input.trim().replace(/\s+/g, " ").split(" "); // trim and strip multiple whitespaces, split input to single words and iterate through these
 		splitinput.forEach(sword => {
 			sentence.push([]); // init new word
-			var group = [];
+			let group = [];
 			sword = replacements(sword)
-			for (var i = 0; i < sword.length; i++) { // iterate through word 
-				var current = sword[i],
+			for (let i = 0; i < sword.length; i++) { // iterate through word 
+				let current = sword[i],
 					currenttwo = sword[i] + sword[i + 1];
 				// add double latin characters to group
 				if (["th", "gh", "ng", "qu", "wh", "sh", "ph", "ch"].Contains(currenttwo)) {
@@ -534,7 +538,7 @@ let shermansGrouped = {
 				}
 				if (document.getElementById('scgg').checked && group.length > 0) {
 					// add vowels if none or the same, consonants of same base, numbers to former group if selected
-					var former = group[group.length - 1][group[group.length - 1].length - 1];
+					let former = group[group.length - 1][group[group.length - 1].length - 1];
 					if (
 						( /*vowels */ ["ve", "va", "vo"].Contains(shermansBase.getBase(current)) && (!["ve", "va", "vo", "number"].Contains(shermansBase.getBase(former)) || shermansBase.getBase(current) == shermansBase.getBase(former))) ||
 						( /*same base consonant*/ ![false, "punctuation", "ve", "va", "vo", "number"].Contains(shermansBase.getBase(current)) && group[group.length - 1].length > 0 && shermansBase.getBase(current) == shermansBase.getBase(former)) ||
@@ -602,17 +606,25 @@ let shermansGrouped = {
 //       |_|                                               |___|
 // draw instructions for base + decoration
 function shermansDraw(ctx, letter, grouped, thicknumberline) {
-	if (document.getElementById('scgcirc').checked){x=200;y=200;}
-	else{
-	if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
-			if (x + glyphwidth * 2 >= width) {
-				y += glyphheight;
-				x = glyphwidth * .5;
+	if (document.getElementById('scgcirc').checked) {
+		x = 200;
+		y = 200;
+	} else {
+		if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
+			if (x + glyphwidth >= width) {
+				y += glyphheight * 2;
+				x = 0;
 			} else x += glyphwidth;
 		}
 	}
 	let currentbase = shermansBase.getBase(letter);
-	let lettercenter = glyphwidth * .5;
+	// rotation of charactergroups in regards of circular display
+	let rad = 0;
+	let wordCircleRadius = {
+		r: consonant * 6,
+		x: 0,
+		y: consonant * 6
+	};
 	if (currentbase) { // works only for defined characters
 		ctx.strokeStyle = color.foreground;
 		ctx.fillStyle = color.foreground;
@@ -626,14 +638,31 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 			}
 		}
 		// define basic positional arguments
-		let rad=0;
+		if (document.getElementById('scgcirc').checked) {
+			rad = -(2 / grouped.numberOfGroups) * (grouped.currentGroup - 1);
+			wordCircleRadius.r = consonant * grouped.numberOfGroups *1.25;
+			grouped.consonantcenter.x = grouped.consonantcenter.y * -Math.sin(Math.PI * rad);
+			grouped.consonantcenter.y = grouped.consonantcenter.y * Math.cos(Math.PI * rad);
+			grouped.voweloffset.x = grouped.voweloffset.x * Math.sin(Math.PI * rad);
+			grouped.voweloffset.y = grouped.voweloffset.y * Math.cos(Math.PI * rad);
+			wordCircleRadius.r = consonant * grouped.numberOfGroups *1.25;
+			wordCircleRadius.x = -Math.sin(Math.PI * rad) * wordCircleRadius.r;
+			wordCircleRadius.y = Math.cos(Math.PI * rad) * wordCircleRadius.r;
+		}
+
 		let center = { // relative center of base of vowel
-			x: lettercenter + grouped.consonantcenter.x + grouped.voweloffset.x,
-			y: ((grouped.consonantcenter.y + grouped.voweloffset.y) || shermansBase.scgtable[currentbase].centerYoffset)
+			x: grouped.consonantcenter.x + grouped.voweloffset.x + wordCircleRadius.x,
+			y: ((grouped.consonantcenter.y + grouped.voweloffset.y) || shermansBase.scgtable[currentbase].centerYoffset) + wordCircleRadius.y
 		};
 
 		// draw base line
-		if (!grouped.carriagereturn || ["b","t"].Contains(currentbase)) draw.line(x , y, x + glyphwidth, y);
+		if (!grouped.carriagereturn || ["b", "t"].Contains(currentbase)) {
+			let angle = .068;
+			if (document.getElementById('scgcirc').checked) {
+				angle = 1/ grouped.numberOfGroups;
+			}
+			draw.arc(x , y, wordCircleRadius.r, Math.PI * (.5+rad + angle), Math.PI * (.5 +rad- angle));
+		}
 
 		// draw base
 		if (["punctuation"].Contains(currentbase)) {
@@ -654,16 +683,16 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		let decorators = shermansDeco.getDeco(letter);
 		if (decorators) {
 			decorators.forEach(deco => {
-				shermansDeco.draw(deco, x + center.x, y + center.y, currentbase, grouped.cresize, letter);
+				shermansDeco.draw(deco, x + center.x, y + center.y, currentbase, rad, grouped.cresize, letter);
 			});
 		}
 	}
 	// text output for undefined characters as well for informational purpose
 	ctx.beginPath();
 	// print character translation above the drawings unless it's a (numeral) control character
-	if (!["/", "\\"].Contains(letter)) ctx.fillText(letter, x + lettercenter + grouped.offset * 8, y - glyphheight * .5);
+	if (!["/", "\\"].Contains(letter)) ctx.fillText(letter, x + wordCircleRadius.x + grouped.offset * 8, y + wordCircleRadius.y + consonant * 2);
 	// add a minus sign in from of the translation above the drawings if applicable
-	if (["\\"].Contains(letter)) ctx.fillText("-", x + lettercenter - 1 * 8, y - glyphheight * .5);
+	if (["\\"].Contains(letter)) ctx.fillText("-", x + wordCircleRadius.x - 1 * 8, y - y + wordCircleRadius.y + consonant * 2);
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
