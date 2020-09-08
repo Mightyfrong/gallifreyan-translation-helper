@@ -426,7 +426,6 @@ const shermansDeco = {
 						x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[1] * consonant * 2,
 						y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[1] * consonant * 2);
 				} else if (["."].Contains(deco)) {
-					draw.dot(x, y, 3, "red");
 					draw.circle(
 						x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * consonant * 2,
 						y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * consonant * 2,
