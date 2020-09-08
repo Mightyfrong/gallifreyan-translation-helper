@@ -1,38 +1,66 @@
 import { polar } from "../utils.js";
 
+export function drawLetter(ctx, letter) {
+	const pathData = letters[letter] || [];
+	const pathStrings =
+		Array.isArray(pathData) ? pathData : pathData.split(';');
+
+	ctx.save();
+	if (clippedLetters.includes(letter)) {
+		const [cx, cy] = [50, -50]
+		ctx.translate(cx, cy);
+
+		const path = new Path2D(circle(95));
+		ctx.clip(path);
+
+		ctx.translate(-cx, -cy);
+	}
+
+	pathStrings.forEach((str, idx) => {
+		const path = new Path2D(str);
+
+		if (idx) {
+			ctx.lineWidth = idx;
+			ctx.stroke(path);
+		} else
+			ctx.fill(path);
+	});
+	ctx.restore();
+}
+
 const consonants = {
 	b: {
 		path: "",
 		// vowel: {x: offset from consonant center, y: offset from consonant center, r1: resizing of ellisis, r2:resizing of ellisis, n: ellipsis negative (filled) },
 		a: false,
-		e: {x: +3, y: -3, r1: 1, r2: 1, n: false},
-		i: {x: +13, y: -13, r1: 1, r2: 1, n: false},
+		e: { x: +3, y: -3, r1: 1, r2: 1, n: false },
+		i: { x: +13, y: -13, r1: 1, r2: 1, n: false },
 		o: false,
-		u: {x: +3, y: -3, r1: 1, r2: 1, n: false},
+		u: { x: +3, y: -3, r1: 1, r2: 1, n: false },
 	},
 	c: {
 		path: "",
 		// vowel: {x: offset from consonant center, y: offset from consonant center, r1: resizing of ellisis, r2:resizing of ellisis, n: ellipsis negative (filled) },
 		a: false,
-		e: {x: 0, y: 0, r1: 1, r2: 1, n: false},
-		i: {x: +13, y: -13, r1: 1, r2: 1, n: false},
+		e: { x: 0, y: 0, r1: 1, r2: 1, n: false },
+		i: { x: +13, y: -13, r1: 1, r2: 1, n: false },
 		o: false,
-		u: {x: +3, y: -3, r1: 1, r2: 1, n: false},
+		u: { x: +3, y: -3, r1: 1, r2: 1, n: false },
 	},
 	/*...*/
 	sh: {
 		path: "",
 		// vowel: {x: offset from consonant center, y: offset from consonant center, r1: resizing of ellisis, r2:resizing of ellisis, n: ellipsis negative (filled) },
-		a: {x: 0, y: 0, r1: 1, r2: 1, n: true},
-		e: {x: 0, y: 0, r1: 1, r2: 1, n: true},
-		i: {x: +13, y: -13, r1: 1, r2: 1, n: false},
-		o: {x: 0, y: 0, r1: 1, r2: 1, n: true},
-		u: {x: +3, y: +3, r1: 1, r2: 1, n: false},
+		a: { x: 0, y: 0, r1: 1, r2: 1, n: true },
+		e: { x: 0, y: 0, r1: 1, r2: 1, n: true },
+		i: { x: +13, y: -13, r1: 1, r2: 1, n: false },
+		o: { x: 0, y: 0, r1: 1, r2: 1, n: true },
+		u: { x: +3, y: +3, r1: 1, r2: 1, n: false },
 	},
 };
 
 const vowels = {
-	a: function(x, y, param){
+	a: function (x, y, param) {
 		//we could make use of something like the general purpose drawing methods of sherman's with added ellipsis, put all of that to the utils.js
 		draw.line(x + param.x + startingpoint,
 			x + param.y + startingpoint,
@@ -40,12 +68,12 @@ const vowels = {
 			y + param.y + endingpoint);
 		draw.ellipse(parameters);
 	},
-	e: function(x, y, param){
+	e: function (x, y, param) {
 		draw.ellipse(parameters);
 	},
 	/*...*/
-	alepha: function(x, y, param){},
-	alephe: function(x, y, param){},
+	alepha: function (x, y, param) { },
+	alephe: function (x, y, param) { },
 	/*...*/
 };
 
@@ -54,40 +82,42 @@ export const letters = {
 	b: `;${dentedCircle(44.5, "24.5 -60 0 0")};${circle(49)}`,
 	c: `;${dentedCircle(44.5, "24.5 -60 0 0", "22 30 90 0")};${circle(49)}`,
 	ch: `;${dentedCircle(44.5, "19.5 -165 -120 0", "24.5 -60 0 0", "22 30 90 0")};${circle(49)}`,
-	d: `;${fourDentCircle()};${circle(49)}`,
+	d: `;${letterR()};${circle(49)}`,
 	e: ``,
-	f: `;${circles(23,26,29,32,35,38,41,44,47,50)};`+circle(20),
-	g: "",
-	h: "",
+	f: `;${circles(22.5, 49.5, 3)};` + circle(20),
+	g: ["", ellipses(24.5, 49.5), ellipse(20)],
+	h: `;${circles(15, 35)};` + circle(10),
 	i: "",
-	j: "",
-	k: "",
-	l: "",
-	m: "",
-	n: `;${circles(39,42,45)};`+circle(50),
+	j: `;${circles(25, 45)};` + circle(20),
+	k: ["", hexagon(39.5), hexagon(49)],
+	l: ["", hexagon(35) + hexLegs(35), hexagon(45)],
+	m: ["", hexagon(30) + hexLegs(40), hexagon(40)],
+	n: ["", circles(42.5, 45), circle(49)],
 	o: "",
-	p: ";;"+circles(40,50),
+	p: ";;" + circles(40, 49, 9),
 	q: "",
-	ng: "",
+	ng: ["", circles(42.5, 45) + ellipses(15, 42.5, 12), circle(49) + ellipse(10, 12)],
 	qu: "",
-	r: `;;` + fourDentCircle(),
+	r: `;;` + letterR(),
 	s: `;;` + dentedCircle(44.5, "14.5 -160 -140 1", "44.5 -105 -45 0", "9.5 -15 15 0", "14.5 45 85 0", "29.5 95 170 0"),
-	sh: dentedCircle(44.5, "14.5 -160 -140 1", "24.5 -60 0 0", "14.5 40 85 0") + `;;`,
-	t: "",
+	sh: [dentedCircle(44.5, "14.5 -160 -140 1", "24.5 -60 0 0", "14.5 40 85 0")],
+	t: `;;${circle(30)};` + circle(20),
 	th: circle(25) + ";;" + circle(45),
 	u: "",
 	v: "",
 	w: "",
-	x: `;${circle(45)};` + circles(25,50),
+	x: `;${circle(45)};` + circles(36, 49, 13),
 	y: "",
 	z: "",
 	ß: "",
-	ph: `;${circles(10,14,18,22,26,30)};` + circles(40,50),
+	ph: `;${circles(12.5, 30)};` + circles(39, 49, 10),
 	"": "",
 	" ": ""
 };
 
-function fourDentCircle() {
+const clippedLetters = ['h', 'j', 't'];
+
+function letterR() {
 	return dentedCircle(44.5, "19.5 -165 -120 0", "24.5 -60 0 0", "22 30 90 0", "14.5 135 165 1");
 }
 
@@ -96,8 +126,15 @@ function circle(r) {
 	const rr001 = r + ',' + r + ' 0 0 1';
 	return `M${r0}A${rr001} -${r0} ${rr001} ${r0}`
 }
-function circles(...radii) {
-	return radii.map(circle).reduce((acc, circ) => acc + circ);
+function circles(start, end, step) {
+	end = end || start;
+	step = step || 2.5;
+
+	let pathString = "";
+	for (let r = start; r <= end; r += step)
+		pathString += circle(r);
+
+	return pathString;
 }
 function dentedCircle(mainRadius, ...dentStrings) {
 	const dentPaths = dentStrings.map(str => {
@@ -124,12 +161,44 @@ function dentedCircle(mainRadius, ...dentStrings) {
 
 	return `M${pathData}A${rr0a1} ` + polar(mainRadius, pathStart);
 }
+function ellipse(rx, y) {
+	y = y || 0;
+	const ry = rx / 2;
+	const rxry = [rx, ry];
+	const rxy = [rx, y];
+	const rr001 = rxry + " 0 0 1";
+	return `M${rxy}A${rr001} -${rxy} ${rr001} ` + rxy
+}
+function ellipses(s0, s1, y) {
+	y = y || 0;
+	let str = "";
+	for (let s = s0; s <= s1; s += 2.5) {
+		str += ellipse(s, y);
+		y--;
+	}
+	return str;
+}
+function hexagon(s) {
+	let str = "M" + [s, 0];
+	for (let i = 1; i < 6; i++)
+		str += "L" + polar(s, 60 * i);
+	return str + "Z";
+}
+function hexLegs(start) {
+	let str = "";
+	for (let i = 0; i < 6; i++) {
+		const a = polar(start, 60 * i);
+		const b = polar(50, 60 * i);
+		str += "M" + a + "L" + b;
+	}
+	return str;
+}
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
- * 
+ *
  * This file is part of the Gallifreyan Translation Helper,
  * henceforth referred to as "the GTH".
- * 
+ *
  * The GTH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or

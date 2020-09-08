@@ -1,4 +1,4 @@
-import { letters as tardisLetters } from './letters.js'
+import { drawLetter } from './letters.js';
 
 const glyphSize = 105;
 const textSpace = 20;
@@ -34,36 +34,26 @@ export function tardisTranslate(ctx, input) {
 	ctx.save();
 
 	// iterate through groups and draw
-	glyphs.forEach(([con, vow]) => {
-		tardisDraw(ctx, con, vow || "");
+	glyphs.forEach(letters => {
+		tardisDraw(ctx, ...letters);
 	});
 }
 
 function tardisDraw(ctx, consonant, vowel) {
-	if (ctx.getTransform().e > ctx.canvas.width - glyphSize/2) {
+	vowel = vowel || "";
+
+	if (ctx.getTransform().e > ctx.canvas.width - glyphSize / 2) {
 		ctx.restore();
 		ctx.translate(0, glyphSize + textSpace + lineSpace);
 		ctx.save();
 	}
 
-	drawGlyph(ctx, tardisLetters[consonant]);
-	drawGlyph(ctx, tardisLetters[vowel]);
+	drawLetter(ctx, consonant);
+	drawLetter(ctx, vowel);
 
 	ctx.fillText(consonant + vowel, 0, (glyphSize + textSpace) / 2);
 
 	ctx.translate(glyphSize, 0);
-}
-
-function drawGlyph(ctx, pathString) {
-	pathString.split(";").forEach((str, idx) => {
-		const path = new Path2D(str);
-
-		if (idx) {
-			ctx.lineWidth = idx;
-			ctx.stroke(path);
-		} else
-			ctx.fill(path);
-	});
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
