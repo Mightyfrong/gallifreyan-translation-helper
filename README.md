@@ -16,11 +16,13 @@ More details on what the translators for each system does can be found below:
 * [CC Gallifreyan](#CC-Gallifreyan)
 * [DotScript](#DotScript)
 
+Please recognize this tool ***not*** as a translator: it serves the purpose of quicker impressions of writing syntax. The artistic composition is, and should be, your challenge. Please do not use any of these outputs for an immediate tattoo template!
+
 ---
 
 ## Sherman's
 
-Designed as a pattern memory aid, this translator draws each character either as an individual glyph, or stacked depending on choice. It displays the glyphs in horizontal lines instead of writing them in the expected circular fashion for ease of reading.
+Designed as a pattern memory aid, this translator draws each character either as an individual glyph, or stacked depending on choice. It displays the words either in a circular fashion (not spiral though) or every glyph/group in horizontal lines for ease of reading.
 
 One can optionally toggle whether C is transcribed to K/S in the language controls.
 
@@ -29,7 +31,8 @@ Numbers are supported, but only make sense with grouping enabled. Dot and comma 
 Diacritics are supported according to the [official guide][SCG] for german umlauts, accent acute, accent grave, ñ and scandinavian å, ø and æ.
 
 ### What To Expect
-![sherman's circular gallifreyan](assets/scg.png)
+![sherman's circular gallifreyan, linear display](assets/scg_linear.png)
+![sherman's circular gallifreyan, circular display](assets/scg_circular.png)
 
 ### Recurring Variables Within Global Scope
 * cLetter: false by default, true if detected. if true a warning is displayed and drawings are red.
@@ -40,9 +43,8 @@ Diacritics are supported according to the [official guide][SCG] for german umlau
 * height: height of the output canvas
 * x: current x coordinate for drawing, representing the left starting coordinate
 * y: current y coordinate for drawing, representing the words baseline
-* letterwidth: width of letters/groups
-* letterheight: height of letters/groups
-
+* glyph: glyphs dimension object
+* option: object to shortify user selected options
 
 ### Construction Dictionaries
 Sherman's follows a quite easy pattern consisting of big and small circles, arcs, dots and lines all arranged in a clear fashion following plain rules. Like in the original guidance table consonants are grouped to their respective base (b,j,t,th), also vowels with base e (for e,i,u), a and o, punctuation and numbers.
@@ -84,10 +86,10 @@ let shermansBase = {
 }
 ```
 
-The decorator object **shermansDeco** has a comparable pattern. It returns an array of decorators (e.g. diacritics *and* u-line for ü). Decorators can be sets of multiple radiants to be processed and given relative positions or ranges of relative diameters of the parent character circle/arc.
+The decorator object **shermansDeco** has a comparable pattern, whereas the table consists of relative radiant and radius positions of decorators, and a draw-method exists on its own to handle partial repetitive instruction. The getDaco-method returns an array of decorators (e.g. diacritics *and* u-line for ü). Decorators can be sets of multiple radiants to be processed and given relative positions or ranges of relative diameters of the parent character circle/arc.
 
 ### Translation
-**shermansTranslate(ctx, input)** is the main wrapper for the algorithm and is passed the canvas object and the actual input. It sets up the initial coordinates for the words baseline, initiates the [general draw object](#Multipurpose-Drawing), sets up an [array of characters](#Grouping-SCG) and sets the canvas size according to the number of (grouped) characters.
+**shermansTranslate(ctx, input)** is the main wrapper for the algorithm and is passed the canvas object and the actual input. It retrieves the users settings for the translation, sets up the initial coordinates for the words baseline, initiates the [general draw object](#Multipurpose-Drawing), sets up an [array of characters](#Grouping-SCG) and sets the canvas size according to the number of (grouped) characters or the size of word circles.
 
 Then the array of characters is processed for each word and each group of characters.
 Grouping of characters makes resizing of the base necessary. The index for the last consonant of the group is determined and used as a resizing factor.
@@ -123,43 +125,15 @@ The group is then pushed to the last word.
 It also sets the carriage return to true to have the characters drawn at the same x-position on the canvas.
 
 ### Character Drawing
-**shermansDraw(ctx, letter, grouped, thicknumberline)** actually draws a character to the canvas. X and y coordiantes are set. If not grouped the x-"pointer" is set to the next characters position, if the end of the viewport is reached the next line is set. Stroke- and fill-styles are set.
+**shermansDraw(ctx, letter, grouped, thicknumberline)** actually draws a character to the canvas. X and y coordiantes are set. If not grouped the x-"pointer" is set to the next characters / word-circle position, if the end of the viewport is reached the next line is set. Stroke- and fill-styles are set.
+Word-circle size and rotation steps, vowel-offsets and relative centers of the characters are set or calculated.
 
-Actual drawing instructions start with the decision about the base.
-If it is punctuation the words base line and sentences base line is drawn and the instructions for the actual letter are processed eg...
-```js
-case "?": /*base "punctuation"*/
-	draw.dot(x + 17.5 * shermansScale, y + 15 * shermansScale, 5 * shermansScale);
-	draw.dot(x + 32.5 * shermansScale, y + 15 * shermansScale, 5 * shermansScale);
-	break;
-```
+The base line / word line and sentence line in case of puntuation ist draw first.
+Then the base ist drawn by calling the respective draw method for the pased characters base.
+Same goes for the decorators.
 ...unless [thicknumberline](#Translation) is set. Then the current "," is supposed to be the decimal sign that is of course not to be displayed as an actual "," but a thick line within the number-group.
 
-Vowels and consonants have the base line drawn unless they are grouped. Then follow the drawing instructions for the base/body of the character:
-```js
-if (["ve", "va", "vo"].Contains(currentbase)) {
-	if (!grouped.carriagereturn) draw.line(x, y, x + letterwidth, y);
-	draw.circle(x + center.x, y + center.y, vowel * grouped.vresize);
-}
-```
-...and so on.
-
-Next are the decorators, that iterate through the list of decorators for the current character, iterate through the decorators radiants and apply the drawing instruction considering the relative positioning to the center of the bases body and bases radius:
-```js
-decorators.forEach(deco => {
-	/*e.g. line decorators*/
-	shermansDeco.scgtable[deco].radiants.forEach(rad => {
-		let fromto = shermansDeco.scgtable[deco].fromto;
-		draw.line(
-			x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[0] * grouped.cresize,
-			y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[0] * grouped.cresize,
-			x + center.x + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).x * fromto[1] * grouped.cresize,
-			y + center.y + shermansBase.scgtable[currentbase].radialPlacement(Math.PI * rad).y * fromto[1] * grouped.cresize);
-	});
-```
-Numbers are processed here as well. Small circles for 5, lines for everything else.
-
-Finally above the letter/group the respective latin characters are drawn (again with exceptional control character handling).
+Finally aligned with the letter/group the respective latin characters are drawn (again with exceptional control character handling).
 
 ---
 
