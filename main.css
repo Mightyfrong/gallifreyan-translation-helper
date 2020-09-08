@@ -1,68 +1,104 @@
+* {
+	box-sizing: border-box;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	margin: 0;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	background: top no-repeat url('assets/time_lord.svg'), #000c24 top/640px repeat-x url('assets/star_field.png');
+	color: #eee;
 }
 
-#info {
-    color: red;
-    font-weight: bold;
-}
+/** Large Sections **/
 
-#lang-controls {
-    margin: .25em 10em;
-    padding: 0;
-}
-
-#lang-controls>div {
-    display: none;
-    padding: .5em;
-}
-
-#lang-controls>div.active {
-    display: block;
-}
-
-
-#ipa-keys>div {
-    display: inline-block;
-    vertical-align: top;
-    margin: .25em;
-}
-
-#ipa-keys input {
-    width: 2em;
-    padding: 0;
-    text-align: center;
-}
-
-#canvas {
-    border: 1px solid rgba(0,0,0,.1);
-}
-
-#headerbackground {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    z-index: -1;
+header, main, footer {
+	text-align: center;
 }
 
 header {
-    padding: 7em 0;
-    width: 50vw;
-    margin: 0 auto;
-    text-align: center;
-    min-height:18em;
+	margin: 8.5em auto;
+	width: 680px;
+	color: #fed;
 }
 
-main, footer {
-    text-align: center;
+#creator::before, #creator::after {
+	content: '\2666';
+	font-size: 1.5em;
+	margin: 1em;
+	vertical-align: middle;
+}
+
+main {
+	margin: 0 auto;
+	max-width: 60em;
+	padding: 1em;
+	border-radius: .5em;
+}
+
+footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	padding: .5em;
+}
+
+footer a {
+	color: #0ff;
+}
+
+/** Small Components **/
+
+h1>div {
+	font-size: .5em;
+}
+
+#info {
+	color: red;
+	font-weight: bold;
+}
+
+#lang-controls {
+	margin: .25em 10em;
+	padding: 0;
+}
+
+#lang-controls>div {
+	display: none;
+	padding: .5em;
+}
+
+#lang-controls>div.active {
+	display: block;
+}
+
+#ipa-keys>div {
+	display: inline-block;
+	vertical-align: top;
+	text-align: left;
+}
+
+#ipa-keys input {
+	display: inline-block;
+	vertical-align: top;
+	border-width: 1px;
+	width: 2em;
+	padding: .25em;
+	border-radius: 3px;
+	text-align: center;
+}
+
+#canvas {
+	background-color: #fff;
 }
 
 input[type=text] {
-    width: 25vw
+	width: 25vw
 }
 
-a> svg {height:1em; width:1em; }
+a>svg {
+	height: 1em;
+	width: 1em;
+}
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
  * 
