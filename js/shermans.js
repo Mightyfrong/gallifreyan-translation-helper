@@ -44,45 +44,15 @@ const shermansBase = {
 		}*/
 		punctuation: {
 			contains: [".", "?", "!", "\"", "'", "-", ",", ";", ":"],
-			centerYoffset: consonant * 1.25,
-			draw: function (letter, x, y, r) {
-				draw.line(x - r * 1.25, y + this.centerYoffset, x + r * 1.25, y + this.centerYoffset);
-				switch (letter) {
-					case ".":
-						draw.circle(x, y + this.centerYoffset, r);
-						break;
-					case "?":
-						draw.dot(x - r, y + this.centerYoffset * .7, r * .5);
-						draw.dot(x + r, y + this.centerYoffset * .7, r * .5);
-						break;
-					case "!":
-						draw.dot(x - r, y + this.centerYoffset * .7, r * .5);
-						draw.dot(x, y + this.centerYoffset * .7, r * .5);
-						draw.dot(x + r, y + this.centerYoffset * .7, r * .5);
-						break;
-					case "\"":
-						draw.line(x, y + this.centerYoffset, x, y + this.centerYoffset * .7);
-						break;
-					case "'":
-						draw.line(x - r, y + this.centerYoffset, x - r, y + this.centerYoffset * .7);
-						draw.line(x + r, y + this.centerYoffset, x + r, y + this.centerYoffset * .7);
-						break;
-					case "-":
-						draw.line(x - r, y + this.centerYoffset, x - r, y + this.centerYoffset * .7);
-						draw.line(x, y + this.centerYoffset, x, y + this.centerYoffset * .7);
-						draw.line(x + r, y + this.centerYoffset, x + r, y + this.centerYoffset * .7);
-						break;
-					case ",":
-						draw.dot(x, y + this.centerYoffset, r);
-						break;
-					case ";":
-						draw.dot(x, y + this.centerYoffset * .7, r * .5);
-						break;
-					case ":":
-						draw.circle(x, y + this.centerYoffset, r);
-						draw.circle(x, y + this.centerYoffset, r * .75);
-						break;
-				}
+			centerYoffset: 0,
+			radialPlacement: function (rad = 1.75) {
+				return {
+					x: -Math.cos(Math.PI * (rad - .25)),
+					y: Math.sin(Math.PI * (rad - .25))
+				};
+			},
+			draw: function (letter, x, y, r, rad) {
+				return;
 			}
 		},
 		number: {
@@ -263,7 +233,52 @@ const shermansDeco = {
 			fromto: [.5, 1.5] // array of one or two radius factors to place all decorators, first for circles, both for line-starts and -endings
 		}*/
 		"null": {
-			contains: [".", "?", "!", "\"", "'", "-", ",", ",", ":", "a", "e", "o", "b", "j", "t", "th"],
+			contains: ["a", "e", "o", "b", "j", "t", "th"],
+		},
+		".": {
+			contains: ["."],
+			radiants: [1.25],
+			fromto: [1]
+		},
+		"?": {
+			contains: ["?"],
+			radiants: [1.175, 1.325],
+			fromto: [.8]
+		},
+		"!": {
+			contains: ["!"],
+			radiants: [1.1, 1.25, 1.4],
+			fromto: [.8]
+		},
+		"\"": {
+			contains: ["\""],
+			radiants: [1.25],
+			fromto: [1, .5]
+		},
+		"'": {
+			contains: ["'"],
+			radiants: [1.175, 1.325],
+			fromto: [1, .5]
+		},
+		"-": {
+			contains: ["-"],
+			radiants: [1.175, 1.25, 1.325],
+			fromto: [1, .5]
+		},
+		",": {
+			contains: [","],
+			radiants: [1.25],
+			fromto: [1]
+		},
+		";": {
+			contains: [";"],
+			radiants: [1.25],
+			fromto: [.8]
+		},
+		":": {
+			contains: [":"],
+			radiants: [1.25],
+			fromto: [1]
 		},
 		"number": {
 			contains: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
@@ -395,6 +410,42 @@ const shermansDeco = {
 					y,
 					consonant * cresize, Math.PI * (.4 - baserad), Math.PI * (.1 - baserad), shermansGrouped.linewidth + 1
 				);
+			});
+		} else if (shermansBase.scgtable.punctuation.contains.Contains(deco)) {
+			shermansDeco.scgtable[deco].radiants.forEach(rad => {
+				let fromto = shermansDeco.scgtable[deco].fromto;
+				if (["?", "!", ";"].Contains(deco)) {
+					draw.dot(
+						x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * consonant * 2,
+						y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * consonant * 2,
+						vowel * .5);
+				} else if (["\"", "'", "-"].Contains(deco)) {
+					draw.line(
+						x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * consonant * 2,
+						y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * consonant * 2,
+						x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[1] * consonant * 2,
+						y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[1] * consonant * 2);
+				} else if (["."].Contains(deco)) {
+					draw.dot(x, y, 3, "red");
+					draw.circle(
+						x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * consonant * 2,
+						y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * consonant * 2,
+						vowel);
+				} else if ([","].Contains(deco)) {
+					draw.dot(
+						x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * consonant * 2,
+						y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * consonant * 2,
+						vowel);
+				} else if ([":"].Contains(deco)) {
+					draw.circle(
+						x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * consonant * 2,
+						y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * consonant * 2,
+						vowel);
+					draw.circle(
+						x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * consonant * 2,
+						y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * consonant * 2,
+						vowel * .75);
+				}
 			});
 		} else {
 			/* lines, diacritics, minus for numbers*/
@@ -647,7 +698,8 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		}
 		// define basic positional arguments
 		let voweloffset;
-		if (["ve", "va", "vo"].Contains(currentbase) && !["ve", "va", "vo"].Contains(grouped.groupBase)) voweloffset = shermansBase.scgtable[grouped.groupBase].radialPlacement(.25 + rad, currentbase);
+		if (["ve", "va", "vo"].Contains(currentbase) && !["ve", "va", "vo"].Contains(grouped.groupBase))
+			voweloffset = shermansBase.scgtable[grouped.groupBase].radialPlacement(.25 + rad, currentbase);
 		else voweloffset = {
 			x: 0,
 			y: 0
@@ -657,27 +709,23 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 			y: wordCircleRadius * Math.cos(Math.PI * rad) + shermansBase.scgtable[grouped.groupBase].centerYoffset * Math.cos(Math.PI * rad) + voweloffset.y
 		};
 
-		// draw base line
+		// draw base and sentence line if applicable
+		let angle = .068;
+		if (option.circular) {
+			angle = 1 / grouped.numberOfGroups;
+		}
 		if (!grouped.carriagereturn || ["b", "t"].Contains(currentbase)) {
-			let angle = .068;
-			if (option.circular) {
-				angle = 1 / grouped.numberOfGroups;
-			}
 			draw.arc(x, y, wordCircleRadius, Math.PI * (.5 + rad + angle), Math.PI * (.5 + rad - angle));
+		}
+		if (["punctuation"].Contains(currentbase) && !thicknumberline) {
+			draw.arc(x, y, wordCircleRadius + 2 * consonant, Math.PI * (.5 + rad + angle), Math.PI * (.5 + rad - angle));
 		}
 
 		// draw base
-		if (["punctuation"].Contains(currentbase)) {
-			if (!thicknumberline) {
-				shermansBase.scgtable[currentbase].draw(letter, x + center.x, y + center.y, vowel);
-			} else { // should be a number. handles the display of decimal signs
-				shermansGrouped.linewidth = 2;
-			}
-		}
-		if (!["punctuation"].Contains(currentbase)) {
-			let r = consonant * grouped.cresize;
+		let r = consonant * grouped.cresize;
+		if (thicknumberline) grouped.linewidth = 2;
+		if (!["punctuation"].Contains(currentbase) || (["punctuation"].Contains(currentbase) && !thicknumberline)) {
 			if (["ve", "va", "vo"].Contains(currentbase)) r = vowel * grouped.vresize;
-			if (thicknumberline) grouped.linewidth = 2;
 			shermansBase.scgtable[currentbase].draw(x + center.x, y + center.y, r, rad, grouped.linewidth);
 		}
 
@@ -685,7 +733,8 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		let decorators = shermansDeco.getDeco(letter);
 		if (decorators) {
 			decorators.forEach(deco => {
-				shermansDeco.draw(deco, x + center.x, y + center.y, currentbase, rad, grouped.cresize, letter);
+				if (decorators && !thicknumberline)
+					shermansDeco.draw(deco, x + center.x, y + center.y, currentbase, rad, grouped.cresize, letter);
 			});
 		}
 	}
