@@ -147,12 +147,12 @@ const shermansBase = {
 						y: 0
 					},
 					va: {
-						x: vowel * 1.75 * Math.sin(Math.PI * (rad - .25)),
-						y: -this.centerYoffset + vowel * 1.75 * Math.cos(Math.PI * (rad - .25))
+						x: -this.centerYoffset * Math.sin(Math.PI * (rad - .25)) + vowel * 1.75 * Math.sin(Math.PI * (rad - .25)),
+						y: -this.centerYoffset * Math.cos(Math.PI * (rad - .25)) + vowel * 1.75 * Math.cos(Math.PI * (rad - .25))
 					},
 					vo: {
-						x: consonant * Math.cos(Math.PI * rad),
-						y: -consonant * Math.sin(Math.PI * rad)
+						x: consonant * Math.cos(Math.PI * (.5 + rad)),
+						y: -consonant * Math.sin(Math.PI * (.5 + rad))
 					}
 				}
 				if (!(item in options)) item = "vo";
@@ -173,12 +173,12 @@ const shermansBase = {
 						y: 0
 					},
 					va: {
-						x: vowel * 1.75 * Math.sin(Math.PI * (rad - .25)),
-						y: -this.centerYoffset + vowel * 1.75 * Math.cos(Math.PI * (rad - .25))
+						x: -this.centerYoffset * Math.sin(Math.PI * (rad - .25)) + vowel * 1.75 * Math.sin(Math.PI * (rad - .25)),
+						y: -this.centerYoffset * Math.cos(Math.PI * (rad - .25)) + vowel * 1.75 * Math.cos(Math.PI * (rad - .25))
 					},
 					vo: {
-						x: consonant * Math.cos(Math.PI * rad),
-						y: -consonant * Math.sin(Math.PI * rad)
+						x: consonant * Math.cos(Math.PI * (.5 + rad)),
+						y: -consonant * Math.sin(Math.PI * (.5 + rad))
 					}
 				}
 				if (!(item in options)) item = "vo";
@@ -202,8 +202,8 @@ const shermansBase = {
 						y: -this.centerYoffset + vowel * 1.75 * Math.cos(Math.PI * (rad - .25))
 					},
 					vo: {
-						x: consonant * Math.cos(Math.PI * rad),
-						y: -consonant * Math.sin(Math.PI * rad)
+						x: consonant * Math.cos(Math.PI * (.5 + rad)),
+						y: -consonant * Math.sin(Math.PI * (.5 + rad))
 					}
 				}
 				if (!(item in options)) item = "vo";
@@ -217,7 +217,7 @@ const shermansBase = {
 		th: {
 			contains: ["th", "gh", "y", "z", "q", "qu", "x", "ng"],
 			centerYoffset: 0,
-			radialPlacement: function (rad = 0, item = "vo") {
+			radialPlacement: function (rad = .25, item = "vo") {
 				let options = {
 					ve: {
 						x: 0,
@@ -228,8 +228,8 @@ const shermansBase = {
 						y: -this.centerYoffset + vowel * 1.75 * Math.cos(Math.PI * (rad - .25))
 					},
 					vo: {
-						x: consonant * Math.cos(Math.PI * rad+.25),
-						y: -consonant * Math.sin(Math.PI * rad+.25)
+						x: consonant * Math.cos(Math.PI * (.5 + rad)),
+						y: -consonant * Math.sin(Math.PI * (.5 + rad))
 					}
 				}
 				if (!(item in options)) item = "vo";
@@ -270,12 +270,12 @@ const shermansDeco = {
 		},
 		"il": {
 			contains: ["i", "í", "ì"],
-			radiants: [.5],
+			radiants: [1],
 			fromto: [1, 3]
 		},
 		"ul": {
 			contains: ["u", "ü", "ú", "ù"],
-			radiants: [1.5],
+			radiants: [2],
 			fromto: [1, 3]
 		},
 		"d1l": {
@@ -345,6 +345,7 @@ const shermansDeco = {
 		},
 	},
 	draw: function (deco, x, y, currentbase, baserad, cresize, letter) {
+		baserad += .5;
 		if (["number"].Contains(deco)) {
 			shermansGrouped.linewidth = 1;
 			let number = parseInt(letter),
@@ -423,7 +424,7 @@ const shermansDeco = {
 // scroll through input and draw every letter
 export function shermansTranslate(ctx, input) {
 	//retrieve options and make them compact
-	option={
+	option = {
 		circular: document.getElementById('scgcirc').checked,
 		chandling: document.getElementById('scgc').checked,
 		grouped: document.getElementById('scgg').checked
@@ -447,7 +448,7 @@ export function shermansTranslate(ctx, input) {
 	if (option.circular) {
 		glyph = {
 			width: biggestWordCircle + consonant,
-			height: biggestWordCircle 
+			height: biggestWordCircle
 		};
 		width = Math.min(words, Math.floor(window.innerWidth / biggestWordCircle)) * glyph.width;
 		height = biggestWordCircle * Math.ceil(words / Math.floor(window.innerWidth / glyph.width));
@@ -463,7 +464,6 @@ export function shermansTranslate(ctx, input) {
 		x = 0;
 		y = -glyph.height * .5;
 	}
-	console.log(width, height, biggestWordCircle);
 	ctx.canvas.width = width;
 	ctx.canvas.height = height;
 
@@ -620,7 +620,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
 			if (x + glyph.width >= width) {
 				y += glyph.height;
-				x = glyph.width / (option.circular?2:1);
+				x = glyph.width / (option.circular ? 2 : 1);
 			} else x += glyph.width;
 		}
 	}
