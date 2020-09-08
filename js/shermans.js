@@ -7,7 +7,7 @@ let height; // canvas height
 let x; // current coordinate x
 let y; // current coordinate y
 let glyphwidth = consonant * 2.5; // you'll figure that one out for yourself
-let glyphheight = consonant * 4; // you'll figure that one out for yourself
+let glyphheight = consonant * 6; // you'll figure that one out for yourself
 
 import {
 	color,
@@ -147,8 +147,8 @@ const shermansBase = {
 						y: 0
 					},
 					va: {
-						x: -this.centerYoffset * Math.sin(Math.PI * (rad - .25)),
-						y: -this.centerYoffset * Math.cos(Math.PI * (rad - .25))
+						x: vowel * 1.75 * Math.sin(Math.PI * (rad - .25)),
+						y: -this.centerYoffset + vowel * 1.75 * Math.cos(Math.PI * (rad - .25))
 					},
 					vo: {
 						x: consonant * Math.cos(Math.PI * rad),
@@ -173,8 +173,8 @@ const shermansBase = {
 						y: 0
 					},
 					va: {
-						x: -this.centerYoffset * Math.sin(Math.PI * (rad - .25)),
-						y: -this.centerYoffset * Math.cos(Math.PI * (rad - .25))
+						x: vowel * 1.75 * Math.sin(Math.PI * (rad - .25)),
+						y: -this.centerYoffset + vowel * 1.75 * Math.cos(Math.PI * (rad - .25))
 					},
 					vo: {
 						x: consonant * Math.cos(Math.PI * rad),
@@ -199,7 +199,7 @@ const shermansBase = {
 					},
 					va: {
 						x: vowel * 1.75 * Math.sin(Math.PI * (rad - .25)),
-						y: vowel * 1.75 * Math.cos(Math.PI * (rad - .25))
+						y: -this.centerYoffset + vowel * 1.75 * Math.cos(Math.PI * (rad - .25))
 					},
 					vo: {
 						x: consonant * Math.cos(Math.PI * rad),
@@ -225,7 +225,7 @@ const shermansBase = {
 					},
 					va: {
 						x: vowel * 1.75 * Math.sin(Math.PI * (rad - .25)),
-						y: vowel * 1.75 * Math.cos(Math.PI * (rad - .25))
+						y: -this.centerYoffset + vowel * 1.75 * Math.cos(Math.PI * (rad - .25))
 					},
 					vo: {
 						x: consonant * Math.cos(Math.PI * rad),
@@ -367,32 +367,32 @@ const shermansDeco = {
 			shermansDeco.scgtable[deco].radiants.forEach(rad => {
 				let fromto = shermansDeco.scgtable[deco].fromto;
 				draw.dot(
-					x + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).x * fromto[0] * cresize,
-					y + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).y * fromto[0] * cresize,
+					x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * cresize,
+					y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * cresize,
 					vowel * .25);
 			});
 		} else if (["2ndvowel"].Contains(deco)) {
 			shermansDeco.scgtable[deco].radiants.forEach(rad => {
 				let fromto = shermansDeco.scgtable[deco].fromto;
 				draw.circle(
-					x + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).x * fromto[0] * cresize,
-					y + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).y * fromto[0] * cresize,
+					x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * cresize,
+					y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * cresize,
 					vowel);
 			});
 		} else if (["divot"].Contains(deco)) {
 			shermansDeco.scgtable[deco].radiants.forEach(rad => {
 				let fromto = shermansDeco.scgtable[deco].fromto;
 				draw.arc(
-					x + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).x * fromto[0] * cresize,
-					y + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).y * fromto[0] * cresize,
-					vowel, Math.PI * 1.7, Math.PI * .8, linewidth
+					x + shermansBase.scgtable[currentbase].radialPlacement(rad -baserad).x * fromto[0] * cresize,
+					y + shermansBase.scgtable[currentbase].radialPlacement(rad -baserad).y * fromto[0] * cresize,
+					vowel, Math.PI * (1.7-baserad), Math.PI * (.8-baserad), shermansGrouped.linewidth
 				);
 				// overpaint base body
-				ctx.strokeStyle = color.background;
+				draw.ctx.strokeStyle = color.background;
 				draw.arc(
 					x,
 					y,
-					consonant * cresize, Math.PI * (.4-baserad), Math.PI * (.1-baserad), linewidth + 1
+					consonant * cresize, Math.PI * (.4 - baserad), Math.PI * (.1 - baserad), shermansGrouped.linewidth + 1
 				);
 			});
 		} else {
@@ -400,10 +400,10 @@ const shermansDeco = {
 			shermansDeco.scgtable[deco].radiants.forEach(rad => {
 				let fromto = shermansDeco.scgtable[deco].fromto;
 				draw.line(
-					x + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).x * fromto[0] * cresize,
-					y + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).y * fromto[0] * cresize,
-					x + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).x * fromto[1] * cresize,
-					y + shermansBase.scgtable[currentbase].radialPlacement(rad-baserad).y * fromto[1] * cresize);
+					x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * cresize,
+					y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * cresize,
+					x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[1] * cresize,
+					y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[1] * cresize);
 			});
 		}
 	},
@@ -422,13 +422,6 @@ const shermansDeco = {
 //   |_| |_| |__,|_|_|___|_|__,|_| |_|___|_|_|
 // scroll through input and draw every letter
 export function shermansTranslate(ctx, input) {
-	// initialize widths, heights, default-values, draw-object
-	x = 0;
-	y = -glyphheight * .5;
-	cLetter = false;
-	qLetter = false;
-	draw.init(ctx, 1);
-
 	// convert input-string to grouped array and determine number of groups
 	let groupedinput = shermansGrouped.groups(input.toLowerCase()),
 		lettergroups = 0;
@@ -445,11 +438,18 @@ export function shermansTranslate(ctx, input) {
 		ctx.canvas.width = 800;
 		ctx.canvas.height = 800;
 	} else {
-
 		ctx.canvas.width = width;
 		ctx.canvas.height = height;
 	}
 
+	// initialize widths, heights, default-values, draw-object
+	x = 0;
+	y = -glyphheight * .5;
+	cLetter = false;
+	qLetter = false;
+	draw.init(ctx, 1);
+
+	// iterate through input to set grouping instructions, handle exceptions and draw glyphs
 	groupedinput.forEach(words => { // loop through sentence
 		words.forEach(groups => { // loop through words
 			let groupnum = 0;
@@ -562,20 +562,13 @@ let shermansGrouped = {
 	},
 	resetOffset: function (lastStackedConsonantIndex = 0, currentbase = false, numberOfGroups = 0, currentGroup = 0) {
 		this.carriagereturn = false; // true overrides setting the pointer-position to the next character
-		this.voweloffset = { // no offset for vowels places them to the default position
-			x: 0,
-			y: 0
-		};
-		this.consonantcenter = { // default is baseline
-			x: 0,
-			y: (currentbase ? shermansBase.scgtable[currentbase].centerYoffset : 0)
-		};
 		this.vresize = 1; // vowel-size-factor
 		this.cresize = (1 / .8) ** lastStackedConsonantIndex; // consonant-resize-factor, something the power of null is one
 		this.offset = 0; // counter of stacked objects, used for positioning the translated letters on top of the drawings
 		this.linewidth = 1; // initial line width
 		this.numberOfGroups = numberOfGroups; // number of groups in current word
 		this.currentGroup = currentGroup; // position of current group
+		this.groupBase = currentbase; // base of group
 	},
 	setOffset: function (former, actual) {
 		this.offset++;
@@ -583,19 +576,13 @@ let shermansGrouped = {
 		let actualbase = shermansBase.getBase(actual)
 		let formerbase = shermansBase.getBase(former)
 		if (["b", "j", "t", "th"].Contains(formerbase)) {
-			this.consonantcenter.x = 0;
-			this.consonantcenter.y = shermansBase.scgtable[formerbase].centerYoffset;
-			if (["ve", "va", "vo"].Contains(actualbase)) this.voweloffset = shermansBase.scgtable[formerbase].radialPlacement(.25, actualbase);
-			else if (actualbase === formerbase) {
+			if (actualbase === formerbase) {
 				this.cresize *= .8;
 				if (former != actual) this.linewidth += 1;
 			}
 		} else if (["number"].Contains(formerbase)) {
 			this.cresize *= .8;
-		} else {
-			/*vovel*/
-			this.vresize *= .8;
-		}
+		} else /*vovel*/ this.vresize *= .8;
 	}
 }
 
@@ -612,19 +599,20 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 	} else {
 		if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
 			if (x + glyphwidth >= width) {
-				y += glyphheight * 2;
-				x = 0;
+				y += glyphheight;
+				x = glyphwidth;
 			} else x += glyphwidth;
 		}
 	}
 	let currentbase = shermansBase.getBase(letter);
 	// rotation of charactergroups in regards of circular display
-	let rad = 0;
-	let wordCircleRadius = {
-		r: consonant * 6,
-		x: 0,
-		y: consonant * 6
-	};
+	let rad = 0,
+		wordCircleRadius = glyphheight;
+	if (document.getElementById('scgcirc').checked) {
+		rad = -(2 / grouped.numberOfGroups) * (grouped.currentGroup - 1);
+		wordCircleRadius = Math.ceil(Math.sqrt(grouped.numberOfGroups * Math.pow(2 * consonant, 2) / Math.PI)) * 1.5;
+	}
+
 	if (currentbase) { // works only for defined characters
 		ctx.strokeStyle = color.foreground;
 		ctx.fillStyle = color.foreground;
@@ -638,30 +626,24 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 			}
 		}
 		// define basic positional arguments
-		if (document.getElementById('scgcirc').checked) {
-			rad = -(2 / grouped.numberOfGroups) * (grouped.currentGroup - 1);
-			wordCircleRadius.r = consonant * grouped.numberOfGroups *1.25;
-			grouped.consonantcenter.x = grouped.consonantcenter.y * -Math.sin(Math.PI * rad);
-			grouped.consonantcenter.y = grouped.consonantcenter.y * Math.cos(Math.PI * rad);
-			grouped.voweloffset.x = grouped.voweloffset.x * Math.sin(Math.PI * rad);
-			grouped.voweloffset.y = grouped.voweloffset.y * Math.cos(Math.PI * rad);
-			wordCircleRadius.r = consonant * grouped.numberOfGroups *1.25;
-			wordCircleRadius.x = -Math.sin(Math.PI * rad) * wordCircleRadius.r;
-			wordCircleRadius.y = Math.cos(Math.PI * rad) * wordCircleRadius.r;
-		}
-
-		let center = { // relative center of base of vowel
-			x: grouped.consonantcenter.x + grouped.voweloffset.x + wordCircleRadius.x,
-			y: ((grouped.consonantcenter.y + grouped.voweloffset.y) || shermansBase.scgtable[currentbase].centerYoffset) + wordCircleRadius.y
+		let voweloffset;
+		if (["ve", "va", "vo"].Contains(currentbase) && !["ve", "va", "vo"].Contains(grouped.groupBase)) voweloffset = shermansBase.scgtable[grouped.groupBase].radialPlacement(.25 + rad, currentbase);
+		else voweloffset = {
+			x: 0,
+			y: 0
+		};
+		let center = { // relative center of base plus relative position of grouped vowels
+			x: -1 * (wordCircleRadius * Math.sin(Math.PI * rad) + shermansBase.scgtable[grouped.groupBase].centerYoffset * Math.sin(Math.PI * rad) + voweloffset.x),
+			y: wordCircleRadius * Math.cos(Math.PI * rad) + shermansBase.scgtable[grouped.groupBase].centerYoffset * Math.cos(Math.PI * rad) + voweloffset.y
 		};
 
 		// draw base line
 		if (!grouped.carriagereturn || ["b", "t"].Contains(currentbase)) {
 			let angle = .068;
 			if (document.getElementById('scgcirc').checked) {
-				angle = 1/ grouped.numberOfGroups;
+				angle = 1 / grouped.numberOfGroups;
 			}
-			draw.arc(x , y, wordCircleRadius.r, Math.PI * (.5+rad + angle), Math.PI * (.5 +rad- angle));
+			draw.arc(x, y, wordCircleRadius, Math.PI * (.5 + rad + angle), Math.PI * (.5 + rad - angle));
 		}
 
 		// draw base
@@ -690,9 +672,9 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 	// text output for undefined characters as well for informational purpose
 	ctx.beginPath();
 	// print character translation above the drawings unless it's a (numeral) control character
-	if (!["/", "\\"].Contains(letter)) ctx.fillText(letter, x + wordCircleRadius.x + grouped.offset * 8, y + wordCircleRadius.y + consonant * 2);
+	if (!["/", "\\"].Contains(letter)) ctx.fillText(letter, x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) + grouped.offset * 8, y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad));
 	// add a minus sign in from of the translation above the drawings if applicable
-	if (["\\"].Contains(letter)) ctx.fillText("-", x + wordCircleRadius.x - 1 * 8, y - y + wordCircleRadius.y + consonant * 2);
+	if (["\\"].Contains(letter)) ctx.fillText("-", x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) - 1 * 8, y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad));
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
