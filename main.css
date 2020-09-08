@@ -3,6 +3,9 @@
 }
 
 body {
+	position: relative;
+	padding-bottom: 2em;
+
 	margin: 0;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	background: top no-repeat url('assets/time_lord.svg'), #000c24 top/640px repeat-x url('assets/star_field.png');
