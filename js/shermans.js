@@ -6,8 +6,8 @@ let width; // canvas width
 let height; // canvas height
 let x; // current coordinate x
 let y; // current coordinate y
-let glyphwidth = consonant * 2.5; // you'll figure that one out for yourself
-let glyphheight = consonant * 6; // you'll figure that one out for yourself
+let glyph; // glyph dimensions-object
+let option; // user option-object
 
 import {
 	color,
@@ -217,7 +217,7 @@ const shermansBase = {
 		th: {
 			contains: ["th", "gh", "y", "z", "q", "qu", "x", "ng"],
 			centerYoffset: 0,
-			radialPlacement: function (rad = .25, item = "vo") {
+			radialPlacement: function (rad = 0, item = "vo") {
 				let options = {
 					ve: {
 						x: 0,
@@ -228,8 +228,8 @@ const shermansBase = {
 						y: -this.centerYoffset + vowel * 1.75 * Math.cos(Math.PI * (rad - .25))
 					},
 					vo: {
-						x: consonant * Math.cos(Math.PI * rad),
-						y: -consonant * Math.sin(Math.PI * rad)
+						x: consonant * Math.cos(Math.PI * rad+.25),
+						y: -consonant * Math.sin(Math.PI * rad+.25)
 					}
 				}
 				if (!(item in options)) item = "vo";
@@ -383,9 +383,9 @@ const shermansDeco = {
 			shermansDeco.scgtable[deco].radiants.forEach(rad => {
 				let fromto = shermansDeco.scgtable[deco].fromto;
 				draw.arc(
-					x + shermansBase.scgtable[currentbase].radialPlacement(rad -baserad).x * fromto[0] * cresize,
-					y + shermansBase.scgtable[currentbase].radialPlacement(rad -baserad).y * fromto[0] * cresize,
-					vowel, Math.PI * (1.7-baserad), Math.PI * (.8-baserad), shermansGrouped.linewidth
+					x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * cresize,
+					y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * cresize,
+					vowel, Math.PI * (1.7 - baserad), Math.PI * (.8 - baserad), shermansGrouped.linewidth
 				);
 				// overpaint base body
 				draw.ctx.strokeStyle = color.background;
@@ -422,29 +422,52 @@ const shermansDeco = {
 //   |_| |_| |__,|_|_|___|_|__,|_| |_|___|_|_|
 // scroll through input and draw every letter
 export function shermansTranslate(ctx, input) {
+	//retrieve options and make them compact
+	option={
+		circular: document.getElementById('scgcirc').checked,
+		chandling: document.getElementById('scgc').checked,
+		grouped: document.getElementById('scgg').checked
+	};
+
 	// convert input-string to grouped array and determine number of groups
 	let groupedinput = shermansGrouped.groups(input.toLowerCase()),
-		lettergroups = 0;
+		lettergroups = 0,
+		words = 0,
+		biggestWordCircle = 0;
 	groupedinput.forEach(word => {
 		word.forEach(group => {
 			lettergroups += group.length;
+			let twc = Math.ceil(Math.sqrt(group.length * Math.pow(2 * consonant, 2) / Math.PI)) * 1.5 * 3.25;
+			if (biggestWordCircle < twc) biggestWordCircle = twc;
 		});
 		lettergroups += 1;
+		words++;
 	})
 	// set canvas scale according to number of letters/groups
-	width = Math.min(lettergroups + 1, Math.floor(window.innerWidth / glyphwidth)) * glyphwidth - glyphwidth;
-	height = glyphheight * 2 * Math.ceil(--lettergroups / Math.floor(window.innerWidth / glyphwidth));
-	if (document.getElementById('scgcirc').checked) {
-		ctx.canvas.width = 800;
-		ctx.canvas.height = 800;
+	if (option.circular) {
+		glyph = {
+			width: biggestWordCircle + consonant,
+			height: biggestWordCircle 
+		};
+		width = Math.min(words, Math.floor(window.innerWidth / biggestWordCircle)) * glyph.width;
+		height = biggestWordCircle * Math.ceil(words / Math.floor(window.innerWidth / glyph.width));
+		x = glyph.width / 2;
+		y = glyph.height / 2;
 	} else {
-		ctx.canvas.width = width;
-		ctx.canvas.height = height;
+		glyph = {
+			width: consonant * 2.5,
+			height: consonant * 6
+		};
+		width = Math.min(lettergroups + 1, Math.floor(window.innerWidth / glyph.width)) * glyph.width - glyph.width;
+		height = glyph.height * 2 * Math.ceil(--lettergroups / Math.floor(window.innerWidth / glyph.width));
+		x = 0;
+		y = -glyph.height * .5;
 	}
+	console.log(width, height, biggestWordCircle);
+	ctx.canvas.width = width;
+	ctx.canvas.height = height;
 
 	// initialize widths, heights, default-values, draw-object
-	x = 0;
-	y = -glyphheight * .5;
 	cLetter = false;
 	qLetter = false;
 	draw.init(ctx, 1);
@@ -501,7 +524,7 @@ export function shermansTranslate(ctx, input) {
 function replacements(word) {
 	let cword = "";
 	for (let i = 0; i < word.length; i++) { // iterate through word 
-		if (word[i] == "c" && document.getElementById('scgc').checked) {
+		if (word[i] == "c" && option.chandling) {
 			if (word[i + 1] == "h") cword += "c"; // ch is still allowed
 			else if (word[i + 1] == "k") continue; // omit ck
 			else if (["e", "i", "y"].Contains(word[i + 1])) cword += "s";
@@ -536,7 +559,7 @@ let shermansGrouped = {
 					current = currenttwo;
 					i++;
 				}
-				if (document.getElementById('scgg').checked && group.length > 0) {
+				if (option.grouped && group.length > 0) {
 					// add vowels if none or the same, consonants of same base, numbers to former group if selected
 					let former = group[group.length - 1][group[group.length - 1].length - 1];
 					if (
@@ -593,22 +616,19 @@ let shermansGrouped = {
 //       |_|                                               |___|
 // draw instructions for base + decoration
 function shermansDraw(ctx, letter, grouped, thicknumberline) {
-	if (document.getElementById('scgcirc').checked) {
-		x = 200;
-		y = 200;
-	} else {
+	if (!option.circular || letter == " ") {
 		if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
-			if (x + glyphwidth >= width) {
-				y += glyphheight;
-				x = glyphwidth;
-			} else x += glyphwidth;
+			if (x + glyph.width >= width) {
+				y += glyph.height;
+				x = glyph.width / (option.circular?2:1);
+			} else x += glyph.width;
 		}
 	}
 	let currentbase = shermansBase.getBase(letter);
 	// rotation of charactergroups in regards of circular display
 	let rad = 0,
-		wordCircleRadius = glyphheight;
-	if (document.getElementById('scgcirc').checked) {
+		wordCircleRadius = glyph.height;
+	if (option.circular) {
 		rad = -(2 / grouped.numberOfGroups) * (grouped.currentGroup - 1);
 		wordCircleRadius = Math.ceil(Math.sqrt(grouped.numberOfGroups * Math.pow(2 * consonant, 2) / Math.PI)) * 1.5;
 	}
@@ -640,7 +660,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		// draw base line
 		if (!grouped.carriagereturn || ["b", "t"].Contains(currentbase)) {
 			let angle = .068;
-			if (document.getElementById('scgcirc').checked) {
+			if (option.circular) {
 				angle = 1 / grouped.numberOfGroups;
 			}
 			draw.arc(x, y, wordCircleRadius, Math.PI * (.5 + rad + angle), Math.PI * (.5 + rad - angle));
