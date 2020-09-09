@@ -207,7 +207,7 @@ export function dotscriptTranslate(ctx, input) {
 
 	// set canvas scale according to number of characters
 	width = Math.min(input.length + 1, Math.floor(window.innerWidth / letterwidth)) * letterwidth - letterwidth;
-	height = letterheight * Math.ceil((input.length - 1) / Math.floor(window.innerWidth / letterwidth));
+	height = letterheight * Math.ceil(input.length / Math.floor(window.innerWidth / letterwidth));
 	ctx.canvas.width = width;
 	ctx.canvas.height = height;
 
@@ -216,7 +216,7 @@ export function dotscriptTranslate(ctx, input) {
 	// iterate through input
 	for (let i = 0; i < input.length; i++) {
 		// position pointer
-		if (x + letterwidth * 2 >= width) {
+		if (x + letterwidth*1.5 >= width) {
 			y += letterheight;
 			x = letterwidth * .5;
 		} else if ("aeiou".Contains(input[i])) x += letterwidth * .5;

@@ -9,7 +9,7 @@ This is an online tool aimed at artists and hobbyists who produce designs in one
 * [CC Gallifreyan by gumex][CC]
 * [DotScript by Rachel Sutherland][DS]
 
-More details on what the translators for each system does can be found below:
+More details on what the translation helper for each system does can be found below:
 * [Sherman's](#Shermans)
 * [TARDIS Console](#TARDIS-Console-WIP)
 * [Doctors's Cot](#Doctors-Cot)
@@ -22,7 +22,7 @@ Please recognize this tool ***not*** as a translator: it serves the purpose of q
 
 ## Sherman's
 
-Designed as a pattern memory aid, this translator draws each character either as an individual glyph, or stacked depending on choice. It displays the words either in a circular fashion (not spiral though) or every glyph/group in horizontal lines for ease of reading.
+Designed as a pattern memory aid, this translation module draws each character either as an individual glyph, or stacked depending on choice. It displays the words either in a circular fashion (not spiral though) or every glyph/group in horizontal lines for ease of reading.
 
 One can optionally toggle whether C is transcribed to K/S in the language controls.
 
@@ -273,7 +273,7 @@ This writing system may be not widely used but is quite easy and was quick and f
 
 ### Character Setup
 
-This is really easy and consists only of the selected drawing instructions for the geometric shapes and the respective properties for each character. The only peculiarity for this translator is the alignment of characters overlapping, therefore needing to draw a background-colored filled circle before drawing lines and shapes.
+This is really easy and consists only of the selected drawing instructions for the geometric shapes and the respective properties for each character. The only peculiarity for this translation module is the alignment of characters overlapping, therefore needing to draw a background-colored filled circle before drawing lines and shapes.
 ```js
 let characters = {
 	form: {
@@ -303,7 +303,7 @@ let characters = {
 ### Translation / Drawing
 
 Since this writing style is just a linear stringed representation of shapes instead of latin characters there is no need for grouping like for any other style. **dotscriptTranslate(ctx, input)** resizes the canvas according to number of the inputs characters and just iterates through the input string. There is not much of magic happening. Only setting the pointer to the next characters position depends on whether the character is a consonant or vowel for a slightly grouped appearance.
-The base line is drawn for the next character for not interfering with the former. This occasionally leads to weird results on linebreaks with this translator.
+The base line is drawn for the next character for not interfering with the former. This occasionally leads to weird results on linebreaks with this module.
 
 ---
 
