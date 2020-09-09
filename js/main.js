@@ -56,8 +56,6 @@ function translate(ctx) {
 			doctorsCotTranslate(ctx, input);
 			break;
 		case "tardis":
-			ctx.canvas.width = 1280;
-			ctx.canvas.height = 720;
 			tardisTranslate(ctx, input);
 			break;
 		case "dotscript":

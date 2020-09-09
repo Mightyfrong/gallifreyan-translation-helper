@@ -1,14 +1,16 @@
 import { drawLetter } from './letters.js';
 
+// gap between lines and also twice the outer margin
+const gutter = 10;
+
 const glyphSize = 100;
 const textSpace = 20;
-const lineSpace = 20;
+
+const startPos = (glyphSize + gutter) / 2;
+const lineHeight = glyphSize + textSpace + gutter;
 
 export function tardisTranslate(ctx, input) {
 	input = input.toLowerCase();
-
-	ctx.textAlign = 'center';
-	ctx.textBaseline = 'middle';
 
 	// process input to groups of consonants and vowels
 	let glyphs = [], two = false;
@@ -27,10 +29,20 @@ export function tardisTranslate(ctx, input) {
 			i++;
 		}
 	}
+
+	// how many full glyphs fit horizontally
+	const availCols = Math.floor((window.innerWidth - gutter) / glyphSize);
+	const actualCols = Math.min(glyphs.length, availCols)
+
 	// resize canvas according to number of groups
-	ctx.canvas.width = Math.min(glyphs.length + 1, Math.floor(window.innerWidth / glyphSize)) * glyphSize - glyphSize;
-	ctx.canvas.height = glyphSize * 1.5 * Math.ceil((glyphs.length - 1) / Math.floor(window.innerWidth / glyphSize));
-	ctx.translate(glyphSize / 2, textSpace + glyphSize / 2);
+	ctx.canvas.width = actualCols * glyphSize + gutter;
+	ctx.canvas.height = lineHeight * Math.ceil(glyphs.length / actualCols);
+
+	// text pos must be set after canvas resize
+	ctx.textAlign = 'center';
+	ctx.textBaseline = 'middle';
+
+	ctx.translate(startPos, startPos);
 	ctx.save();
 
 	// iterate through groups and draw
@@ -44,7 +56,7 @@ function tardisDraw(ctx, consonant, vowel) {
 
 	if (ctx.getTransform().e > ctx.canvas.width - glyphSize / 2) {
 		ctx.restore();
-		ctx.translate(0, glyphSize + textSpace + lineSpace);
+		ctx.translate(0, lineHeight);
 		ctx.save();
 	}
 

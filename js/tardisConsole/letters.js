@@ -195,10 +195,19 @@ function hexLegs(start) {
 }
 
 function deltoid(r) {
-	[0, 1, 2].map(i => {
-		
-		return "";
-	});
+	const p0 = polar(r, 15);
+
+	const R = r * Math.sqrt(3);
+	const RR001 = [R, R] + " 0 0 1 ";
+
+	const arcs = [0, 1, 2].map(i => {
+		const p = polar(r, 15 - 120 * i);
+		return RR001 + p;
+	}).reduce(
+		(a, b) => a + b
+	);
+
+	return "M" + p0 + "A" + arcs;
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR

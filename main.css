@@ -11,7 +11,7 @@ body {
 	position: relative;
 	margin: 0;
 	min-height: 100vh;
-	padding-bottom: 2em;
+	padding-bottom: 4em;
 
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	background: top no-repeat url('assets/time_lord.svg'), var(--main-col) top/640px repeat-x url('assets/star_field.png');
@@ -26,8 +26,8 @@ header, main, footer {
 
 header {
 	margin: 0 auto;
-	padding: 8.5em 0;
-	width: 680px;
+	padding: 8.5em 0 5.5em;
+	max-width: 640px;
 	color: var(--accent-col);
 }
 
@@ -40,7 +40,7 @@ header {
 
 main {
 	margin: 0 auto;
-	padding: 1em;
+	padding: 1em 0;
 	border-radius: .5em;
 }
 
