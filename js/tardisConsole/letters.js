@@ -95,7 +95,7 @@ export const letters = {
 	n: ["", circles(42.5, 45), circle(49)],
 	o: "",
 	p: ";;" + circles(40, 49, 9),
-	q: "",
+	q: ";;" + circle(59) + deltoid(49),
 	ng: ["", circles(42.5, 45) + ellipses(15, 42.5, 12), circle(49) + ellipse(10, 12)],
 	qu: "",
 	r: `;;` + letterR(),
@@ -122,8 +122,8 @@ function letterR() {
 }
 
 function circle(r) {
-	const r0 = [r,0];
-	const rr001 = [r,r] + ' 0 0 1';
+	const r0 = [r, 0];
+	const rr001 = [r, r] + ' 0 0 1';
 	return `M${r0}A${rr001} -${r0} ${rr001} ${r0}`
 }
 function circles(start, end, step) {
@@ -192,6 +192,13 @@ function hexLegs(start) {
 		str += "M" + a + "L" + b;
 	}
 	return str;
+}
+
+function deltoid(r) {
+	[0, 1, 2].map(i => {
+		
+		return "";
+	});
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR

@@ -1,23 +1,9 @@
-import {
-	shermansTranslate
-} from './shermans.js'
-import {
-	tardisTranslate
-} from './tardisConsole/translate.js'
-import {
-	doctorsCotTranslate
-} from './doctorsCot/translate.js'
-import {
-	ccTranslate
-} from './cc.js'
-import {
-	dotscriptTranslate
-} from './dotscript.js'
-import {
-	genKeyboard,
-	consonantTable,
-	vowelTable
-} from './doctorsCot/setup.js'
+import { shermansTranslate } from './shermans.js'
+import { tardisTranslate } from './tardisConsole/translate.js'
+import { doctorsCotTranslate } from './doctorsCot/translate.js'
+import { ccTranslate } from './cc.js'
+import { dotscriptTranslate } from './dotscript.js'
+import { genKeyboard, consonantTable, vowelTable } from './doctorsCot/setup.js'
 
 // Initialise event handlers and language-specific form controls
 const langSelect = document.getElementById('language');
@@ -45,13 +31,13 @@ function activateControls(lang) {
 		case "cc":
 			ccOpts.classList.toggle('active');
 			break;
-		}
+	}
 }
-// only show IPA keyboard when Doctor's Cot selected
+
 langSelect.addEventListener('input', event => {
 	// First hide all controls
 	[...langControls.getElementsByClassName('active')]
-	.forEach(elem => elem.classList.remove('active'));
+		.forEach(elem => elem.classList.remove('active'));
 
 	// Then display selected ones
 	activateControls(event.target.value)
@@ -97,10 +83,10 @@ if (canvas.getContext) {
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
- * 
+ *
  * This file is part of the Gallifreyan Translation Helper,
  * henceforth referred to as "the GTH".
- * 
+ *
  * The GTH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or

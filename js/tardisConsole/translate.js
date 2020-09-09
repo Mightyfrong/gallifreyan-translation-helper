@@ -1,6 +1,6 @@
 import { drawLetter } from './letters.js';
 
-const glyphSize = 105;
+const glyphSize = 100;
 const textSpace = 20;
 const lineSpace = 20;
 
