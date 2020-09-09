@@ -295,17 +295,17 @@ const shermansDeco = {
 		},
 		"d1l": {
 			contains: ["á", "é", "í", "ó", "ú"],
-			radiants: [.8],
+			radiants: [1.3],
 			fromto: [.5, 1.5]
 		},
 		"d2l": {
 			contains: ["ä", "ö", "ü"],
-			radiants: [.8, .7],
+			radiants: [1.3, 1.2],
 			fromto: [.5, 1.5]
 		},
 		"d3l": {
 			contains: ["à", "è", "ì", "ò", "ù"],
-			radiants: [.8, .7, .6],
+			radiants: [1.3, 1.2, 1.1],
 			fromto: [.5, 1.5]
 		},
 		"1l": {
@@ -345,7 +345,7 @@ const shermansDeco = {
 		},
 		"2ndvowel": {
 			contains: ["å", "ø", "æ"],
-			radiants: [0],
+			radiants: [.5],
 			fromto: [1]
 		},
 		"divot": {
@@ -401,14 +401,14 @@ const shermansDeco = {
 				draw.arc(
 					x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * cresize,
 					y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * cresize,
-					vowel, Math.PI * (1.7 - baserad), Math.PI * (.8 - baserad), shermansGrouped.linewidth
+					vowel, Math.PI * (.9 - rad + baserad), Math.PI * (.1 - rad + baserad), shermansGrouped.linewidth
 				);
 				// overpaint base body
 				draw.ctx.strokeStyle = color.background;
 				draw.arc(
 					x,
 					y,
-					consonant * cresize, Math.PI * (.4 - baserad), Math.PI * (.1 - baserad), shermansGrouped.linewidth + 1
+					consonant * cresize, Math.PI * (baserad - .1), Math.PI * (baserad - .4), shermansGrouped.linewidth + 1
 				);
 			});
 		} else if (shermansBase.scgtable.punctuation.contains.Contains(deco)) {
@@ -482,17 +482,18 @@ export function shermansTranslate(ctx, input) {
 
 	// convert input-string to grouped array and determine number of groups
 	let groupedinput = shermansGrouped.groups(input.toLowerCase()),
-		lettergroups = 0,
-		words = 0,
+		glyphs = 0,
 		biggestWordCircle = 0;
 	groupedinput.forEach(word => {
-		word.forEach(group => {
-			lettergroups += group.length;
-			let twc = Math.ceil(Math.sqrt(group.length * Math.pow(2 * consonant, 2) / Math.PI)) * 1.5 * 3.25;
-			if (biggestWordCircle < twc) biggestWordCircle = twc;
+		word.forEach(groups => {
+			if (option.circular) {
+				let twc2 = Math.ceil(Math.sqrt(groups.length * Math.pow(2 * consonant, 2) / Math.PI)) * 1.5 * 3.25;
+				if (biggestWordCircle < twc2) biggestWordCircle = twc2;
+			} else {
+				glyphs += groups.length;
+			}
 		});
-		lettergroups += 1;
-		words++;
+		glyphs++;
 	})
 	// set canvas scale according to number of letters/groups
 	if (option.circular) {
@@ -500,8 +501,8 @@ export function shermansTranslate(ctx, input) {
 			width: biggestWordCircle + consonant,
 			height: biggestWordCircle
 		};
-		width = Math.min(words, Math.floor(window.innerWidth / biggestWordCircle)) * glyph.width;
-		height = biggestWordCircle * Math.ceil(words / Math.floor(window.innerWidth / glyph.width));
+		width = Math.min(glyphs, Math.floor(window.innerWidth / biggestWordCircle)) * glyph.width;
+		height = biggestWordCircle * Math.ceil(glyphs / Math.floor(window.innerWidth / glyph.width));
 		x = glyph.width / 2;
 		y = glyph.height / 2;
 	} else {
@@ -509,8 +510,8 @@ export function shermansTranslate(ctx, input) {
 			width: consonant * 2.5,
 			height: consonant * 6
 		};
-		width = Math.min(lettergroups + 1, Math.floor(window.innerWidth / glyph.width)) * glyph.width - glyph.width;
-		height = glyph.height * 2 * Math.ceil(--lettergroups / Math.floor(window.innerWidth / glyph.width));
+		width = Math.min(++glyphs, Math.floor(window.innerWidth / glyph.width)) * glyph.width - glyph.width;
+		height = glyph.height * (Math.ceil(++glyphs / Math.floor(window.innerWidth / glyph.width)));
 		x = 0;
 		y = -glyph.height * .5;
 	}
