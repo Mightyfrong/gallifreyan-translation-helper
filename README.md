@@ -165,7 +165,7 @@ function drawGlyph(ctx, pathString) {
 This one is the most complicated of the 3 languages as it transcribes the exact phonetics of words instead of just their letters. Hence, the user is given an on-screen IPA ([International Phonetic Alphabet][2]) keyboard.
 
 ### What To Expect
-![doctors cot](assets/dc.png)
+![doctors cot](assets/doctors_cot.png)
 
 Translation takes the input string through 3 steps:
 

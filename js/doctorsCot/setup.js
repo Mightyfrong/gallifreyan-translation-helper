@@ -191,11 +191,12 @@ export function genKeyboard(elem, table) {
 			keyInput.value = letter;
 			keyInput.onclick = () => {
 				let input = document.getElementById('text');
-				const pos = input.selectionStart;
+				const pos0 = input.selectionStart;
+				const pos1 = input.selectionEnd;
 				const val = input.value;
-				input.value = val.slice(0, pos) + letter + val.slice(pos);
+				input.value = val.slice(0, pos0) + letter + val.slice(pos1);
 				input.focus();
-				input.selectionStart = input.selectionEnd = pos + letter.length;
+				input.selectionStart = input.selectionEnd = pos0 + letter.length;
 			}
 
 			keyRow.appendChild(keyInput);
