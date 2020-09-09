@@ -7,13 +7,11 @@ export function drawLetter(ctx, letter) {
 
 	ctx.save();
 	if (clippedLetters.includes(letter)) {
-		const [cx, cy] = [50, -50]
-		ctx.translate(cx, cy);
-
-		const path = new Path2D(circle(95));
-		ctx.clip(path);
-
-		ctx.translate(-cx, -cy);
+		ctx.beginPath();
+		ctx.arc(50, -50, 95, 0, 2 * Math.PI);
+		ctx.clip();
+	} else if (squashedLetters.includes(letter)) {
+		ctx.scale(1, 0.5);
 	}
 
 	pathStrings.forEach((str, idx) => {
@@ -95,27 +93,27 @@ export const letters = {
 	n: ["", circles(42.5, 45), circle(49)],
 	o: "",
 	p: ";;" + circles(40, 49, 9),
-	q: ";;" + circle(59) + deltoid(49),
+	q: ";;" + circle(49) + deltoid(49),
 	ng: ["", circles(42.5, 45) + ellipses(15, 42.5, 12), circle(49) + ellipse(10, 12)],
-	qu: "",
+	qu: ["", circle(45), circle(49) + deltoid(45)],
 	r: `;;` + letterR(),
 	s: `;;` + dentedCircle(44.5, "14.5 -160 -140 1", "44.5 -105 -45 0", "9.5 -15 15 0", "14.5 45 85 0", "29.5 95 170 0"),
 	sh: [dentedCircle(44.5, "14.5 -160 -140 1", "24.5 -60 0 0", "14.5 40 85 0")],
 	t: `;;${circle(30)};` + circle(20),
 	th: circle(25) + ";;" + circle(45),
 	u: "",
-	v: "",
-	w: "",
+	v: ";;" + circles(44, 49, 5) + `M${polar(49, -75)}L${polar(49, 105)}M${polar(39, -75)}A39,39 0 0 1 ${polar(39, 105)}`,
+	w: ";;" + circle(49) + `M${polar(49, -75)}L${polar(44, -75)}A44,44 0 0 0 ${polar(44, 105)}L${polar(49, 105)}`,
 	x: `;${circle(45)};` + circles(36, 49, 13),
-	y: "",
-	z: "",
-	ß: "",
+	y: ["", hexagon(30) + hexagon(32.5) + hexagon(35), hexagon(39)+circle(44)],
+	z: ["", hexagon(30) + hexagon(32.5) + hexagon(35) + hexLegs(35, 49.5), hexagon(39)+circle(44)],
 	ph: `;${circles(12.5, 30)};` + circles(39, 49, 10),
 	"": "",
 	" ": ""
 };
 
-const clippedLetters = ['h', 'j', 't'];
+const clippedLetters = "hjt";
+const squashedLetters = "yz";
 
 function letterR() {
 	return dentedCircle(44.5, "19.5 -165 -120 0", "24.5 -60 0 0", "22 30 90 0", "14.5 135 165 1");
@@ -200,11 +198,11 @@ function deltoid(r) {
 	const R = r * Math.sqrt(3);
 	const RR001 = [R, R] + " 0 0 1 ";
 
-	const arcs = [0, 1, 2].map(i => {
+	const arcs = [1, 2, 3].map(i => {
 		const p = polar(r, 15 - 120 * i);
 		return RR001 + p;
 	}).reduce(
-		(a, b) => a + b
+		(a, b) => a + " " + b
 	);
 
 	return "M" + p0 + "A" + arcs;
