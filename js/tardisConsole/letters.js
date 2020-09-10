@@ -1,81 +1,7 @@
-import { polar } from "../utils.js";
+import { polar } from '../utils.js';
+import { ConsoleConsonant } from './ConsoleConsonant.js'
 
-export function drawLetter(ctx, letter) {
-	const pathData = letters[letter] || [];
-	const pathStrings =
-		Array.isArray(pathData) ? pathData : pathData.split(';');
-
-	ctx.save();
-	if (clippedLetters.includes(letter)) {
-		ctx.beginPath();
-		ctx.arc(50, -50, 95, 0, 2 * Math.PI);
-		ctx.clip();
-	} else if (squashedLetters.includes(letter)) {
-		ctx.scale(1, 0.5);
-	}
-
-	pathStrings.forEach((str, idx) => {
-		const path = new Path2D(str);
-
-		if (idx) {
-			ctx.lineWidth = idx;
-			ctx.stroke(path);
-		} else
-			ctx.fill(path);
-	});
-	ctx.restore();
-}
-
-const consonants = {
-	b: {
-		path: "",
-		// vowel: {x: offset from consonant center, y: offset from consonant center, r1: resizing of ellisis, r2:resizing of ellisis, n: ellipsis negative (filled) },
-		a: false,
-		e: { x: +3, y: -3, r1: 1, r2: 1, n: false },
-		i: { x: +13, y: -13, r1: 1, r2: 1, n: false },
-		o: false,
-		u: { x: +3, y: -3, r1: 1, r2: 1, n: false },
-	},
-	c: {
-		path: "",
-		// vowel: {x: offset from consonant center, y: offset from consonant center, r1: resizing of ellisis, r2:resizing of ellisis, n: ellipsis negative (filled) },
-		a: false,
-		e: { x: 0, y: 0, r1: 1, r2: 1, n: false },
-		i: { x: +13, y: -13, r1: 1, r2: 1, n: false },
-		o: false,
-		u: { x: +3, y: -3, r1: 1, r2: 1, n: false },
-	},
-	/*...*/
-	sh: {
-		path: "",
-		// vowel: {x: offset from consonant center, y: offset from consonant center, r1: resizing of ellisis, r2:resizing of ellisis, n: ellipsis negative (filled) },
-		a: { x: 0, y: 0, r1: 1, r2: 1, n: true },
-		e: { x: 0, y: 0, r1: 1, r2: 1, n: true },
-		i: { x: +13, y: -13, r1: 1, r2: 1, n: false },
-		o: { x: 0, y: 0, r1: 1, r2: 1, n: true },
-		u: { x: +3, y: +3, r1: 1, r2: 1, n: false },
-	},
-};
-
-const vowels = {
-	a: function (x, y, param) {
-		//we could make use of something like the general purpose drawing methods of sherman's with added ellipsis, put all of that to the utils.js
-		draw.line(x + param.x + startingpoint,
-			x + param.y + startingpoint,
-			x + param.x + endingpoint,
-			y + param.y + endingpoint);
-		draw.ellipse(parameters);
-	},
-	e: function (x, y, param) {
-		draw.ellipse(parameters);
-	},
-	/*...*/
-	alepha: function (x, y, param) { },
-	alephe: function (x, y, param) { },
-	/*...*/
-};
-
-export const letters = {
+const tempLetters = {
 	a: circle(9.5) + `;;M${polar(60, 150)}L${polar(60, 330)}`,
 	b: `;${dentedCircle(44.5, "24.5 -60 0 0")};${circle(49)}`,
 	c: `;${dentedCircle(44.5, "24.5 -60 0 0", "22 30 90 0")};${circle(49)}`,
@@ -105,15 +31,18 @@ export const letters = {
 	v: ";;" + circles(44, 49, 5) + `M${polar(49, -75)}L${polar(49, 105)}M${polar(39, -75)}A39,39 0 0 1 ${polar(39, 105)}`,
 	w: ";;" + circle(49) + `M${polar(49, -75)}L${polar(44, -75)}A44,44 0 0 0 ${polar(44, 105)}L${polar(49, 105)}`,
 	x: `;${circle(45)};` + circles(36, 49, 13),
-	y: ["", hexagon(30) + hexagon(32.5) + hexagon(35), hexagon(39)+circle(44)],
-	z: ["", hexagon(30) + hexagon(32.5) + hexagon(35) + hexLegs(35, 49.5), hexagon(39)+circle(44)],
+	y: ["", hexagon(30) + hexagon(32.5) + hexagon(35), hexagon(39) + circle(44)],
+	z: ["", hexagon(30) + hexagon(32.5) + hexagon(35) + hexLegs(35, 49.5), hexagon(39) + circle(44)],
 	ph: `;${circles(12.5, 30)};` + circles(39, 49, 10),
 	"": "",
 	" ": ""
 };
 
-const clippedLetters = "hjt";
-const squashedLetters = "yz";
+export const letters = new Map;
+
+for (let l in tempLetters) {
+	letters.set(l, new ConsoleConsonant(l, tempLetters[l]));
+}
 
 function letterR() {
 	return dentedCircle(44.5, "19.5 -165 -120 0", "24.5 -60 0 0", "22 30 90 0", "14.5 135 165 1");

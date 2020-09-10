@@ -1,4 +1,4 @@
-import { drawLetter } from './letters.js';
+import { letters } from './letters.js';
 
 // gap between lines and also twice the outer margin
 const gutter = 10;
@@ -16,16 +16,16 @@ export function tardisTranslate(ctx, input) {
 	let glyphs = [], two = false;
 	for (var i = 0; i < input.length; i++) {
 		two = false
-		let nextTwo = input[i] + input[i + 1];
-		if (["ch", "ng", "qu", "sh", "th", "ph"].Contains(nextTwo)) { // add double letters
-			glyphs.push([nextTwo]);
+		let nextTwo = input.slice(0, 2);
+		if (["ch", "ng", "qu", "sh", "th", "ph"].includes(nextTwo)) { // add double letters
+			glyphs.push([letters.get(nextTwo)]);
 			two = true;
 			i++;
 		}
-		else glyphs.push([input[i]]); // add single letters
-		if (!two && "aeiou".Contains(input[i])) continue; // if current letter is a vowel treat it as aleph and skip next commands
-		else if ("aeiou".Contains(input[i + 1])) { // if following character is a vowel add to former letter group
-			glyphs[glyphs.length - 1].push(input[i + 1]);
+		else glyphs.push([letters.get(input[i])]); // add single letters
+		if (!two && isVowel(input[i])) continue; // if current letter is a vowel treat it as aleph and skip next commands
+		else if (isVowel(input[i + 1])) { // if following character is a vowel add to former letter group
+			glyphs[glyphs.length - 1].push(letters.get(input[i + 1]));
 			i++;
 		}
 	}
@@ -52,20 +52,24 @@ export function tardisTranslate(ctx, input) {
 }
 
 function tardisDraw(ctx, consonant, vowel) {
-	vowel = vowel || "";
+	vowel = vowel || letters.get("");
 
-	if (ctx.getTransform().e > ctx.canvas.width - glyphSize / 2) {
+	if (ctx.getTransform().e > ctx.canvas.width - startPos) {
 		ctx.restore();
 		ctx.translate(0, lineHeight);
 		ctx.save();
 	}
 
-	drawLetter(ctx, consonant);
-	drawLetter(ctx, vowel);
+	consonant.draw(ctx);
+	vowel.draw(ctx);
 
-	ctx.fillText(consonant + vowel, 0, (glyphSize + textSpace) / 2);
+	ctx.fillText(consonant.toString + vowel.toString, 0, (glyphSize + textSpace) / 2);
 
 	ctx.translate(glyphSize, 0);
+}
+
+function isVowel(ltr) {
+	return "aeiou".includes(ltr);
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
