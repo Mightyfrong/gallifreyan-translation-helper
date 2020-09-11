@@ -1,4 +1,5 @@
 import { letters } from './letters.js';
+import { GallifreyanParser } from '../GallifreyanParser.js';
 
 // gap between lines and also twice the outer margin
 const gutter = 10;
@@ -9,34 +10,22 @@ const textSpace = 20;
 const startPos = (glyphSize + gutter) / 2;
 const lineHeight = glyphSize + textSpace + gutter;
 
+const parser = new GallifreyanParser(letters);
+
 export function tardisTranslate(ctx, input) {
 	input = input.toLowerCase();
+	const result = parser.parseWords(input);
 
-	// process input to groups of consonants and vowels
-	let glyphs = [], two = false;
-	for (var i = 0; i < input.length; i++) {
-		two = false
-		let nextTwo = input.slice(0, 2);
-		if (["ch", "ng", "qu", "sh", "th", "ph"].includes(nextTwo)) { // add double letters
-			glyphs.push([letters.get(nextTwo)]);
-			two = true;
-			i++;
-		}
-		else glyphs.push([letters.get(input[i])]); // add single letters
-		if (!two && isVowel(input[i])) continue; // if current letter is a vowel treat it as aleph and skip next commands
-		else if (isVowel(input[i + 1])) { // if following character is a vowel add to former letter group
-			glyphs[glyphs.length - 1].push(letters.get(input[i + 1]));
-			i++;
-		}
-	}
+	const glyphs = result.output.map(translateWord);
+	const outputLength = glyphs.map(word => word.length).reduce((a, b) => a + b + 1);
 
 	// how many full glyphs fit horizontally
 	const availCols = Math.floor((window.innerWidth - gutter) / glyphSize);
-	const actualCols = Math.min(glyphs.length, availCols)
+	const actualCols = Math.min(outputLength, availCols)
 
 	// resize canvas according to number of groups
 	ctx.canvas.width = actualCols * glyphSize + gutter;
-	ctx.canvas.height = lineHeight * Math.ceil(glyphs.length / actualCols);
+	ctx.canvas.height = lineHeight * Math.ceil(outputLength / actualCols);
 
 	// text pos must be set after canvas resize
 	ctx.textAlign = 'center';
@@ -46,30 +35,61 @@ export function tardisTranslate(ctx, input) {
 	ctx.save();
 
 	// iterate through groups and draw
-	glyphs.forEach(letters => {
-		tardisDraw(ctx, ...letters);
+	glyphs.forEach(words => {
+		words.forEach(letters =>
+			tardisDraw(ctx, ...letters)
+		);
+		ctx.translate(glyphSize, 0);
 	});
 }
 
-function tardisDraw(ctx, consonant, vowel) {
-	vowel = vowel || letters.get("");
+function translateWord(letters) {
+	let glyphs = [];
+	while (letters.length) {
+		const [letter1, ...letters1] = letters;
+		if (isVowel(letter1)) {
+			glyphs.push([letter1]);
+			letters = letters1;
+		} else {
+			const [letter2, ...letters2] = letters1;
+			if (letter2) {
+				if (isVowel(letter2)) {
+					glyphs.push([letter1, letter2]);
+					letters = letters2;
+				} else {
+					glyphs.push([letter1]);
+				}
+			} else {
+				glyphs.push([letter1]);
+				letters = letters1;
+			}
+		}
+	}
+	return glyphs;
+}
 
+function tardisDraw(ctx, consonant, vowel) {
 	if (ctx.getTransform().e > ctx.canvas.width - startPos) {
 		ctx.restore();
 		ctx.translate(0, lineHeight);
 		ctx.save();
 	}
 
+	let str = consonant.toString;
 	consonant.draw(ctx);
-	vowel.draw(ctx);
 
-	ctx.fillText(consonant.toString + vowel.toString, 0, (glyphSize + textSpace) / 2);
+	if (vowel) {
+		str += vowel.toString;
+		vowel.draw(ctx);
+	}
+
+	ctx.fillText(str, 0, (glyphSize + textSpace) / 2);
 
 	ctx.translate(glyphSize, 0);
 }
 
 function isVowel(ltr) {
-	return "aeiou".includes(ltr);
+	return "aeiou".includes(ltr.toString);
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR

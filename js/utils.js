@@ -5,6 +5,8 @@ export const color = {
 	warning: "#f00"
 };
 
+export const π = Math.PI;
+
 // turn polar coords to Cartesian
 export function polar(radius, degrees) {
 	const radians = degrees * Math.PI / 180;

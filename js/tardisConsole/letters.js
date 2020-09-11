@@ -34,8 +34,6 @@ const tempLetters = {
 	y: ["", hexagon(30) + hexagon(32.5) + hexagon(35), hexagon(39) + circle(44)],
 	z: ["", hexagon(30) + hexagon(32.5) + hexagon(35) + hexLegs(35, 49.5), hexagon(39) + circle(44)],
 	ph: `;${circles(12.5, 30)};` + circles(39, 49, 10),
-	"": "",
-	" ": ""
 };
 
 export const letters = new Map;

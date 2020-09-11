@@ -6,7 +6,7 @@ const SQUASHED = "S";
 
 export class ConsoleConsonant {
 
-	constructor(str, path, ao, e, i, u, mod) {
+	constructor(str, path, ao, e, i, u) {
 		this.toString = str;
 		this.pathData = Array.isArray(path) ? path : path.split(';');
 
