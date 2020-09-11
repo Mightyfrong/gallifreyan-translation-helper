@@ -13,8 +13,7 @@ const lineHeight = glyphSize + textSpace + gutter;
 const parser = new GallifreyanParser(letters);
 
 export function tardisTranslate(ctx, input) {
-	input = input.toLowerCase();
-	const result = parser.parseWords(input);
+	const result = parser.parseWords(input.toLowerCase());
 
 	const glyphs = result.output.map(translateWord);
 	const outputLength = glyphs.map(word => word.length).reduce((a, b) => a + b + 1);

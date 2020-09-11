@@ -164,7 +164,7 @@ export const drawVowel = [
 ]
 
 // to be filled up outline and deco info
-export const letter = [];
+export const letterMap = new Map;
 /**turns letter table into a list of Runes
  * with outline and decoration info
  */
@@ -173,7 +173,7 @@ export const letter = [];
 		const tableRow = row.trim().split(/\s+/);
 
 		tableRow.forEach((ltr, deco) =>
-			letter.push(new PhoneticUnit(ltr, outlines, deco, isVowel))
+			letterMap.set(ltr, new PhoneticUnit(ltr, outlines, deco, isVowel))
 		);
 	});
 });
