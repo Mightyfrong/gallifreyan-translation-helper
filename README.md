@@ -20,6 +20,74 @@ Please recognize this tool ***not*** as a translator: it serves the purpose of q
 
 ---
 
+## Abstract
+
+The process of turning some text into Gallifreyan essentially consists of 3 steps:
+
+1. **Parsing** - input is broken up into words and each word into symbols, such as consonants, vowels, or punctuation.
+2. **Translation** - consecutive symbols are grouped into glyphs depending on the system's particular stacking rules.
+3. **Rendering** - outline and decoration info are looked up for each glyph and drawn on the canvas.
+
+### Parsing
+
+This procedure is encapsulated in the `GallifreyanParser` class. Each system has to provide some sort of character map relating a string of symbols to some kind of drawing instructions or data. As the translator has evolved organically, only [TARDIS Console](#TARDIS-Console-WIP) and [Doctors's Cot](#Doctors-Cot) currently make use of this class.
+
+The purpose of this is to split the input into words and then group together letters represented by one symbol.
+
+For Console, these are just consonants: CH, NG, QU, SH, TH, PH.
+
+For Cot, they are consonants: ts, st, ks, fi; and vowels: ou & ai.
+
+Each system's parser is initialised with the line:
+```js
+const parser = new GallifreyanParser(letterMap);
+```
+where  `letterMap` is an instance of `Map` with the keys being the afore-mentioned letter groupings and the values being rendering data for that grouping.
+
+One then simply feeds it the desired input text:
+```js
+const result = parser.parseWords(input);
+```
+The `result` object represents the outcome of the parsing and has 2 properties:
+
+1. `error`: has value `null` unless unrecognised characters encountered, in which case it's a `String` relating the problem to the user.
+2. `output`: an array of words, which are, in turn, arrays of "letters".
+
+In Console, all "letters" are represented by the `ConsoleConsonant` class (temporarily - vowel functionality will be split off soon).
+
+In Cot, due to its phonetic nature, the so-called `PhoneticUnit` class is used.
+
+### Translation
+
+Gallifreyan writing systems aren't really alphabets - they don't write "letters" separately the way European languages do. So now we come to the translation step, which stacks these "letters" into "glyphs" according to each system's particular stacking rules, which are generally based on whether a "letter" is a consonant (C) or vowel (V).
+
+This happens in the line:
+```js
+const translation = result.output.map(translateWord);
+```
+where `translateWord` is a system-specific function which reduces an array of "letters" to a (usually smaller) array of "glyphs".
+
+In Console, each "glyph" is represented by a 1 or 2 element array which can be either V, C, or CV. VC is written as 2 separate "glyphs".
+
+In Cot, the possible combinations are: V, C, VC, CV, CC, CCV.
+
+### Rendering
+
+Finally, this is where the canvas rendering context gets involved. As `translation` is a 2D array of "glyphs", we iterate through it with a pair of nested calls to `forEach`, with each system's particular drawing function in the middle of it.
+
+For example, Console looks like this:
+```js
+	translation.forEach(words => {
+		words.forEach(letters =>
+			tardisDraw(ctx, ...letters)
+		);
+		ctx.translate(glyphSize, 0);
+	});
+```
+Words are spaced out by translating the canvas context by `glyphSize`.
+
+Line breaks are dealt with by `tardisDraw`, which accepts the 1 or 2 "letters" forming each "glyph" as arguments.
+
 ## Sherman's
 
 Designed as a pattern memory aid, this translation module draws each character either as an individual glyph, or stacked depending on choice. It displays the words either in a circular fashion (not spiral though) or every glyph/group in horizontal lines for ease of reading.
@@ -164,14 +232,8 @@ function drawGlyph(ctx, pathString) {
 
 This one is the most complicated of the 3 languages as it transcribes the exact phonetics of words instead of just their letters. Hence, the user is given an on-screen IPA ([International Phonetic Alphabet][2]) keyboard.
 
-### What To Expect
+### Example
 ![doctors cot](assets/doctors_cot.png)
-
-Translation takes the input string through 3 steps:
-
-1. **Phonetic Units** - input is broken up into words and each word into its constituent sounds, which are either consonants or vowels.
-2. **Cot Glyphs** - consecutive PhoneticUnits are grouped into Doctor's Cot glyphs, which can represent up to 2 consonants + 1 vowel.
-3. **Drawing** - outline and decoration info are looked up for each CotGlyph and drawn on the canvas.
 
 ---
 

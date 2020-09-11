@@ -36,10 +36,10 @@ const tempLetters = {
 	ph: `;${circles(12.5, 30)};` + circles(39, 49, 10),
 };
 
-export const letters = new Map;
+export const letterMap = new Map;
 
 for (let l in tempLetters) {
-	letters.set(l, new ConsoleConsonant(l, tempLetters[l]));
+	letterMap.set(l, new ConsoleConsonant(l, tempLetters[l]));
 }
 
 function letterR() {

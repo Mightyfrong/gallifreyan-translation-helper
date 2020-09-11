@@ -15,7 +15,7 @@ export function doctorsCotTranslate(ctx, input) {
 
     document.getElementById('output').innerHTML = result.error || "";
 
-    const translation = result.output.map(translateGlyphs);
+    const translation = result.output.map(translateWord);
 
     const maxWordSize = Math.max(...translation.map(word => word.length))
     const numOfLines = translation.length;
@@ -42,7 +42,7 @@ export function doctorsCotTranslate(ctx, input) {
     });
 }
 
-function translateGlyphs(word) {
+function translateWord(word) {
     let letters = word;
     let glyphs = [];
     while (letters.length) {

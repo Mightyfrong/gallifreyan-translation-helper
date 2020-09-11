@@ -1,4 +1,4 @@
-import { letters } from './letters.js';
+import { letterMap as letterMap } from './letters.js';
 import { GallifreyanParser } from '../GallifreyanParser.js';
 
 // gap between lines and also twice the outer margin
@@ -10,13 +10,13 @@ const textSpace = 20;
 const startPos = (glyphSize + gutter) / 2;
 const lineHeight = glyphSize + textSpace + gutter;
 
-const parser = new GallifreyanParser(letters);
+const parser = new GallifreyanParser(letterMap);
 
 export function tardisTranslate(ctx, input) {
 	const result = parser.parseWords(input.toLowerCase());
 
-	const glyphs = result.output.map(translateWord);
-	const outputLength = glyphs.map(word => word.length).reduce((a, b) => a + b + 1);
+	const translation = result.output.map(translateWord);
+	const outputLength = translation.map(word => word.length).reduce((a, b) => a + b + 1);
 
 	// how many full glyphs fit horizontally
 	const availCols = Math.floor((window.innerWidth - gutter) / glyphSize);
@@ -34,7 +34,7 @@ export function tardisTranslate(ctx, input) {
 	ctx.save();
 
 	// iterate through groups and draw
-	glyphs.forEach(words => {
+	translation.forEach(words => {
 		words.forEach(letters =>
 			tardisDraw(ctx, ...letters)
 		);
@@ -45,22 +45,23 @@ export function tardisTranslate(ctx, input) {
 function translateWord(letters) {
 	let glyphs = [];
 	while (letters.length) {
-		const [letter1, ...letters1] = letters;
-		if (isVowel(letter1)) {
-			glyphs.push([letter1]);
-			letters = letters1;
+		const [l0, ...ls0] = letters;
+		if (isVowel(l0)) {
+			glyphs.push([l0]);
+			letters = ls0;
 		} else {
-			const [letter2, ...letters2] = letters1;
-			if (letter2) {
-				if (isVowel(letter2)) {
-					glyphs.push([letter1, letter2]);
-					letters = letters2;
+			const [l1, ...ls1] = ls0;
+			if (l1) {
+				if (isVowel(l1)) {
+					glyphs.push([l0, l1]);
+					letters = ls1;
 				} else {
-					glyphs.push([letter1]);
+					glyphs.push([l0]);
+					letters = ls0;
 				}
 			} else {
-				glyphs.push([letter1]);
-				letters = letters1;
+				glyphs.push([l0]);
+				letters = ls0;
 			}
 		}
 	}
