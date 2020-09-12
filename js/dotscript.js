@@ -198,8 +198,10 @@ let characters = {
 // scroll through input and draw every letter
 export function dotscriptTranslate(ctx, input) {
 	// initialize widths, heights, default-values, draw-object
-	letterwidth = consonant * 1.5
-	letterheight = consonant * 6
+	warning = "";
+	input = input.toLowerCase();
+	letterwidth = consonant * 1.5;
+	letterheight = consonant * 6;
 
 	x = -letterwidth * .5;
 	y = letterheight * .6;
@@ -235,19 +237,20 @@ export function dotscriptTranslate(ctx, input) {
 		ctx.beginPath();
 		// print character translation above the drawings
 		ctx.fillText(input[i], x + consonant, y - letterheight * .5);
-	
+
 	}
 
 	// complain about undefined characters
 	if (warning) document.getElementById("output").innerHTML = "The following characters could not be processed: " + warning.substr(2);
+	else document.getElementById("output").innerHTML = "";
 }
 
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
- * 
+ *
  * This file is part of the Gallifreyan Translation Helper,
  * henceforth referred to as "the GTH".
- * 
+ *
  * The GTH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
