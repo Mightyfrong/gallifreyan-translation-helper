@@ -37,10 +37,10 @@ export function render(ctx, input) {
 	const result = parser.parseWords(input.toUpperCase());
 
 	const translation = result.output.map(translateWord);
-	const outputLength = translation.map(word => word.length).reduce((a, b) => a + b + 1);
+	const outputLength = translation.map(word => word.length).reduce((a, b) => a + b + 1, -1);
 
 	// how many full glyphs fit horizontally
-	const availCols = Math.floor((window.innerWidth - gutter) / glyphSize);
+	const availCols = Math.floor((window.innerWidth - 2 * gutter) / glyphSize);
 	const actualCols = Math.min(outputLength, availCols)
 
 	// resize canvas according to number of groups
