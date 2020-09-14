@@ -226,6 +226,39 @@ function drawGlyph(ctx, pathString) {
 }
 ```
 
+### Test Input
+
+For checking that TARDIS Console vowel rendering works.
+
+```
+babebibobu
+cacecicocu
+chachechichochu
+dadedidodu
+fafefifofu
+gagegigoguhahehihohu
+jajejijoju
+kakekikoku
+lalelilolu
+mamemimomu
+naneninonu
+papepipopu
+qaqeqiqoqu
+ngangengingongu
+quaquequiquoquu
+rareriroru
+sasesisosu
+shasheshishoshu
+tatetitotu
+thathethithothu
+vavevivovu
+wawewiwowu
+xaxexixoxu
+yayeyiyoyu
+zazezizozu
+phaphephiphophu
+```
+
 ---
 
 ## Doctor's Cot
