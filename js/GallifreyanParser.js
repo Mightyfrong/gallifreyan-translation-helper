@@ -8,10 +8,9 @@ export class GallifreyanParser {
 		while (result.input.length && !result.error) {
 			const res = this.parseWord(result.input.shift());
 			if (res.error)
-				result.error = res.error
-			else {
+				result.error = res.error;
+			else
 				result.output.push(res.output);
-			}
 		}
 		return result;
 	}

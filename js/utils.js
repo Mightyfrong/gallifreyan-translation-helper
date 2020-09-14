@@ -7,10 +7,12 @@ export const color = {
 
 export const π = Math.PI;
 
+export function d2r(degrees){
+	return degrees * Math.PI / 180;
+}
 // turn polar coords to Cartesian
 export function polar(radius, degrees) {
-	const radians = degrees * Math.PI / 180;
-	return [radius * Math.cos(radians), radius * Math.sin(radians)];
+	return [radius * Math.cos(d2r(degrees)), radius * Math.sin(d2r(degrees))];
 }
 
 // does an array contain the value or one of the values?

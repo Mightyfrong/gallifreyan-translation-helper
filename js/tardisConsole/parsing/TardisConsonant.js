@@ -1,19 +1,20 @@
-const clippedLtrs = "hjt";
-const squashedLtrs = "yz";
+import { VowelDetails } from "../VowelDetails";
+import { TardisLetter } from "./TardisLetter";
+
+const clippedLtrs = "HJT";
+const squashedLtrs = "YZ";
 
 const CLIPPED = "C";
 const SQUASHED = "S";
 
-export class ConsoleConsonant {
+export class TardisConsonant extends TardisLetter{
 
-	constructor(str, path, ao, e, i, u) {
-		this.toString = str;
-		this.pathData = Array.isArray(path) ? path : path.split(';');
+	constructor(str, data) {
+		super(str, false);
 
-		this.aoData = ao;
-		this.eData = e;
-		this.iData = i;
-		this.uData = u;
+		const [path, vd] = data.split("|");
+		this.pathData = path;
+		this.vowelData = new VowelDetails(vd);
 
 		this.modifier =
 			clippedLtrs.includes(str) ?
@@ -36,7 +37,7 @@ export class ConsoleConsonant {
 				ctx.scale(1, 0.5);
 		}
 
-		this.pathData.forEach((str, idx) => {
+		this.pathData.split(";").forEach((str, idx) => {
 			const path = new Path2D(str);
 
 			if (idx) {

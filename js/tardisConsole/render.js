@@ -1,8 +1,31 @@
-import { letterMap as letterMap } from './letters.js';
-import { GallifreyanParser } from '../GallifreyanParser.js';
+import { consonants } from './parsing/consonants.js';
+import { vowels } from './parsing/vowels.js';
 
-// gap between lines and also twice the outer margin
-const gutter = 10;
+import { GallifreyanParser } from '../GallifreyanParser.js';
+import { TardisLetter } from './parsing/TardisLetter.js';
+import { TardisConsonant } from './parsing/TardisConsonant.js';
+
+import { TardisGlyph } from './TardisGlyph.js';
+
+/* Initialise Parser */
+class TardisVowel extends TardisLetter{
+    constructor(str, draw){
+        super(str, true);
+        this.draw = draw;
+    }
+}
+
+const letterMap = new Map;
+
+for (let str in consonants)
+	letterMap.set(str, new TardisConsonant(str, consonants[str]));
+for (let str in vowels)
+	letterMap.set(str, new TardisVowel(str, vowels[str]));
+
+const parser = new GallifreyanParser(letterMap);
+
+/* Rendering Constants */
+const gutter = 10; // gap between lines; also twice outer margin
 
 const glyphSize = 100;
 const textSpace = 20;
@@ -10,10 +33,8 @@ const textSpace = 20;
 const startPos = (glyphSize + gutter) / 2;
 const lineHeight = glyphSize + textSpace + gutter;
 
-const parser = new GallifreyanParser(letterMap);
-
-export function tardisTranslate(ctx, input) {
-	const result = parser.parseWords(input.toLowerCase());
+export function render(ctx, input) {
+	const result = parser.parseWords(input.toUpperCase());
 
 	const translation = result.output.map(translateWord);
 	const outputLength = translation.map(word => word.length).reduce((a, b) => a + b + 1);
@@ -35,9 +56,17 @@ export function tardisTranslate(ctx, input) {
 
 	// iterate through groups and draw
 	translation.forEach(words => {
-		words.forEach(letters =>
-			tardisDraw(ctx, ...letters)
-		);
+		words.forEach(glyph => {
+			// start new line if overflowing
+			if (ctx.getTransform().e > ctx.canvas.width - startPos) {
+				ctx.restore();
+				ctx.translate(0, lineHeight);
+				ctx.save();
+			}
+			glyph.draw(ctx);
+			ctx.fillText(glyph.toString, 0, (glyphSize + textSpace) / 2);
+			ctx.translate(glyphSize, 0);
+		});
 		ctx.translate(glyphSize, 0);
 	});
 }
@@ -46,50 +75,21 @@ function translateWord(letters) {
 	let glyphs = [];
 	while (letters.length) {
 		const [l0, ...ls0] = letters;
-		if (isVowel(l0)) {
-			glyphs.push([l0]);
+		if (l0.isVowel) {
+			glyphs.push(new TardisGlyph(null, l0));
 			letters = ls0;
 		} else {
 			const [l1, ...ls1] = ls0;
-			if (l1) {
-				if (isVowel(l1)) {
-					glyphs.push([l0, l1]);
-					letters = ls1;
-				} else {
-					glyphs.push([l0]);
-					letters = ls0;
-				}
+			if (l1 && l1.isVowel) {
+				glyphs.push(new TardisGlyph(l0, l1));
+				letters = ls1;
 			} else {
-				glyphs.push([l0]);
+				glyphs.push(new TardisGlyph(l0));
 				letters = ls0;
 			}
 		}
 	}
 	return glyphs;
-}
-
-function tardisDraw(ctx, consonant, vowel) {
-	if (ctx.getTransform().e > ctx.canvas.width - startPos) {
-		ctx.restore();
-		ctx.translate(0, lineHeight);
-		ctx.save();
-	}
-
-	let str = consonant.toString;
-	consonant.draw(ctx);
-
-	if (vowel) {
-		str += vowel.toString;
-		vowel.draw(ctx);
-	}
-
-	ctx.fillText(str, 0, (glyphSize + textSpace) / 2);
-
-	ctx.translate(glyphSize, 0);
-}
-
-function isVowel(ltr) {
-	return "aeiou".includes(ltr.toString);
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR

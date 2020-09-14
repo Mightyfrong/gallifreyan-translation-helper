@@ -1,5 +1,5 @@
 import { shermansTranslate } from './shermans.js'
-import { tardisTranslate } from './tardisConsole/translate.js'
+import { render as renderTARDISConsole } from './tardisConsole/render.js'
 import { doctorsCotTranslate } from './doctorsCot/translate.js'
 import { ccTranslate } from './cc.js'
 import { dotscriptTranslate } from './dotscript.js'
@@ -56,7 +56,7 @@ function translate(ctx) {
 			doctorsCotTranslate(ctx, input);
 			break;
 		case "tardis":
-			tardisTranslate(ctx, input);
+			renderTARDISConsole(ctx, input);
 			break;
 		case "dotscript":
 			dotscriptTranslate(ctx, input);
