@@ -32,11 +32,11 @@ The process of turning some text into Gallifreyan essentially consists of 3 step
 
 This procedure is encapsulated in the `GallifreyanParser` class. Each system has to provide some sort of character map relating a string of symbols to some kind of drawing instructions or data. As the translator has evolved organically, only [TARDIS Console](#TARDIS-Console-WIP) and [Doctors's Cot](#Doctors-Cot) currently make use of this class.
 
-The purpose of this is to split the input into words and then group together letters represented by one symbol.
+The purpose of this is to split the input into words and then group together any letters which can be represented by one symbol.
 
-For Console, these are just consonants: CH, NG, QU, SH, TH, PH.
+In TARDIS Console, these are the consonants: CH, NG, QU, SH, TH, PH.
 
-For Cot, they are consonants: ts, st, ks, fi; and vowels: ou & ai.
+In Doctor's Cot, they are the consonants: ts, st, ks, fi; and the vowels: ou & ai.
 
 Each system's parser is initialised with the line:
 ```js
@@ -53,7 +53,15 @@ The `result` object represents the outcome of the parsing and has 2 properties:
 1. `error`: has value `null` unless unrecognised characters encountered, in which case it's a `String` relating the problem to the user.
 2. `output`: an array of words, which are, in turn, arrays of "letters".
 
-In Console, all "letters" are represented by the `ConsoleConsonant` class (temporarily - vowel functionality will be split off soon).
+In Console, all "letters" are represented by the `TARDISConsonant` & `TARDISVowel` classes which extend `TARDISLetter`:
+```js
+export class TardisLetter{
+  constructor(str, vow){
+    this.toString = str;
+    this.isVowel = vow;
+  }
+}
+```
 
 In Cot, due to its phonetic nature, the so-called `PhoneticUnit` class is used.
 
