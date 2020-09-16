@@ -1,5 +1,5 @@
-import { VowelDetails } from "../VowelDetails";
-import { TardisLetter } from "./TardisLetter";
+import { VowelDetails } from "../VowelDetails.js";
+import { TardisLetter } from "./TardisLetter.js";
 
 const clippedLtrs = "HJT";
 const squashedLtrs = "YZ";
