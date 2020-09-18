@@ -4,6 +4,7 @@ import { render as renderDoctorsCot } from './doctorsCot/render.js'
 import { render as renderCC } from './cc/render.js'
 import { dotscriptTranslate } from './dotscript.js'
 import { genKeyboard, consonantTable, vowelTable } from './doctorsCot/setup.js'
+import { color } from './utils.js'
 
 // Initialise event handlers and language-specific form controls
 const langSelect = document.getElementById('language');

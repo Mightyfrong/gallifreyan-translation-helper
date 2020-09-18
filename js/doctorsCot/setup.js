@@ -27,7 +27,6 @@ const outline = [
 	[1, 2]
 ];
 
-export const glyphCol = color.foreground;
 export const glyphRadius = 50;
 export const innerRad = glyphRadius * 2 / 5;
 
@@ -63,7 +62,7 @@ function fullLine(ctx) {
 function circ(ctx, r, θ, fill) {
 	ctx.beginPath();
 	ctx.arc(...polar(r, θ), decRad, 0, 2 * Math.PI);
-	ctx[fill ? (ctx.fillStyle = glyphCol, "fill") : "stroke"]();
+	ctx[fill ? (ctx.fillStyle = color.foreground, "fill") : "stroke"]();
 }
 function arc(ctx, start, end) {
 	ctx.beginPath();

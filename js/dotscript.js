@@ -8,8 +8,10 @@ let letterwidth; // you'll figure that one out for yourself
 let letterheight; // you'll figure that one out for yourself
 let warning = ""; // used if undefined characters are part of the input
 import {
+	canvaspreparation,
 	color,
-	draw
+	draw,
+	includes
 } from './utils.js'
 
 //specify forms and positions
@@ -210,8 +212,7 @@ export function dotscriptTranslate(ctx, input) {
 	// set canvas scale according to number of characters
 	width = Math.min(input.length + 1, Math.floor(window.innerWidth / letterwidth)) * letterwidth - letterwidth;
 	height = letterheight * Math.ceil(input.length / Math.floor(window.innerWidth / letterwidth));
-	ctx.canvas.width = width;
-	ctx.canvas.height = height;
+	canvaspreparation(ctx,width,height);
 
 	// draw baseline
 	draw.line(x, y, x + letterwidth * 2, y, linewidth);
@@ -221,7 +222,7 @@ export function dotscriptTranslate(ctx, input) {
 		if (x + letterwidth*1.5 >= width) {
 			y += letterheight;
 			x = letterwidth * .5;
-		} else if ("aeiou".Contains(input[i])) x += letterwidth * .5;
+		} else if (includes("aeiou",input[i])) x += letterwidth * .5;
 		else x += letterwidth;
 
 

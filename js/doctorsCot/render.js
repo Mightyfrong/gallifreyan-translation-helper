@@ -1,6 +1,7 @@
-import { letterMap, glyphRadius, glyphCol } from './setup.js';
+import { letterMap, glyphRadius } from './setup.js';
 import { GallifreyanParser } from '../GallifreyanParser.js';
 import { CotGlyph } from './CotGlyph.js';
+import { canvaspreparation, color } from '../utils.js';
 
 const glyphSpacing = 5;
 const glyphWidth = 2 * (glyphRadius + glyphSpacing);
@@ -17,19 +18,18 @@ export function render(ctx, input) {
 
     const maxWordSize = Math.max(...translation.map(word => word.length))
     const numOfLines = translation.length;
-    ctx.canvas.width = maxWordSize * glyphWidth;
-    ctx.canvas.height = numOfLines * lineHeight;
+    canvaspreparation(ctx, maxWordSize * glyphWidth, numOfLines * lineHeight);
 
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.strokeStyle = glyphCol;
+    ctx.strokeStyle = color.foreground;
 
     ctx.translate(glyphSpacing + glyphRadius, textSpace + glyphRadius);
 
     translation.forEach(word => {
         ctx.save();
         word.forEach(glyph => {
-            ctx.fillStyle = '#444';
+            ctx.fillStyle = color.foreground;
             ctx.fillText(glyph.toString, 0, - glyphRadius - textSpace / 2);
 
             glyph.draw(ctx);

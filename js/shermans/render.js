@@ -1,5 +1,6 @@
 import {
 	includes,
+	canvaspreparation,
 	color,
 	draw
 } from '../utils.js';
@@ -64,8 +65,7 @@ export function render(ctx, input) {
 		x = 0;
 		y = -glyph.height * .5;
 	}
-	ctx.canvas.width = width;
-	ctx.canvas.height = height;
+	canvaspreparation(ctx,width,height);
 
 	// initialize widths, heights, default-values, draw-object
 	cLetter = false;

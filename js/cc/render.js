@@ -1,5 +1,5 @@
 import {
-    color,
+    canvaspreparation,
     draw,
     includes
 } from '../utils.js'
@@ -43,8 +43,7 @@ export function render(ctx, input) {
     // set canvas scale according to number of groups times letterwidth
     width = Math.min(lettergroups + 2, Math.floor(window.innerWidth / letterwidth)) * letterwidth - letterwidth;
     height = letterheight * Math.ceil(lettergroups / Math.floor(width / letterwidth));
-    ctx.canvas.width = width;
-    ctx.canvas.height = height;
+	canvaspreparation(ctx,width,height);
 
     x = 0;
     y = letterheight * .6;

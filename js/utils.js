@@ -1,9 +1,19 @@
 //general color settings
-export const color = {
+export let color = {
 	background: "#fff",
 	foreground: "#000",
 	warning: "#f00"
 };
+
+export function canvaspreparation(ctx, width, height){
+	color.foreground=document.getElementById('foregroundcolor').value;
+	color.background=document.getElementById('backgroundcolor').value;
+	ctx.canvas.width = width;
+	ctx.canvas.height = height;
+	ctx.fillStyle=color.background;
+	ctx.fillRect(0,0,width,height);
+	ctx.strokeStyle=color.foreground;
+}
 
 export const π = Math.PI;
 
