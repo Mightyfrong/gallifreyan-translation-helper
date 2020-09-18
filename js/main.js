@@ -47,6 +47,9 @@ activateControls(langSelect.value);
 
 //Clear canvas and pass word to specific language
 function translate(ctx) {
+	document.getElementById('info').style.display='none';
+	document.getElementById('drawoutput').style.display='block';
+
 	let input = document.getElementById("text").value;
 	let lang = document.getElementById("language").value;
 	switch (lang) {

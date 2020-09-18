@@ -1,4 +1,4 @@
-:root{
+:root {
 	--main-col: #000c24;
 	--accent-col: #f93;
 }
@@ -20,7 +20,9 @@ body {
 
 /** Large Sections **/
 
-header, main, footer {
+header,
+main,
+footer {
 	text-align: center;
 }
 
@@ -31,8 +33,10 @@ header {
 	color: var(--accent-col);
 }
 
-#creator::before, #creator::after {
-	content: '\2666';  /* Unicode diamond */
+#creator::before,
+#creator::after {
+	content: '\2666';
+	/* Unicode diamond */
 	font-size: 1.5em;
 	margin: 1em;
 	vertical-align: middle;
@@ -49,25 +53,27 @@ footer {
 	width: 100%;
 	bottom: 0;
 }
-footer>div{
+
+footer>div {
 	margin: 0 auto;
 	max-width: 640px;
 
 	background-color: var(--accent-col);
 	color: var(--main-col);
 }
-footer>div::after{
+
+footer>div::after {
 	content: '';
 	display: block;
 	clear: both;
 }
 
-.ftr-elem{
+.ftr-elem {
 	float: left;
 	padding: .5em 1em;
 }
 
-.ftr-elem+.ftr-elem{
+.ftr-elem+.ftr-elem {
 	float: right;
 }
 
@@ -112,8 +118,12 @@ h1>div {
 	text-align: center;
 }
 
+#drawoutput {
+	display: none;
+}
+
 #canvas {
-	background-color: #fff;
+	background-color: transparent;
 }
 
 input[type=text] {
