@@ -1,4 +1,4 @@
-import { polar } from '../utils.js';
+import { color, polar } from '../utils.js';
 import { PhoneticUnit } from './PhoneticUnit.js';
 
 export const consonantTable = [
@@ -27,7 +27,7 @@ const outline = [
 	[1, 2]
 ];
 
-export const glyphCol = "#d7703a";
+export const glyphCol = color.foreground;
 export const glyphRadius = 50;
 export const innerRad = glyphRadius * 2 / 5;
 
@@ -112,7 +112,7 @@ export function drawArc(ctx, radius, ol, start, end) {
 
 		ctx.beginPath();
 		ctx.arc(0, 0, currentRad, start, end);
-		ctx.fillStyle = "#fff";
+		ctx.fillStyle = color.background;
 		ctx.fill();
 		ctx.stroke();
 
