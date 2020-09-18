@@ -15,7 +15,7 @@ body {
 
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	background: top no-repeat url('assets/time_lord.svg'), var(--main-col) top/640px repeat-x url('assets/star_field.png');
-	color: #eee;
+	color: var(--accent-col);
 }
 
 /** Large Sections **/

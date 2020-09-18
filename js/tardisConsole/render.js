@@ -23,7 +23,7 @@ for (let str in consonants)
 for (let str in vowels)
 	letterMap.set(str, new TardisVowel(str, vowels[str]));
 
-const parser = new GallifreyanParser(letterMap);
+const parser = new GallifreyanParser(letterMap, document.getElementById("output"));
 
 export function render(ctx, input) {
 	const result = parser.parseWords(input.toUpperCase());

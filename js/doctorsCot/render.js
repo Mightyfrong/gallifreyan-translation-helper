@@ -8,12 +8,10 @@ const glyphWidth = 2 * (glyphRadius + glyphSpacing);
 const textSpace = 20;
 const lineHeight = textSpace + 2 * glyphRadius;
 
-const parser = new GallifreyanParser(letterMap);
+const parser = new GallifreyanParser(letterMap, document.getElementById('output').innerHTML);
 
-export function doctorsCotTranslate(ctx, input) {
-    const result = parser.parseWords(input.toLowerCase().replace(/[-ːˈ]/g, ""));
-
-    document.getElementById('output').innerHTML = result.error || "";
+export function render(ctx, input) {
+    const result = parser.parseWords(input.toLowerCase());
 
     const translation = result.output.map(translateWord);
 

@@ -1,30 +1,33 @@
 export class GallifreyanParser {
-	constructor(letterMap) {
+	constructor(letterMap, errorElem = null) {
 		this.letterMap = letterMap;
+		this.errorElem = errorElem;
 	}
 
 	parseWords(input) {
-		let result = { input: input.split(/\s+/), output: [] };
-		while (result.input.length && !result.error) {
+		let result = { input: input.split(/\s+/), output: [], error: "" };
+		while (result.input.length) {
 			const res = this.parseWord(result.input.shift());
+			result.output.push(res.output);
+
 			if (res.error)
-				result.error = res.error;
-			else
-				result.output.push(res.output);
+				result.error += "\n" + res.error;
 		}
+		this.errorElem.innerHTML = result.error;
 		return result;
 	}
 
 	parseWord(input) {
-		let result = { input, output: [] };
-		while (result.input.length && !result.error) {
+		let result = { input, output: [], error: "" };
+		while (result.input.length) {
 			const res = this.parseLetter(result.input);
-			if (res.error)
-				result.error = res.error
-			else {
+
+			result.input = res.input;
+
+			if (res.output)
 				result.output.push(res.output);
-				result.input = res.input;
-			}
+			if (res.error)
+				result.error += "\n" + res.error
 		}
 		return result;
 	}
@@ -43,6 +46,6 @@ export class GallifreyanParser {
 
 		return ltr ?
 			{ input: input.slice(n), output: ltr } :
-			{ input, error: `Unrecognised chars "${chars}".` };
+			{ input: input.slice(n), error: `Unrecognised chars "${chars}".` };
 	}
 }
