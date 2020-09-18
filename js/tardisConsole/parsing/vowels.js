@@ -1,4 +1,4 @@
-import { π } from '../../utils.js';
+import { π, color } from '../../utils.js';
 
 /* Vowels A, O */
 /**  styles   **/
@@ -12,10 +12,10 @@ function drawAO(x, y) {
         ctx.lineTo(50, -50 * Math.tan(π / 12));
         ctx.lineWidth = 2;
         ctx.stroke();
-
+        ctx.fillStyle = color.foreground;
         ctx.save();
         switch (styleAO) {
-            case INVERTED: ctx.fillStyle = '#fff'; break;
+            case INVERTED: ctx.fillStyle = color.background; break;
             case SQUASHED: ctx.scale(1, 0.5);
         }
         ctx.beginPath();
@@ -44,15 +44,15 @@ function drawEIU(ctx, rad, ang, fill) {
 }
 
 function drawE(ctx, {angleEIU, radiusE}) {
-    drawEIU(ctx, radiusE, angleEIU, '#fff');
+    drawEIU(ctx, radiusE, angleEIU, color.background);
 }
 
 function drawI(ctx, {angleEIU, radiusIU}) {
-    drawEIU(ctx, radiusIU, angleEIU, '#fff');
+    drawEIU(ctx, radiusIU, angleEIU, color.background);
 }
 
 function drawU(ctx, {angleEIU, radiusIU}) {
-    drawEIU(ctx, radiusIU, angleEIU, '#000');
+    drawEIU(ctx, radiusIU, angleEIU, color.foreground);
 }
 
 export const vowels = {

@@ -1,4 +1,4 @@
-import { π } from '../utils.js';
+import { π, color } from '../utils.js';
 
 export class TardisGlyph {
 	constructor(con, vow = null) {
@@ -20,7 +20,7 @@ export class TardisGlyph {
 			// Draw Aleph
 			ctx.save();
 			ctx.rotate(-π / 4);
-			ctx.fillStyle = '#fff';
+			ctx.fillStyle = color.background;
 			ctx.lineWidth = 2;
 
 			ctx.beginPath();
@@ -46,13 +46,13 @@ export class TardisGlyph {
 						ctx.lineTo(r + 50 * (Math.SQRT2 - 1), 0);
 						ctx.stroke();
 					case 'O':
-						ctx.fillStyle = '#000';
+						ctx.fillStyle = color.foreground;
 						ctx.beginPath();
 						ctx.arc(0, 0, r / 2, 0, 2 * π);
 						ctx.fill();
 						break;
 					case 'U':
-						ctx.fillStyle = '#000';
+						ctx.fillStyle = color.foreground;
 					case 'I':
 						ctx.translate(0, r / 2);
 					case 'E':

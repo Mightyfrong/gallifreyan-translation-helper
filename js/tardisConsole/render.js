@@ -8,6 +8,8 @@ import { TardisConsonant } from './parsing/TardisConsonant.js';
 import { TardisGlyph } from './TardisGlyph.js';
 import { TardisWord, margin } from './TardisWord.js';
 
+import { canvaspreparation } from '../utils.js'
+
 /* Initialise Parser */
 class TardisVowel extends TardisLetter {
 	constructor(str, draw) {
@@ -33,8 +35,7 @@ export function render(ctx, input) {
 
 	// resize canvas by number & size of words
 	const wordRadii = translation.map(word => word.radius)
-	ctx.canvas.width = 2 * (wordRadii.reduce((a, b) => a + b) + margin);
-	ctx.canvas.height = 2 * (Math.max(...wordRadii) + margin);
+	canvaspreparation(ctx, 2 * (wordRadii.reduce((a, b) => a + b) + margin), 2 * (Math.max(...wordRadii) + margin));
 
 	// text pos must be set after canvas resize
 	ctx.textAlign = 'center';
