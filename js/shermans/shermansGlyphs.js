@@ -351,7 +351,7 @@ export class shermansDeco {
 	draw(deco, x, y, currentbase, baserad, group, letter) {
 		baserad += .5;
 		if (includes(["number"], deco)) {
-			shermansGrouped.linewidth = 1;
+			group.linewidth = 1;
 			let number = parseInt(letter),
 				rad = .95;
 			for (let n = number; n > 0; n--) {
@@ -397,7 +397,7 @@ export class shermansDeco {
 				draw.arc(
 					x,
 					y,
-					consonant * group.cresize, Math.PI * (baserad - .1), Math.PI * (baserad - .4), shermansGrouped.linewidth + 1
+					this.base.consonant * group.cresize, Math.PI * (baserad - .1), Math.PI * (baserad - .4), shermansGrouped.linewidth + 1
 				);
 			});
 		} else if (includes(this.base.scgtable.punctuation.contains, deco)) {
