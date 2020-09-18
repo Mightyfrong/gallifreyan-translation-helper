@@ -1,4 +1,4 @@
-import { shermansTranslate } from './shermans.js'
+import { render as renderShermans } from './shermans/render.js'
 import { render as renderTARDISConsole } from './tardisConsole/render.js'
 import { render as renderDoctorsCot } from './doctorsCot/render.js'
 import { ccTranslate } from './cc.js'
@@ -50,7 +50,7 @@ function translate(ctx) {
 	let lang = document.getElementById("language").value;
 	switch (lang) {
 		case "shermans":
-			shermansTranslate(ctx, input);
+			renderShermans(ctx, input);
 			break;
 		case "cot":
 			renderDoctorsCot(ctx, input);
@@ -65,7 +65,7 @@ function translate(ctx) {
 			ccTranslate(ctx, input);
 			break;
 		default:
-			shermansTranslate(ctx, input);
+			renderShermans(ctx, input);
 	}
 }
 
