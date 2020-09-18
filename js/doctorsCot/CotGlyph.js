@@ -1,14 +1,19 @@
 import { decorate, drawVowel } from "./setup.js"
 
 export class CotGlyph {
-	constructor(cons1, cons2, vowel) {
+	constructor(cons1, cons2 = null, vowel = null) {
 		this.outer = cons1;
-		this.inner = cons2 || null;
-		this.vowel = vowel || null;
+		this.inner = cons2;
+		this.vowel = vowel;
 
-		this.toString = this.outer.toString;
-		if (this.inner) this.toString += this.inner.toString;
-		if (this.vowel) this.toString += this.vowel.toString;
+		if (this.outer.toString != "א") {
+			this.toString = this.outer.toString;
+			if (this.inner) this.toString += this.inner.toString;
+			if (this.vowel) this.toString += this.vowel.toString;
+		} else {
+			this.toString = this.vowel.toString;
+			if (this.inner) this.toString += this.inner.toString;
+		}
 	}
 
 	draw(ctx) {
@@ -49,10 +54,10 @@ export class CotGlyph {
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
- * 
+ *
  * This file is part of the Gallifreyan Translation Helper,
  * henceforth referred to as "the GTH".
- * 
+ *
  * The GTH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or

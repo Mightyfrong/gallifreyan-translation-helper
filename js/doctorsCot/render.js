@@ -12,9 +12,9 @@ const lineHeight = textSpace + 2 * glyphRadius;
 const parser = new GallifreyanParser(letterMap, document.getElementById('output'));
 
 export function render(ctx, input) {
-    const result = parser.parseWords(input.toLowerCase());
+	const result = parser.parseWords(input.toLowerCase());
 
-    const translation = result.output.map(translateWord);
+	const translation = result.output.map(translateWord);
 
     const maxWordSize = Math.max(...translation.map(word => word.length))
     const numOfLines = translation.length;
@@ -24,7 +24,7 @@ export function render(ctx, input) {
     ctx.textBaseline = 'middle';
     ctx.strokeStyle = color.foreground;
 
-    ctx.translate(glyphSpacing + glyphRadius, textSpace + glyphRadius);
+	ctx.translate(glyphSpacing + glyphRadius, textSpace + glyphRadius);
 
     translation.forEach(word => {
         ctx.save();
@@ -32,45 +32,50 @@ export function render(ctx, input) {
             ctx.fillStyle = color.foreground;
             ctx.fillText(glyph.toString, 0, - glyphRadius - textSpace / 2);
 
-            glyph.draw(ctx);
-            ctx.translate(glyphWidth, 0);
-        });
-        ctx.restore();
-        ctx.translate(0, lineHeight);
-    });
+			glyph.draw(ctx);
+			ctx.translate(glyphWidth, 0);
+		});
+		ctx.restore();
+		ctx.translate(0, lineHeight);
+	});
 }
 
 function translateWord(word) {
-    let letters = word;
-    let glyphs = [];
-    while (letters.length) {
-        const [letter1, ...letters1] = letters;
-        if (letter1.isVowel) {
-            glyphs.push(new CotGlyph(letterMap.get("א"), null, letter1));
-            letters = letters1;
-        } else {
-            const [letter2, ...letters2] = letters1;
-            if (letter2) {
-                if (letter2.isVowel) {
-                    glyphs.push(new CotGlyph(letter1, null, letter2));
-                    letters = letters2;
-                } else {
-                    const [letter3, ...letters3] = letters2;
-                    if (letter3 && letter3.isVowel) {
-                        glyphs.push(new CotGlyph(letter1, letter2, letter3));
-                        letters = letters3;
-                    } else {
-                        glyphs.push(new CotGlyph(letter1, letter2));
-                        letters = letters2;
-                    }
-                }
-            } else {
-                glyphs.push(new CotGlyph(letter1));
-                letters = letters1;
-            }
-        }
-    }
-    return glyphs;
+	let glyphs = [];
+	while (word.length) {
+		const [letter1, ...letters1] = word;
+		if (letter1.isVowel) {
+			const [letter2, ...letters2] = letters1;
+			if(letter2 && !letter2.isVowel) {
+				glyphs.push(new CotGlyph(letterMap.get("א"), letter2, letter1));
+				word = letters2;
+			} else {
+				glyphs.push(new CotGlyph(letterMap.get("א"), null, letter1));
+				word = letters2;
+			}
+		} else {
+			const [letter2, ...letters2] = letters1;
+			if (letter2) {
+				if (letter2.isVowel) {
+					glyphs.push(new CotGlyph(letter1, null, letter2));
+					word = letters2;
+				} else {
+					const [letter3, ...letters3] = letters2;
+					if (letter3 && letter3.isVowel) {
+						glyphs.push(new CotGlyph(letter1, letter2, letter3));
+						word = letters3;
+					} else {
+						glyphs.push(new CotGlyph(letter1, letter2));
+						word = letters2;
+					}
+				}
+			} else {
+				glyphs.push(new CotGlyph(letter1));
+				word = letters1;
+			}
+		}
+	}
+	return glyphs;
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
