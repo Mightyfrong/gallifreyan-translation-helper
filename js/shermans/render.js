@@ -7,11 +7,10 @@ import {
 	shermansBase,
 	shermansDeco
 } from './shermansGlyphs.js';
+import { consonant, vowel } from './setup.js';
 
 let cLetter; // is there a "c"?
 let qLetter; // is there a "q"?
-const consonant = 30; // radius of consonants
-const vowel = Math.floor(consonant / 2); // radius of vowels
 let width; // canvas width
 let height; // canvas height
 let x; // current coordinate x
@@ -19,8 +18,8 @@ let y; // current coordinate y
 let glyph; // glyph dimensions-object
 let option; // user option-object
 
-let base = new shermansBase(consonant, vowel);
-let deco = new shermansDeco(base);
+const base = new shermansBase(consonant, vowel);
+const deco = new shermansDeco(base);
 
 export function render(ctx, input) {
 	//retrieve options and make them compact

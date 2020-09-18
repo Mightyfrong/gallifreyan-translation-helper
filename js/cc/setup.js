@@ -1,0 +1,1 @@
+export const consonant = 20 // radius of characters

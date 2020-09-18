@@ -7,8 +7,10 @@ import {
     ccBase,
     ccDeco
 } from './ccGlyphs.js'
+import {
+    consonant
+} from './setup.js';
 
-let consonant = 20; // radius of characters
 let width; // canvas width
 let height; // canvas height
 let x; // current coordinate x
@@ -16,8 +18,8 @@ let y; // current coordinate y
 let letterwidth; // you'll figure that one out for yourself
 let letterheight; // you'll figure that one out for yourself
 
-let base = new ccBase();
-let deco = new ccDeco();
+const base = new ccBase();
+const deco = new ccDeco();
 
 export function render(ctx, input) {
     // convert input-string to grouped array and determine number of groups
@@ -71,11 +73,6 @@ export function render(ctx, input) {
     document.getElementById("output").innerHTML = output;
 }
 
-//                        _
-//    ___ ___ ___ _ _ ___|_|___ ___
-//   | . |  _| . | | | . | |   | . |
-//   |_  |_| |___|___|  _|_|_|_|_  |
-//   |___|           |_|       |___|
 // set rules for grouping
 let ccGrouped = {
     groups: function (input) {
@@ -117,11 +114,6 @@ let ccGrouped = {
     }
 }
 
-//                    _ ___ _         _               _
-//    ___ ___ ___ ___|_|  _|_|___   _| |___ ___ _ _ _|_|___ ___
-//   |_ -| . | -_|  _| |  _| |  _| | . |  _| .'| | | | |   | . |
-//   |___|  _|___|___|_|_| |_|___| |___|_| |__,|_____|_|_|_|_  |
-//       |_|                                               |___|
 // draw instructions for base + decoration
 function ccDraw(ctx, letter, grouped) {
     if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
