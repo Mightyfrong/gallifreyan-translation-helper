@@ -1,7 +1,7 @@
 import { render as renderShermans } from './shermans/render.js'
 import { render as renderTARDISConsole } from './tardisConsole/render.js'
 import { render as renderDoctorsCot } from './doctorsCot/render.js'
-import { ccTranslate } from './cc.js'
+import { render as renderCC } from './cc/render.js'
 import { dotscriptTranslate } from './dotscript.js'
 import { genKeyboard, consonantTable, vowelTable } from './doctorsCot/setup.js'
 
@@ -62,7 +62,7 @@ function translate(ctx) {
 			dotscriptTranslate(ctx, input);
 			break;
 		case "cc":
-			ccTranslate(ctx, input);
+			renderCC(ctx, input);
 			break;
 		default:
 			renderShermans(ctx, input);
