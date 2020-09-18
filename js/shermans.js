@@ -613,7 +613,7 @@ let shermansGrouped = {
 					if (
 						( /*vowels */ includes(["ve", "va", "vo"], shermansBase.getBase(current)) && (!includes(["ve", "va", "vo", "number"], shermansBase.getBase(former)) || shermansBase.getBase(current) == shermansBase.getBase(former))) ||
 						( /*same base consonant*/ !includes([false, "punctuation", "ve", "va", "vo", "number"], shermansBase.getBase(current)) && group[group.length - 1].length > 0 && shermansBase.getBase(current) == shermansBase.getBase(former)) ||
-						( /*numbers, data is of string type here*/ includes("-1234567890,.", current) && group[group.length - 1].length > 0 && includes("-1234567890,.", former))
+						( /*numbers, data is of string type here*/ includes("-1234567890,.", current) && group[group.length - 1].length > 0 && includes("-1234567890,.", former) && !(includes("-.,", current) && includes("-.,", former)))
 					)
 						group[group.length - 1].push(current)
 					else // create/add to current group
