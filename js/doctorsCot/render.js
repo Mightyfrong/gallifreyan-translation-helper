@@ -8,7 +8,7 @@ const glyphWidth = 2 * (glyphRadius + glyphSpacing);
 const textSpace = 20;
 const lineHeight = textSpace + 2 * glyphRadius;
 
-const parser = new GallifreyanParser(letterMap, document.getElementById('output').innerHTML);
+const parser = new GallifreyanParser(letterMap, document.getElementById('output'));
 
 export function render(ctx, input) {
     const result = parser.parseWords(input.toLowerCase());
@@ -20,12 +20,12 @@ export function render(ctx, input) {
     ctx.canvas.width = maxWordSize * glyphWidth;
     ctx.canvas.height = numOfLines * lineHeight;
 
-	ctx.textAlign = 'center';
-	ctx.textBaseline = 'middle';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.strokeStyle = glyphCol;
 
     ctx.translate(glyphSpacing + glyphRadius, textSpace + glyphRadius);
-    
+
     translation.forEach(word => {
         ctx.save();
         word.forEach(glyph => {
@@ -56,14 +56,9 @@ function translateWord(word) {
                     letters = letters2;
                 } else {
                     const [letter3, ...letters3] = letters2;
-                    if (letter3) {
-                        if (letter3.isVowel) {
-                            glyphs.push(new CotGlyph(letter1, letter2, letter3));
-                            letters = letters3;
-                        } else {
-                            glyphs.push(new CotGlyph(letter1, letter2));
-                            letters = letters2;
-                        }
+                    if (letter3 && letter3.isVowel) {
+                        glyphs.push(new CotGlyph(letter1, letter2, letter3));
+                        letters = letters3;
                     } else {
                         glyphs.push(new CotGlyph(letter1, letter2));
                         letters = letters2;
@@ -79,10 +74,10 @@ function translateWord(word) {
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
- * 
+ *
  * This file is part of the Gallifreyan Translation Helper,
  * henceforth referred to as "the GTH".
- * 
+ *
  * The GTH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
