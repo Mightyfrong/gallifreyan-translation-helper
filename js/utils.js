@@ -10,9 +10,14 @@ export const π = Math.PI;
 export function d2r(degrees){
 	return degrees * Math.PI / 180;
 }
+
 // turn polar coords to Cartesian
 export function polar(radius, degrees) {
-	return [radius * Math.cos(d2r(degrees)), radius * Math.sin(d2r(degrees))];
+	const radians = d2r(degrees);
+	return [
+		radius * Math.cos(radians),
+		radius * Math.sin(radians)
+	];
 }
 
 // does an array contain the value or one of the values?

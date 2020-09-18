@@ -6,13 +6,14 @@ import { TardisLetter } from './parsing/TardisLetter.js';
 import { TardisConsonant } from './parsing/TardisConsonant.js';
 
 import { TardisGlyph } from './TardisGlyph.js';
+import { TardisWord, margin } from './TardisWord.js';
 
 /* Initialise Parser */
-class TardisVowel extends TardisLetter{
-    constructor(str, draw){
-        super(str, true);
-        this.draw = draw;
-    }
+class TardisVowel extends TardisLetter {
+	constructor(str, draw) {
+		super(str, true);
+		this.draw = draw;
+	}
 }
 
 const letterMap = new Map;
@@ -24,50 +25,28 @@ for (let str in vowels)
 
 const parser = new GallifreyanParser(letterMap);
 
-/* Rendering Constants */
-const gutter = 10; // gap between lines; also twice outer margin
-
-const glyphSize = 100;
-const textSpace = 20;
-
-const startPos = (glyphSize + gutter) / 2;
-const lineHeight = glyphSize + textSpace + gutter;
-
 export function render(ctx, input) {
 	const result = parser.parseWords(input.toUpperCase());
 
 	const translation = result.output.map(translateWord);
 	const outputLength = translation.map(word => word.length).reduce((a, b) => a + b + 1, -1);
 
-	// how many full glyphs fit horizontally
-	const availCols = Math.floor((window.innerWidth - 2 * gutter) / glyphSize);
-	const actualCols = Math.min(outputLength, availCols)
-
-	// resize canvas according to number of groups
-	ctx.canvas.width = actualCols * glyphSize + gutter;
-	ctx.canvas.height = lineHeight * Math.ceil(outputLength / actualCols);
+	// resize canvas by number & size of words
+	const wordRadii = translation.map(word => word.radius)
+	ctx.canvas.width = 2 * (wordRadii.reduce((a, b) => a + b) + margin);
+	ctx.canvas.height = 2 * (Math.max(...wordRadii) + margin);
 
 	// text pos must be set after canvas resize
 	ctx.textAlign = 'center';
 	ctx.textBaseline = 'middle';
 
-	ctx.translate(startPos, startPos);
-	ctx.save();
+	ctx.translate(margin, ctx.canvas.height / 2);
 
 	// iterate through groups and draw
-	translation.forEach(words => {
-		words.forEach(glyph => {
-			// start new line if overflowing
-			if (ctx.getTransform().e > ctx.canvas.width - startPos) {
-				ctx.restore();
-				ctx.translate(0, lineHeight);
-				ctx.save();
-			}
-			glyph.draw(ctx);
-			ctx.fillText(glyph.toString, 0, (glyphSize + textSpace) / 2);
-			ctx.translate(glyphSize, 0);
-		});
-		ctx.translate(glyphSize, 0);
+	translation.forEach(word => {
+		ctx.translate(word.radius, 0);
+		word.render(ctx);
+		ctx.translate(word.radius, 0);
 	});
 }
 
@@ -89,7 +68,7 @@ function translateWord(letters) {
 			}
 		}
 	}
-	return glyphs;
+	return new TardisWord(glyphs);
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
