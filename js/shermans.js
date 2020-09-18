@@ -1,3 +1,5 @@
+import { includes, color,	draw } from './utils.js';
+
 let cLetter; // is there a "c"?
 let qLetter; // is there a "q"?
 const consonant = 30; // radius of consonants
@@ -8,11 +10,6 @@ let x; // current coordinate x
 let y; // current coordinate y
 let glyph; // glyph dimensions-object
 let option; // user option-object
-
-import {
-	color,
-	draw
-} from './utils.js'
 
 //    _                                 _ ___ _         _   _
 //   | |_ ___ ___ ___   ___ ___ ___ ___|_|  _|_|___ ___| |_|_|___ ___ ___
@@ -213,7 +210,7 @@ const shermansBase = {
 	getBase: function (char) { // return name of base the given character is assigned to
 		let rtrn = false;
 		Object.keys(this.scgtable).forEach(row => {
-			if (this.scgtable[row].contains.Contains(char)) rtrn = row;
+			if (includes(this.scgtable[row].contains, char)) rtrn = row;
 		});
 		return rtrn;
 	}
@@ -361,7 +358,7 @@ const shermansDeco = {
 	},
 	draw: function (deco, x, y, currentbase, baserad, cresize, letter) {
 		baserad += .5;
-		if (["number"].Contains(deco)) {
+		if (includes(["number"], deco)) {
 			shermansGrouped.linewidth = 1;
 			let number = parseInt(letter),
 				rad = .95;
@@ -379,7 +376,7 @@ const shermansDeco = {
 					y + shermansBase.scgtable.number.radialPlacement(rad).y * cresize * .8);
 				rad -= .15;
 			}
-		} else if (["1d", "2d", "3d", "4d"].Contains(deco)) {
+		} else if (includes(["1d", "2d", "3d", "4d"], deco)) {
 			shermansDeco.scgtable[deco].radiants.forEach(rad => {
 				let fromto = shermansDeco.scgtable[deco].fromto;
 				draw.dot(
@@ -387,7 +384,7 @@ const shermansDeco = {
 					y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * cresize,
 					vowel * .25);
 			});
-		} else if (["2ndvowel"].Contains(deco)) {
+		} else if (includes(["2ndvowel"], deco)) {
 			shermansDeco.scgtable[deco].radiants.forEach(rad => {
 				let fromto = shermansDeco.scgtable[deco].fromto;
 				draw.circle(
@@ -395,7 +392,7 @@ const shermansDeco = {
 					y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * cresize,
 					vowel);
 			});
-		} else if (["divot"].Contains(deco)) {
+		} else if (includes(["divot"], deco)) {
 			shermansDeco.scgtable[deco].radiants.forEach(rad => {
 				let fromto = shermansDeco.scgtable[deco].fromto;
 				draw.arc(
@@ -411,31 +408,31 @@ const shermansDeco = {
 					consonant * cresize, Math.PI * (baserad - .1), Math.PI * (baserad - .4), shermansGrouped.linewidth + 1
 				);
 			});
-		} else if (shermansBase.scgtable.punctuation.contains.Contains(deco)) {
+		} else if (includes(shermansBase.scgtable.punctuation.contains, deco)) {
 			shermansDeco.scgtable[deco].radiants.forEach(rad => {
 				let fromto = shermansDeco.scgtable[deco].fromto;
-				if (["?", "!", ";"].Contains(deco)) {
+				if (includes(["?", "!", ";"], deco)) {
 					draw.dot(
 						x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * consonant * 2,
 						y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * consonant * 2,
 						vowel * .5);
-				} else if (["\"", "'", "-"].Contains(deco)) {
+				} else if (includes(["\"", "'", "-"], deco)) {
 					draw.line(
 						x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * consonant * 2,
 						y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * consonant * 2,
 						x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[1] * consonant * 2,
 						y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[1] * consonant * 2);
-				} else if (["."].Contains(deco)) {
+				} else if (includes(["."], deco)) {
 					draw.circle(
 						x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * consonant * 2,
 						y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * consonant * 2,
 						vowel);
-				} else if ([","].Contains(deco)) {
+				} else if (includes([","], deco)) {
 					draw.dot(
 						x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * consonant * 2,
 						y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * consonant * 2,
 						vowel);
-				} else if ([":"].Contains(deco)) {
+				} else if (includes([":"], deco)) {
 					draw.circle(
 						x + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * consonant * 2,
 						y + shermansBase.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * consonant * 2,
@@ -461,7 +458,7 @@ const shermansDeco = {
 	getDeco: function (char) { // return array of names of decorators the given character is assigned to
 		let rtrn = [];
 		Object.keys(this.scgtable).forEach(row => {
-			if (this.scgtable[row].contains.Contains(char)) rtrn.push(row);
+			if (includes(this.scgtable[row].contains, char)) rtrn.push(row);
 		});
 		return (!rtrn.length || (rtrn.length == 1 && rtrn[0] == "null")) ? false : rtrn;
 	}
@@ -542,9 +539,9 @@ export function shermansTranslate(ctx, input) {
 				// iterate through characters within group
 				for (let l = 0; l < group.length; l++) {
 					// check whether an occuring dot or comma is a decimal sign or not
-					let thicknumberline = /*is number group */ "1234567890".Contains(group[0]) && (
-						( /*is comma*/ ",.".Contains(group[l])) ||
-						( /*is last digit without comma*/ l == group.length - 1 && !group.Contains([",", "."]))
+					let thicknumberline = /*is number group */ includes("1234567890", group[0]) && (
+						( /*is comma*/ includes(",.", group[l])) ||
+						( /*is last digit without comma*/ l == group.length - 1 && !includes(group, [",", "."]))
 					);
 					// adjust offset properties according to former character/base
 					if (l > 0) shermansGrouped.setOffset(group[l - 1], group[l]);
@@ -578,7 +575,7 @@ function replacements(word) {
 		if (word[i] == "c" && option.chandling) {
 			if (word[i + 1] == "h") cword += "c"; // ch is still allowed
 			else if (word[i + 1] == "k") continue; // omit ck
-			else if (["e", "i", "y"].Contains(word[i + 1])) cword += "s";
+			else if (includes(["e", "i", "y"], word[i + 1])) cword += "s";
 			else cword += "k"; // end of the word
 		} else if (word[i] == "ß") cword += "ss";
 		else cword += word[i];
@@ -606,7 +603,7 @@ let shermansGrouped = {
 				let current = sword[i],
 					currenttwo = sword[i] + sword[i + 1];
 				// add double latin characters to group
-				if (["th", "gh", "ng", "qu", "wh", "sh", "ph", "ch"].Contains(currenttwo)) {
+				if (includes(["th", "gh", "ng", "qu", "wh", "sh", "ph", "ch"], currenttwo)) {
 					current = currenttwo;
 					i++;
 				}
@@ -614,9 +611,9 @@ let shermansGrouped = {
 					// add vowels if none or the same, consonants of same base, numbers to former group if selected
 					let former = group[group.length - 1][group[group.length - 1].length - 1];
 					if (
-						( /*vowels */ ["ve", "va", "vo"].Contains(shermansBase.getBase(current)) && (!["ve", "va", "vo", "number"].Contains(shermansBase.getBase(former)) || shermansBase.getBase(current) == shermansBase.getBase(former))) ||
-						( /*same base consonant*/ ![false, "punctuation", "ve", "va", "vo", "number"].Contains(shermansBase.getBase(current)) && group[group.length - 1].length > 0 && shermansBase.getBase(current) == shermansBase.getBase(former)) ||
-						( /*numbers, data is of string type here*/ "-1234567890,.".Contains(current) && group[group.length - 1].length > 0 && "-1234567890,.".Contains(former))
+						( /*vowels */ includes(["ve", "va", "vo"], shermansBase.getBase(current)) && (!includes(["ve", "va", "vo", "number"], shermansBase.getBase(former)) || shermansBase.getBase(current) == shermansBase.getBase(former))) ||
+						( /*same base consonant*/ !includes([false, "punctuation", "ve", "va", "vo", "number"], shermansBase.getBase(current)) && group[group.length - 1].length > 0 && shermansBase.getBase(current) == shermansBase.getBase(former)) ||
+						( /*numbers, data is of string type here*/ includes("-1234567890,.", current) && group[group.length - 1].length > 0 && includes("-1234567890,.", former))
 					)
 						group[group.length - 1].push(current)
 					else // create/add to current group
@@ -625,8 +622,8 @@ let shermansGrouped = {
 					group.push([current]);
 			}
 			// add control characters to the number group
-			if ("1234567890".Contains(group[group.length - 1][0])) group[group.length - 1].push("/");
-			if (group[group.length - 1][0] === "-" && "1234567890".Contains(group[group.length - 1][1])) {
+			if (includes("1234567890", group[group.length - 1][0])) group[group.length - 1].push("/");
+			if (group[group.length - 1][0] === "-" && includes("1234567890", group[group.length - 1][1])) {
 				group[group.length - 1].shift();
 				group[group.length - 1][group[group.length - 1].length] = ("\\");
 			}
@@ -649,12 +646,12 @@ let shermansGrouped = {
 		this.carriagereturn = true;
 		let actualbase = shermansBase.getBase(actual)
 		let formerbase = shermansBase.getBase(former)
-		if (["b", "j", "t", "th"].Contains(formerbase)) {
+		if (includes(["b", "j", "t", "th"], formerbase)) {
 			if (actualbase === formerbase) {
 				this.cresize *= .8;
 				if (former != actual) this.linewidth += 1;
 			}
-		} else if (["number"].Contains(formerbase)) {
+		} else if (includes(["number"], formerbase)) {
 			this.cresize *= .8;
 		} else /*vovel*/ this.vresize *= .8;
 	}
@@ -698,7 +695,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		}
 		// define basic positional arguments
 		let voweloffset;
-		if (["ve", "va", "vo"].Contains(currentbase) && !["ve", "va", "vo"].Contains(grouped.groupBase))
+		if (includes(["ve", "va", "vo"], currentbase) && !includes(["ve", "va", "vo"], grouped.groupBase))
 			voweloffset = shermansBase.scgtable[grouped.groupBase].radialPlacement(.25 + rad, currentbase);
 		else voweloffset = {
 			x: 0,
@@ -714,18 +711,20 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		if (option.circular) {
 			angle = 1 / grouped.numberOfGroups;
 		}
-		if (!grouped.carriagereturn || ["b", "t"].Contains(currentbase)) {
+		if (!grouped.carriagereturn || includes(["b", "t"], currentbase)) {
 			draw.arc(x, y, wordCircleRadius, Math.PI * (.5 + rad + angle), Math.PI * (.5 + rad - angle));
 		}
-		if (["punctuation"].Contains(currentbase) && !thicknumberline) {
+		if (includes(["punctuation"], currentbase) && !thicknumberline) {
 			draw.arc(x, y, wordCircleRadius + 2 * consonant, Math.PI * (.5 + rad + angle), Math.PI * (.5 + rad - angle));
 		}
 
 		// draw base
 		let r = consonant * grouped.cresize;
 		if (thicknumberline) grouped.linewidth = 2;
-		if (!["punctuation"].Contains(currentbase) || (["punctuation"].Contains(currentbase) && !thicknumberline)) {
-			if (["ve", "va", "vo"].Contains(currentbase)) r = vowel * grouped.vresize;
+
+		const hasPunc = includes(["punctuation"], currentbase);
+		if (!hasPunc || (hasPunc && !thicknumberline)) {
+			if (includes(["ve", "va", "vo"], currentbase)) r = vowel * grouped.vresize;
 			shermansBase.scgtable[currentbase].draw(x + center.x, y + center.y, r, rad, grouped.linewidth);
 		}
 
@@ -741,9 +740,9 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 	// text output for undefined characters as well for informational purpose
 	ctx.beginPath();
 	// print character translation above the drawings unless it's a (numeral) control character
-	if (!["/", "\\"].Contains(letter)) ctx.fillText(letter, x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) + grouped.offset * 8, y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad));
+	if (!includes(["/", "\\"], letter)) ctx.fillText(letter, x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) + grouped.offset * 8, y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad));
 	// add a minus sign in from of the translation above the drawings if applicable
-	if (["\\"].Contains(letter)) ctx.fillText("-", x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) - 1 * 8, y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad));
+	if (includes(["\\"], letter)) ctx.fillText("-", x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) - 1 * 8, y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad));
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR

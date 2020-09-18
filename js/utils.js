@@ -7,7 +7,7 @@ export const color = {
 
 export const π = Math.PI;
 
-export function d2r(degrees){
+export function d2r(degrees) {
 	return degrees * Math.PI / 180;
 }
 
@@ -20,24 +20,11 @@ export function polar(radius, degrees) {
 	];
 }
 
-// does an array contain the value or one of the values?
-Array.prototype.Contains = function (values) {
-	if (Array.isArray(values)) {
-		for (let i = 0; i < values.length - 1; i++) {
-			if (Boolean(this.indexOf(values[i]) + 1)) return true;
-		}
-	} else if (Boolean(this.indexOf(values) + 1)) return true;
-	return false;
-}
-
-// does a string contain the value or one of the values?
-String.prototype.Contains = function (values) {
-	if (Array.isArray(values)) {
-		for (let i = 0; i < values.length - 1; i++) {
-			if (Boolean(this.indexOf(values[i]) + 1)) return true;
-		}
-	} else if (Boolean(this.indexOf(values) + 1)) return true;
-	return false;
+// obj can be an Array or String
+export function includes(obj, values) {
+	return Array.isArray(values) ?
+		values.some(value => obj.includes(value)) :
+		obj.includes(values);
 }
 
 // general drawing instructions
@@ -92,10 +79,10 @@ export let draw = {
 };
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
- * 
+ *
  * This file is part of the Gallifreyan Translation Helper,
  * henceforth referred to as "the GTH".
- * 
+ *
  * The GTH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
