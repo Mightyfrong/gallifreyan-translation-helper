@@ -1,9 +1,12 @@
 import { π, color } from '../utils.js';
+import { CLIPPED } from './parsing/TardisConsonant.js';
 
 export class TardisGlyph {
 	constructor(con, vow = null) {
 		this.consonant = con;
 		this.vowel = vow;
+
+		this.clipped = con && con.modifier == CLIPPED;
 
 		this.toString = "";
 		if (con) this.toString += con.toString;

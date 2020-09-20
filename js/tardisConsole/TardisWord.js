@@ -14,7 +14,6 @@ export class TardisWord {
 			1 + 1 / Math.sin(this.angle);
 
 		this.radius = rFactor * (glyphRadius + margin);
-		this.glyphPos = this.radius ;
 	}
 
 	render(ctx) {
@@ -26,9 +25,10 @@ export class TardisWord {
 		ctx.stroke();
 		ctx.clip();
 
-		const glyphPos = this.radius - margin - glyphRadius;
-
 		this.glyphs.forEach((glyph, i) => {
+			const inset = glyph.clipped ? glyphRadius *2 / 5 : margin + glyphRadius;
+			const glyphPos = this.radius - inset;
+
 			ctx.save();
 			ctx.translate(0, -glyphPos);
 
