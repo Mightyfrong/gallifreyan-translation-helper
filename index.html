@@ -20,7 +20,7 @@
 	<main>
 		<form>
 			<div>
-				<label for="language">Help with </label>
+				<label for="language" id="helpwith">Help with</label>
 				<select id="language">
 					<option value="shermans">Sherman's</option>
 					<option value="cot">Doctor's Cot</option>
@@ -40,7 +40,7 @@
 					<div id="ipa-vowels"></div>
 				</div>
 				<div id="cc-options">
-					Maximum stacked characters
+					<span id="ccstack">Maximum stacked characters</span>
 					<select id="cc-stack">
 						<option value="1">1</option>
 						<option value="2">2</option>
@@ -54,7 +54,7 @@
 				</div>
 			</fieldset>
 			<textarea id="text" rows="4" placeholder="type your text here"></textarea>
-			<input type="submit" value="Render">
+			<input type="submit" id="renderbutton" value="Render">
 		</form>
 		<p id="info">
 			Still very early and WIP. Please don't spell check your tattoo with this!<br />
@@ -71,6 +71,7 @@
 
 	<footer>
 		<div>
+			<div id="UILanguages"></div>
 			<div class="ftr-elem">&copy; 2020 Mightyfrong, erroronline1, ModisR</div>
 			<div class="ftr-elem">
 				<a href="https://github.com/Mightyfrong/gallifreyan-translation-helper" target="_blank">

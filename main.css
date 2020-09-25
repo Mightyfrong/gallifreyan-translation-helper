@@ -33,7 +33,10 @@ header {
 	width: 100vw;
 	color: var(--accent-col);
 }
-h1{margin:.3em;}
+
+h1 {
+	margin: .3em;
+}
 
 #creator {
 	color: var(--main-col);
@@ -146,6 +149,11 @@ span {
 a>svg {
 	height: 1em;
 	width: 1em;
+}
+
+label>svg {
+	height: 2em;
+	width: 3em;
 }
 
 @media (min-width: 640px) {

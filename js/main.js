@@ -5,6 +5,7 @@ import { render as renderCC } from './cc/render.js'
 import { dotscriptTranslate } from './dotscript.js'
 import { genKeyboard, consonantTable, vowelTable } from './doctorsCot/setup.js'
 import { color } from './utils.js'
+import { UILanguage } from './uilanguage.js'
 
 // Initialise event handlers and language-specific form controls
 const langSelect = document.getElementById('language');
@@ -20,6 +21,9 @@ genKeyboard(ipaConsons, consonantTable);
 genKeyboard(ipaVowels, vowelTable);
 
 const ccOpts = document.getElementById('cc-options');
+
+//rewrite user interface language, direct implementation on document rendering throws errors
+UILanguage.init();
 
 function activateControls(lang) {
 	switch (lang) {
