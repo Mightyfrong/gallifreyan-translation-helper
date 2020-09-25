@@ -12,6 +12,9 @@ import {
 	consonant,
 	vowel
 } from './setup.js';
+import {
+	UILanguage
+} from '../UILanguage.js'
 
 let cLetter; // is there a "c"?
 let qLetter; // is there a "q"?
@@ -21,6 +24,18 @@ let x; // current coordinate x
 let y; // current coordinate y
 let glyph; // glyph dimensions-object
 let option; // user option-object
+
+// add module-specific language chunks
+UILanguage.say.cLetter = {
+	en: "Consider replacing C (marked red) with K or S exept when it's a name.",
+	de: "Das rot markierte C sollte mit K oder S ersetzt werden, es sei denn es handelt sich um einen Namen.",
+	lt: "Raudonai paryškinta C turi būti pakeista į K arba S, nebent tai yra vardas."
+};
+UILanguage.say.qLetter = {
+	en: "I am guessing this is a name but if its not, what is a lone Q doing there?",
+	de: "Vermutlich ist es ein Name, aber falls nicht: was macht ein einsames Q hier?",
+	lt: "Manau, tai vardas, bet jei ne, koks vienišas Q yra ten?"
+};
 
 const base = new shermansBase(consonant, vowel);
 const deco = new shermansDeco(base);
@@ -55,7 +70,7 @@ export function render(ctx, input) {
 			height: biggestWordCircle
 		};
 		width = (Math.min(glyphs, Math.floor(window.innerWidth / biggestWordCircle)) * glyph.width || glyph.width);
-		height = biggestWordCircle * Math.ceil(glyphs / (Math.floor(window.innerWidth / glyph.width)||1));
+		height = biggestWordCircle * Math.ceil(glyphs / (Math.floor(window.innerWidth / glyph.width) || 1));
 		x = glyph.width / 2;
 		y = glyph.height / 2;
 	} else {
@@ -111,10 +126,10 @@ export function render(ctx, input) {
 	// complain about c and q
 	let output = "";
 	if (cLetter) {
-		output = "Consider replacing C (marked red) with K or S exept when it's a name.";
+		output = UILanguage.write("cLetter");
 	}
 	if (qLetter) {
-		output += "<br>I am guessing this is a name but if its not, what is a lone Q doing there?";
+		output += "<br>" + UILanguage.write("qLetter");
 	}
 	document.getElementById("output").innerHTML = output;
 }

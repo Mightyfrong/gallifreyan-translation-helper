@@ -1,3 +1,14 @@
+import {
+	canvaspreparation,
+	color,
+	draw,
+	includes
+} from './utils.js'
+import {
+	UILanguage
+} from './UILanguage.js'
+
+
 let consonant = 30; // radius of consonants
 let linewidth = 3; // thicker lines add a cute chubbyness
 let width; // canvas width
@@ -7,12 +18,15 @@ let y; // current coordinate y
 let letterwidth; // you'll figure that one out for yourself
 let letterheight; // you'll figure that one out for yourself
 let warning = ""; // used if undefined characters are part of the input
-import {
-	canvaspreparation,
-	color,
-	draw,
-	includes
-} from './utils.js'
+
+
+// add module-specific language chunks
+UILanguage.say.processError = {
+	en: "The following characters could not be processed: ",
+	de: "Die folgenden Zeichen konnten nicht verarbeitet werden: ",
+	lt: "Nepavyko apdoroti šių simbolių: "
+};
+
 
 //specify forms and positions
 let characters = {
@@ -50,7 +64,7 @@ let characters = {
 			draw.arc(x, y, size * .6, Math.PI * .65, Math.PI * 1.65);
 		},
 		space: function (x, y, size) {
-			draw.dot(x , y , size*.25,color.background);
+			draw.dot(x, y, size * .25, color.background);
 		}
 	},
 	characters: {
@@ -212,17 +226,17 @@ export function dotscriptTranslate(ctx, input) {
 	// set canvas scale according to number of characters
 	width = Math.min(input.length + 1, Math.floor(window.innerWidth / letterwidth)) * letterwidth - letterwidth;
 	height = letterheight * Math.ceil(input.length / Math.floor(window.innerWidth / letterwidth));
-	canvaspreparation(ctx,width,height);
+	canvaspreparation(ctx, width, height);
 
 	// draw baseline
 	draw.line(x, y, x + letterwidth * 2, y, linewidth);
 	// iterate through input
 	for (let i = 0; i < input.length; i++) {
 		// position pointer
-		if (x + letterwidth*1.5 >= width) {
+		if (x + letterwidth * 1.5 >= width) {
 			y += letterheight;
 			x = letterwidth * .5;
-		} else if (includes("aeiou",input[i])) x += letterwidth * .5;
+		} else if (includes("aeiou", input[i])) x += letterwidth * .5;
 		else x += letterwidth;
 
 
@@ -242,7 +256,7 @@ export function dotscriptTranslate(ctx, input) {
 	}
 
 	// complain about undefined characters
-	if (warning) document.getElementById("output").innerHTML = "The following characters could not be processed: " + warning.substr(2);
+	if (warning) document.getElementById("output").innerHTML = UILanguage.write("processError") + warning.substr(2);
 	else document.getElementById("output").innerHTML = "";
 }
 
