@@ -415,8 +415,8 @@ The base line is drawn for the next character for not interfering with the forme
 ### Colors
 An object to set up colors, make them usable for all modules and create a meshed interface
 
-### Prototype Functions
-`String.prototype.Contains` and `Array.prototype.Contains` return booleans whether the string or array contains the given argument or one of the items in the passed array, can be used instead of `Array.indexOf(value) > -1` and handle multiple values as well.
+### includes Functions
+Returns a boolean whether the passed value or one of the values of the passed array can be found in the passed object. This works for strings as well as for arrays.
 
 ### Multipurpose Drawing
 The **draw-object** serves methods to reuse the plain geometric shapes in context of canvas drawing. The respective shape is called with the necessary coordinates, radii and line widths while beginPaths and moveTos, strokes and fills are set up once instead of repetitively for every character setup.
@@ -435,6 +435,18 @@ dot: function (x, y, r) {
 ```
 
 ---
+
+## UILanguage
+This module handles multiple languages for the user interface of the translation helper.
+Any language can be registered by adding a property to `UILanguage.supported` named the language code and an array of the language name and a flag as svg.
+
+Language chunks are set within `UILanguage.say` according to registered languages. After importing this module to the gallifreyan scribe modules this property can be extended with specific chunks.
+
+Selected languages can be set and get using localStorage with english as default fallback.
+
+Output of the concerning chunk happens with calling `UILanguage.write("chunkname")`. This method retrieves the selected or default language on its own. A warning alert will pop up if any chunk is undefined. If a chunk is not set in the desired language for any reason the english chunk will be selected by default.
+
+`UILanguage.init()` will initiate the overall user interface and overwrite with the selected language chunks after rendering the page. Due to the modular handling of the JS-files a conventional integration of the script within the header and writing everything during rendering throws an error. This method also initiates the display of supported languages and sets up the eventHandler for selection.
 
 ## Copyright & Licence Notice
 
