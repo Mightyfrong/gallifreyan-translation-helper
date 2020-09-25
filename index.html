@@ -7,6 +7,7 @@
 
 	<link rel="stylesheet" href="main.css">
 	<link rel="icon" type="image/png" href="assets/favicon.png">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 
 <body>
@@ -19,7 +20,7 @@
 	<main>
 		<form>
 			<div>
-				<label for="language">Choose a System:</label>
+				<label for="language">Help with </label>
 				<select id="language">
 					<option value="shermans">Sherman's</option>
 					<option value="cot">Doctor's Cot</option>
@@ -30,9 +31,9 @@
 			</div>
 			<fieldset id="lang-controls">
 				<div id="shermans-options">
-					<input type="checkbox" id="scgcirc" checked /><label for="scgcirc"> circular words</label>
-					<input type="checkbox" id="scgc" checked /><label for="scgc"> convert C</label>
-					<input type="checkbox" id="scgg" /><label for="scgg"> character stacking</label>
+					<span><input type="checkbox" id="scgcirc" checked /><label for="scgcirc"> circular words</label></span>
+					<span><input type="checkbox" id="scgc" checked /><label for="scgc"> convert C</label></span>
+					<span><input type="checkbox" id="scgg" /><label for="scgg"> character stacking</label></div></span>
 				</div>
 				<div id="ipa-keys">
 					<div id="ipa-consons"></div>
@@ -52,7 +53,7 @@
 					</select>
 				</div>
 			</fieldset>
-			<textarea id="text" placeholder="type your text here"></textarea>
+			<textarea id="text" rows="4" placeholder="type your text here"></textarea>
 			<input type="submit" value="Render">
 		</form>
 		<p id="info">
