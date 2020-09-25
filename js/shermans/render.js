@@ -8,7 +8,10 @@ import {
 	shermansBase,
 	shermansDeco
 } from './shermansGlyphs.js';
-import { consonant, vowel } from './setup.js';
+import {
+	consonant,
+	vowel
+} from './setup.js';
 
 let cLetter; // is there a "c"?
 let qLetter; // is there a "q"?
@@ -51,8 +54,8 @@ export function render(ctx, input) {
 			width: biggestWordCircle + consonant,
 			height: biggestWordCircle
 		};
-		width = Math.min(glyphs, Math.floor(window.innerWidth / biggestWordCircle)) * glyph.width;
-		height = biggestWordCircle * Math.ceil(glyphs / Math.floor(window.innerWidth / glyph.width));
+		width = (Math.min(glyphs, Math.floor(window.innerWidth / biggestWordCircle)) * glyph.width || glyph.width);
+		height = biggestWordCircle * Math.ceil(glyphs / (Math.floor(window.innerWidth / glyph.width)||1));
 		x = glyph.width / 2;
 		y = glyph.height / 2;
 	} else {
@@ -60,12 +63,12 @@ export function render(ctx, input) {
 			width: consonant * 2.5,
 			height: consonant * 6
 		};
-		width = Math.min(++glyphs, Math.floor(window.innerWidth / glyph.width)) * glyph.width - glyph.width;
-		height = glyph.height * (Math.ceil(++glyphs / Math.floor(window.innerWidth / glyph.width)));
+		width = (Math.min(++glyphs, Math.floor(window.innerWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
+		height = glyph.height * (Math.ceil(++glyphs / (Math.floor(window.innerWidth / glyph.width) || 1)));
 		x = 0;
 		y = -glyph.height * .5;
 	}
-	canvaspreparation(ctx,width,height);
+	canvaspreparation(ctx, width, height);
 
 	// initialize widths, heights, default-values, draw-object
 	cLetter = false;
