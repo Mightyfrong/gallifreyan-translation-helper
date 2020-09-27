@@ -1,11 +1,10 @@
-import { render as renderShermans } from './shermans/render.js'
-import { render as renderTARDISConsole } from './tardisConsole/render.js'
-import { render as renderDoctorsCot } from './doctorsCot/render.js'
-import { render as renderCC } from './cc/render.js'
-import { dotscriptTranslate } from './dotscript.js'
-import { genKeyboard, consonantTable, vowelTable } from './doctorsCot/setup.js'
-import { color } from './utils.js'
-import { UILanguage } from './UILanguage.js'
+import { render as renderShermans } from './shermans/render.js';
+import { render as renderTARDISConsole } from './tardisConsole/render.js';
+import { render as renderDoctorsCot } from './doctorsCot/render.js';
+import { render as renderCC } from './cc/render.js';
+import { dotscriptTranslate } from './dotscript.js';
+import { genKeyboard, consonantTable, vowelTable } from './doctorsCot/setup.js';
+import { UILanguage } from './UILanguage.js';
 
 // Initialise event handlers and language-specific form controls
 const langSelect = document.getElementById('language');
@@ -25,7 +24,9 @@ const ccOpts = document.getElementById('cc-options');
 //rewrite user interface language, direct implementation on document rendering throws errors
 UILanguage.init();
 
+const svg = document.querySelector('svg');
 function activateControls(lang) {
+	svg.style.display = "none";
 	switch (lang) {
 		case "shermans":
 			shermansOpts.classList.toggle('active');
@@ -35,6 +36,9 @@ function activateControls(lang) {
 			break;
 		case "cc":
 			ccOpts.classList.toggle('active');
+			break;
+		case "tardis":
+			svg.style.display = "block";
 			break;
 	}
 }
@@ -51,8 +55,8 @@ activateControls(langSelect.value);
 
 //Clear canvas and pass word to specific language
 function translate(ctx) {
-	document.getElementById('info').style.display='none';
-	document.getElementById('drawoutput').style.display='block';
+	document.getElementById('info').style.display = 'none';
+	document.getElementById('drawoutput').style.display = 'block';
 
 	let input = document.getElementById("text").value;
 	let lang = document.getElementById("language").value;
@@ -64,7 +68,7 @@ function translate(ctx) {
 			renderDoctorsCot(ctx, input);
 			break;
 		case "tardis":
-			renderTARDISConsole(ctx, input);
+			renderTARDISConsole(ctx, input, svg);
 			break;
 		case "dotscript":
 			dotscriptTranslate(ctx, input);

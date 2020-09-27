@@ -27,15 +27,33 @@ for (let str in vowels)
 
 const parser = new GallifreyanParser(letterMap, document.getElementById("output"));
 
-export function render(ctx, input) {
+export function render(ctx, input, svg) {
 	const result = parser.parseWords(input.toUpperCase());
 
 	const translation = result.output.map(translateWord);
-	const outputLength = translation.map(word => word.length).reduce((a, b) => a + b + 1, -1);
 
 	// resize canvas by number & size of words
-	const wordRadii = translation.map(word => word.radius)
-	canvaspreparation(ctx, 2 * (wordRadii.reduce((a, b) => a + b) + margin), 2 * (Math.max(...wordRadii) + margin));
+	const wordRadii = translation.map(word => word.radius);
+	const width = 2 * (wordRadii.reduce((a, b) => a + b) + margin);
+	const height = 2 * (Math.max(...wordRadii) + margin);
+	canvaspreparation(ctx, width, height);
+
+	// svg dummy output
+	svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+	[...svg.children].forEach(child => {
+		svg.removeChild(child);
+	});
+	let currentX = margin;
+	wordRadii.forEach(wordRadius => {
+		const circle = document.createElementNS("http://www.w3.org/2000/svg" ,'circle');
+		currentX += wordRadius;
+		circle.setAttribute('cx', currentX);
+		currentX += wordRadius;
+		circle.setAttribute('cy', height / 2);
+		circle.setAttribute('r', wordRadius);
+
+		svg.append(circle);
+	});
 
 	// text pos must be set after canvas resize
 	ctx.textAlign = 'center';
