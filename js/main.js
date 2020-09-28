@@ -24,9 +24,12 @@ const ccOpts = document.getElementById('cc-options');
 //rewrite user interface language, direct implementation on document rendering throws errors
 UILanguage.init();
 
+const canvas = document.getElementById('canvas');
 const svg = document.querySelector('svg');
+
 function activateControls(lang) {
 	svg.style.display = "none";
+	canvas.style.display = "block";
 	switch (lang) {
 		case "shermans":
 			shermansOpts.classList.toggle('active');
@@ -39,6 +42,7 @@ function activateControls(lang) {
 			break;
 		case "tardis":
 			svg.style.display = "block";
+			canvas.style.display = "none";
 			break;
 	}
 }
@@ -81,7 +85,6 @@ function translate(ctx) {
 	}
 }
 
-let canvas = document.getElementById('canvas');
 if (canvas.getContext) {
 	let ctx = canvas.getContext('2d');
 	document.forms[0].onsubmit = (event) => {

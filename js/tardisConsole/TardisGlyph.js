@@ -1,5 +1,7 @@
-import { π, color } from '../utils.js';
+import { createSVGElement } from '../utils.js';
 import { CLIPPED } from './parsing/TardisConsonant.js';
+
+export const glyphRadius = 50
 
 export class TardisGlyph {
 	constructor(con, vow = null) {
@@ -13,10 +15,16 @@ export class TardisGlyph {
 		if (vow) this.toString += vow.toString;
 	}
 
-	draw(ctx) {
+	render(svg, cx, cy) {
 		if (this.consonant) {
-			this.consonant.draw(ctx);
-			if (this.vowel)
+			this.consonant.render(svg, cx, cy);
+		} else {
+			const r = glyphRadius;
+			const fill = 'orange';
+			const circle = createSVGElement('circle', {cx, cy, r, fill});
+			svg.append(circle);
+		}
+		/*if (this.vowel)
 				this.vowel.draw(ctx, this.consonant.vowelData);
 		}
 		else {
@@ -73,5 +81,6 @@ export class TardisGlyph {
 
 			ctx.restore();
 		}
+		 */
 	}
 }

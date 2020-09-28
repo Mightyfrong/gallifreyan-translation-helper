@@ -5,14 +5,25 @@ export let color = {
 	warning: "#f00"
 };
 
-export function canvaspreparation(ctx, width, height){
-	color.foreground=document.getElementById('foregroundcolor').value;
-	color.background=document.getElementById('backgroundcolor').value;
+export function createSVGElement(tagName, attributes = {}) {
+	const elem = document.createElementNS("http://www.w3.org/2000/svg", tagName);
+
+	Object.entries(attributes).forEach(([key, value]) => {
+		const name = key.replace(/([A-Z])/g, "-$1").toLowerCase();
+		elem.setAttribute(name, value);
+	});
+
+	return elem;
+}
+
+export function canvaspreparation(ctx, width, height) {
+	color.foreground = document.getElementById('foregroundcolor').value;
+	color.background = document.getElementById('backgroundcolor').value;
 	ctx.canvas.width = width;
 	ctx.canvas.height = height;
-	ctx.fillStyle=color.background;
-	ctx.fillRect(0,0,width,height);
-	ctx.strokeStyle=color.foreground;
+	ctx.fillStyle = color.background;
+	ctx.fillRect(0, 0, width, height);
+	ctx.strokeStyle = color.foreground;
 }
 
 export const π = Math.PI;

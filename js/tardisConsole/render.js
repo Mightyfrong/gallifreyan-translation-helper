@@ -44,28 +44,10 @@ export function render(ctx, input, svg) {
 		svg.removeChild(child);
 	});
 	let currentX = margin;
-	wordRadii.forEach(wordRadius => {
-		const circle = document.createElementNS("http://www.w3.org/2000/svg" ,'circle');
-		currentX += wordRadius;
-		circle.setAttribute('cx', currentX);
-		currentX += wordRadius;
-		circle.setAttribute('cy', height / 2);
-		circle.setAttribute('r', wordRadius);
-
-		svg.append(circle);
-	});
-
-	// text pos must be set after canvas resize
-	ctx.textAlign = 'center';
-	ctx.textBaseline = 'middle';
-
-	ctx.translate(margin, ctx.canvas.height / 2);
-
-	// iterate through groups and draw
 	translation.forEach(word => {
-		ctx.translate(word.radius, 0);
-		word.render(ctx);
-		ctx.translate(word.radius, 0);
+		currentX += word.radius;
+		word.render(svg, currentX, height / 2);
+		currentX += word.radius;
 	});
 }
 

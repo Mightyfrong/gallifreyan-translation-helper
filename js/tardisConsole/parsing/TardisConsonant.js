@@ -1,3 +1,4 @@
+import { createSVGElement } from "../../utils.js";
 import { VowelDetails } from "../VowelDetails.js";
 import { TardisLetter } from "./TardisLetter.js";
 
@@ -24,21 +25,23 @@ export class TardisConsonant extends TardisLetter {
 					null;
 	}
 
-	draw(ctx) {
-		ctx.save();
+	render(svg, x, y) {
+		let transform = `translate(${[x, y]})`;
+		transform += this.modifier == SQUASHED ? " scale(1, 0.5) " : "";
 
-		if (this.modifier == SQUASHED)
-			ctx.scale(1, 0.5);
+		this.pathData.split(";").forEach((d, strokeWidth) => {
+			if (d.length) {
+				let fill = 'none';
+				let stroke = 'none';
+				if (strokeWidth) {
+					stroke = 'orange';
+				} else {
+					fill = 'orange';
+				}
 
-		this.pathData.split(";").forEach((str, idx) => {
-			const path = new Path2D(str);
-
-			if (idx) {
-				ctx.lineWidth = idx;
-				ctx.stroke(path);
-			} else
-				ctx.fill(path);
+				const path = createSVGElement('path', { d, fill, stroke, strokeWidth, transform });
+				svg.append(path);
+			}
 		});
-		ctx.restore();
 	}
 }
