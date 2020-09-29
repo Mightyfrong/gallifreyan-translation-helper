@@ -1,4 +1,4 @@
-import { createSVGElement, polar, π } from '../utils.js';
+import { π } from '../utils.js';
 import { glyphRadius } from './TardisGlyph.js';
 
 const wordBorder = 5;
@@ -18,25 +18,18 @@ export class TardisWord {
 		this.radius = this.glyphPos + glyphRadius + margin + wordBorder / 2;
 	}
 
-	render(svg, cx, cy) {
-		let defs = svg.querySelector('defs');
-		if (!defs) {
-			defs = createSVGElement('defs');
-			svg.append(defs);
-		}
+	render(ctx) {
 		const r = this.radius;
-		const fill = '#000c24';
-		const stroke = 'orange';
-		const strokeWidth = wordBorder;
-		const circle = createSVGElement('circle', { cx, cy, r, fill, stroke, strokeWidth});
-		svg.append(circle);
+		ctx.drawShape('circle', wordBorder, { r });
 
 		this.glyphs.forEach((glyph, i) => {
 			const angle = i * this.glyphAngle;
 			const rad = this.glyphPos;
 			const gx = rad * Math.sin(angle);
-			const gy = rad * Math.cos(angle);
-			glyph.render(svg, cx - gx, cy + gy);
+			const gy = -rad * Math.cos(angle);
+			ctx.translate(gx, gy);
+			glyph.render(ctx);
+			ctx.translate(-gx, -gy);
 		});
 	}
 }

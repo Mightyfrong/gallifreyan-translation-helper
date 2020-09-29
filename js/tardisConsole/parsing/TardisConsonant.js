@@ -25,23 +25,9 @@ export class TardisConsonant extends TardisLetter {
 					null;
 	}
 
-	render(svg, x, y) {
-		let transform = `translate(${[x, y]})`;
-		transform += this.modifier == SQUASHED ? " scale(1, 0.5) " : "";
-
+	render(ctx) {
 		this.pathData.split(";").forEach((d, strokeWidth) => {
-			if (d.length) {
-				let fill = 'none';
-				let stroke = 'none';
-				if (strokeWidth) {
-					stroke = 'orange';
-				} else {
-					fill = 'orange';
-				}
-
-				const path = createSVGElement('path', { d, fill, stroke, strokeWidth, transform });
-				svg.append(path);
-			}
+			ctx.drawShape('path', strokeWidth, { d });
 		});
 	}
 }

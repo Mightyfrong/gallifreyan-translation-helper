@@ -1,4 +1,5 @@
 import { polar } from '../../utils.js';
+import { glyphRadius } from '../TardisGlyph.js';
 
 export const consonants = {
 	B: `;${dentedCircle(44.5, "24.5 -60 0 0")};${circle(49)}|N;-30;20;35`,
@@ -27,7 +28,7 @@ export const consonants = {
 	X: `;${circle(45)};${circles(36, 49, 13)}|N;-30;20;42`,
 	Y: `;${hexagon(30) + hexagon(32.5) + hexagon(35)};${hexagon(39) + circle(44)}|S;-22;10;32`,
 	Z: `;${hexagon(30) + hexagon(32.5) + hexagon(35) + hexLegs(35, 49.5)};${hexagon(39) + circle(44)}|S;-22;10;32`,
-	PH: `;${circles(12.5, 30)};${circles(39, 49, 10)}|N;-30;20;45`
+	PH: `;${circles(12.5, 30)};${circles(39, 49, 10)}|N;-30;20;45`,
 };
 
 function letterR() {

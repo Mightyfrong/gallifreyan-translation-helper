@@ -1,8 +1,11 @@
+import { SVGRenderingContext } from './SVGRenderingContext.js';
+
 import { render as renderShermans } from './shermans/render.js';
 import { render as renderTARDISConsole } from './tardisConsole/render.js';
 import { render as renderDoctorsCot } from './doctorsCot/render.js';
 import { render as renderCC } from './cc/render.js';
 import { dotscriptTranslate } from './dotscript.js';
+
 import { genKeyboard, consonantTable, vowelTable } from './doctorsCot/setup.js';
 import { UILanguage } from './UILanguage.js';
 
@@ -26,6 +29,7 @@ UILanguage.init();
 
 const canvas = document.getElementById('canvas');
 const svg = document.querySelector('svg');
+const src = new SVGRenderingContext;
 
 function activateControls(lang) {
 	svg.style.display = "none";
@@ -72,7 +76,7 @@ function translate(ctx) {
 			renderDoctorsCot(ctx, input);
 			break;
 		case "tardis":
-			renderTARDISConsole(ctx, input, svg);
+			renderTARDISConsole(src, input);
 			break;
 		case "dotscript":
 			dotscriptTranslate(ctx, input);

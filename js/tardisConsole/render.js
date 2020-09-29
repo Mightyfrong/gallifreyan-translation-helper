@@ -8,13 +8,11 @@ import { TardisConsonant } from './parsing/TardisConsonant.js';
 import { TardisGlyph } from './TardisGlyph.js';
 import { TardisWord, margin } from './TardisWord.js';
 
-import { canvaspreparation } from '../utils.js'
-
 /* Initialise Parser */
 class TardisVowel extends TardisLetter {
-	constructor(str, draw) {
+	constructor(str, render) {
 		super(str, true);
-		this.draw = draw;
+		this.render = render;
 	}
 }
 
@@ -27,7 +25,7 @@ for (let str in vowels)
 
 const parser = new GallifreyanParser(letterMap, document.getElementById("output"));
 
-export function render(ctx, input, svg) {
+export function render(ctx, input) {
 	const result = parser.parseWords(input.toUpperCase());
 
 	const translation = result.output.map(translateWord);
@@ -36,18 +34,14 @@ export function render(ctx, input, svg) {
 	const wordRadii = translation.map(word => word.radius);
 	const width = 2 * (wordRadii.reduce((a, b) => a + b) + margin);
 	const height = 2 * (Math.max(...wordRadii) + margin);
-	canvaspreparation(ctx, width, height);
 
-	// svg dummy output
-	svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
-	[...svg.children].forEach(child => {
-		svg.removeChild(child);
-	});
-	let currentX = margin;
+	ctx.prepare(width, height);
+	ctx.translate(margin, height / 2);
+
 	translation.forEach(word => {
-		currentX += word.radius;
-		word.render(svg, currentX, height / 2);
-		currentX += word.radius;
+		ctx.translate(word.radius, 0);
+		word.render(ctx);
+		ctx.translate(word.radius, 0);
 	});
 }
 

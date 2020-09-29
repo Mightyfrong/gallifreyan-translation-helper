@@ -1,4 +1,3 @@
-import { createSVGElement } from '../utils.js';
 import { CLIPPED } from './parsing/TardisConsonant.js';
 
 export const glyphRadius = 50
@@ -15,39 +14,35 @@ export class TardisGlyph {
 		if (vow) this.toString += vow.toString;
 	}
 
-	render(svg, cx, cy) {
+	render(ctx) {
 		if (this.consonant) {
-			this.consonant.render(svg, cx, cy);
+			this.consonant.render(ctx);
+			if (this.vowel) {
+				//this.vowel.render(ctx);
+			}
 		} else {
-			const r = glyphRadius;
-			const fill = 'orange';
-			const circle = createSVGElement('circle', {cx, cy, r, fill});
-			svg.append(circle);
+			const x1 = -glyphRadius;
+			const y1 = -x1;
+			const x2 = glyphRadius * Math.SQRT1_2;
+			const y2 = -x2;
+			ctx.drawShape('line', 2, { x1, y1, x2, y2 });
+
+			let pos = -glyphRadius;
+			[1, 2, 3].forEach(i => {
+				const r = 7.5 * i;
+				pos += r;
+				const cx = pos * Math.SQRT1_2;
+				const cy = -cx;
+				ctx.drawShape('circle', 2, { cx, cy, r }, true);
+				pos += r + 5;
+			});
 		}
 		/*if (this.vowel)
 				this.vowel.draw(ctx, this.consonant.vowelData);
 		}
 		else {
-			// Draw Aleph
-			ctx.save();
-			ctx.rotate(-π / 4);
-			ctx.fillStyle = color.background;
-			ctx.lineWidth = 2;
-
-			ctx.beginPath();
-			ctx.moveTo(-50 * Math.SQRT2, 0);
-			ctx.lineTo(50, 0);
-			ctx.stroke();
-
 			ctx.translate(-50, 0);
 			[1, 2, 3].forEach(i => {
-				const r = 7.5 * i;
-				ctx.translate(r, 0);
-
-				ctx.beginPath();
-				ctx.arc(0, 0, r, 0, 2 * π);
-				ctx.fill();
-				ctx.stroke();
 
 				ctx.save();
 				switch (this.vowel.toString) {
