@@ -1,62 +1,51 @@
 import { π, color } from '../../utils.js';
+import { glyphRadius } from '../TardisGlyph.js';
 
 /* Vowels A, O */
 /**  styles   **/
 const INVERTED = 'I';
 const SQUASHED = 'S';
 
-function drawAO(x, y) {
+function drawAO(x1, y1) {
     return (ctx, { styleAO }) => {
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(50, -50 * Math.tan(π / 12));
-        ctx.lineWidth = 2;
-        ctx.stroke();
-        ctx.fillStyle = color.foreground;
+        x2 = glyphRadius;
+        y2 = -x2 * Math.tan(π / 12);
+        ctx.drawShape('line', 2, { x1, y1, x2, y2 });
         ctx.save();
+        let strokeWidth = 0;
         switch (styleAO) {
-            case INVERTED: ctx.fillStyle = color.background; break;
+            case INVERTED: strokeWidth = 1; break;
             case SQUASHED: ctx.scale(1, 0.5);
         }
-        ctx.beginPath();
-        ctx.arc(0, 0, 10, 0, 2 * π);
-        ctx.fill();
+        const r = glyphRadius / 5;
+        ctx.drawShape('circle', strokeWidth, { r }, true);
         ctx.restore();
     };
 }
 
 /* Vowels E, I, U */
-function drawEIU(ctx, rad, ang, fill) {
+function drawEIU(ctx, rad, ang, strokeWidth) {
     ctx.save();
     ctx.rotate(ang);
     ctx.translate(rad, 0);
-
-    ctx.beginPath();
-    ctx.arc(0, 0, 5, 0, 2 * π);
-
-    ctx.fillStyle = fill;
-    ctx.fill();
-
-    ctx.lineWidth = 1;
-    ctx.stroke();
-    
+    ctx.drawShape('circle', strokeWidth, {r: 5}, true);
     ctx.restore();
 }
 
-function drawE(ctx, {angleEIU, radiusE}) {
-    drawEIU(ctx, radiusE, angleEIU, color.background);
+function drawE(ctx, { angleEIU, radiusE }) {
+    drawEIU(ctx, radiusE, angleEIU, 1);
 }
 
-function drawI(ctx, {angleEIU, radiusIU}) {
-    drawEIU(ctx, radiusIU, angleEIU, color.background);
+function drawI(ctx, { angleEIU, radiusIU }) {
+    drawEIU(ctx, radiusIU, angleEIU, 1);
 }
 
-function drawU(ctx, {angleEIU, radiusIU}) {
-    drawEIU(ctx, radiusIU, angleEIU, color.foreground);
+function drawU(ctx, { angleEIU, radiusIU }) {
+    drawEIU(ctx, radiusIU, angleEIU, 0);
 }
 
 export const vowels = {
-    A: drawAO(-50, 50 * Math.tan(π / 12)),
+    A: drawAO(-glyphRadius, glyphRadius * Math.tan(π / 12)),
     E: drawE,
     I: drawI,
     O: drawAO(0, 0),

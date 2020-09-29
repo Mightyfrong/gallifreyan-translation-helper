@@ -3,6 +3,7 @@ import { createSVGElement } from "./utils.js";
 export class SVGRenderingContext {
 	constructor(svg = document.querySelector('svg')) {
 		this.svg = svg;
+		this.history = [];
 	}
 
 	prepare(width, height) {
@@ -15,7 +16,8 @@ export class SVGRenderingContext {
 		this.fgColour = document.getElementById('foregroundcolor').value;
 		this.bgColour = document.getElementById('backgroundcolor').value;
 
-		const rect = this.drawShape('rect', 1, { width, height });
+		const fill = this.bgColour;
+		const rect = createSVGElement('rect', { width, height, fill });
 		this.svg.append(rect);
 	}
 
@@ -39,7 +41,20 @@ export class SVGRenderingContext {
 		this.svg.append(shape);
 	}
 
-	translate(x, y) {
-		this.matrix = this.matrix.translateSelf(x, y);
+	translate(dx, dy) {
+		this.matrix.translateSelf(dx, dy);
+	}
+	scale(sx, sy) {
+		this.matrix.scaleSelf(sx, sy);
+	}
+	rotate(angle) {
+		this.matrix.rotateSelf(0, 0, angle);
+	}
+
+	save() {
+		this.history.push(new DOMMatrix(this.matrix));
+	}
+	restore() {
+		this.matrix = this.history.pop() || new DOMMatrix;
 	}
 }

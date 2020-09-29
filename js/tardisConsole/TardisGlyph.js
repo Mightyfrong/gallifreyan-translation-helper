@@ -18,7 +18,7 @@ export class TardisGlyph {
 		if (this.consonant) {
 			this.consonant.render(ctx);
 			if (this.vowel) {
-				//this.vowel.render(ctx);
+				this.vowel.render(ctx, this.consonant.vowelData);
 			}
 		} else {
 			const x1 = -glyphRadius;
