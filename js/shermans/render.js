@@ -3,7 +3,7 @@ import {
 	canvaspreparation,
 	color,
 	draw
-} from '../utils.js';
+} from '../utils/funcs.js';
 import {
 	shermansBase,
 	shermansDeco

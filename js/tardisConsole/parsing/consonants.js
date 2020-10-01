@@ -1,8 +1,7 @@
-import { polar } from '../../utils.js';
-import { glyphRadius } from '../TardisGlyph.js';
+import { polar } from '../../utils/funcs.js';
 
 export const consonants = {
-	B: `;${dentedCircle(44.5, "24.5 -60 0 0")};${circle(49)}|N;-30;20;35`,
+	B: `circle_2_r=49;path_1_d=${dentedCircle(44.5, "24.5 -60 0 0")}|N;-30;20;35|1`,
 	C: `;${dentedCircle(44.5, "24.5 -60 0 0", "22 30 90 0")};${circle(49)}|N;-30;20;35`,
 	CH: `;${dentedCircle(44.5, "19.5 -165 -120 0", "24.5 -60 0 0", "22 30 90 0")};${circle(49)}|N;-30;20;35`,
 	D: `;${letterR()};${circle(49)}|N;-30;20;35`,
@@ -29,6 +28,7 @@ export const consonants = {
 	Y: `;${hexagon(30) + hexagon(32.5) + hexagon(35)};${hexagon(39) + circle(44)}|S;-22;10;32`,
 	Z: `;${hexagon(30) + hexagon(32.5) + hexagon(35) + hexLegs(35, 49.5)};${hexagon(39) + circle(44)}|S;-22;10;32`,
 	PH: `;${circles(12.5, 30)};${circles(39, 49, 10)}|N;-30;20;45`,
+	Aleph: `line_2_x1=${-50 * Math.SQRT1_2}_y1=${50 * Math.SQRT1_2}_x2=-50_y2=50|Aleph|1`
 };
 
 function letterR() {
@@ -40,10 +40,7 @@ function circle(r) {
 	const rr001 = [r, r] + ' 0 0 1';
 	return `M${r0}A${rr001} -${r0} ${rr001} ${r0}`
 }
-function circles(start, end, step) {
-	end = end || start;
-	step = step || 2.5;
-
+function circles(start, end = start, step = 2.5) {
 	let pathString = "";
 	for (let r = start; r <= end; r += step)
 		pathString += circle(r);
@@ -59,7 +56,7 @@ function dentedCircle(mainRadius, ...dentStrings) {
 
 		const rr0a0 = [r, r] + ` 0 ${largeArc} 0`;
 
-		return start + `A${rr0a0} ` + end;
+		return start + `A${rr0a0} ${end}`;
 	})
 
 	const rr001 = [mainRadius, mainRadius] + ' 0 0 1';
@@ -73,7 +70,7 @@ function dentedCircle(mainRadius, ...dentStrings) {
 	const largeArc = pathEnd - pathStart < 180 ? 1 : 0;
 	const rr0a1 = [mainRadius, mainRadius] + ` 0 ${largeArc} 1`;
 
-	return `M${pathData}A${rr0a1} ` + polar(mainRadius, pathStart);
+	return `M${pathData}A${rr0a1} ${polar(mainRadius, pathStart)} Z`;
 }
 function ellipse(rx, y) {
 	y = y || 0;

@@ -2,7 +2,7 @@ import {
     canvaspreparation,
     draw,
     includes
-} from '../utils.js'
+} from '../utils/funcs.js'
 import {
     ccBase,
     ccDeco

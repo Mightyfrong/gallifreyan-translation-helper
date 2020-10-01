@@ -1,4 +1,4 @@
-import { π } from '../utils.js';
+import { π } from '../utils/funcs.js';
 import { glyphRadius } from './TardisGlyph.js';
 
 const wordBorder = 5;

@@ -1,33 +1,33 @@
-import { createSVGElement } from "../../utils.js";
 import { VowelDetails } from "../VowelDetails.js";
 import { TardisLetter } from "./TardisLetter.js";
 
 const clippedLtrs = "HJT";
-const squashedLtrs = "YZ";
-
-export const CLIPPED = "C";
-const SQUASHED = "S";
 
 export class TardisConsonant extends TardisLetter {
 
 	constructor(str, data) {
 		super(str, false);
+		const [conData, vowData, formatFlag] = data.split("|");
 
-		const [path, vd] = data.split("|");
-		this.pathData = path;
-		this.vowelData = new VowelDetails(vd);
+		this.conData = formatFlag? conData.split(";"):
+			conData.split(";").map((d, strokeWidth) => `path_${strokeWidth}_d=${d}` );
 
-		this.modifier =
-			clippedLtrs.includes(str) ?
-				CLIPPED :
-				squashedLtrs.includes(str) ?
-					SQUASHED :
-					null;
+		this.vowData = new VowelDetails(vowData);
+
+		this.clipped = clippedLtrs.includes(str);
 	}
 
 	render(ctx) {
-		this.pathData.split(";").forEach((d, strokeWidth) => {
-			ctx.drawShape('path', strokeWidth, { d });
+		this.conData.forEach(shapeStr => {
+			const [tagName, strokeWidth, ...attrStrings] = shapeStr.split("_");
+
+			let attributes = {};
+			attrStrings.forEach(attrString => {
+				const [name, value] = attrString.split("=");
+				attributes[name] = value;
+			});
+
+			ctx.drawShape(tagName, strokeWidth, attributes);
 		});
 	}
 }

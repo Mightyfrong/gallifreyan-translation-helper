@@ -1,4 +1,4 @@
-import { d2r } from "../utils.js";
+import { d2r } from "../utils/funcs.js";
 
 export class VowelDetails {
     constructor(vd) {

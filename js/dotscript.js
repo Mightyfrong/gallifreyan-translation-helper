@@ -3,7 +3,7 @@ import {
 	color,
 	draw,
 	includes
-} from './utils.js'
+} from './utils/funcs.js'
 import {
 	UILanguage
 } from './UILanguage.js'

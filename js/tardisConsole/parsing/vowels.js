@@ -1,4 +1,4 @@
-import { π, color } from '../../utils.js';
+import { π } from '../../utils/funcs.js';
 import { glyphRadius } from '../TardisGlyph.js';
 
 /* Vowels A, O */

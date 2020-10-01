@@ -1,7 +1,7 @@
 import { consonants } from './parsing/consonants.js';
 import { vowels } from './parsing/vowels.js';
 
-import { GallifreyanParser } from '../GallifreyanParser.js';
+import { GallifreyanParser } from '../utils/GallifreyanParser.js';
 import { TardisLetter } from './parsing/TardisLetter.js';
 import { TardisConsonant } from './parsing/TardisConsonant.js';
 
@@ -18,8 +18,10 @@ class TardisVowel extends TardisLetter {
 
 const letterMap = new Map;
 
-for (let str in consonants)
-	letterMap.set(str, new TardisConsonant(str, consonants[str]));
+Object.entries(consonants).forEach(([key, value]) => {
+	const str = key == "Aleph"? "": key;
+	letterMap.set(key, new TardisConsonant(str, value));
+});
 for (let str in vowels)
 	letterMap.set(str, new TardisVowel(str, vowels[str]));
 
@@ -50,7 +52,7 @@ function translateWord(letters) {
 	while (letters.length) {
 		const [l0, ...ls0] = letters;
 		if (l0.isVowel) {
-			glyphs.push(new TardisGlyph(null, l0));
+			glyphs.push(new TardisGlyph(letterMap.get('Aleph'), l0));
 			letters = ls0;
 		} else {
 			const [l1, ...ls1] = ls0;

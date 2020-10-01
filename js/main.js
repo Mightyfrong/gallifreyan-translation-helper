@@ -1,4 +1,4 @@
-import { SVGRenderingContext } from './SVGRenderingContext.js';
+import { SVGRenderingContext } from './utils/SVGRenderingContext.js';
 
 import { render as renderShermans } from './shermans/render.js';
 import { render as renderTARDISConsole } from './tardisConsole/render.js';

@@ -1,4 +1,4 @@
-import { createSVGElement } from "./utils.js";
+import { createSVGElement } from "./funcs.js";
 
 export class SVGRenderingContext {
 	constructor(svg = document.querySelector('svg')) {
@@ -12,30 +12,37 @@ export class SVGRenderingContext {
 		});
 		this.svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
 
-		this.matrix = new DOMMatrix;
-		this.fgColour = document.getElementById('foregroundcolor').value;
-		this.bgColour = document.getElementById('backgroundcolor').value;
+		this.fgCol = document.getElementById('foregroundcolor').value;
+		this.bgCol = document.getElementById('backgroundcolor').value;
+		this.svg.setAttribute('style', `stroke:${this.fgCol};fill:${this.bgCol}`);
 
-		const fill = this.bgColour;
-		const rect = createSVGElement('rect', { width, height, fill });
-		this.svg.append(rect);
+		this.matrix = new DOMMatrix;
+
+		this.clearShape('rect', { width, height });
 	}
 
-	get transform(){
+	get transform() {
 		const keys = "abcdef".split("");
 		const values = keys.map(key => this.matrix[key]).join(" ");
 		return `matrix(${values})`;
 	}
 
-	drawShape(tagName, strokeWidth, attributes, bgFill = false) {
+	drawShape(tagName, strokeWidth, attributes) {
 		attributes.strokeWidth = strokeWidth;
 		attributes.transform = this.transform;
 
-		if (strokeWidth) {
-			attributes.stroke = this.fgColour;
-			attributes.fill = bgFill? this.bgColour: "none";
-		} else
-			attributes.fill = this.fgColour;
+		if (strokeWidth * 1 == 0) {
+			attributes.fill = this.fgCol;
+		}
+
+		const shape = createSVGElement(tagName, attributes);
+		this.svg.append(shape);
+	}
+
+	clearShape(tagName, attributes) {
+		attributes.strokeWidth = 0;
+		attributes.transform = this.transform;
+		attributes.fill = this.bgCol
 
 		const shape = createSVGElement(tagName, attributes);
 		this.svg.append(shape);

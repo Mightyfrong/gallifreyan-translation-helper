@@ -2,7 +2,7 @@ import {
 	includes,
 	color,
 	draw
-} from '../utils.js';
+} from '../utils/funcs.js';
 
 
 //specify base for every letter, assign base to latin characters and specify geometric properties

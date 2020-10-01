@@ -1,7 +1,7 @@
 import { letterMap, glyphRadius } from './setup.js';
-import { GallifreyanParser } from '../GallifreyanParser.js';
+import { GallifreyanParser } from '../utils/GallifreyanParser.js';
 import { CotGlyph } from './CotGlyph.js';
-import { canvaspreparation, color } from '../utils.js';
+import { canvaspreparation, color } from '../utils/funcs.js';
 
 const glyphSpacing = 5;
 const glyphWidth = 2 * (glyphRadius + glyphSpacing);

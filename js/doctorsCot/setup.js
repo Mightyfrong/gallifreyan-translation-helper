@@ -1,4 +1,4 @@
-import { color, polar } from '../utils.js';
+import { color, polar } from '../utils/funcs.js';
 import { PhoneticUnit } from './PhoneticUnit.js';
 
 export const consonantTable = [
