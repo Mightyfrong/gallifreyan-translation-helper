@@ -1,7 +1,5 @@
 import {
-	canvaspreparation,
 	color,
-	draw,
 	includes
 } from './utils/funcs.js'
 import {
@@ -10,7 +8,7 @@ import {
 
 
 let consonant = 30; // radius of consonants
-let linewidth = 3; // thicker lines add a cute chubbyness
+let linewidth = 1; // thicker lines add a cute chubbyness
 let width; // canvas width
 let height; // canvas height
 let x; // current coordinate x
@@ -31,40 +29,95 @@ UILanguage.say.processError = {
 //specify forms and positions
 let characters = {
 	form: {
-		circle: function (x, y, size) {
-			draw.dot(x, y, size, color.background);
-			draw.circle(x, y, size);
+		circle: function (ctx, x, y, size) {
+			ctx.clearShape('circle', {
+				cx: x,
+				cy: y,
+				r: size
+			});
+			ctx.drawShape('circle', 1, {
+				cx: x,
+				cy: y,
+				r: size
+			});
 		},
-		doublecircle: function (x, y, size) {
-			draw.dot(x, y, size, color.background);
-			draw.circle(x, y, size);
-			draw.circle(x, y, size * .7);
+		doublecircle: function (ctx, x, y, size) {
+			ctx.clearShape('circle', {
+				cx: x,
+				cy: y,
+				r: size
+			});
+			ctx.drawShape('circle', 1, {
+				cx: x,
+				cy: y,
+				r: size
+			});
+			ctx.drawShape('circle', 1, {
+				cx: x,
+				cy: y,
+				r: size * .7
+			});
 		},
-		divotcircle: function (x, y, size) {
-			draw.dot(x, y, size, color.background);
-			draw.arc(x, y, size, Math.PI * 1.4, Math.PI * 1.74);
-			draw.arc(x + Math.cos(Math.PI * 1.575) * size, y + Math.sin(Math.PI * 1.575) * size, size * .5, Math.PI * 1, Math.PI * .15);
+		divotcircle: function (ctx, x, y, size) {
+			ctx.clearShape('circle', {
+				cx: x,
+				cy: y,
+				r: size
+			});
+			ctx.drawShape('path', 1, {
+				d: ctx.circularArc(x, y, size, Math.PI * .25, Math.PI * .6)
+			});
+			ctx.drawShape('path', 1, {
+				d: ctx.circularArc(x + Math.cos(Math.PI * 1.575) * size, y + Math.sin(Math.PI * 1.575) * size, size * .5, Math.PI * 1.85, Math.PI * 1)
+			});
 		},
-		spiral: function (x, y, size) {
-			draw.dot(x, y, size, color.background);
+		spiral: function (ctx, x, y, size) {
+			ctx.clearShape('circle', {
+				cx: x,
+				cy: y,
+				r: size
+			});
 			let flip = [0, 1, 1, .5];
 			for (let r = 1; r > .2; r -= .2) {
 				flip = [+!flip[0], +!flip[1], +!flip[2], flip[3] * 2];
 				let offset = (size - size * r) / flip[3] + size * .1;
-				draw.arc(x - offset * flip[2], y, size * r, Math.PI * flip[0], Math.PI * flip[1]);
+				ctx.drawShape('path', 1, {
+					d: ctx.circularArc(x - offset * flip[2], y, size * r, Math.PI * flip[1], Math.PI * flip[0])
+				});
 			}
 		},
-		dot: function (x, y, size) {
-			draw.dot(x, y, size);
+		dot: function (ctx, x, y, size) {
+			ctx.drawShape('circle', 0, {
+				cx: x,
+				cy: y,
+				r: size
+			});
 		},
-		z: function (x, y, size) {
-			draw.dot(x, y, size, color.background);
-			draw.arc(x, y, size, Math.PI * 1.65, Math.PI * .65);
-			draw.line(x + Math.cos(Math.PI * 1.65) * size, y + Math.sin(Math.PI * 1.65) * size, x + Math.cos(Math.PI * .65) * size, y + Math.sin(Math.PI * .65) * size);
-			draw.arc(x, y, size * .6, Math.PI * .65, Math.PI * 1.65);
+		z: function (ctx, x, y, size) {
+			ctx.clearShape('circle', {
+				cx: x,
+				cy: y,
+				r: size
+			});
+			ctx.drawShape('path', 1, {
+				d: ctx.circularArc(x, y, size, Math.PI * 1.35, Math.PI * .35)
+			});
+			ctx.drawShape('line', 1, {
+				x1: x + Math.cos(Math.PI * 1.65) * size,
+				y1: y + Math.sin(Math.PI * 1.65) * size,
+				x2: x + Math.cos(Math.PI * .65) * size,
+				y2: y + Math.sin(Math.PI * .65) * size
+			});
+			ctx.drawShape('path', 1, {
+				d: ctx.circularArc(x, y, size * .6, Math.PI * .35, Math.PI * 1.35)
+			});
 		},
-		space: function (x, y, size) {
-			draw.dot(x, y, size * .25, color.background);
+		space: function (ctx, x, y, size) {
+			ctx.clearShape('circle', {
+				cx: x,
+				cy: y,
+				r: size * .25
+			});
 		}
 	},
 	characters: {
@@ -221,19 +274,23 @@ export function dotscriptTranslate(ctx, input) {
 
 	x = -letterwidth * .5;
 	y = letterheight * .6;
-	draw.init(ctx, linewidth);
 
 	// set canvas scale according to number of characters
 	width = Math.min(input.length + 1, Math.floor(window.innerWidth / letterwidth)) * letterwidth - letterwidth;
 	height = letterheight * Math.ceil(input.length / Math.floor(window.innerWidth / letterwidth));
-	canvaspreparation(ctx, width, height);
+	ctx.prepare(width, height);
 
 	// draw baseline
-	draw.line(x, y, x + letterwidth * 2, y, linewidth);
+	ctx.drawShape('line', linewidth, {
+		x1: x,
+		y1: y,
+		x2: x + letterwidth * 2,
+		y2: y
+	});
 	// iterate through input
 	for (let i = 0; i < input.length; i++) {
 		// position pointer
-		if (x + letterwidth * 1.5 >= width) {
+		if (x + letterwidth * 2 >= width) {
 			y += letterheight;
 			x = letterwidth * .5;
 		} else if (includes("aeiou", input[i])) x += letterwidth * .5;
@@ -242,16 +299,20 @@ export function dotscriptTranslate(ctx, input) {
 
 		if (input[i] in characters.characters) {
 			// draw baseline for the next character to not interfere with the former one
-			draw.line(x + letterwidth, y, x + letterwidth * 2, y, linewidth);
+			ctx.drawShape('line', linewidth, {
+				x1: x + letterwidth,
+				y1: y,
+				x2: x + letterwidth * 2,
+				y2: y
+			});
 			// draw character
 			let directions = characters.characters[input[i]];
 			let lw = directions.float > 0 ? linewidth : 0;
-			characters.form[directions.form](x + consonant, y + consonant * directions.float + lw, consonant * directions.size);
+			characters.form[directions.form](ctx, x + consonant, y + consonant * directions.float + lw, consonant * directions.size);
 		} else warning += ", " + input[i];
 
-		ctx.beginPath();
 		// print character translation above the drawings
-		ctx.fillText(input[i], x + consonant, y - letterheight * .5);
+		//ctx.drawShape('text', 1, {x: x + consonant, y:y - letterheight * .5});//text= input[i]
 
 	}
 
