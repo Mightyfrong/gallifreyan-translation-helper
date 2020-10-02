@@ -1,4 +1,4 @@
-import { color, polar } from '../utils/funcs.js';
+import { color, deg2rad, polar } from '../utils/funcs.js';
 import { PhoneticUnit } from './PhoneticUnit.js';
 
 export const consonantTable = [
@@ -36,9 +36,9 @@ const vowelRad = (glyphRadius - innerRad) / 3;
 const circPos = (glyphRadius + innerRad) / 2;
 const decRad = 5;
 
-const pos120 = polar(glyphRadius, 120);
-const pos300 = polar(glyphRadius, 300);
-const pos345 = polar(glyphRadius, 345);
+const pos120 = polar(glyphRadius, deg2rad(120));
+const pos300 = polar(glyphRadius, deg2rad(300));
+const pos345 = polar(glyphRadius, deg2rad(345));
 
 function bentLine(ctx) {
 	ctx.beginPath();
@@ -61,7 +61,7 @@ function fullLine(ctx) {
 }
 function circ(ctx, r, θ, fill) {
 	ctx.beginPath();
-	ctx.arc(...polar(r, θ), decRad, 0, 2 * Math.PI);
+	ctx.arc(...polarDeg(r, θ), decRad, 0, 2 * Math.PI);
 	ctx[fill ? (ctx.fillStyle = color.foreground, "fill") : "stroke"]();
 }
 function arc(ctx, start, end) {

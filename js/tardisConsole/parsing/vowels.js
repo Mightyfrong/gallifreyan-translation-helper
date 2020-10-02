@@ -1,5 +1,4 @@
-import { π } from '../../utils/funcs.js';
-import { glyphRadius } from '../TardisGlyph.js';
+import { glyphRadius } from './constants.js';
 
 /* Vowels A, O */
 /**  styles   **/
@@ -8,8 +7,8 @@ const SQUASHED = 'S';
 
 function drawAO(x1, y1) {
     return (ctx, { styleAO }) => {
-        x2 = glyphRadius;
-        y2 = -x2 * Math.tan(π / 12);
+        const x2 = glyphRadius;
+        const y2 = -x2 * Math.tan(Math.PI / 12);
         ctx.drawShape('line', 2, { x1, y1, x2, y2 });
         ctx.save();
         let strokeWidth = 0;
@@ -28,7 +27,7 @@ function drawEIU(ctx, rad, ang, strokeWidth) {
     ctx.save();
     ctx.rotate(ang);
     ctx.translate(rad, 0);
-    ctx.drawShape('circle', strokeWidth, {r: 5}, true);
+    ctx.drawShape('circle', strokeWidth, { r: 2 }, true);
     ctx.restore();
 }
 
@@ -45,7 +44,7 @@ function drawU(ctx, { angleEIU, radiusIU }) {
 }
 
 export const vowels = {
-    A: drawAO(-glyphRadius, glyphRadius * Math.tan(π / 12)),
+    A: drawAO(-glyphRadius, glyphRadius * Math.tan(Math.PI / 12)),
     E: drawE,
     I: drawI,
     O: drawAO(0, 0),

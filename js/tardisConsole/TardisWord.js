@@ -1,14 +1,11 @@
-import { π } from '../utils/funcs.js';
-import { glyphRadius } from './TardisGlyph.js';
-
-const wordBorder = 5;
-export const margin = 5;
+import { polar } from '../utils/funcs.js';
+import { glyphRadius, margin, wordBorder } from './parsing/constants.js';
 
 export class TardisWord {
 	constructor(glyphs) {
 		this.glyphs = glyphs;
 
-		this.glyphAngle = 2 * π / glyphs.length;
+		this.glyphAngle = 2 * Math.PI / glyphs.length;
 
 		const rFactor = glyphs.length > 2 ?
 			1 / Math.sin(this.glyphAngle / 2) :
@@ -19,17 +16,28 @@ export class TardisWord {
 	}
 
 	render(ctx) {
-		const r = this.radius;
-		ctx.drawShape('circle', wordBorder, { r });
+		ctx.save();
+		ctx.rotate(-Math.PI / 2);
 
 		this.glyphs.forEach((glyph, i) => {
+			let rad = this.glyphPos;
+
+			if (glyph.consonant.clipped)
+				rad += glyphRadius / 2 + margin;
+
 			const angle = i * this.glyphAngle;
-			const rad = this.glyphPos;
-			const gx = rad * Math.sin(angle);
-			const gy = -rad * Math.cos(angle);
+
+			const [gx, gy] = polar(rad, angle);
+
+			ctx.save();
 			ctx.translate(gx, gy);
+
 			glyph.render(ctx);
-			ctx.translate(-gx, -gy);
+			ctx.restore();
 		});
+
+		const r = this.radius;
+		ctx.drawShape('circle', wordBorder, { r, fill: "none" });
+		ctx.restore();
 	}
 }

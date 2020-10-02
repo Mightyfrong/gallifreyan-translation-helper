@@ -1,85 +1,86 @@
-import { polar } from '../../utils/funcs.js';
+import { deg2rad, polar, range } from '../../utils/funcs.js';
+import { glyphRadius } from './constants.js';
+
+const outerCirc = `circle;2;r=${glyphRadius - 1}|`;
+const N = outerCirc + circles(13.5, 11.5);
 
 export const consonants = {
-	B: `circle_2_r=49;path_1_d=${dentedCircle(44.5, "24.5 -60 0 0")}|N;-30;20;35|1`,
-	C: `;${dentedCircle(44.5, "24.5 -60 0 0", "22 30 90 0")};${circle(49)}|N;-30;20;35`,
-	CH: `;${dentedCircle(44.5, "19.5 -165 -120 0", "24.5 -60 0 0", "22 30 90 0")};${circle(49)}|N;-30;20;35`,
-	D: `;${letterR()};${circle(49)}|N;-30;20;35`,
-	F: `;${circles(22.5, 49.5, 3)};${circle(20)}|N;-30;20;35`,
+	B: outerCirc + `${dentedCircle(1, 13.5, "7 -30 1")}_N;-30;6;12`,
+	C: outerCirc + `${dentedCircle(1, 13.5, "7 -30 1,8 60 0")}_N;-30;20;35`,
+	CH: outerCirc + `${dentedCircle(1, 13.5, "7 -30 1,8 60 0,4 220 1")}_N;-30;20;35`,
+	D: outerCirc + `${fourDents(1)}_N;-30;20;35`,
+	F: `${circles(17.5, 9.5)}|circle;2;r=7_N;-30;20;35`,
+	/*
 	G: `;${ellipses(24.5, 49.5)};${ellipse(20)}|S;-30;3;35`,
-	H: `;${circles(15, 35)};${circle(10)}|N;-30;5;35`,
-	J: `;${circles(25, 45)};${circle(20)}|N;-30;12;35`,
+	*/
+	H: `${circles(11.5, 7.5)}|circle;2;r=5_N;-30;5;35`,
+	J: `${circles(14.5, 8.5)}|circle;2;r=6_N;-30;12;35`,
+	/*
 	K: `;${hexagon(39.5)};${hexagon(49)}|N;-30;20;35`,
 	L: `;${hexagon(35) + hexLegs(35)};${hexagon(45)}|N;-30;20;35`,
 	M: `;${hexagon(30) + hexLegs(40)};${hexagon(40)}|N;-30;20;30`,
-	N: `;${circles(42.5, 45)};${circle(49)}|N;-30;20;45`,
-	P: `;;${circles(40, 49, 9)}|N;-30;20;45`,
-	Q: `;;${circle(49) + deltoid(49)}|N;-30;3;35`,
-	NG: `;${circles(42.5, 45) + ellipses(15, 42.5, 12)};${circle(49) + ellipse(10, 12)}|N;-30;20;35`,
-	QU: `;${circle(45)};${circle(49) + deltoid(45)}|N;-30;3;35`,
-	R: `;;${letterR()}|N;-30;20;35`,
-	S: `;;${dentedCircle(44.5, "14.5 -160 -140 1", "44.5 -105 -45 0", "9.5 -15 15 0", "14.5 45 85 0", "29.5 95 170 0")}|N;0;20;40`,
-	SH: `${dentedCircle(44.5, "14.5 -160 -140 1", "24.5 -60 0 0", "14.5 40 85 0")}|I;-30;20;35`,
-	T: `;;${circle(30)};${circle(20)}|N;-30;20;35`,
-	TH: `${circle(25)};;${circle(45)}|I;-30;20;35`,
+	*/
+	N: N + "_N;-30;20;45",
+	P: outerCirc + `circle;2;r=12_N;-30;20;45`,
+	Q: outerCirc + deltoid(17) + "_N;-30;3;35",
+	NG: N + `|ellipse;2_N;-30;20;35`,
+	QU: outerCirc + `circle;1;r=13.5|${deltoid(13)}_N;-30;3;35`,
+	R: `${fourDents(2)}_N;-30;20;35`,
+	S: `${dentedCircle(2, 15, "6.5 -225 0,3.5 -165 -2,9 -75 -2,2 0 0,5 60 0")}_N;0;20;40`,
+	SH: `${dentedCircle(0, 14, "4 -150 -3,6.5 -30 0,5 60 0")}_I;-30;20;35`,
+	T: `circle;2;r=11.5|circle;3;r=7_N;-30;20;35`,
+	TH: outerCirc + `circle;0;r=11_I;-30;20;35`
+	/*,
 	V: `;;${circles(44, 49, 5)}M${polar(49, -75)}L${polar(49, 105)}M${polar(39, -75)}A39,39 0 0 1 ${polar(39, 105)}|N;-30;20;45`,
 	W: `;;${circle(49)}M${polar(49, -75)}L${polar(44, -75)}A44,44 0 0 0 ${polar(44, 105)}L${polar(49, 105)}|N;-30;20;35`,
 	X: `;${circle(45)};${circles(36, 49, 13)}|N;-30;20;42`,
 	Y: `;${hexagon(30) + hexagon(32.5) + hexagon(35)};${hexagon(39) + circle(44)}|S;-22;10;32`,
-	Z: `;${hexagon(30) + hexagon(32.5) + hexagon(35) + hexLegs(35, 49.5)};${hexagon(39) + circle(44)}|S;-22;10;32`,
-	PH: `;${circles(12.5, 30)};${circles(39, 49, 10)}|N;-30;20;45`,
-	Aleph: `line_2_x1=${-50 * Math.SQRT1_2}_y1=${50 * Math.SQRT1_2}_x2=-50_y2=50|Aleph|1`
+	Z: `;${hexagon(30) + hexagon(32.5) + hexagon(35) + hexLegs(35, 49.5)};${hexagon(39) + circle(44)}|S;-22;10;32`*/,
+	PH: outerCirc + `circle;2;r=12.5|${circles(8.5, 2.5)}_N;-30;20;45`
+	/*,
+	Aleph: `line_2_x1=${-50 * Math.SQRT1_2}_y1=${50 * Math.SQRT1_2}_x2=-50_y2=50|Aleph`
+	*/
 };
 
-function letterR() {
-	return dentedCircle(44.5, "19.5 -165 -120 0", "24.5 -60 0 0", "22 30 90 0", "14.5 135 165 1");
+function fourDents(strokeWidth) {
+	return dentedCircle(strokeWidth, 13.5, "4 -140 1,7 -30 1,8 60 0,4 150 -3");
 }
-
-function circle(r) {
-	const r0 = [r, 0];
-	const rr001 = [r, r] + ' 0 0 1';
-	return `M${r0}A${rr001} -${r0} ${rr001} ${r0}`
+function circles(start, end) {
+	return range(start, end, -2)
+		.map(r => `circle;1;r=${r}`)
+		.join("|");
 }
-function circles(start, end = start, step = 2.5) {
-	let pathString = "";
-	for (let r = start; r <= end; r += step)
-		pathString += circle(r);
+function dentedCircle(strokeWidth, R, dentString) {
+	const dentStrings = dentString.split(",")
+	let pathStart, pathEnd;
 
-	return pathString;
-}
-function dentedCircle(mainRadius, ...dentStrings) {
-	const dentPaths = dentStrings.map(str => {
-		const [r, s, e, largeArc] = str.split(' ');
+	const dentPaths = dentStrings.map((str, idx) => {
+		const [r, ang, p] = str.split(' ').map(str => str * 1);
+		const A = deg2rad(ang);
 
-		const start = polar(mainRadius, s);
-		const end = polar(mainRadius, e);
+		const dA = Math.acos(1 + (p * p - r * r) / (2 * R * (R + p)));
+		const start = polar(R, A - dA);
+		const end = polar(R, A + dA);
 
-		const rr0a0 = [r, r] + ` 0 ${largeArc} 0`;
+		if (idx == 0) pathStart = A - dA;
+		if (idx == dentStrings.length - 1) pathEnd = A + dA;
 
-		return start + `A${rr0a0} ${end}`;
+		const largeArc = R * (Math.cos(dA) - 1) > p ? 1 : 0;
+
+		return start + `A${[r, r]} 0 ${largeArc} 0 ` + end;
 	})
 
-	const rr001 = [mainRadius, mainRadius] + ' 0 0 1';
+	const rr001 = [R, R] + ' 0 0 1';
 	const pathData = dentPaths.reduce(
-		(acc, dent) => acc + `A${rr001} ` + dent
+		(acc, arcInstruc) => acc + `A${rr001} ` + arcInstruc
 	);
 
-	const pathStart = dentStrings[0].split(' ')[1];
-	const pathEnd = dentStrings[dentStrings.length - 1].split(' ')[2];
+	const largeArc = pathEnd - pathStart < Math.PI ? 1 : 0;
+	const rr0a1 = [R, R] + ` 0 ${largeArc} 1`;
 
-	const largeArc = pathEnd - pathStart < 180 ? 1 : 0;
-	const rr0a1 = [mainRadius, mainRadius] + ` 0 ${largeArc} 1`;
+	return `path;${strokeWidth};d=M${pathData}A${rr0a1} ${polar(R, pathStart)}Z`;
+}
 
-	return `M${pathData}A${rr0a1} ${polar(mainRadius, pathStart)} Z`;
-}
-function ellipse(rx, y) {
-	y = y || 0;
-	const ry = rx / 2;
-	const rxry = [rx, ry];
-	const rxy = [rx, y];
-	const rr001 = rxry + " 0 0 1";
-	return `M${rxy}A${rr001} -${rxy} ${rr001} ` + rxy
-}
 function ellipses(s0, s1, y) {
 	y = y || 0;
 	let str = "";
@@ -92,33 +93,33 @@ function ellipses(s0, s1, y) {
 function hexagon(s) {
 	let str = "M" + [s, 0];
 	for (let i = 1; i < 6; i++)
-		str += "L" + polar(s, 60 * i);
+		str += "L" + polarDeg(s, 60 * i);
 	return str + "Z";
 }
 function hexLegs(start) {
 	let str = "";
 	for (let i = 0; i < 6; i++) {
-		const a = polar(start, 60 * i);
-		const b = polar(50, 60 * i);
+		const a = polarDeg(start, 60 * i);
+		const b = polarDeg(50, 60 * i);
 		str += "M" + a + "L" + b;
 	}
 	return str;
 }
 
 function deltoid(r) {
-	const p0 = polar(r, 15);
+	const p0 = polar(r, deg2rad(15));
 
 	const R = r * Math.sqrt(3);
 	const RR001 = [R, R] + " 0 0 1 ";
 
 	const arcs = [1, 2, 3].map(i => {
-		const p = polar(r, 15 - 120 * i);
+		const p = polar(r, deg2rad(15 - 120 * i));
 		return RR001 + p;
 	}).reduce(
 		(a, b) => a + " " + b
 	);
 
-	return "M" + p0 + "A" + arcs;
+	return `path;2;d=M${p0}A${arcs}Z`;
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR

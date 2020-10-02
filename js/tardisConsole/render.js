@@ -1,3 +1,5 @@
+import {margin} from './parsing/constants.js';
+
 import { consonants } from './parsing/consonants.js';
 import { vowels } from './parsing/vowels.js';
 
@@ -6,7 +8,7 @@ import { TardisLetter } from './parsing/TardisLetter.js';
 import { TardisConsonant } from './parsing/TardisConsonant.js';
 
 import { TardisGlyph } from './TardisGlyph.js';
-import { TardisWord, margin } from './TardisWord.js';
+import { TardisWord } from './TardisWord.js';
 
 /* Initialise Parser */
 class TardisVowel extends TardisLetter {
@@ -19,7 +21,7 @@ class TardisVowel extends TardisLetter {
 const letterMap = new Map;
 
 Object.entries(consonants).forEach(([key, value]) => {
-	const str = key == "Aleph"? "": key;
+	const str = key == "Aleph" ? "" : key;
 	letterMap.set(key, new TardisConsonant(str, value));
 });
 for (let str in vowels)

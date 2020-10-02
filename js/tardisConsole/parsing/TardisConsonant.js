@@ -1,25 +1,23 @@
+import { CLIPPED_LTRS } from './constants.js';
+
 import { VowelDetails } from "../VowelDetails.js";
 import { TardisLetter } from "./TardisLetter.js";
-
-const clippedLtrs = "HJT";
 
 export class TardisConsonant extends TardisLetter {
 
 	constructor(str, data) {
 		super(str, false);
-		const [conData, vowData, formatFlag] = data.split("|");
+		const [conData, vowData] = data.split("_");
 
-		this.conData = formatFlag? conData.split(";"):
-			conData.split(";").map((d, strokeWidth) => `path_${strokeWidth}_d=${d}` );
-
+		this.conData = conData.split("|");
 		this.vowData = new VowelDetails(vowData);
 
-		this.clipped = clippedLtrs.includes(str);
+		this.clipped = CLIPPED_LTRS.includes(str);
 	}
 
 	render(ctx) {
 		this.conData.forEach(shapeStr => {
-			const [tagName, strokeWidth, ...attrStrings] = shapeStr.split("_");
+			const [tagName, strokeWidth, ...attrStrings] = shapeStr.split(";");
 
 			let attributes = {};
 			attrStrings.forEach(attrString => {

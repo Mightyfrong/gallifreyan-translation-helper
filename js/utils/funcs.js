@@ -26,15 +26,17 @@ export function canvaspreparation(ctx, width, height) {
 	ctx.strokeStyle = color.foreground;
 }
 
-export const π = Math.PI;
+export function range(start, end, step = 1) {
+	const n = Math.floor(1 + (end - start) / step);
+	return [...Array(n).keys()].map(i => start + step * i);
+}
 
-export function d2r(degrees) {
+export function deg2rad(degrees) {
 	return degrees * Math.PI / 180;
 }
 
 // turn polar coords to Cartesian
-export function polar(radius, degrees) {
-	const radians = d2r(degrees);
+export function polar(radius, radians) {
 	return [
 		radius * Math.cos(radians),
 		radius * Math.sin(radians)

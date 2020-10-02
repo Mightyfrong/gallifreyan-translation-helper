@@ -1,5 +1,3 @@
-export const glyphRadius = 50;
-
 export class TardisGlyph {
 	constructor(con, vow = null) {
 		this.consonant = con; // placeholder "Aleph" if none
