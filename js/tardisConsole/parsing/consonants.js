@@ -22,12 +22,13 @@ export const consonants = {
 	M: hexagon(13, 2) + "|" + hexagon(9.5, 1) + hexLegs(13) + "_N;-30;20;30",
 	N: N + "_N;-30;20;45",
 	P: outerCirc + `circle;2;r=12_N;-30;20;45`,
-	Q: outerCirc + deltoid(17) + "_N;-30;3;35",
+	Q: outerCirc + deltoid(17) + "_N;-30;3;35",/*
 	NG: N + `|ellipse;2_N;-30;20;35`,
+	*/
 	QU: outerCirc + `circle;1;r=13.5|${deltoid(13)}_N;-30;3;35`,
-	R: `${fourDents(2)}_N;-30;20;35`,
-	S: `${dentedCircle(2, 15, "6.5 -225 0,3.5 -165 -2,9 -75 -2,2 0 0,5 60 0")}_N;0;20;40`,
-	SH: `${dentedCircle(0, 14, "4 -150 -3,6.5 -30 0,5 60 0")}_I;-30;20;35`,
+	R: fourDents(2) + "_N;-30;20;35",
+	S: dentedCircle(2, 15, "6.5 -225 0,3.5 -165 -2,9 -75 -2,2 0 0,5 60 0") + "_N;0;20;40",
+	SH: dentedCircle(0, 14, "4 -150 -3,6.5 -30 0,5 60 0") + "_I;-30;20;35",
 	T: `circle;2;r=11.5|circle;3;r=7_N;-30;20;35`,
 	TH: outerCirc + `circle;0;r=11_I;-30;20;35`,
 	/*

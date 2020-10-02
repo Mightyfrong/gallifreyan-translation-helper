@@ -28,11 +28,10 @@ const ccOpts = document.getElementById('cc-options');
 UILanguage.init();
 
 const canvas = document.getElementById('canvas');
-const svg = document.querySelector('svg');
-const src = new SVGRenderingContext;
+const img = document.getElementById('output-img');
 
 function activateControls(lang) {
-	svg.style.display = "none";
+	img.style.display = "none";
 	canvas.style.display = "block";
 	switch (lang) {
 		case "shermans":
@@ -45,7 +44,7 @@ function activateControls(lang) {
 			ccOpts.classList.toggle('active');
 			break;
 		case "tardis":
-			svg.style.display = "block";
+			img.style.display = "block";
 			canvas.style.display = "none";
 			break;
 	}
@@ -76,7 +75,10 @@ function translate(ctx) {
 			renderDoctorsCot(ctx, input);
 			break;
 		case "tardis":
-			renderTARDISConsole(src, input);
+			const svg = renderTARDISConsole(input);
+			img.src = URL.createObjectURL(svg.export(input));
+			img.width = svg.width;
+			img.height = svg.height;
 			break;
 		case "dotscript":
 			dotscriptTranslate(ctx, input);
