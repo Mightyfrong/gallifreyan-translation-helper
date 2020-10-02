@@ -1,4 +1,6 @@
-import { createSVGElement } from "./funcs.js";
+import {
+	createSVGElement
+} from "./funcs.js";
 
 export class SVGRenderingContext {
 	constructor(width, height) {
@@ -14,7 +16,10 @@ export class SVGRenderingContext {
 		this.matrix = new DOMMatrix;
 		this.history = [];
 
-		this.clearShape('rect', { width, height });
+		this.clearShape('rect', {
+			width,
+			height
+		});
 	}
 
 	export(name){
@@ -75,5 +80,8 @@ export class SVGRenderingContext {
 	}
 	restore() {
 		this.matrix = this.history.pop() || new DOMMatrix;
+	}
+	circularArc(cx, cy, r, startRad, endRad) {
+		return "M " + (cx + Math.cos(startRad) * r) + " " + (cy - Math.sin(startRad) * r) + " A " + r + " " + r + " 0 1 1 " + (cx + Math.cos(endRad) * r) + " " + (cy - Math.sin(endRad) * r);
 	}
 }
