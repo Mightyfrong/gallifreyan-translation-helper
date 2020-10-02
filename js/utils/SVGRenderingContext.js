@@ -3,7 +3,6 @@ import { createSVGElement } from "./funcs.js";
 export class SVGRenderingContext {
 	constructor(svg = document.querySelector('svg')) {
 		this.svg = svg;
-		this.history = [];
 	}
 
 	prepare(width, height) {
@@ -17,6 +16,7 @@ export class SVGRenderingContext {
 		this.svg.setAttribute('style', `stroke:${this.fgCol};fill:${this.bgCol};stroke-linejoin:round`);
 
 		this.matrix = new DOMMatrix;
+		this.history = [];
 
 		this.clearShape('rect', { width, height });
 	}

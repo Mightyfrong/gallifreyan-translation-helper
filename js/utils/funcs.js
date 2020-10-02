@@ -26,9 +26,8 @@ export function canvaspreparation(ctx, width, height) {
 	ctx.strokeStyle = color.foreground;
 }
 
-export function range(start, end, step = 1) {
-	const n = Math.floor(1 + (end - start) / step);
-	return [...Array(n).keys()].map(i => start + step * i);
+export function range(n) {
+	return [...Array(n).keys()];
 }
 
 export function deg2rad(degrees) {

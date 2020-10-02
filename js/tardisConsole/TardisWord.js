@@ -17,23 +17,20 @@ export class TardisWord {
 
 	render(ctx) {
 		ctx.save();
-		ctx.rotate(-Math.PI / 2);
 
 		this.glyphs.forEach((glyph, i) => {
-			let rad = this.glyphPos;
+			let glyphPos = this.glyphPos;
 
 			if (glyph.consonant.clipped)
-				rad += glyphRadius / 2 + margin;
-
-			const angle = i * this.glyphAngle;
-
-			const [gx, gy] = polar(rad, angle);
+				glyphPos += glyphRadius / 2 + margin;
 
 			ctx.save();
-			ctx.translate(gx, gy);
+			ctx.translate(0, -glyphPos);
+			ctx.rotate(-i * this.glyphAngle);
 
 			glyph.render(ctx);
 			ctx.restore();
+			ctx.rotate(this.glyphAngle);
 		});
 
 		const r = this.radius;
