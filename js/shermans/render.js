@@ -298,7 +298,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 	}
 	// text output for undefined characters as well for informational purpose
 	// print character translation above the drawings unless it's a (numeral) control character
-	if ( !includes(["/", "\\"], letter)) ctx.drawText(letter, {
+	if ( !includes([" ", "/", "\\"], letter)) ctx.drawText(letter, {
 		x: x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) + grouped.offset * 8,
 		y: y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad)
 	});
