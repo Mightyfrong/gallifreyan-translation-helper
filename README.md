@@ -110,6 +110,17 @@ Diacritics are supported according to the [official guide][SCG] for german umlau
 ![sherman's circular gallifreyan, linear display](assets/scg_linear.png)
 ![sherman's circular gallifreyan, circular display](assets/scg_circular.png)
 
+### Test Input
+`The quick brown fox jumps over the lazy dog.`
+
+`Falsches Üben von Xylophonmusik quält jeden größeren Zwerg.`
+
+`Voyez le brick géant que j'examine près du wharf.`
+
+`El pingüino Wenceslao hizo kilómetros bajo exhaustiva lluvia y frío; añoraba a su querido cachorro.`
+
+`Flygande bäckasiner söka hwila på mjuka tuvor.`
+
 ### Recurring Variables Within Global Scope
 * cLetter: false by default, true if detected. if true a warning is displayed and drawings are red.
 * qLetter: false by default, true if detected. if true a warning is displayed and drawings are red.
@@ -417,22 +428,6 @@ An object to set up colors, make them usable for all modules and create a meshed
 
 ### includes Functions
 Returns a boolean whether the passed value or one of the values of the passed array can be found in the passed object. This works for strings as well as for arrays.
-
-### Multipurpose Drawing
-The **draw-object** serves methods to reuse the plain geometric shapes in context of canvas drawing. The respective shape is called with the necessary coordinates, radii and line widths while beginPaths and moveTos, strokes and fills are set up once instead of repetitively for every character setup.
-The object is set up in advance to handle the canvas object as well as the default lineWidth (if applicable). Afterwards any geometric shape can be easily placed.
-```js
-draw.init(ctx,1)
-draw.dot(xcoordinate, ycoordinate, radius);
-```
-where
-```js
-dot: function (x, y, r) {
-	this.ctx.beginPath();
-	this.ctx.arc(x, y, r, 0, 2 * Math.PI, true);
-	this.ctx.fill();
-}
-```
 
 ---
 
