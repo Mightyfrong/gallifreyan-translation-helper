@@ -6,12 +6,10 @@ export class SVGRenderingContext {
 	constructor(width, height) {
 		const viewBox = `0 0 ${width} ${height}`;
 		this.svg = createSVGElement('svg', { viewBox });
-		this.width = width;
-		this.height = height;
 
 		this.fgCol = document.getElementById('foregroundcolor').value;
 		this.bgCol = document.getElementById('backgroundcolor').value;
-		this.svg.setAttribute('style', `stroke:${this.fgCol};fill:${this.bgCol}`);
+		this.svg.setAttribute('style', `stroke:${this.fgCol};fill:transparent;stroke-linejoin:round`);
 
 		this.matrix = new DOMMatrix;
 		this.history = [];
@@ -62,6 +60,15 @@ export class SVGRenderingContext {
 		attributes.fill = this.bgCol
 
 		const shape = createSVGElement(tagName, attributes);
+		this.svg.append(shape);
+	}
+
+	drawText(text, attributes){
+		attributes.transform = this.transform;
+		attributes.fill=this.fgCol;
+
+		const shape = createSVGElement('text', attributes);
+		shape.appendChild(document.createTextNode(text));
 		this.svg.append(shape);
 	}
 
