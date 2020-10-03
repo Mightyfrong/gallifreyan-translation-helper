@@ -50,56 +50,6 @@ export function includes(obj, values) {
 		obj.includes(values);
 }
 
-// general drawing instructions
-export let draw = {
-	init: function (ctx, linewidth) {
-		this.ctx = ctx;
-		this.linewidth = linewidth;
-	},
-	circle: function (x, y, r, lw) {
-		this.ctx.beginPath();
-		this.ctx.arc(x, y, r, 0, 2 * Math.PI, true);
-		if (lw !== undefined) this.ctx.lineWidth = lw;
-		this.ctx.stroke();
-		this.ctx.lineWidth = this.linewidth;
-	},
-	arc: function (x, y, r, a, o, lw) { // could be unified with circle with optional params but separated for readibilities sake...
-		this.ctx.beginPath();
-		this.ctx.arc(x, y, r, a, o, true);
-		if (lw !== undefined) this.ctx.lineWidth = lw;
-		this.ctx.stroke();
-		this.ctx.lineWidth = this.linewidth;
-	},
-	ellipse: function (x, y, r1, r2, rot = 0, filled, lw) {
-		this.ctx.beginPath();
-		this.ctx.ellipse(x, y, r1, r2, rot, 0, 2 * Math.PI);
-		if (lw !== undefined) this.ctx.lineWidth = lw;
-		if (filled === undefined || !filled) this.ctx.stroke();
-		else {
-			this.ctx.fillStyle = filled;
-			this.ctx.fill();
-			this.ctx.fillStyle = color.foreground;
-		}
-		this.ctx.lineWidth = this.linewidth;
-	},
-	dot: function (x, y, r, filled) {
-		this.ctx.beginPath();
-		this.ctx.arc(x, y, r, 0, 2 * Math.PI, true);
-		if (filled !== undefined && filled) this.ctx.fillStyle = filled;
-		this.ctx.fill();
-		this.ctx.fillStyle = color.foreground;
-	},
-	line: function (fx, fy, tx, ty, lw, style) {
-		this.ctx.beginPath();
-		this.ctx.moveTo(fx, fy);
-		this.ctx.lineTo(tx, ty);
-		if (lw !== undefined) this.ctx.lineWidth = lw;
-		if (style !== undefined && style) this.ctx.strokeStyle = style;
-		this.ctx.stroke();
-		this.ctx.strokeStyle = color.foreground
-		this.ctx.lineWidth = this.linewidth;
-	}
-};
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
  *
