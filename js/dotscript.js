@@ -303,7 +303,7 @@ export function dotscriptTranslate(ctx, input) {
 		} else warning += ", " + input[i];
 
 		// print character translation above the drawings
-		//ctx.drawShape('text', 1, {x: x + consonant, y:y - letterheight * .5});//text= input[i]
+		ctx.drawText(input[i], {x: x + consonant, y:y - letterheight * .5});
 
 	}
 
