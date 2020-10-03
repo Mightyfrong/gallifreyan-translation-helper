@@ -3,28 +3,30 @@ import {
 } from "./funcs.js";
 
 export class SVGRenderingContext {
-	constructor(svg = document.querySelector('svg')) {
-		this.svg = svg;
-		this.history = [];
-	}
-
-	prepare(width, height) {
-		[...this.svg.children].forEach(child => {
-			child.remove();
-		});
-		this.svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+	constructor(width, height) {
+		const viewBox = `0 0 ${width} ${height}`;
+		this.svg = createSVGElement('svg', { viewBox });
+		this.width = width;
+		this.height = height;
 
 		this.fgCol = document.getElementById('foregroundcolor').value;
 		this.bgCol = document.getElementById('backgroundcolor').value;
-//		this.svg.setAttribute('style', `stroke:${this.fgCol};fill:${this.bgCol};stroke-linejoin:round`);
-		this.svg.setAttribute('style', `stroke:${this.fgCol};fill:transparent;stroke-linejoin:round`);
+		this.svg.setAttribute('style', `stroke:${this.fgCol};fill:transparent`);
 
 		this.matrix = new DOMMatrix;
+		this.history = [];
 
 		this.clearShape('rect', {
 			width,
 			height
 		});
+	}
+
+	export(name){
+		const serialiser = new XMLSerializer;
+		const xml = serialiser.serializeToString(this.svg);
+		const file = new File([xml], name + ".svg", {type: "image/svg+xml"});
+		return file;
 	}
 
 	get transform() {

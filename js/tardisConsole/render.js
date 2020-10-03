@@ -9,6 +9,7 @@ import { TardisConsonant } from './parsing/TardisConsonant.js';
 
 import { TardisGlyph } from './TardisGlyph.js';
 import { TardisWord } from './TardisWord.js';
+import { SVGRenderingContext } from '../utils/SVGRenderingContext.js';
 
 /* Initialise Parser */
 class TardisVowel extends TardisLetter {
@@ -29,7 +30,7 @@ for (let str in vowels)
 
 const parser = new GallifreyanParser(letterMap, document.getElementById("output"));
 
-export function render(ctx, input) {
+export function render(input) {
 	const result = parser.parseWords(input.toUpperCase());
 
 	const translation = result.output.map(translateWord);
@@ -39,7 +40,8 @@ export function render(ctx, input) {
 	const width = 2 * (wordRadii.reduce((a, b) => a + b) + margin);
 	const height = 2 * (Math.max(...wordRadii) + margin);
 
-	ctx.prepare(width, height);
+	const ctx = new SVGRenderingContext(width, height);
+
 	ctx.translate(margin, height / 2);
 
 	translation.forEach(word => {
@@ -47,6 +49,8 @@ export function render(ctx, input) {
 		word.render(ctx);
 		ctx.translate(word.radius, 0);
 	});
+
+	return ctx;
 }
 
 function translateWord(letters) {
