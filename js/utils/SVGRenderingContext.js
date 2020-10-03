@@ -5,7 +5,9 @@ import {
 export class SVGRenderingContext {
 	constructor(width, height) {
 		const viewBox = `0 0 ${width} ${height}`;
-		this.svg = createSVGElement('svg', { viewBox });
+		this.svg = createSVGElement('svg', {
+			viewBox
+		});
 		this.width = width;
 		this.height = height;
 
@@ -22,10 +24,12 @@ export class SVGRenderingContext {
 		});
 	}
 
-	export(name){
+	export (name) {
 		const serialiser = new XMLSerializer;
 		const xml = serialiser.serializeToString(this.svg);
-		const file = new File([xml], name + ".svg", {type: "image/svg+xml"});
+		const file = new File([xml], name + ".svg", {
+			type: "image/svg+xml"
+		});
 		return file;
 	}
 
@@ -65,9 +69,9 @@ export class SVGRenderingContext {
 		this.svg.append(shape);
 	}
 
-	drawText(text, attributes){
+	drawText(text, attributes) {
 		attributes.transform = this.transform;
-		attributes.fill=this.fgCol;
+		attributes.fill = this.fgCol;
 
 		const shape = createSVGElement('text', attributes);
 		shape.appendChild(document.createTextNode(text));
