@@ -79,7 +79,7 @@ export class SVGRenderingContext {
 		this.matrix = this.history.pop() || new DOMMatrix;
 	}
 	circularArc(cx, cy, r, startRad, endRad) {
-		let bigarc=(startRad-endRad>Math.PI||startRad>endRad)?1:0;
-		return "M " + (cx + Math.cos(startRad) * r) + " " + (cy - Math.sin(startRad) * r) + " A " + r + " " + r + " 0 "+bigarc+" 1 " + (cx + Math.cos(endRad) * r) + " " + (cy - Math.sin(endRad) * r);
+		let bigarc = (startRad - endRad > Math.PI || startRad > endRad) ? 0 : 1;
+		return "M " + (cx + Math.cos(startRad) * r) + " " + (cy + Math.sin(startRad) * r) + " A " + r + " " + r + " 0 " + bigarc + " 1 " + (cx + Math.cos(endRad) * r) + " " + (cy + Math.sin(endRad) * r);
 	}
 }

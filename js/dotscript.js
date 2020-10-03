@@ -62,10 +62,10 @@ let characters = {
 				r: size
 			});
 			ctx.drawShape('path', 1, {
-				d: ctx.circularArc(x, y, size, Math.PI * 2.25, Math.PI * .6)
+				d: ctx.circularArc(x, y, size, Math.PI * 1.74, Math.PI * 3.4)
 			});
 			ctx.drawShape('path', 1, {
-				d: ctx.circularArc(x + Math.cos(Math.PI * 1.575) * size, y + Math.sin(Math.PI * 1.575) * size, size * .5, Math.PI * 1.85, Math.PI * 1)
+				d: ctx.circularArc(x + Math.cos(Math.PI * 1.575) * size, y + Math.sin(Math.PI * 1.575) * size, size * .5, Math.PI * 2.15, Math.PI * 3)
 			});
 		},
 		spiral: function (ctx, x, y, size) {
@@ -97,16 +97,16 @@ let characters = {
 				r: size
 			});
 			ctx.drawShape('path', 1, {
-				d: ctx.circularArc(x, y, size, Math.PI * 1.35, Math.PI * .35)
+				d: ctx.circularArc(x, y, size, Math.PI * .65, Math.PI * 1.65)
+			});
+			ctx.drawShape('path', 1, {
+				d: ctx.circularArc(x, y, size * .6, Math.PI * 1.65, Math.PI * 2.65)
 			});
 			ctx.drawShape('line', 1, {
 				x1: x + Math.cos(Math.PI * 1.65) * size,
 				y1: y + Math.sin(Math.PI * 1.65) * size,
 				x2: x + Math.cos(Math.PI * .65) * size,
 				y2: y + Math.sin(Math.PI * .65) * size
-			});
-			ctx.drawShape('path', 1, {
-				d: ctx.circularArc(x, y, size * .6, Math.PI * .35, Math.PI * 1.35)
 			});
 		},
 		space: function (ctx, x, y, size) {
