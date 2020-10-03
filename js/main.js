@@ -1,13 +1,31 @@
-import { SVGRenderingContext } from './utils/SVGRenderingContext.js';
+import {
+	SVGRenderingContext
+} from './utils/SVGRenderingContext.js';
 
-import { render as renderShermans } from './shermans/render.js';
-import { render as renderTARDISConsole } from './tardisConsole/render.js';
-import { render as renderDoctorsCot } from './doctorsCot/render.js';
-import { render as renderCC } from './cc/render.js';
-import { dotscriptTranslate } from './dotscript.js';
+import {
+	render as renderShermans
+} from './shermans/render.js';
+import {
+	render as renderTARDISConsole
+} from './tardisConsole/render.js';
+import {
+	render as renderDoctorsCot
+} from './doctorsCot/render.js';
+import {
+	render as renderCC
+} from './cc/render.js';
+import {
+	render as renderDotscript
+} from './dotscript/render.js';
 
-import { genKeyboard, consonantTable, vowelTable } from './doctorsCot/setup.js';
-import { UILanguage } from './UILanguage.js';
+import {
+	genKeyboard,
+	consonantTable,
+	vowelTable
+} from './doctorsCot/setup.js';
+import {
+	UILanguage
+} from './UILanguage.js';
 
 // Initialise event handlers and language-specific form controls
 const langSelect = document.getElementById('language');
@@ -36,14 +54,24 @@ function activateControls(lang) {
 	switch (lang) {
 		case "shermans":
 			shermansOpts.classList.toggle('active');
+			img.style.display = "block";
+			canvas.style.display = "none";
 			break;
 		case "cot":
 			ipaKeys.classList.toggle('active');
+			img.style.display = "none";
+			canvas.style.display = "block";
 			break;
 		case "cc":
 			ccOpts.classList.toggle('active');
+			img.style.display = "block";
+			canvas.style.display = "none";
 			break;
 		case "tardis":
+			img.style.display = "block";
+			canvas.style.display = "none";
+			break;
+		case "dotscript":
 			img.style.display = "block";
 			canvas.style.display = "none";
 			break;
@@ -53,7 +81,7 @@ function activateControls(lang) {
 langSelect.addEventListener('input', event => {
 	// First hide all controls
 	[...langControls.getElementsByClassName('active')]
-		.forEach(elem => elem.classList.remove('active'));
+	.forEach(elem => elem.classList.remove('active'));
 
 	// Then display selected ones
 	activateControls(event.target.value)
@@ -67,27 +95,30 @@ function translate(ctx) {
 
 	let input = document.getElementById("text").value;
 	let lang = document.getElementById("language").value;
+	let svg;
 	switch (lang) {
 		case "shermans":
-			renderShermans(src, input);
+			svg = renderShermans(input);
 			break;
 		case "cot":
 			renderDoctorsCot(ctx, input);
 			break;
 		case "tardis":
-			const svg = renderTARDISConsole(input);
-			img.src = URL.createObjectURL(svg.export(input));
-			img.width = svg.width;
-			img.height = svg.height;
+			svg = renderTARDISConsole(input);
 			break;
 		case "dotscript":
-			dotscriptTranslate(src, input);
+			svg = renderDotscript(input);
 			break;
 		case "cc":
-			renderCC(src, input);
+			svg = renderCC(input);
 			break;
 		default:
-			renderShermans(src, input);
+			svg = renderShermans(input);
+	}
+	if (svg !== undefined) {
+		img.src = URL.createObjectURL(svg.export(input));
+		img.width = svg.width;
+		img.height = svg.height;
 	}
 }
 

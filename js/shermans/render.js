@@ -12,6 +12,9 @@ import {
 import {
 	UILanguage
 } from '../UILanguage.js'
+import {
+	SVGRenderingContext
+} from '../utils/SVGRenderingContext.js';
 
 let cLetter; // is there a "c"?
 let qLetter; // is there a "q"?
@@ -37,7 +40,7 @@ UILanguage.say.qLetter = {
 const base = new shermansBase(consonant, vowel);
 const deco = new shermansDeco(base);
 
-export function render(ctx, input) {
+export function render(input) {
 	//retrieve options and make them compact
 	option = {
 		circular: document.getElementById('scgcirc').checked,
@@ -80,7 +83,7 @@ export function render(ctx, input) {
 		x = 0;
 		y = -glyph.height * .5;
 	}
-	ctx.prepare(width, height);
+	const ctx = new SVGRenderingContext(width, height);
 
 	// initialize widths, heights, default-values, draw-object
 	cLetter = false;
@@ -128,6 +131,7 @@ export function render(ctx, input) {
 		output += "<br>" + UILanguage.write("qLetter");
 	}
 	document.getElementById("output").innerHTML = output;
+	return ctx;
 }
 
 //script specific replacements
@@ -256,8 +260,12 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 			angle = 1 / grouped.numberOfGroups;
 		}
 		if (!grouped.carriagereturn || includes(["b", "t"], currentbase)) {
-if (grouped.numberOfGroups==1) ctx.drawShape('circle',1,{cx:x,cy:y,r:wordCircleRadius});
-else			ctx.drawShape('path', 1, {
+			if (grouped.numberOfGroups == 1) ctx.drawShape('circle', 1, {
+				cx: x,
+				cy: y,
+				r: wordCircleRadius
+			});
+			else ctx.drawShape('path', 1, {
 				d: ctx.circularArc(x, y, wordCircleRadius, Math.PI * (2.5 + rad - angle), Math.PI * (.5 + rad + angle)),
 				fill: 'transparent'
 			});
@@ -283,16 +291,22 @@ else			ctx.drawShape('path', 1, {
 		let decorators = deco.getDeco(letter);
 		if (decorators) {
 			decorators.forEach(decorator => {
-						if (decorators && !thicknumberline)
-							deco.draw(ctx, decorator, x + center.x, y + center.y, currentbase, rad, grouped, letter);
+				if (decorators && !thicknumberline)
+					deco.draw(ctx, decorator, x + center.x, y + center.y, currentbase, rad, grouped, letter);
 			});
 		}
 	}
 	// text output for undefined characters as well for informational purpose
 	// print character translation above the drawings unless it's a (numeral) control character
-		if (!includes(["/", "\\"], letter)) ctx.drawText(letter, {x:x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) + grouped.offset * 8, y:y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad)});
+	if ( !includes(["/", "\\"], letter)) ctx.drawText(letter, {
+		x: x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) + grouped.offset * 8,
+		y: y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad)
+	});
 	// add a minus sign in from of the translation above the drawings if applicable
-		if (includes(["\\"], letter)) ctx.drawText("-", {x:x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) - 1 * 8, y:y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad)});
+	if ( includes(["\\"], letter)) ctx.drawText("-", {
+		x: x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) - 1 * 8,
+		y: y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad)
+	});
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR

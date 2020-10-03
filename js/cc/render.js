@@ -8,6 +8,9 @@ import {
 import {
     consonant
 } from './setup.js';
+import {
+	SVGRenderingContext
+} from '../utils/SVGRenderingContext.js';
 
 let width; // canvas width
 let height; // canvas height
@@ -19,7 +22,7 @@ let letterheight; // you'll figure that one out for yourself
 const base = new ccBase();
 const deco = new ccDeco();
 
-export function render(ctx, input) {
+export function render( input) {
     // convert input-string to grouped array and determine number of groups
     let groupedinput = ccGrouped.groups(input.toLowerCase()),
         maxstack = 1,
@@ -40,7 +43,7 @@ export function render(ctx, input) {
     // set canvas scale according to number of groups times letterwidth
     width = Math.min(lettergroups + 2, Math.floor(window.innerWidth / letterwidth)) * letterwidth - letterwidth;
     height = letterheight * Math.ceil(lettergroups / Math.floor(width / letterwidth));
-	ctx.prepare(width, height);
+	const ctx = new SVGRenderingContext(width, height);
 
     x = letterwidth*.5;
     y = letterheight * .6;
@@ -66,6 +69,8 @@ export function render(ctx, input) {
     });
     let output = "";
     document.getElementById("output").innerHTML = output;
+
+	return ctx;
 }
 
 // set rules for grouping
