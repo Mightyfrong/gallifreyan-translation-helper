@@ -16,7 +16,8 @@ export class SVGRenderingContext {
 
 		this.fgCol = document.getElementById('foregroundcolor').value;
 		this.bgCol = document.getElementById('backgroundcolor').value;
-		this.svg.setAttribute('style', `stroke:${this.fgCol};fill:${this.bgCol};stroke-linejoin:round`);
+//		this.svg.setAttribute('style', `stroke:${this.fgCol};fill:${this.bgCol};stroke-linejoin:round`);
+		this.svg.setAttribute('style', `stroke:${this.fgCol};fill:transparent;stroke-linejoin:round`);
 
 		this.matrix = new DOMMatrix;
 
@@ -59,6 +60,15 @@ export class SVGRenderingContext {
 		attributes.fill = this.bgCol
 
 		const shape = createSVGElement(tagName, attributes);
+		this.svg.append(shape);
+	}
+
+	drawText(text, attributes){
+		attributes.transform = this.transform;
+		attributes.fill=this.fgCol;
+
+		const shape = createSVGElement('text', attributes);
+		shape.appendChild(document.createTextNode(text));
 		this.svg.append(shape);
 	}
 
