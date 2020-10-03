@@ -1,8 +1,5 @@
 import {
-	includes,
-	canvaspreparation,
-	color,
-	draw
+	includes
 } from '../utils/funcs.js';
 import {
 	shermansBase,
@@ -83,12 +80,11 @@ export function render(ctx, input) {
 		x = 0;
 		y = -glyph.height * .5;
 	}
-	canvaspreparation(ctx, width, height);
+	ctx.prepare(width, height);
 
 	// initialize widths, heights, default-values, draw-object
 	cLetter = false;
 	qLetter = false;
-	draw.init(ctx, 1);
 
 	// iterate through input to set grouping instructions, handle exceptions and draw glyphs
 	groupedinput.forEach(words => { // loop through sentence
@@ -238,17 +234,9 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 	}
 
 	if (currentbase) { // works only for defined characters
-		ctx.strokeStyle = color.foreground;
-		ctx.fillStyle = color.foreground;
-		if (letter == "c" || letter == "q") {
-			ctx.strokeStyle = color.warning;
-			ctx.fillStyle = color.warning;
-			if (letter == "c") {
-				cLetter = true;
-			} else {
-				qLetter = true;
-			}
-		}
+		cLetter = letter == "c";
+		qLetter = letter == "q";
+
 		// define basic positional arguments
 		let voweloffset;
 		if (includes(["ve", "va", "vo"], currentbase) && !includes(["ve", "va", "vo"], grouped.groupBase))
@@ -268,10 +256,17 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 			angle = 1 / grouped.numberOfGroups;
 		}
 		if (!grouped.carriagereturn || includes(["b", "t"], currentbase)) {
-			draw.arc(x, y, wordCircleRadius, Math.PI * (.5 + rad + angle), Math.PI * (.5 + rad - angle));
+if (grouped.numberOfGroups==1) ctx.drawShape('circle',1,{cx:x,cy:y,r:wordCircleRadius});
+else			ctx.drawShape('path', 1, {
+				d: ctx.circularArc(x, y, wordCircleRadius, Math.PI * (2.5 + rad - angle), Math.PI * (.5 + rad + angle)),
+				fill: 'transparent'
+			});
 		}
 		if (includes(["punctuation"], currentbase) && !thicknumberline) {
-			draw.arc(x, y, wordCircleRadius + 2 * consonant, Math.PI * (.5 + rad + angle), Math.PI * (.5 + rad - angle));
+			ctx.drawShape('path', 1, {
+				d: ctx.circularArc(x, y, wordCircleRadius + 2 * consonant, Math.PI * (2.5 + rad - angle), Math.PI * (.5 + rad + angle)),
+				fill: 'transparent'
+			});
 		}
 
 		// draw base
@@ -281,24 +276,23 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		const hasPunc = includes(["punctuation"], currentbase);
 		if (!hasPunc || (hasPunc && !thicknumberline)) {
 			if (includes(["ve", "va", "vo"], currentbase)) r = vowel * grouped.vresize;
-			base.scgtable[currentbase].draw(x + center.x, y + center.y, r, rad, grouped);
+			base.scgtable[currentbase].draw(ctx, x + center.x, y + center.y, r, rad, grouped);
 		}
 
 		// draw decorators
 		let decorators = deco.getDeco(letter);
 		if (decorators) {
 			decorators.forEach(decorator => {
-				if (decorators && !thicknumberline)
-					deco.draw(decorator, x + center.x, y + center.y, currentbase, rad, grouped, letter);
+						if (decorators && !thicknumberline)
+							deco.draw(ctx, decorator, x + center.x, y + center.y, currentbase, rad, grouped, letter);
 			});
 		}
 	}
 	// text output for undefined characters as well for informational purpose
-	ctx.beginPath();
 	// print character translation above the drawings unless it's a (numeral) control character
-	if (!includes(["/", "\\"], letter)) ctx.fillText(letter, x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) + grouped.offset * 8, y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad));
+		if (!includes(["/", "\\"], letter)) ctx.drawText(letter, {x:x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) + grouped.offset * 8, y:y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad)});
 	// add a minus sign in from of the translation above the drawings if applicable
-	if (includes(["\\"], letter)) ctx.fillText("-", x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) - 1 * 8, y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad));
+		if (includes(["\\"], letter)) ctx.drawText("-", {x:x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) - 1 * 8, y:y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad)});
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
