@@ -70,7 +70,7 @@ function translate(ctx) {
 	let lang = document.getElementById("language").value;
 	switch (lang) {
 		case "shermans":
-			renderShermans(ctx, input);
+			renderShermans(src, input);
 			break;
 		case "cot":
 			renderDoctorsCot(ctx, input);
@@ -79,13 +79,13 @@ function translate(ctx) {
 			renderTARDISConsole(src, input);
 			break;
 		case "dotscript":
-			dotscriptTranslate(ctx, input);
+			dotscriptTranslate(src, input);
 			break;
 		case "cc":
-			renderCC(ctx, input);
+			renderCC(src, input);
 			break;
 		default:
-			renderShermans(ctx, input);
+			renderShermans(src, input);
 	}
 }
 
