@@ -1,6 +1,4 @@
 import {
-    canvaspreparation,
-    draw,
     includes
 } from '../utils/funcs.js'
 import {
@@ -27,7 +25,6 @@ export function render(ctx, input) {
         maxstack = 1,
         lettergroups = 0;
 
-    console.log(groupedinput);
     groupedinput.forEach(word => {
         word.forEach(groups => {
             groups.forEach(group => { // determine maximum expansion due to stacking and amount of groups
@@ -43,11 +40,10 @@ export function render(ctx, input) {
     // set canvas scale according to number of groups times letterwidth
     width = Math.min(lettergroups + 2, Math.floor(window.innerWidth / letterwidth)) * letterwidth - letterwidth;
     height = letterheight * Math.ceil(lettergroups / Math.floor(width / letterwidth));
-	canvaspreparation(ctx,width,height);
+	ctx.prepare(width, height);
 
     x = 0;
     y = letterheight * .6;
-    draw.init(ctx, 1);
 
     groupedinput.forEach(words => { // loop through sentence
         words.forEach(groups => { // loop through words
@@ -124,14 +120,13 @@ function ccDraw(ctx, letter, grouped) {
     //define tilt based on stack-number to make the glyphs less monotonous
     let tilt = .25 - .0625 * (grouped.offset + 1);
     // draw base
-    if (base.getBase(letter)) base.cctable[base.getBase(letter)].draw(x, y, consonant * grouped.resize, tilt);
+    if (base.getBase(letter)) base.cctable[base.getBase(letter)].draw(ctx,x, y, consonant * grouped.resize, tilt);
     // draw decorators
-    if (deco.getDeco(letter)) deco.cctable[deco.getDeco(letter)].draw(x, y, consonant * grouped.resize, tilt);
+    if (deco.getDeco(letter)) deco.cctable[deco.getDeco(letter)].draw(ctx,x, y, consonant * grouped.resize, tilt);
 
     // text output for undefined characters as well for informational purpose
-    ctx.beginPath();
     // print character translation above the drawings
-    ctx.fillText(letter, x + grouped.offset * 8, y - letterheight * .5);
+    //ctx.fillText(letter, x + grouped.offset * 8, y - letterheight * .5);
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
