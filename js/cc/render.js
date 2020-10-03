@@ -42,7 +42,7 @@ export function render(ctx, input) {
     height = letterheight * Math.ceil(lettergroups / Math.floor(width / letterwidth));
 	ctx.prepare(width, height);
 
-    x = 0;
+    x = letterwidth*.5;
     y = letterheight * .6;
 
     groupedinput.forEach(words => { // loop through sentence
@@ -112,9 +112,9 @@ let ccGrouped = {
 // draw instructions for base + decoration
 function ccDraw(ctx, letter, grouped) {
     if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
-        if (x + letterwidth >= width) {
+        if (x + letterwidth*2 >= width) {
             y += letterheight;
-            x = letterwidth;
+            x = letterwidth*1.5;
         } else x += letterwidth;
     }
     //define tilt based on stack-number to make the glyphs less monotonous
@@ -126,7 +126,7 @@ function ccDraw(ctx, letter, grouped) {
 
     // text output for undefined characters as well for informational purpose
     // print character translation above the drawings
-    //ctx.fillText(letter, x + grouped.offset * 8, y - letterheight * .5);
+    ctx.drawText(letter, {x:x + grouped.offset * 10, y:y - letterheight * .5});
 }
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
