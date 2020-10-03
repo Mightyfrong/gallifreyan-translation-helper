@@ -73,19 +73,19 @@ export class ccBase {
 						r: r
 					});
 					ctx.drawShape('path', 1, {
-						d: ctx.circularArc(x, y, r * .9, Math.PI * (1.25 - tilt), Math.PI * (2.75 - tilt))
-					});
-					ctx.drawShape('line', 1, {
-						x1: x,
-						y1: y,
-						x2: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
-						y2: y + Math.sin(Math.PI * (1.25 + tilt)) * r
+						d: ctx.circularArc(x, y, r * .9, Math.PI * (2.75 + tilt), Math.PI * (1.25 + tilt))
 					});
 					ctx.drawShape('line', 1, {
 						x1: x,
 						y1: y,
 						x2: x + Math.cos(Math.PI * (.75 + tilt)) * r,
 						y2: y + Math.sin(Math.PI * (.75 + tilt)) * r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x,
+						y1: y,
+						x2: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (1.25 + tilt)) * r
 					});
 				}
 			},
