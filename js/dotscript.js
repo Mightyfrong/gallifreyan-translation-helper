@@ -6,7 +6,6 @@ import {
 	UILanguage
 } from './UILanguage.js'
 
-
 let consonant = 30; // radius of consonants
 let linewidth = 1; // thicker lines add a cute chubbyness
 let width; // canvas width
@@ -17,14 +16,12 @@ let letterwidth; // you'll figure that one out for yourself
 let letterheight; // you'll figure that one out for yourself
 let warning = ""; // used if undefined characters are part of the input
 
-
 // add module-specific language chunks
 UILanguage.say.processError = {
 	en: "The following characters could not be processed: ",
 	de: "Die folgenden Zeichen konnten nicht verarbeitet werden: ",
 	lt: "Nepavyko apdoroti šių simbolių: "
 };
-
 
 //specify forms and positions
 let characters = {
@@ -65,7 +62,7 @@ let characters = {
 				r: size
 			});
 			ctx.drawShape('path', 1, {
-				d: ctx.circularArc(x, y, size, Math.PI * .25, Math.PI * .6)
+				d: ctx.circularArc(x, y, size, Math.PI * 2.25, Math.PI * .6)
 			});
 			ctx.drawShape('path', 1, {
 				d: ctx.circularArc(x + Math.cos(Math.PI * 1.575) * size, y + Math.sin(Math.PI * 1.575) * size, size * .5, Math.PI * 1.85, Math.PI * 1)
@@ -259,11 +256,6 @@ let characters = {
 	}
 }
 
-
-//    _                   _     _   _
-//   | |_ ___ ___ ___ ___| |___| |_|_|___ ___
-//   |  _|  _| .'|   |_ -| | .'|  _| | . |   |
-//   |_| |_| |__,|_|_|___|_|__,|_| |_|___|_|_|
 // scroll through input and draw every letter
 export function dotscriptTranslate(ctx, input) {
 	// initialize widths, heights, default-values, draw-object
@@ -295,7 +287,6 @@ export function dotscriptTranslate(ctx, input) {
 			x = letterwidth * .5;
 		} else if (includes("aeiou", input[i])) x += letterwidth * .5;
 		else x += letterwidth;
-
 
 		if (input[i] in characters.characters) {
 			// draw baseline for the next character to not interfere with the former one
