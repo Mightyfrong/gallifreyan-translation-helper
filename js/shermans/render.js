@@ -214,7 +214,11 @@ let shermansGrouped = {
 			}
 		} else if (includes(["number"], formerbase)) {
 			this.cresize *= .8;
-		} else /*vovel*/ this.vresize *= .8;
+		} else {
+			/*vovel*/
+			this.vresize *= .8;
+			if (former != actual) this.linewidth += 1;
+		}
 	}
 }
 
@@ -298,12 +302,12 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 	}
 	// text output for undefined characters as well for informational purpose
 	// print character translation above the drawings unless it's a (numeral) control character
-	if ( !includes([" ", "/", "\\"], letter)) ctx.drawText(letter, {
+	if (!includes([" ", "/", "\\"], letter)) ctx.drawText(letter, {
 		x: x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) + grouped.offset * 8,
 		y: y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad)
 	});
 	// add a minus sign in from of the translation above the drawings if applicable
-	if ( includes(["\\"], letter)) ctx.drawText("-", {
+	if (includes(["\\"], letter)) ctx.drawText("-", {
 		x: x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) - 1 * 8,
 		y: y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad)
 	});
