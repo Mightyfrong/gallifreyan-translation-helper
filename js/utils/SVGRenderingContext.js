@@ -4,8 +4,7 @@ import {
 
 export class SVGRenderingContext {
 	constructor(width, height) {
-		const viewBox = `0 0 ${width} ${height}`;
-		this.svg = createSVGElement('svg', { viewBox });
+		this.svg = createSVGElement('svg', { width, height });
 
 		this.fgCol = document.getElementById('foregroundcolor').value;
 		this.bgCol = document.getElementById('backgroundcolor').value;
