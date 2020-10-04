@@ -68,7 +68,7 @@ export class shermansBase {
 					}
 				},
 				draw: function (ctx, x, y, r, rad = 0, group) {
-					ctx.drawShape('circle', 1, {
+					ctx.drawShape('circle', group.linewidth, {
 						cx: x,
 						cy: y,
 						r: r
@@ -85,7 +85,7 @@ export class shermansBase {
 					}
 				},
 				draw: function (ctx, x, y, r, rad = 0, group) {
-					ctx.drawShape('circle', 1, {
+					ctx.drawShape('circle', group.linewidth, {
 						cx: x,
 						cy: y,
 						r: r
@@ -102,7 +102,7 @@ export class shermansBase {
 					}
 				},
 				draw: function (ctx, x, y, r, rad = 0, group) {
-					ctx.drawShape('circle', 1, {
+					ctx.drawShape('circle', group.linewidth, {
 						cx: x,
 						cy: y,
 						r: r
@@ -174,7 +174,7 @@ export class shermansBase {
 			},
 			t: {
 				contains: ["t", "wh", "sh", "r", "v", "w", "s"],
-				centerYoffset: -consonant*.1,
+				centerYoffset: -consonant * .1,
 				radialPlacement: function (rad = .25, item = "vo") {
 					let options = {
 						ve: {
@@ -417,7 +417,7 @@ export class shermansDeco {
 		} else if (includes(["2ndvowel"], deco)) {
 			this.scgtable[deco].radiants.forEach(rad => {
 				let fromto = this.scgtable[deco].fromto;
-				ctx.drawShape('circle', 1, {
+				ctx.drawShape('circle', group.linewidth, {
 					cx: x + this.base.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * group.cresize,
 					cy: y + this.base.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * group.cresize,
 					r: this.base.vowel
@@ -434,7 +434,7 @@ export class shermansDeco {
 					)
 				});
 				// overpaint base body
-				ctx.drawShape('path', 3, {
+				ctx.drawShape('path', group.linewidth + 2, {
 					d: ctx.circularArc(
 						x,
 						y,
@@ -488,11 +488,12 @@ export class shermansDeco {
 			/* lines, diacritics, minus for numbers*/
 			this.scgtable[deco].radiants.forEach(rad => {
 				let fromto = this.scgtable[deco].fromto;
-				ctx.drawShape('line', 1, {
-					x1: x + this.base.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * group.cresize,
-					y1: y + this.base.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * group.cresize,
-					x2: x + this.base.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[1] * group.cresize,
-					y2: y + this.base.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[1] * group.cresize
+				let resize = includes(["il", "ul"], deco) ? group.vresize : group.cresize;
+				ctx.drawShape('line', group.linewidth, {
+					x1: x + this.base.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * resize,
+					y1: y + this.base.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * resize,
+					x2: x + this.base.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[1] * resize,
+					y2: y + this.base.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[1] * resize
 				});
 			});
 		}
