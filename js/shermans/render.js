@@ -260,7 +260,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 			angle = 1 / grouped.numberOfGroups;
 		}
 		if (!grouped.carriagereturn || includes(["b", "t"], currentbase)) {
-			if (grouped.numberOfGroups == 1) ctx.drawShape('circle', 1, {
+			if (grouped.numberOfGroups == 1 && option.circular) ctx.drawShape('circle', 1, {
 				cx: x,
 				cy: y,
 				r: wordCircleRadius
