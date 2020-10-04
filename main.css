@@ -148,6 +148,7 @@ span {
 
 #output-img {
 	margin: auto;
+	max-width:100vw;
 }
 
 a>svg {
