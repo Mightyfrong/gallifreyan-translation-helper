@@ -117,8 +117,6 @@ function translate(ctx) {
 	}
 	if (svg !== undefined) {
 		img.src = URL.createObjectURL(svg.export(input));
-		img.width = svg.width;
-		img.height = svg.height;
 	}
 }
 

@@ -10,6 +10,8 @@ export class SVGRenderingContext {
 		});
 		this.width = width;
 		this.height = height;
+		this.svg.setAttribute('width', width);
+		this.svg.setAttribute('height', height);
 
 		this.fgCol = document.getElementById('foregroundcolor').value;
 		this.bgCol = document.getElementById('backgroundcolor').value;
