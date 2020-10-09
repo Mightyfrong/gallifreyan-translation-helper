@@ -136,10 +136,9 @@ export class shermansBase {
 						cy: y,
 						r: r
 					});
-					//					draw.arc(x, y, r, (2 + rad) * Math.PI + Math.asin(.9 / group.cresize), (1 + rad) * Math.PI - Math.asin(.9 / group.cresize)
-					//					ctx.drawShape('path',group.linewidth,{d:ctx.circularArc(x, y, r, (.8) * Math.PI, (2.2 ) * Math.PI)});
+					let thisglyph = Math.ceil(Math.sqrt(group.numberOfGroups * Math.pow(2 * consonant, 2) / Math.PI)) * 1.5 * 3.25;
 					ctx.drawShape('path', group.linewidth, {
-						d: ctx.circularArc(x, y, r, (1 + rad) * Math.PI - Math.asin(.9 / group.cresize), (2 + rad) * Math.PI + Math.asin(.9 / group.cresize))
+						d: ctx.circularArc(x, y, r, (.65 + rad + +Boolean(group.lastStackedConsonantIndex - group.offset) * r * group.cresize / thisglyph) * Math.PI, (.35 + rad - +Boolean(group.lastStackedConsonantIndex - group.offset) * r * group.cresize / thisglyph) * Math.PI, "major")
 					});
 				}
 			},
@@ -174,7 +173,7 @@ export class shermansBase {
 			},
 			t: {
 				contains: ["t", "wh", "sh", "r", "v", "w", "s"],
-				centerYoffset: -consonant * .1,
+				centerYoffset: 0,
 				radialPlacement: function (rad = .25, item = "vo") {
 					let options = {
 						ve: {
@@ -199,8 +198,9 @@ export class shermansBase {
 						cy: y,
 						r: r
 					});
+					let thisglyph = Math.ceil(Math.sqrt(group.numberOfGroups * Math.pow(2 * consonant, 2) / Math.PI)) * 1.5 * 3.25;
 					ctx.drawShape('path', group.linewidth, {
-						d: ctx.circularArc(x, y, r, (1 + rad) * Math.PI, (2 + rad) * Math.PI)
+						d: ctx.circularArc(x, y, r, (1 + rad) * Math.PI + Math.asin(r * group.cresize / thisglyph), (2 + rad) * Math.PI - Math.asin(r * group.cresize / thisglyph), "minor")
 					});
 				}
 			},
@@ -438,8 +438,7 @@ export class shermansDeco {
 					d: ctx.circularArc(
 						x,
 						y,
-						this.base.consonant * group.cresize, Math.PI * (baserad - .4), Math.PI * (baserad - 2.1)),
-					fill: 'transparent',
+						this.base.consonant * group.cresize, Math.PI * (baserad - .4), Math.PI * (baserad - .1), "minor"),
 					stroke: document.getElementById('backgroundcolor').value
 				});
 			});
