@@ -104,7 +104,7 @@ export function render(input) {
 					if (vowelindex > -1 && vowelindex <= lastStackedConsonantIndex) lastStackedConsonantIndex = vowelindex - 1;
 				});
 				// reset offsets but hand over possible resizing factor, first base, current group related to number of groups
-				shermansGrouped.resetOffset(lastStackedConsonantIndex, base.getBase(group[0]), groups.length, groupnum);
+				shermansGrouped.resetOffset(lastStackedConsonantIndex, base.getBase(group[0]), groups.length, groupnum, glyph);
 				// iterate through characters within group
 				for (let l = 0; l < group.length; l++) {
 					// check whether an occuring dot or comma is a decimal sign or not
@@ -192,15 +192,17 @@ let shermansGrouped = {
 		});
 		return sentence;
 	},
-	resetOffset: function (lastStackedConsonantIndex = 0, currentbase = false, numberOfGroups = 0, currentGroup = 0) {
+	resetOffset: function (lastStackedConsonantIndex = 0, currentbase = false, numberOfGroups = 0, currentGroup = 0, glyph) {
 		this.carriagereturn = false; // true overrides setting the pointer-position to the next character
 		this.vresize = 1; // vowel-size-factor
 		this.cresize = (1 / .8) ** lastStackedConsonantIndex; // consonant-resize-factor, something the power of null is one
+		this.lastStackedConsonantIndex=lastStackedConsonantIndex; // important for properly aligning stacked b and t
 		this.offset = 0; // counter of stacked objects, used for positioning the translated letters on top of the drawings
 		this.linewidth = 1; // initial line width
 		this.numberOfGroups = numberOfGroups; // number of groups in current word
 		this.currentGroup = currentGroup; // position of current group
 		this.groupBase = currentbase; // base of group
+		this.glyph=glyph; //glyph dimensions or word circle radius
 	},
 	setOffset: function (former, actual) {
 		this.offset++;
