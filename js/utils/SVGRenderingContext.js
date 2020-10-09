@@ -89,8 +89,12 @@ export class SVGRenderingContext {
 	restore() {
 		this.matrix = this.history.pop() || new DOMMatrix;
 	}
-	circularArc(cx, cy, r, startRad, endRad) {
-		let bigarc = (startRad - endRad > Math.PI || startRad > endRad) ? 0 : 1;
-		return "M " + (cx + Math.cos(startRad) * r) + " " + (cy + Math.sin(startRad) * r) + " A " + r + " " + r + " 0 " + bigarc + " 1 " + (cx + Math.cos(endRad) * r) + " " + (cy + Math.sin(endRad) * r);
+	circularArc(cx, cy, r, startRad, endRad, arcType) {
+		if (arcType!=undefined){ // optional force of minor or major arc for more natural use of start- and end-radiants
+			if (arcType=="minor")startRad=(startRad/Math.PI+2)*Math.PI;
+			if (arcType=="major")endRad=(endRad/Math.PI+2)*Math.PI;
+		}
+		let majorarc = (startRad - endRad > Math.PI || startRad > endRad) ? 0 : 1;
+		return "M " + (cx + Math.cos(startRad) * r) + " " + (cy + Math.sin(startRad) * r) + " A " + r + " " + r + " 0 " + majorarc + " 1 " + (cx + Math.cos(endRad) * r) + " " + (cy + Math.sin(endRad) * r);
 	}
 }
