@@ -11,7 +11,7 @@ import {
 } from './setup.js';
 import {
 	UILanguage
-} from '../UILanguage.js'
+} from '../utils/UILanguage.js'
 import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
