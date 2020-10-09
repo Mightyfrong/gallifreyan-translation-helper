@@ -15,15 +15,11 @@ export class ccBase {
 			c: {
 				contains: ["a", "e", "i", "o", "u", "b", "c"],
 				draw: function (ctx, x, y, r, tilt) {
-					ctx.clearShape('circle', {
-						cx: x,
-						cy: y,
-						r: r
-					});
 					ctx.drawShape('circle', 1, {
 						cx: x,
 						cy: y,
-						r: r
+						r: r,
+						fill: document.getElementById('backgroundcolor').value
 					});
 					ctx.drawShape('circle', 1, {
 						cx: x,
@@ -35,15 +31,11 @@ export class ccBase {
 			l: {
 				contains: ["d", "f", "g", "h", "j", "k", "l"],
 				draw: function (ctx, x, y, r, tilt) {
-					ctx.clearShape('circle', {
-						cx: x,
-						cy: y,
-						r: r
-					});
 					ctx.drawShape('circle', 1, {
 						cx: x,
 						cy: y,
-						r: r
+						r: r,
+						fill: document.getElementById('backgroundcolor').value
 					});
 					ctx.drawShape('line', 1, {
 						x1: x,
@@ -62,15 +54,11 @@ export class ccBase {
 			t: {
 				contains: ["m", "n", "p", "q", "r", "s", "t"],
 				draw: function (ctx, x, y, r, tilt) {
-					ctx.clearShape('circle', {
-						cx: x,
-						cy: y,
-						r: r
-					});
 					ctx.drawShape('circle', 1, {
 						cx: x,
 						cy: y,
-						r: r
+						r: r,
+						fill: document.getElementById('backgroundcolor').value
 					});
 					ctx.drawShape('path', 1, {
 						d: ctx.circularArc(x, y, r * .9, Math.PI * (.75 + tilt), Math.PI * (1.25 + tilt),"minor")
@@ -92,15 +80,11 @@ export class ccBase {
 			ng: {
 				contains: ["v", "w", "x", "y", "z", "th", "ng"],
 				draw: function (ctx, x, y, r, tilt) {
-					ctx.clearShape('circle', {
-						cx: x,
-						cy: y,
-						r: r
-					});
 					ctx.drawShape('circle', 1, {
 						cx: x,
 						cy: y,
-						r: r
+						r: r,
+						fill: document.getElementById('backgroundcolor').value
 					});
 					ctx.drawShape('circle', 3, {
 						cx: x,
@@ -144,30 +128,22 @@ export class ccDeco {
 			"circle": {
 				contains: ["e", "f", "n", "w"],
 				draw: function (ctx, x, y, r, tilt) {
-					ctx.clearShape('circle', {
-						cx: x + Math.cos(Math.PI * (1 + tilt)) * r * .9,
-						cy: y + Math.sin(Math.PI * (1 + tilt)) * r * .9,
-						r: r * .1
-					});
 					ctx.drawShape('circle', 1, {
 						cx: x + Math.cos(Math.PI * (1 + tilt)) * r * .9,
 						cy: y + Math.sin(Math.PI * (1 + tilt)) * r * .9,
-						r: r * .1
+						r: r * .1,
+						fill: document.getElementById('backgroundcolor').value
 					});
 				}
 			},
 			"doublecircle": {
 				contains: ["i", "g", "p", "x"],
 				draw: function (ctx, x, y, r, tilt) {
-					ctx.clearShape('circle', {
-						cx: x + Math.cos(Math.PI * (1 + tilt)) * r * .9,
-						cy: y + Math.sin(Math.PI * (1 + tilt)) * r * .9,
-						r: r * .1
-					});
 					ctx.drawShape('circle', 1, {
 						cx: x + Math.cos(Math.PI * (1 + tilt)) * r * .9,
 						cy: y + Math.sin(Math.PI * (1 + tilt)) * r * .9,
-						r: r * .1
+						r: r * .1,
+						fill: document.getElementById('backgroundcolor').value
 					});
 					ctx.drawShape('circle', 1, {
 						cx: x + Math.cos(Math.PI * (1 + tilt)) * r * .9,
@@ -184,15 +160,11 @@ export class ccDeco {
 						cy: y + Math.sin(Math.PI * (1.1 + tilt)) * r * .9,
 						r: r * .1
 					});
-					ctx.clearShape('circle', {
-						cx: x + Math.cos(Math.PI * (.9 + tilt)) * r * .9,
-						cy: y + Math.sin(Math.PI * (.9 + tilt)) * r * .9,
-						r: r * .1
-					});
 					ctx.drawShape('circle', 1, {
 						cx: x + Math.cos(Math.PI * (.9 + tilt)) * r * .9,
 						cy: y + Math.sin(Math.PI * (.9 + tilt)) * r * .9,
-						r: r * .1
+						r: r * .1,
+						fill: document.getElementById('backgroundcolor').value
 					});
 				}
 			},
@@ -214,25 +186,17 @@ export class ccDeco {
 			"twocircles": {
 				contains: ["b", "k", "s", "th"],
 				draw: function (ctx, x, y, r, tilt) {
-					ctx.clearShape('circle', {
-						cx: x + Math.cos(Math.PI * (1.1 + tilt)) * r * .9,
-						cy: y + Math.sin(Math.PI * (1.1 + tilt)) * r * .9,
-						r: r * .1
-					});
 					ctx.drawShape('circle', 1, {
 						cx: x + Math.cos(Math.PI * (1.1 + tilt)) * r * .9,
 						cy: y + Math.sin(Math.PI * (1.1 + tilt)) * r * .9,
-						r: r * .1
-					});
-					ctx.clearShape('circle', {
-						cx: x + Math.cos(Math.PI * (.9 + tilt)) * r * .9,
-						cy: y + Math.sin(Math.PI * (.9 + tilt)) * r * .9,
-						r: r * .1
+						r: r * .1,
+						fill: document.getElementById('backgroundcolor').value
 					});
 					ctx.drawShape('circle', 1, {
 						cx: x + Math.cos(Math.PI * (.9 + tilt)) * r * .9,
 						cy: y + Math.sin(Math.PI * (.9 + tilt)) * r * .9,
-						r: r * .1
+						r: r * .1,
+						fill: document.getElementById('backgroundcolor').value
 					});
 				}
 			},
