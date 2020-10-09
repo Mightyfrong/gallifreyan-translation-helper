@@ -25,7 +25,7 @@ import {
 } from './doctorsCot/setup.js';
 import {
 	UILanguage
-} from './UILanguage.js';
+} from './utils/UILanguage.js';
 
 // Initialise event handlers and language-specific form controls
 const langSelect = document.getElementById('language');
