@@ -55,7 +55,7 @@ export function render(input) {
 	groupedinput.forEach(word => {
 		word.forEach(groups => {
 			if (option.circular) {
-				let twc2 = Math.ceil(Math.sqrt(groups.length * Math.pow(2 * consonant, 2) / Math.PI)) * 1.5 * 3.25;
+				let twc2 = Math.ceil(Math.sqrt(groups.length * Math.pow(2 * consonant, 2) / Math.PI)) * 1.5 * 3.5;
 				if (biggestWordCircle < twc2) biggestWordCircle = twc2;
 			} else {
 				glyphs += groups.length;
