@@ -73,7 +73,7 @@ export class ccBase {
 						r: r
 					});
 					ctx.drawShape('path', 1, {
-						d: ctx.circularArc(x, y, r * .9, Math.PI * (2.75 + tilt), Math.PI * (1.25 + tilt))
+						d: ctx.circularArc(x, y, r * .9, Math.PI * (.75 + tilt), Math.PI * (1.25 + tilt),"minor")
 					});
 					ctx.drawShape('line', 1, {
 						x1: x,
