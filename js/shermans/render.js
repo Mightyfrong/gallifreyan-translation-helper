@@ -108,14 +108,14 @@ export function render(input) {
 				// iterate through characters within group
 				for (let l = 0; l < group.length; l++) {
 					// check whether an occuring dot or comma is a decimal sign or not
-					let thicknumberline = /*is number group */ includes("1234567890", group[0]) && (
+					let isNumber = /*is number group */ includes("1234567890", group[0]) && (
 						( /*is comma*/ includes(",.", group[l])) ||
 						( /*is last digit without comma*/ l == group.length - 1 && !includes(group, [",", "."]))
 					);
 					// adjust offset properties according to former character/base
 					if (l > 0) shermansGrouped.setOffset(group[l - 1], group[l]);
 					// draw
-					shermansDraw(ctx, group[l], shermansGrouped, thicknumberline);
+					shermansDraw(ctx, group[l], shermansGrouped, isNumber);
 				}
 			});
 		});
@@ -224,7 +224,7 @@ let shermansGrouped = {
 }
 
 // draw instructions for base + decoration
-function shermansDraw(ctx, letter, grouped, thicknumberline) {
+function shermansDraw(ctx, letter, grouped, isNumber) {
 	if (!option.circular || letter == " ") {
 		if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
 			if (x + glyph.width >= width) {
@@ -275,7 +275,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 				fill: 'transparent'
 			});
 		}
-		if (includes(["punctuation"], currentbase) && !thicknumberline) {
+		if (includes(["punctuation"], currentbase) && !isNumber) {
 			ctx.drawShape('path', 1, {
 				d: ctx.circularArc(x, y, wordCircleRadius + 2 * consonant, Math.PI * (2.5 + rad - angle), Math.PI * (.5 + rad + angle)),
 				fill: 'transparent'
@@ -284,10 +284,10 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 
 		// draw base
 		let r = consonant * grouped.cresize;
-		if (thicknumberline) grouped.linewidth = 2;
+		if (isNumber) grouped.linewidth = 2;
 
 		const hasPunc = includes(["punctuation"], currentbase);
-		if (!hasPunc || (hasPunc && !thicknumberline)) {
+		if (!hasPunc || (hasPunc && !isNumber)) {
 			if (includes(["ve", "va", "vo"], currentbase)) r = vowel * grouped.vresize;
 			base.scgtable[currentbase].draw(ctx, x + center.x, y + center.y, r, rad, grouped);
 		}
@@ -296,7 +296,7 @@ function shermansDraw(ctx, letter, grouped, thicknumberline) {
 		let decorators = deco.getDeco(letter);
 		if (decorators) {
 			decorators.forEach(decorator => {
-				if (decorators && !thicknumberline)
+				if (decorators && !isNumber)
 					deco.draw(ctx, decorator, x + center.x, y + center.y, currentbase, rad, grouped, letter);
 			});
 		}
