@@ -29,27 +29,19 @@ UILanguage.say.processError = {
 let characters = {
 	form: {
 		circle: function (ctx, x, y, size) {
-			ctx.clearShape('circle', {
-				cx: x,
-				cy: y,
-				r: size
-			});
 			ctx.drawShape('circle', 1, {
 				cx: x,
 				cy: y,
-				r: size
+				r: size,
+				fill: document.getElementById('backgroundcolor').value
 			});
 		},
 		doublecircle: function (ctx, x, y, size) {
-			ctx.clearShape('circle', {
-				cx: x,
-				cy: y,
-				r: size
-			});
 			ctx.drawShape('circle', 1, {
 				cx: x,
 				cy: y,
-				r: size
+				r: size,
+				fill: document.getElementById('backgroundcolor').value
 			});
 			ctx.drawShape('circle', 1, {
 				cx: x,
@@ -58,16 +50,12 @@ let characters = {
 			});
 		},
 		divotcircle: function (ctx, x, y, size) {
-			ctx.clearShape('circle', {
-				cx: x,
-				cy: y,
-				r: size
+			ctx.drawShape('path', 1, {
+				d: ctx.circularArc(x, y, size, Math.PI * 1.74, Math.PI * 1.4,"major"),
+				fill: document.getElementById('backgroundcolor').value
 			});
 			ctx.drawShape('path', 1, {
-				d: ctx.circularArc(x, y, size, Math.PI * 1.74, Math.PI * 3.4)
-			});
-			ctx.drawShape('path', 1, {
-				d: ctx.circularArc(x + Math.cos(Math.PI * 1.575) * size, y + Math.sin(Math.PI * 1.575) * size, size * .5, Math.PI * 2.15, Math.PI * 3)
+				d: ctx.circularArc(x + Math.cos(Math.PI * 1.575) * size, y + Math.sin(Math.PI * 1.575) * size, size * .5, Math.PI * .15, Math.PI * 1,"major")
 			});
 		},
 		spiral: function (ctx, x, y, size) {
@@ -93,16 +81,13 @@ let characters = {
 			});
 		},
 		z: function (ctx, x, y, size) {
-			ctx.clearShape('circle', {
-				cx: x,
-				cy: y,
-				r: size
+			ctx.drawShape('path', 1, {
+				d: ctx.circularArc(x, y, size, Math.PI * .65, Math.PI * 1.65),
+				fill: document.getElementById('backgroundcolor').value
 			});
 			ctx.drawShape('path', 1, {
-				d: ctx.circularArc(x, y, size, Math.PI * .65, Math.PI * 1.65)
-			});
-			ctx.drawShape('path', 1, {
-				d: ctx.circularArc(x, y, size * .6, Math.PI * 1.65, Math.PI * 2.65)
+				d: ctx.circularArc(x, y, size * .6, Math.PI * 1.65, Math.PI * 2.65),
+				fill: document.getElementById('backgroundcolor').value
 			});
 			ctx.drawShape('line', 1, {
 				x1: x + Math.cos(Math.PI * 1.65) * size,
