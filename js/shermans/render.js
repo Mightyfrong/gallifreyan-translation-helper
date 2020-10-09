@@ -140,7 +140,6 @@ function replacements(word) {
 	for (let i = 0; i < word.length; i++) { // iterate through word 
 		if (word[i] == "c" && option.chandling) {
 			if (word[i + 1] == "h") cword += "c"; // ch is still allowed
-			else if (word[i + 1] == "k") continue; // omit ck
 			else if (includes(["e", "i", "y"], word[i + 1])) cword += "s";
 			else cword += "k"; // end of the word
 		} else if (word[i] == "ß") cword += "ss";
