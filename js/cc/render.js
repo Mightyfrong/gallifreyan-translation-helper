@@ -154,10 +154,9 @@ function ccDraw(ctx, letter, grouped) {
 	// print character translation above the drawings
 	let fontsize = parseFloat(getComputedStyle(document.body, null).fontSize);
 	let kerning = function (group) {
-		let em2px = fontsize;
 		if (group.offset) {
 			let chars = groupedInput[group.currentWord - 1][0][group.currentGroup - 1].slice(0, group.offset).join('').length;
-			return em2px * .6 * chars;
+			return fontsize * .6 * chars;
 		}
 		return 0;
 	};
