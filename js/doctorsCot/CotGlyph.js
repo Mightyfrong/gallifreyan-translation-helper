@@ -18,7 +18,9 @@ export class CotGlyph {
 
 	draw(ctx) {
 		ctx.save();
+
 		this.outer.drawOutlines(ctx);
+		/*
 		ctx.clip();
 
 		ctx.save();
@@ -49,6 +51,7 @@ export class CotGlyph {
 			} else
 				this.outer.drawOutlines(ctx, true);
 		}
+		*/
 		ctx.restore();
 	}
 }

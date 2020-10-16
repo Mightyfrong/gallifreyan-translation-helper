@@ -1,7 +1,8 @@
-import { letterMap, glyphRadius } from './setup.js';
 import { GallifreyanParser } from '../utils/GallifreyanParser.js';
+import { SVGRenderingContext } from '../utils/SVGRenderingContext.js';
+
+import { letterMap, glyphRadius } from './setup.js';
 import { CotGlyph } from './CotGlyph.js';
-import { canvaspreparation, color } from '../utils/funcs.js';
 
 const glyphSpacing = 5;
 const glyphWidth = 2 * (glyphRadius + glyphSpacing);
@@ -11,26 +12,24 @@ const lineHeight = textSpace + 2 * glyphRadius;
 
 const parser = new GallifreyanParser(letterMap, document.getElementById('output'));
 
-export function render(ctx, input) {
+export function render(input) {
 	const result = parser.parseWords(input.toLowerCase());
-
 	const translation = result.output.map(translateWord);
 
-    const maxWordSize = Math.max(...translation.map(word => word.length))
-    const numOfLines = translation.length;
-    canvaspreparation(ctx, maxWordSize * glyphWidth, numOfLines * lineHeight);
+	const maxWordSize = Math.max(...translation.map(word => word.length))
+	const numOfLines = translation.length;
 
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.strokeStyle = color.foreground;
+	const width = maxWordSize * glyphWidth;
+	const height = numOfLines * lineHeight;
+
+	const ctx = new SVGRenderingContext(width, height);
 
 	ctx.translate(glyphSpacing + glyphRadius, textSpace + glyphRadius);
 
-    translation.forEach(word => {
-        ctx.save();
-        word.forEach(glyph => {
-            ctx.fillStyle = color.foreground;
-            ctx.fillText(glyph.toString, 0, - glyphRadius - textSpace / 2);
+	translation.forEach(word => {
+		ctx.save();
+		word.forEach(glyph => {
+			ctx.drawText(glyph.toString);
 
 			glyph.draw(ctx);
 			ctx.translate(glyphWidth, 0);
@@ -38,6 +37,8 @@ export function render(ctx, input) {
 		ctx.restore();
 		ctx.translate(0, lineHeight);
 	});
+
+	return ctx;
 }
 
 function translateWord(word) {
@@ -46,7 +47,7 @@ function translateWord(word) {
 		const [letter1, ...letters1] = word;
 		if (letter1.isVowel) {
 			const [letter2, ...letters2] = letters1;
-			if(letter2 && !letter2.isVowel) {
+			if (letter2 && !letter2.isVowel) {
 				glyphs.push(new CotGlyph(letterMap.get("א"), letter2, letter1));
 				word = letters2;
 			} else {

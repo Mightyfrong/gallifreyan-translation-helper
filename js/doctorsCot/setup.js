@@ -1,4 +1,4 @@
-import { color, deg2rad, polar } from '../utils/funcs.js';
+import { deg2rad, polar } from '../utils/funcs.js';
 import { PhoneticUnit } from './PhoneticUnit.js';
 
 export const consonantTable = [
@@ -99,23 +99,15 @@ export const decorate = [
 	ctx => circ(ctx, innerRad + decRad, Math.PI * 5 / 4)
 ];
 
-export function drawArc(ctx, radius, ol, start, end) {
-	start = start ? start : 0;
-	end = end ? end : 2 * Math.PI;
-
+export function drawArc(ctx, radius, ol, start = 0, end = 2 * Math.PI) {
 	let currentRad = radius;
-	outline[ol].forEach(thicness => {
-		currentRad -= thicness / 2;
+	outline[ol].forEach(strokeWidth => {
+		currentRad -= strokeWidth / 2;
 
-		ctx.lineWidth = thicness;
+		const d = ctx.circularArc(0, 0, currentRad, start, end);
+		ctx.drawShape('path', strokeWidth, {d});
 
-		ctx.beginPath();
-		ctx.arc(0, 0, currentRad, start, end);
-		ctx.fillStyle = color.background;
-		ctx.fill();
-		ctx.stroke();
-
-		currentRad -= outlineGap + thicness / 2;
+		currentRad -= outlineGap + strokeWidth / 2;
 	});
 }
 

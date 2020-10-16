@@ -64,7 +64,7 @@ export class SVGRenderingContext {
 		this.svg.append(shape);
 	}
 
-	drawText(text, attributes) {
+	drawText(text, attributes = {}) {
 		attributes.transform = this.transform;
 		attributes.fill = this.fgCol;
 

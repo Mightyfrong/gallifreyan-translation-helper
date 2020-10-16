@@ -27,57 +27,38 @@ customElements.define('my-select', MySelect);
 // Initialise event handlers and language-specific form controls
 const langSelect = document.getElementById('language');
 const langControls = document.getElementById('lang-controls');
+const langs = langSelect.querySelectorAll('input');
+const [SHERMAN, COT, TARDIS, CC, DOT] = [...langs].map(input => input.value);
 
 const shermansOpts = document.getElementById('shermans-options');
 
 const ipaKeys = document.getElementById('ipa-keys');
 const ipaConsons = document.getElementById('ipa-consons');
 const ipaVowels = document.getElementById('ipa-vowels');
-
-const langs = langSelect.querySelectorAll('input');
-const [SHERMAN, COT, TARDIS, CC, DOT] = [...langs].map(input => input.value);
-
 genKeyboard(ipaConsons, consonantTable);
 genKeyboard(ipaVowels, vowelTable);
 
 const ccOpts = document.getElementById('cc-options');
 
+const img = document.getElementById('output-img');
+
 //rewrite user interface language, direct implementation on document rendering throws errors
 UILanguage.init();
 
-const canvas = document.getElementById('canvas');
-const img = document.getElementById('output-img');
-
 function activateControls(lang) {
-	img.style.display = "none";
-	canvas.style.display = "block";
 	switch (lang) {
 		case SHERMAN:
 			shermansOpts.classList.toggle('active');
-			img.style.display = "block";
-			canvas.style.display = "none";
 			break;
 		case COT:
 			ipaKeys.classList.toggle('active');
-			img.style.display = "none";
-			canvas.style.display = "block";
 			break;
 		case CC:
 			ccOpts.classList.toggle('active');
-			img.style.display = "block";
-			canvas.style.display = "none";
 			break;
 		case TARDIS:
-			img.style.display = "block";
-			canvas.style.display = "none";
 			break;
 		case DOT:
-			img.style.display = "block";
-			canvas.style.display = "none";
-			break;
-		case "dotscript":
-			img.style.display = "block";
-			canvas.style.display = "none";
 			break;
 	}
 }
@@ -85,15 +66,15 @@ function activateControls(lang) {
 langSelect.addEventListener('select', event => {
 	// First hide all controls
 	[...langControls.getElementsByClassName('active')]
-	.forEach(elem => elem.classList.remove('active'));
+		.forEach(elem => elem.classList.remove('active'));
 
 	// Then display selected ones
 	activateControls(event.detail);
 });
 activateControls(langSelect.value);
 
-//Clear canvas and pass word to specific language
-function translate(ctx) {
+
+document.forms[0].onsubmit = (event) => {
 	document.getElementById('info').style.display = 'none';
 	document.getElementById('drawoutput').style.display = 'block';
 
@@ -105,7 +86,7 @@ function translate(ctx) {
 			svg = renderShermans(input);
 			break;
 		case COT:
-			renderDoctorsCot(ctx, input);
+			svg = renderDoctorsCot(input);
 			break;
 		case TARDIS:
 			svg = renderTARDISConsole(input);
@@ -122,17 +103,9 @@ function translate(ctx) {
 	if (svg !== undefined) {
 		img.src = URL.createObjectURL(svg.export(input));
 	}
-}
 
-if (canvas.getContext) {
-	let ctx = canvas.getContext('2d');
-	document.forms[0].onsubmit = (event) => {
-		ctx.resetTransform();
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		translate(ctx);
-		event.preventDefault();
-	};
-}
+	event.preventDefault();
+};
 /**
  * Copyright 2020 Mightyfrong, erroronline1, ModisR
  *

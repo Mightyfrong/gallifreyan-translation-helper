@@ -1,10 +1,4 @@
 //general color settings
-export let color = {
-	background: "#fff",
-	foreground: "#000",
-	warning: "#f00"
-};
-
 export function createSVGElement(tagName, attributes = {}) {
 	const elem = document.createElementNS("http://www.w3.org/2000/svg", tagName);
 
@@ -14,16 +8,6 @@ export function createSVGElement(tagName, attributes = {}) {
 	});
 
 	return elem;
-}
-
-export function canvaspreparation(ctx, width, height) {
-	color.foreground = document.getElementById('foregroundcolor').value;
-	color.background = document.getElementById('backgroundcolor').value;
-	ctx.canvas.width = width;
-	ctx.canvas.height = height;
-	ctx.fillStyle = color.background;
-	ctx.fillRect(0, 0, width, height);
-	ctx.strokeStyle = color.foreground;
 }
 
 export function range(n) {
