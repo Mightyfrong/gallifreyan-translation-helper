@@ -21,6 +21,7 @@ let x; // current coordinate x
 let y; // current coordinate y
 let letterwidth; // you'll figure that one out for yourself
 let letterheight; // you'll figure that one out for yourself
+let groupedInput; //global variable for input to be updated
 
 // add module-specific language chunks
 UILanguage.say.processError = {
@@ -34,12 +35,12 @@ const deco = new ccDeco();
 
 export function render(input) {
 	// convert input-string to grouped array and determine number of groups
-	let groupedinput = ccGrouped.groups(input.toLowerCase()),
-		maxstack = 1,
+	groupedInput = ccGrouped.groups(input.toLowerCase());
+	let maxstack = 1,
 		lettergroups = 0,
 		warning = "";
 
-	groupedinput.forEach(word => {
+	groupedInput.forEach(word => {
 		word.forEach(groups => {
 			groups.forEach(group => { // determine maximum expansion due to stacking and amount of groups
 				if (maxstack < 1 + .6 * group.length) maxstack = 1 + .6 * group.length;
@@ -59,13 +60,17 @@ export function render(input) {
 	x = letterwidth * .5;
 	y = letterheight * .6;
 
-	groupedinput.forEach(words => { // loop through sentence
+	let wordnum = 0;
+	groupedInput.forEach(words => { // loop through sentence
+		wordnum++;
 		words.forEach(groups => { // loop through words
+			let groupnum = 0;
 			groups.forEach(group => { // loop through character-groups 
+				groupnum++;
 				// prepare resizing for stacked characters
 				var stack = group.length;
 				// reset offsets but hand over possible resizing factor
-				ccGrouped.resetOffset(stack);
+				ccGrouped.resetOffset(stack, groupnum, wordnum);
 				// iterate through characters within group
 				for (var l = 0; l < group.length; l++) {
 					// adjust offset properties according to former character/base
@@ -116,10 +121,12 @@ let ccGrouped = {
 		});
 		return sentence;
 	},
-	resetOffset: function (stack) {
+	resetOffset: function (stack, currentGroup, currentWord) {
 		this.carriagereturn = false; // true overrides setting the pointer-position to the next character
 		this.resize = 1 + .6 * stack; // consonant-resize-factor, something the power of null is one
 		this.offset = 0; // counter of stacked objects, used for positioning the translated letters on top of the drawings
+		this.currentWord = currentWord; // position of current group
+		this.currentGroup = currentGroup; // position of current group
 	},
 	setOffset: function () {
 		this.offset++;
@@ -145,8 +152,17 @@ function ccDraw(ctx, letter, grouped) {
 
 	// text output for undefined characters as well for informational purpose
 	// print character translation above the drawings
+	let fontsize = parseFloat(getComputedStyle(document.body, null).fontSize);
+	let kerning = function (group) {
+		let em2px = fontsize;
+		if (group.offset) {
+			let chars = groupedInput[group.currentWord - 1][0][group.currentGroup - 1].slice(0, group.offset).join('').length;
+			return em2px * .6 * chars;
+		}
+		return 0;
+	};
 	ctx.drawText(letter, {
-		x: x + grouped.offset * 10,
+		x: x + kerning(grouped),
 		y: y - letterheight * .5
 	});
 }
