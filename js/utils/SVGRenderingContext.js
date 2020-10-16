@@ -8,7 +8,7 @@ export class SVGRenderingContext {
 
 		this.fgCol = document.getElementById('foregroundcolor').value;
 		this.bgCol = document.getElementById('backgroundcolor').value;
-		this.svg.setAttribute('style', `stroke:${this.fgCol};fill:transparent;`);
+		this.svg.setAttribute('style', `stroke:${this.fgCol};fill:transparent;font-family:"Arial", sans-serif;`);
 
 		this.matrix = new DOMMatrix;
 		this.history = [];
@@ -65,6 +65,7 @@ export class SVGRenderingContext {
 	}
 
 	drawText(text, attributes = {}) {
+		attributes.textAnchor = "middle";
 		attributes.transform = this.transform;
 		attributes.fill = this.fgCol;
 		const style = document.createElement("STYLE");

@@ -73,14 +73,12 @@ langSelect.addEventListener('select', event => {
 });
 activateControls(langSelect.value);
 
-
 document.forms[0].onsubmit = (event) => {
 	document.getElementById('info').style.display = 'none';
 	document.getElementById('drawoutput').style.display = 'block';
 
 	let input = document.getElementById("text").value;
 	let svg;
-
 	switch (langSelect.value) {
 		case SHERMAN:
 			svg = renderShermans(input);
@@ -100,9 +98,14 @@ document.forms[0].onsubmit = (event) => {
 		default:
 			svg = renderShermans(input);
 	}
-	if (svg !== undefined) {
-		img.src = URL.createObjectURL(svg.export(input));
-	}
+
+	const a = img.parentElement;
+
+	const file = svg.export(input);
+	const url = URL.createObjectURL(file);
+
+	a.href = img.src = url;
+	a.download = file.name;
 
 	event.preventDefault();
 };

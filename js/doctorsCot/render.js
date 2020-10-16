@@ -29,7 +29,7 @@ export function render(input) {
 	translation.forEach(word => {
 		ctx.save();
 		word.forEach(glyph => {
-			ctx.drawText(glyph.toString);
+			ctx.drawText(glyph.toString, { y: - glyphRadius - textSpace / 2 });
 
 			glyph.draw(ctx);
 			ctx.translate(glyphWidth, 0);
