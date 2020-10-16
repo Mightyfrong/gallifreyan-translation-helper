@@ -1,8 +1,4 @@
 import {
-	SVGRenderingContext
-} from './utils/SVGRenderingContext.js';
-
-import {
 	render as renderShermans
 } from './shermans/render.js';
 import {
@@ -23,9 +19,10 @@ import {
 	consonantTable,
 	vowelTable
 } from './doctorsCot/setup.js';
-import {
-	UILanguage
-} from './utils/UILanguage.js';
+import { UILanguage } from './utils/UILanguage.js';
+import { MySelect } from './utils/MySelect.js';
+
+customElements.define('my-select', MySelect);
 
 // Initialise event handlers and language-specific form controls
 const langSelect = document.getElementById('language');
@@ -36,6 +33,9 @@ const shermansOpts = document.getElementById('shermans-options');
 const ipaKeys = document.getElementById('ipa-keys');
 const ipaConsons = document.getElementById('ipa-consons');
 const ipaVowels = document.getElementById('ipa-vowels');
+
+const langs = langSelect.querySelectorAll('input');
+const [SHERMAN, COT, TARDIS, CC, DOT] = [...langs].map(input => input.value);
 
 genKeyboard(ipaConsons, consonantTable);
 genKeyboard(ipaVowels, vowelTable);
@@ -52,22 +52,26 @@ function activateControls(lang) {
 	img.style.display = "none";
 	canvas.style.display = "block";
 	switch (lang) {
-		case "shermans":
+		case SHERMAN:
 			shermansOpts.classList.toggle('active');
 			img.style.display = "block";
 			canvas.style.display = "none";
 			break;
-		case "cot":
+		case COT:
 			ipaKeys.classList.toggle('active');
 			img.style.display = "none";
 			canvas.style.display = "block";
 			break;
-		case "cc":
+		case CC:
 			ccOpts.classList.toggle('active');
 			img.style.display = "block";
 			canvas.style.display = "none";
 			break;
-		case "tardis":
+		case TARDIS:
+			img.style.display = "block";
+			canvas.style.display = "none";
+			break;
+		case DOT:
 			img.style.display = "block";
 			canvas.style.display = "none";
 			break;
@@ -78,13 +82,13 @@ function activateControls(lang) {
 	}
 }
 
-langSelect.addEventListener('input', event => {
+langSelect.addEventListener('select', event => {
 	// First hide all controls
 	[...langControls.getElementsByClassName('active')]
 	.forEach(elem => elem.classList.remove('active'));
 
 	// Then display selected ones
-	activateControls(event.target.value)
+	activateControls(event.detail);
 });
 activateControls(langSelect.value);
 
@@ -94,22 +98,22 @@ function translate(ctx) {
 	document.getElementById('drawoutput').style.display = 'block';
 
 	let input = document.getElementById("text").value;
-	let lang = document.getElementById("language").value;
 	let svg;
-	switch (lang) {
-		case "shermans":
+
+	switch (langSelect.value) {
+		case SHERMAN:
 			svg = renderShermans(input);
 			break;
-		case "cot":
+		case COT:
 			renderDoctorsCot(ctx, input);
 			break;
-		case "tardis":
+		case TARDIS:
 			svg = renderTARDISConsole(input);
 			break;
-		case "dotscript":
+		case DOT:
 			svg = renderDotscript(input);
 			break;
-		case "cc":
+		case CC:
 			svg = renderCC(input);
 			break;
 		default:
@@ -129,8 +133,8 @@ if (canvas.getContext) {
 		event.preventDefault();
 	};
 }
-
-/**Copyright 2020 Mightyfrong, erroronline1, ModisR
+/**
+ * Copyright 2020 Mightyfrong, erroronline1, ModisR
  *
  * This file is part of the Gallifreyan Translation Helper,
  * henceforth referred to as "the GTH".

@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<title>Gallifreyan Translation Helper</title>
 
-	<link rel="stylesheet" href="main.css">
+	<link rel="stylesheet" href="css/main.css">
 	<link rel="icon" type="image/png" href="assets/favicon.png">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
@@ -21,12 +21,12 @@
 		<form>
 			<div>
 				<label for="language" id="helpwith">Help with</label>
-				<select id="language">
-					<option value="shermans">Sherman's</option>
-					<option value="cot">Doctor's Cot</option>
-					<option value="tardis">TARDIS Console(WIP)</option>
-					<option value="cc">CC Gallifreyan</option>
-					<option value="dotscript">DotScript</option>
+				<my-select id="language" data-name="language">
+					<label>Sherman's</label>
+					<label>Doctor's Cot</label>
+					<label>TARDIS Console (WIP)</label>
+					<label>CC Gallifreyan</label>
+					<label>DotScript</label>
 				</select>
 			</div>
 			<fieldset id="lang-controls">

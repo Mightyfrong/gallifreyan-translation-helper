@@ -49,7 +49,6 @@ export function includes(obj, values) {
 		obj.includes(values);
 }
 
-
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
  *
  * This file is part of the Gallifreyan Translation Helper,

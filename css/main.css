@@ -1,6 +1,10 @@
+@import 'my-select.css';
+
 :root {
-	--main-col: #000c24;
-	--accent-col: #f93;
+	--col0: hsl(165deg, 80%, 10%);
+	--col1: hsl(225deg, 80%, 10%);
+	--col2: hsl(285deg, 80%, 10%);
+	--accent-col: hsl(45deg, 90%, 50%);
 }
 
 * {
@@ -15,7 +19,7 @@ body {
 	padding-bottom: 4em;
 
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	background: top no-repeat url('assets/time_lord.svg'), var(--main-col) top/640px repeat-x url('assets/star_field.png');
+	background: top no-repeat url('../assets/time_lord.svg'), var(--col1) top/640px repeat-x url('../assets/star_field.png');
 	color: var(--accent-col);
 }
 
@@ -39,7 +43,7 @@ h1 {
 }
 
 #creator {
-	color: var(--main-col);
+	color: var(--col1);
 	font-size: .5em;
 }
 
@@ -69,7 +73,7 @@ footer>div {
 	margin: 0 auto;
 
 	background-color: var(--accent-col);
-	color: var(--main-col);
+	color: var(--col1);
 }
 
 footer>div::after {

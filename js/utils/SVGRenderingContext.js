@@ -4,18 +4,11 @@ import {
 
 export class SVGRenderingContext {
 	constructor(width, height) {
-		const viewBox = `0 0 ${width} ${height}`;
-		this.svg = createSVGElement('svg', {
-			viewBox
-		});
-		this.width = width;
-		this.height = height;
-		this.svg.setAttribute('width', width);
-		this.svg.setAttribute('height', height);
+		this.svg = createSVGElement('svg', { width, height });
 
 		this.fgCol = document.getElementById('foregroundcolor').value;
 		this.bgCol = document.getElementById('backgroundcolor').value;
-		this.svg.setAttribute('style', `stroke:${this.fgCol};fill:transparent`);
+		this.svg.setAttribute('style', `stroke:${this.fgCol};fill:transparent;`);
 
 		this.matrix = new DOMMatrix;
 		this.history = [];
