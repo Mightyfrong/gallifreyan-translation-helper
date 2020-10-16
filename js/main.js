@@ -96,10 +96,7 @@ function translate(ctx) {
 	let input = document.getElementById("text").value;
 	let svg;
 
-	const checked = [...langSelect
-		.querySelectorAll('input')]
-		.find(input => input.checked);
-	switch (checked.value) {
+	switch (langSelect.value) {
 		case SHERMAN:
 			svg = renderShermans(input);
 			break;

@@ -12,7 +12,12 @@ export class MySelect extends HTMLElement {
 				radioBtn.type = "radio";
 				radioBtn.name = this.dataset.name;
 				radioBtn.id = radioBtn.value = value;
+
+				// set checked = true for 1st input, ie idx = 0
 				radioBtn.checked = !idx;
+
+				// dispatch custom event 'select' for main.js to hook into
+				// when new option is chosen
 				radioBtn.addEventListener('input', event => {
 					this.dispatchEvent(new CustomEvent('select', {
 						detail: event.target.value
@@ -23,6 +28,10 @@ export class MySelect extends HTMLElement {
 
 				this.insertBefore(radioBtn, label);
 			});
+	}
+
+	get value(){
+		return this.querySelector('input:checked').value;
 	}
 }
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
