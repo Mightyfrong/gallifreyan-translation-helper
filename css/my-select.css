@@ -1,0 +1,54 @@
+my-select {
+	--height: 2rem;
+	--pad: .5rem;
+
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+
+	height: var(--height);
+	line-height: var(--height);
+}
+
+my-select::after {
+	content: "\2B9F";
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 0 var(--pad);
+
+	background-color: var(--accent-col);
+	color: var(--col1);
+}
+
+my-select > input {
+	display: none;
+}
+
+my-select > label {
+	display: block;
+	margin-bottom: -2rem;
+	padding-left: var(--pad);
+	padding-right: var(--height);
+
+	background-color: var(--col2);
+	color: #fff;
+
+	cursor: pointer;
+	transition: margin .2s ease;
+}
+
+my-select:hover > label {
+	margin-bottom: 0;
+}
+
+my-select > input:checked + label {
+	position: relative;
+
+	background-color: var(--accent-col);
+	color: var(--col1);
+}
+
+my-select > label:hover {
+	background-color: var(--col0);
+}
