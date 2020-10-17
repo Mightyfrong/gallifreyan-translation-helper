@@ -68,9 +68,6 @@ export class SVGRenderingContext {
 		attributes.textAnchor = "middle";
 		attributes.transform = this.transform;
 		attributes.fill = this.fgCol;
-		const style = document.createElement("STYLE");
-		style.appendChild(document.createTextNode("text {font: 1em courier, monospace;}"));
-		this.svg.append(style);
 		const shape = createSVGElement('text', attributes);
 		shape.appendChild(document.createTextNode(text));
 		this.svg.append(shape);
