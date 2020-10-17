@@ -34,7 +34,6 @@ footer {
 header {
 	margin: 0 auto;
 	padding: 0;
-	width: 100vw;
 	color: var(--accent-col);
 }
 
@@ -64,8 +63,10 @@ main {
 
 footer {
 	position: absolute;
-	width: 100vw;
+	left: 0;
+	right: 0;
 	bottom: 0;
+	width: auto;
 	font-size: .7em;
 }
 
@@ -107,7 +108,7 @@ input[type=submit],
 #lang-controls {
 	display: block;
 	margin: .5em auto;
-	width: 90vw;
+	width: 90%;
 	padding: 0;
 }
 
@@ -145,14 +146,10 @@ span {
 	display: none;
 }
 
-#canvas {
-	background-color: transparent;
-	max-width: 100vw;
-}
-
 #output-img {
+	display: block;
 	margin: auto;
-	max-width:100vw;
+	max-width: 100%;
 }
 
 a>svg {
