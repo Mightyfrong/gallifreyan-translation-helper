@@ -1,20 +1,8 @@
-import {
-	includes
-} from '../utils/funcs.js';
-import {
-	shermansBase,
-	shermansDeco
-} from './shermansGlyphs.js';
-import {
-	consonant,
-	vowel
-} from './setup.js';
-import {
-	UILanguage
-} from '../utils/UILanguage.js'
-import {
-	SVGRenderingContext
-} from '../utils/SVGRenderingContext.js';
+import { includes } from '../utils/funcs.js';
+import { shermansBase, shermansDeco } from './shermansGlyphs.js';
+import { consonant, vowel } from './setup.js';
+import { UILanguage } from '../utils/UILanguage.js'
+import { SVGRenderingContext } from '../utils/SVGRenderingContext.js';
 
 let cLetter; // is there a "c"?
 let qLetter; // is there a "q"?
@@ -91,9 +79,7 @@ export function render(input) {
 	qLetter = false;
 
 	// iterate through input to set grouping instructions, handle exceptions and draw glyphs
-	let wordnum = 0;
 	groupedInput.forEach(words => { // loop through sentence
-		wordnum++;
 		words.forEach(groups => { // loop through words
 			let groupnum = 0;
 			groups.forEach(group => { // loop through character-groups 
@@ -107,7 +93,7 @@ export function render(input) {
 					if (vowelindex > -1 && vowelindex <= lastStackedConsonantIndex) lastStackedConsonantIndex = vowelindex - 1;
 				});
 				// reset offsets but hand over possible resizing factor, first base, current group related to number of groups
-				shermansGrouped.resetOffset(lastStackedConsonantIndex, base.getBase(group[0]), groups.length, groupnum, wordnum, glyph);
+				shermansGrouped.resetOffset(lastStackedConsonantIndex, base.getBase(group[0]), groups.length, groupnum, group.join(''), glyph);
 				// iterate through characters within group
 				for (let l = 0; l < group.length; l++) {
 					// check whether an occuring dot or comma is a decimal sign or not
@@ -194,7 +180,7 @@ let shermansGrouped = {
 		});
 		return sentence;
 	},
-	resetOffset: function (lastStackedConsonantIndex = 0, currentbase = false, numberOfGroups = 0, currentGroup = 0, currentWord = 0, glyph) {
+	resetOffset: function (lastStackedConsonantIndex = 0, currentbase = false, numberOfGroups = 0, currentGroup = 0, currentGroupText = '', glyph) {
 		this.carriagereturn = false; // true overrides setting the pointer-position to the next character
 		this.vresize = 1; // vowel-size-factor
 		this.cresize = (1 / .8) ** lastStackedConsonantIndex; // consonant-resize-factor, something the power of null is one
@@ -202,7 +188,7 @@ let shermansGrouped = {
 		this.offset = 0; // counter of stacked objects, used for positioning the translated letters on top of the drawings
 		this.linewidth = 1; // initial line width
 		this.numberOfGroups = numberOfGroups; // number of groups in current word
-		this.currentWord = currentWord; // position of current group
+		this.currentGroupText = currentGroupText;
 		this.currentGroup = currentGroup; // position of current group
 		this.groupBase = currentbase; // base of group
 		this.glyph = glyph; //glyph dimensions or word circle radius
@@ -238,6 +224,7 @@ function shermansDraw(ctx, letter, grouped, isNumber) {
 		}
 	}
 	let currentbase = base.getBase(letter);
+	if (!currentbase) return false;
 	// rotation of charactergroups in regards of circular display
 	let rad = 0,
 		wordCircleRadius = glyph.height;
@@ -307,21 +294,14 @@ function shermansDraw(ctx, letter, grouped, isNumber) {
 	}
 	// text output for undefined characters as well for informational purpose
 	// print character translation above the drawings unless it's a (numeral) control character
-	let fontsize = parseFloat(getComputedStyle(document.body, null).fontSize);
-	let kerning = function (group) {
-		if (group.offset) {
-			let chars = groupedInput[group.currentWord - 1][0][group.currentGroup - 1].slice(0, group.offset).join('').length;
-			return fontsize * .6 * chars;
-		}
-		return 0;
-	};
-	if (!includes([" ", "/", "\\"], letter)) ctx.drawText(letter, {
-		x: x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) + kerning(grouped),
-		y: y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad) + fontsize * .25
-	});
-	// add a minus sign in from of the translation above the drawings if applicable
-	if (includes(["\\"], letter)) ctx.drawText("-", {
-		x: x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad) - fontsize,
+	let fontsize = parseFloat(getComputedStyle(document.body, null).fontSize),
+		text = grouped.currentGroupText;
+	// handle numerical control characters
+	text = text.replace(/\//g, '');
+	if (includes(text,"\\")) text="-" + grouped.currentGroupText.replace(/\\/g, '');
+	
+	if (grouped.offset==0) ctx.drawText(text, {
+		x: x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad),
 		y: y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad) + fontsize * .25
 	});
 }

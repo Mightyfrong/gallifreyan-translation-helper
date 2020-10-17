@@ -1,19 +1,8 @@
-import {
-	includes
-} from '../utils/funcs.js'
-import {
-	ccBase,
-	ccDeco
-} from './ccGlyphs.js'
-import {
-	consonant
-} from './setup.js';
-import {
-	SVGRenderingContext
-} from '../utils/SVGRenderingContext.js';
-import {
-	UILanguage
-} from '../utils/UILanguage.js'
+import { includes } from '../utils/funcs.js'
+import { ccBase, ccDeco } from './ccGlyphs.js'
+import { consonant } from './setup.js';
+import { SVGRenderingContext } from '../utils/SVGRenderingContext.js';
+import { UILanguage } from '../utils/UILanguage.js'
 
 let width; // canvas width
 let height; // canvas height
@@ -60,17 +49,13 @@ export function render(input) {
 	x = letterwidth * .5;
 	y = letterheight * .6;
 
-	let wordnum = 0;
 	groupedInput.forEach(words => { // loop through sentence
-		wordnum++;
 		words.forEach(groups => { // loop through words
-			let groupnum = 0;
 			groups.forEach(group => { // loop through character-groups 
-				groupnum++;
 				// prepare resizing for stacked characters
 				var stack = group.length;
 				// reset offsets but hand over possible resizing factor
-				ccGrouped.resetOffset(stack, groupnum, wordnum);
+				ccGrouped.resetOffset(stack, group.join(''));
 				// iterate through characters within group
 				for (var l = 0; l < group.length; l++) {
 					// adjust offset properties according to former character/base
@@ -121,12 +106,11 @@ let ccGrouped = {
 		});
 		return sentence;
 	},
-	resetOffset: function (stack, currentGroup, currentWord) {
+	resetOffset: function (stack, currentGroupText = '') {
 		this.carriagereturn = false; // true overrides setting the pointer-position to the next character
 		this.resize = 1 + .6 * stack; // consonant-resize-factor, something the power of null is one
 		this.offset = 0; // counter of stacked objects, used for positioning the translated letters on top of the drawings
-		this.currentWord = currentWord; // position of current group
-		this.currentGroup = currentGroup; // position of current group
+		this.currentGroupText = currentGroupText;
 	},
 	setOffset: function () {
 		this.offset++;
@@ -152,16 +136,8 @@ function ccDraw(ctx, letter, grouped) {
 
 	// text output for undefined characters as well for informational purpose
 	// print character translation above the drawings
-	let fontsize = parseFloat(getComputedStyle(document.body, null).fontSize);
-	let kerning = function (group) {
-		if (group.offset) {
-			let chars = groupedInput[group.currentWord - 1][0][group.currentGroup - 1].slice(0, group.offset).join('').length;
-			return fontsize * .6 * chars;
-		}
-		return 0;
-	};
-	ctx.drawText(letter, {
-		x: x + kerning(grouped),
+	if (grouped.offset==0) ctx.drawText(grouped.currentGroupText, {
+		x: x ,
 		y: y - letterheight * .5
 	});
 }
