@@ -97,10 +97,11 @@ export function render(input) {
 				// iterate through characters within group
 				for (let l = 0; l < group.length; l++) {
 					// check whether an occuring dot or comma is a decimal sign or not
-					let isNumber = /*is number group */ includes("1234567890", group[0]) && (
-						( /*is comma*/ includes(",.", group[l])) ||
-						( /*is last digit without comma*/ l == group.length - 1 && !includes(group, [",", "."]))
+					let isNumber = /*is number group */ includes("1234567890", [group[0], group[1]]) && (
+						( /*is comma*/ includes(",.", group[l])) 
+//						|| ( /*is last digit without comma*/ l == group.length - 1 && !includes(group, ",."))
 					);
+					if (isNumber && includes(",.", group[l])) group[l]="|";
 					// adjust offset properties according to former character/base
 					if (l > 0) shermansGrouped.setOffset(group[l - 1], group[l]);
 					// draw
@@ -170,13 +171,17 @@ let shermansGrouped = {
 				} else // create/add to current group
 					group.push([current]);
 			}
-			// add control characters to the number group
-			if (includes("1234567890", group[group.length - 1][0])) group[group.length - 1].push("/");
-			if (group[group.length - 1][0] === "-" && includes("1234567890", group[group.length - 1][1])) {
-				group[group.length - 1].shift();
-				group[group.length - 1][group[group.length - 1].length] = ("\\");
+			// add control characters to the number group(s)
+			for(let i = 0; i < group.length; i++){
+				if (includes("1234567890", group[i][0])) group[i].push("/");
+				if (group[i][0] === "-" && includes("1234567890", group[i][1])) {
+					group[i].shift();
+					group[i][group[i].length] = ("\\");
+				}
+	
 			}
 			sentence[sentence.length - 1].push(group); // append group to last word
+			console.log(group);
 		});
 		return sentence;
 	},
@@ -275,7 +280,7 @@ function shermansDraw(ctx, letter, grouped, isNumber) {
 
 		// draw base
 		let r = consonant * grouped.cresize;
-		if (isNumber) grouped.linewidth = 2;
+		if (isNumber || includes("/|\\", letter)) grouped.linewidth = 2;
 
 		const hasPunc = includes(["punctuation"], currentbase);
 		if (!hasPunc || (hasPunc && !isNumber)) {
