@@ -1,116 +1,29 @@
 import {
-	render as renderShermans
-} from './shermans/render.js';
-import {
-	render as renderTARDISConsole
-} from './tardisConsole/render.js';
-import {
-	render as renderDoctorsCot
-} from './doctorsCot/render.js';
-import {
-	render as renderCC
-} from './cc/render.js';
-import {
-	render as renderDotscript
-} from './dotscript/render.js';
-
-import {
 	genKeyboard,
 	consonantTable,
 	vowelTable
 } from './doctorsCot/setup.js';
+
 import { UILanguage } from './utils/UILanguage.js';
-import { MySelect } from './utils/MySelect.js';
+import { selectLang, translate, activateControls, langSelect } from './event_callbacks.js';
 
-customElements.define('my-select', MySelect);
+// Init event handlers
+langSelect.addEventListener('select', selectLang);
+document.forms[0].addEventListener('submit', translate);
 
-// Initialise event handlers and language-specific form controls
-const langSelect = document.getElementById('language');
-const langControls = document.getElementById('lang-controls');
-const langs = langSelect.querySelectorAll('input');
-const [SHERMAN, COT, TARDIS, CC, DOT] = [...langs].map(input => input.value);
-
-const shermansOpts = document.getElementById('shermans-options');
-
-const ipaKeys = document.getElementById('ipa-keys');
+// Init UI elems
+//** IPA keys for Doctor's Cot
 const ipaConsons = document.getElementById('ipa-consons');
 const ipaVowels = document.getElementById('ipa-vowels');
+
 genKeyboard(ipaConsons, consonantTable);
 genKeyboard(ipaVowels, vowelTable);
 
-const ccOpts = document.getElementById('cc-options');
-
-const img = document.getElementById('output-img');
-
-//rewrite user interface language, direct implementation on document rendering throws errors
-UILanguage.init();
-
-function activateControls(lang) {
-	switch (lang) {
-		case SHERMAN:
-			shermansOpts.classList.toggle('active');
-			break;
-		case COT:
-			ipaKeys.classList.toggle('active');
-			break;
-		case CC:
-			ccOpts.classList.toggle('active');
-			break;
-		case TARDIS:
-			break;
-		case DOT:
-			break;
-	}
-}
-
-langSelect.addEventListener('select', event => {
-	// First hide all controls
-	[...langControls.getElementsByClassName('active')]
-		.forEach(elem => elem.classList.remove('active'));
-
-	// Then display selected ones
-	activateControls(event.detail);
-});
+//** General
 activateControls(langSelect.value);
+UILanguage.init(); //rewrite user interface language, direct implementation on document rendering throws errors
 
-document.forms[0].onsubmit = (event) => {
-	document.getElementById('info').style.display = 'none';
-	document.getElementById('drawoutput').style.display = 'block';
-
-	let input = document.getElementById("text").value;
-	let svg;
-	switch (langSelect.value) {
-		case SHERMAN:
-			svg = renderShermans(input);
-			break;
-		case COT:
-			svg = renderDoctorsCot(input);
-			break;
-		case TARDIS:
-			svg = renderTARDISConsole(input);
-			break;
-		case DOT:
-			svg = renderDotscript(input);
-			break;
-		case CC:
-			svg = renderCC(input);
-			break;
-		default:
-			svg = renderShermans(input);
-	}
-
-	const a = img.parentElement;
-
-	const file = svg.export(input);
-	const url = URL.createObjectURL(file);
-
-	a.href = img.src = url;
-	a.download = file.name;
-
-	event.preventDefault();
-};
-/**
- * Copyright 2020 Mightyfrong, erroronline1, ModisR
+/**Copyright 2020 Mightyfrong, erroronline1, ModisR
  *
  * This file is part of the Gallifreyan Translation Helper,
  * henceforth referred to as "the GTH".
