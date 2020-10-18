@@ -37,7 +37,7 @@ export class SVGRenderingContext {
 		this.currentGroup.add(shape);
 	}
 	clearShape(tagName, attributes) {
-		this.drawShape(tagName, attributes, -1);
+		this.drawShape(tagName, -1, attributes);
 	}
 	clipShape(tagName, attributes) {
 		attributes.transform = this.currentGroup.getTransform();
@@ -83,6 +83,7 @@ export class SVGRenderingContext {
 	/** Finalise Drawing */
 	toFile(name) {
 		const xml = (new XMLSerializer).serializeToString(this.render());
+
 		const file = new File([xml], `Gallifreyan_${name}.svg`, {
 			type: "image/svg+xml"
 		});
@@ -105,6 +106,10 @@ export class SVGRenderingContext {
 
 			svg.append(defs);
 		}
+
+		const fill = this.bgCol;
+		const bgRect = createSVGElement('rect', { width, height, fill, strokeWidth: 0 });
+		svg.append(bgRect);
 
 		this.groups.forEach(group => {
 			if (group.shapes.length) {
@@ -142,9 +147,10 @@ class SVGGroup {
 
 	render(ctx) {
 		const transform = this.getTransform();
-		const clipPath = `url(#${CP + this.clipPath})`;
+		const g = createSVGElement('g', { transform });
 
-		const g = createSVGElement('g', { transform, clipPath });
+		if (this.clipPath)
+			g.setAttribute('clip-path', `url(#${CP + this.clipPath})`);
 
 		this.shapes.forEach(shape => {
 			g.append(shape.render(ctx));
@@ -170,7 +176,10 @@ class SVGShape {
 		let elem = shape;
 
 		if (prop instanceof SVGRenderingContext) {
-			shape.setAttribute('stroke-width', this.strokeWidth);
+			shape.setAttribute(
+				'stroke-width',
+				Math.max(this.strokeWidth, 0)
+			);
 
 			shape.setAttribute(
 				this.strokeWidth > 0 ? 'stroke' : 'fill',
