@@ -1,4 +1,3 @@
-//general color settings
 export function createSVGElement(tagName, attributes = {}) {
 	const elem = document.createElementNS("http://www.w3.org/2000/svg", tagName);
 

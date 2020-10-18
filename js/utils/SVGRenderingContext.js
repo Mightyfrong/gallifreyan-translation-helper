@@ -173,7 +173,6 @@ class SVGShape {
 	 */
 	render(prop) {
 		const shape = createSVGElement(this.tagName, this.attributes);
-		let elem = shape;
 
 		if (prop instanceof SVGRenderingContext) {
 			shape.setAttribute(
@@ -181,15 +180,18 @@ class SVGShape {
 				Math.max(this.strokeWidth, 0)
 			);
 
-			shape.setAttribute(
-				this.strokeWidth > 0 ? 'stroke' : 'fill',
-				this.strokeWidth < 0 ? prop.bgCol : prop.fgCol
-			);
+			if (!this.attributes.stroke)
+				shape.setAttribute(
+					this.strokeWidth > 0 ? 'stroke' : 'fill',
+					this.strokeWidth < 0 ? prop.bgCol : prop.fgCol
+				);
+
+			return shape;
 		} else {
-			elem = createSVGElement('clipPath', { id: prop });
-			elem.append(shape);
+			const clipPath = createSVGElement('clipPath', { id: prop });
+			clipPath.append(shape);
+			return clipPath;
 		}
-		return elem;
 	}
 }
 
