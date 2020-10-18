@@ -49,7 +49,7 @@ export function translate(event) {
 	}
 
 	const a = img.parentElement;
-	const file = svg.export(input);
+	const file = svg.toFile(input);
 
 	a.href = img.src = URL.createObjectURL(file);
 	a.download = file.name;

@@ -1,4 +1,3 @@
-import { polar } from '../utils/funcs.js';
 import { glyphRadius, margin, wordBorder } from './parsing/constants.js';
 
 export class TardisWord {
@@ -17,6 +16,10 @@ export class TardisWord {
 
 	render(ctx) {
 		ctx.save();
+		
+		const r = this.radius;
+		ctx.drawShape('circle', wordBorder, { r, fill: "none" });
+		ctx.clipShape('circle', { r });
 
 		this.glyphs.forEach((glyph, i) => {
 			let glyphPos = this.glyphPos;
@@ -33,8 +36,6 @@ export class TardisWord {
 			ctx.rotate(this.glyphAngle);
 		});
 
-		const r = this.radius;
-		ctx.drawShape('circle', wordBorder, { r, fill: "none" });
 		ctx.restore();
 	}
 }
