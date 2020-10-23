@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg6"
+   version="1.1"
+   viewBox="-1 0 164.20202 95.25"
+   height="360"
+   width="640"
+   sodipodi:docname="time_lord_glow.svg"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1864"
+     inkscape:window-height="1016"
+     id="namedview17"
+     showgrid="true"
+     inkscape:zoom="1.5998291"
+     inkscape:cx="293.25776"
+     inkscape:cy="41.549475"
+     inkscape:window-x="56"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg6">
+    <inkscape:grid
+       type="xygrid"
+       id="grid824" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata12">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs10">
+    <filter
+       height="1.3341694"
+       y="-0.16708469"
+       width="1.1872365"
+       x="-0.093618251"
+       id="filter1006"
+       style="color-interpolation-filters:sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur1008"
+         stdDeviation="9.4007583" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter4671"
+       x="-0.046809129"
+       width="1.0936183"
+       y="-0.083542334"
+       height="1.1670847">
+      <feGaussianBlur
+         stdDeviation="3.302644"
+         id="feGaussianBlur4673" />
+    </filter>
+  </defs>
+  <g
+     style="display:inline"
+     id="layer1-3"
+     transform="translate(-202.72439,-58.580136)">
+    <g
+       id="g4-6"
+       transform="matrix(0.70263351,0,0,0.70263351,12.017949,179.59296)" />
+  </g>
+  <g
+     id="g12"
+     style="display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter4671)"
+     transform="translate(-3.5656527,6.9592854e-6)">
+    <g
+       id="g4-2-9"
+       transform="matrix(0.70263351,0,0,0.70263351,12.017949,179.59296)"
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3765595;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">
+      <path
+         d="m 156.11322,-127.56954 c -15.06238,0 -27.47032,-3.67999 -27.47043,-15.41489 1.2e-4,-11.7349 16.54329,-21.24786 36.9502,-21.2478 8.77823,0.002 17.26844,1.80119 23.94996,5.07514 0.46473,-3.51727 0.71617,-7.05945 0.75292,-10.6071 -0.0502,-40.47794 -27.72691,-75.69232 -67.04655,-85.30642 h 2e-5 c 0.009,0.23845 0.015,0.47705 0.0191,0.71571 6e-5,15.75189 -9.68799,28.52145 -21.63899,28.52178 -11.951193,5e-5 -21.639557,-12.76962 -21.639496,-28.52178 0.0043,-0.1325 0.0093,-0.26497 0.01498,-0.39739 -38.619501,10.154 -65.54803,45.05604 -65.572224,84.9881 0.03178,3.85307 0.316784,7.69989 0.853178,11.51558 6.873407,-3.78568 16.022006,-5.90022 25.539526,-5.903 20.406915,-6e-5 36.950075,9.5129 36.950199,21.24779 2.65e-4,11.73511 -12.036672,15.12594 -27.099052,15.33428 -15.062381,0.20834 -15.062381,-3.67812 -30.124761,-3.67812 -15.0623804,0 -30.1247608,11.20931 -37.655951,11.20931 H 223.89393 c -7.53118,0 -22.59357,-11.29679 -37.65595,-11.29679 -15.06238,0 -15.06238,3.7656 -30.12476,3.7656 z"
+         style="opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3765595;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="back-glow" />
+    </g>
+  </g>
+</svg>
