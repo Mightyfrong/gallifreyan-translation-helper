@@ -7,7 +7,7 @@ export class cotConsonants {
 	constructor() {
 		this.base = {
 				j: {
-					contains: ["j", "ts", "ŋ", "v", "ʤ", "f", "ʒ", "ɢ", "ç", "ɬ", "ʎ"],
+					contains: ["j", "ts", "ŋ", "v", "ʤ", "f", "ʒ", "ɢ", "ç", "ɬ", "ʎ", "'"],
 					baserad: 1,
 					outerline: 1,
 					innerline: 1,
@@ -21,7 +21,7 @@ export class cotConsonants {
 					}
 				},
 				n: {
-					contains: ["n", "h", "l", "p", "w", "ʧ", "st", "ɴ", "ð", "ɮ", "ß"],
+					contains: ["n", "h", "l", "p", "w", "ʧ", "st", "ɴ", "ð", "ɮ", "ß", ","],
 					baserad: .85,
 					outerline: 1,
 					innerline: 1,
@@ -40,7 +40,7 @@ export class cotConsonants {
 					}
 				},
 				t: {
-					contains: ["t", "s", "ɹ", "d", "m", "ʃ", "θ", "q", "ʝ", "ʋ", "x"],
+					contains: ["t", "s", "ɹ", "d", "m", "ʃ", "θ", "q", "ʝ", "ʋ", "x", "?"],
 					baserad: 1,
 					outerline: 2.5,
 					innerline: 2.5,
@@ -73,7 +73,7 @@ export class cotConsonants {
 					}
 				},
 				χ: {
-					contains: ["χ", "ɲ", "ɳ", "ʈ", "ɖ", "c", "ɟ", "ħ", "ɭ", "ɸ"],
+					contains: ["χ", "ɲ", "ɳ", "ʈ", "ɖ", "c", "ɟ", "ħ", "ɭ", "ɸ", "!"],
 					baserad: .85,
 					outerline: 2.5,
 					innerline: 2.5,
@@ -92,7 +92,7 @@ export class cotConsonants {
 					}
 				},
 				ʁ: {
-					contains: ["ʁ", "ʙ", "ʀ", "ⱱ", "ɾ", "ɽ", "ʂ", "ʐ", "ɦ", "ʟ"],
+					contains: ["ʁ", "ʙ", "ʀ", "ⱱ", "ɾ", "ɽ", "ʂ", "ʐ", "ɦ", "ʟ", "."],
 					baserad: .85,
 					outerline: 1,
 					innerline: 2.5,

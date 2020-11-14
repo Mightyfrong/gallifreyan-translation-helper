@@ -63,9 +63,8 @@ export function render(input) {
 
 //script specific replacements
 function replacements(word) {
-	if (!document.getElementById('coten').checked) return word;
 	return word;
-	let cword = "";
+/*	let cword = "";
 
 	/*y=j
 	x=ks
@@ -76,18 +75,11 @@ function replacements(word) {
 	sh=ʃ
 	th=θ end
 	th=ð beginning
-	*/
 
 	for (let i = 0; i < word.length; i++) { // iterate through word 
-
-		if (word[i] == "c" && option.chandling) {
-			if (word[i + 1] == "h") cword += "c"; // ch is still allowed
-			else if (includes(["e", "i", "y"], word[i + 1])) cword += "s";
-			else cword += "k"; // end of the word
-		} else if (word[i] == "ß") cword += "ss";
-		else cword += word[i];
 	}
 	return cword;
+*/
 }
 
 // set rules for grouping
@@ -109,7 +101,7 @@ let doctorsCot2Grouped = {
 					current = currenttwo;
 					i++;
 				}
-				if (group.length > 0 && group[group.length - 1].length < 2) {
+				if (group.length > 0 && group[group.length - 1].length < 2 && !includes(["'", ",", "?", "!", "."], [current, group[group.length - 1][group[group.length - 1].length-1]])) {
 					// add to former group if not full
 					group[group.length - 1].push(current)
 				} else // create current group
@@ -119,13 +111,13 @@ let doctorsCot2Grouped = {
 		});
 		return sentence;
 	},
-	resetOffset: function (currentGroup=[]) {
+	resetOffset: function (currentGroup = []) {
 		this.carriagereturn = false; // true overrides setting the pointer-position to the next character
 		this.resize = 1
 		this.offset = 0; // counter of stacked objects, used for positioning the translated letters on top of the drawings
 		this.currentGroupText = currentGroup.join('');
 		this.baserad = 1;
-		this.group=currentGroup;
+		this.group = currentGroup;
 	},
 	setOffset: function (baserad = 1) {
 		this.offset++;
