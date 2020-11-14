@@ -6,8 +6,8 @@ import {
 
 import {
 	ipaKeyboard,
-	getConsonants,
-	dc2Consonants
+	dc2Consonants,
+	dc2Vowels
 } from './doctorsCot2/setup.js';
 
 
@@ -26,7 +26,8 @@ const ipaVowels = document.getElementById('ipa-vowels');
 genKeyboard(ipaConsons, consonantTable);
 genKeyboard(ipaVowels, vowelTable);
 
-ipaKeyboard(document.getElementById('ipa-consons2'), document.getElementById('text'), getConsonants(dc2Consonants));
+ipaKeyboard(document.getElementById('ipa-consons2'), document.getElementById('text'), dc2Consonants.keyCollection());
+ipaKeyboard(document.getElementById('ipa-vowels2'), document.getElementById('text'), dc2Vowels.keyCollection());
 
 
 //** General

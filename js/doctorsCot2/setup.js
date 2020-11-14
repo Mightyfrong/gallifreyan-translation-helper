@@ -1,21 +1,11 @@
 import {
-	cotConsonants
+	cotConsonants,
+	cotVowels
 } from './doctorsCotGlyphs.js';
 
 export const glyphSize = 50; // radius of glyphs
 export const dc2Consonants = new cotConsonants();
-
-export function getConsonants(cons) {
-	let rows = [];
-	Object.keys(cons.base).forEach(base => {
-		let columns = [];
-		Object.keys(cons.base[base].contains).forEach(key => {
-			columns.push(cons.base[base].contains[key]);
-		});
-		rows.push(columns);
-	});
-	return rows;
-};
+export const dc2Vowels = new cotVowels();
 
 export function ipaKeyboard(appendTo, writeTo, keys) {
 	keys.forEach(row => {

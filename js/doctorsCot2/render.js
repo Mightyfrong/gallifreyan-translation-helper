@@ -3,7 +3,8 @@ import {
 } from '../utils/funcs.js';
 import {
 	glyphSize,
-	dc2Consonants
+	dc2Consonants,
+	dc2Vowels
 } from './setup.js';
 import {
 	UILanguage
@@ -45,12 +46,12 @@ export function render(input) {
 	groupedInput.forEach(words => { // loop through sentence
 		words.forEach(groups => { // loop through words
 			groups.forEach(group => { // loop through character-groups 
-				doctorsCot2Grouped.resetOffset(group.join(''));
+				doctorsCot2Grouped.resetOffset(group);
 				// iterate through characters within group
 				for (let l = 0; l < group.length; l++) {
 					doctorsCot2Draw(ctx, group[l], doctorsCot2Grouped);
-					doctorsCot2Grouped.setOffset(dc2Consonants.base[dc2Consonants.getBase(group[l])].baserad);
-					//jnt ksχʁ
+					if (dc2Consonants.getBase(group[l]))
+						doctorsCot2Grouped.setOffset(dc2Consonants.base[dc2Consonants.getBase(group[l])].baserad);
 				}
 			});
 		});
@@ -118,12 +119,13 @@ let doctorsCot2Grouped = {
 		});
 		return sentence;
 	},
-	resetOffset: function (currentGroupText = '') {
+	resetOffset: function (currentGroup=[]) {
 		this.carriagereturn = false; // true overrides setting the pointer-position to the next character
 		this.resize = 1
 		this.offset = 0; // counter of stacked objects, used for positioning the translated letters on top of the drawings
-		this.currentGroupText = currentGroupText;
+		this.currentGroupText = currentGroup.join('');
 		this.baserad = 1;
+		this.group=currentGroup;
 	},
 	setOffset: function (baserad = 1) {
 		this.offset++;
@@ -147,17 +149,28 @@ function doctorsCot2Draw(ctx, letter, grouped) {
 	let tilt = .25 - (grouped.offset + 1) * .1; //.0625;
 
 	let currentbase = dc2Consonants.getBase(letter),
-		currentdeco = dc2Consonants.getDeco(letter);
+		currentdeco = dc2Consonants.getDeco(letter),
+		currentlines = dc2Vowels.getLines(letter),
+		currentshape = dc2Vowels.getShape(letter);
 	if (!grouped.offset) {
 		// draw outer circle
 		if (currentbase) dc2Consonants.base[currentbase].draw(ctx, x, y, glyphSize * grouped.resize, tilt);
 		// draw decorators
 		if (currentdeco) dc2Consonants.decorators[currentdeco].draw(ctx, x, y, glyphSize * dc2Consonants.base[currentbase].baserad, dc2Consonants.base[currentbase].innerline, tilt);
+
+		//draw inner circle if next character in group is not a consonant (or it's a single letter)
+		if (currentbase && !dc2Consonants.getBase(grouped.group[grouped.offset + 1]))
+			dc2Consonants.base[currentbase].draw(ctx, x, y, glyphSize * .4, tilt);
+
 	} else {
 		// draw decorators
 		if (currentdeco) dc2Consonants.decorators[currentdeco].draw(ctx, x, y, glyphSize * grouped.baserad, dc2Consonants.base[currentbase].outerline, tilt);
 		// draw filled inner circle to simply overpaint decorators
 		if (currentbase) dc2Consonants.base[currentbase].draw(ctx, x, y, glyphSize * grouped.resize, tilt);
+
+		//might as well be a vowel
+		if (currentlines) dc2Vowels.shape[currentshape].draw(ctx, x, y, glyphSize, dc2Vowels.lines[currentlines], grouped.group[grouped.offset - 1]);
+
 	}
 
 	// text output for undefined characters as well for informational purpose

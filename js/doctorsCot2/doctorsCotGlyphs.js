@@ -1,6 +1,7 @@
 import {
 	includes,
 } from '../utils/funcs.js';
+import { dc2Consonants } from './setup.js';
 
 export class cotConsonants {
 	constructor() {
@@ -293,8 +294,173 @@ export class cotConsonants {
 		});
 		return rtrn;
 	}
+	keyCollection() { // return an array with rowwise structures vowels like in the official tables
+		let rows = [];
+		Object.keys(this.base).forEach(row => {
+			let columns = [];
+			Object.keys(this.base[row].contains).forEach(key => {
+				columns.push(this.base[row].contains[key]);
+			});
+			rows.push(columns);
+		});
+		return rows;
+	}
 }
 
+export class cotVowels {
+	constructor() {
+		this.lines = {
+			ɑ: {
+				contains: ["ɑ", "i", "u", "a", "y"],
+				outerline: 1,
+				innerline: 0
+			},
+			e: {
+				contains: ["e", "ɪ", "ou", "æ", "ʉ"],
+				outerline: 1,
+				innerline: 1
+			},
+			ɛ: {
+				contains: ["ɛ", "ai", "ʌ", "ɜ", "ø"],
+				outerline: 2.5,
+				innerline: 0
+			},
+			ʊ: {
+				contains: ["ʊ", "ɘ", "ɐ", "ɤ", "ɵ"],
+				outerline: 2.5,
+				innerline: 1
+			},
+			ɯ: {
+				contains: ["ɯ", "ɨ", "ə", "ɔ", "o"],
+				outerline: 2.5,
+				innerline: 2.5
+			},
+			œ: {
+				contains: ["œ", "ɞ", "ɒ", "ɶ"],
+				outerline: 1,
+				innerline: 2.5
+			},
+		};
+		this.shape = {
+			ɑ: {
+				contains: ["ɑ", "e", "ɛ", "ʊ", "ɯ", "œ"],
+				draw: function (ctx, x, y, r, lines, former) {
+					let formerbaserad= dc2Consonants.base[dc2Consonants.getBase(former)].baserad;
+
+					ctx.drawShape('path', lines.outerline, {
+						d: ctx.circularArc(
+							x + Math.cos(Math.PI * (1.2 )) * r *(formerbaserad-.1),
+							y + Math.sin(Math.PI * (1.2 )) * r *(formerbaserad-.1),
+							r * .7, Math.PI * (1.8 ), Math.PI * (.6 ), "minor"),
+							fill: document.getElementById('backgroundcolor').value
+					});
+					if (lines.innerline)
+						ctx.drawShape('path', lines.innerline, {
+							d: ctx.circularArc(
+								x + Math.cos(Math.PI * (1.2 )) * r *(formerbaserad-.1),
+								y + Math.sin(Math.PI * (1.2 )) * r *(formerbaserad-.1),
+								r * .55, Math.PI * (1.8 ), Math.PI * (.6 ), "minor")
+							});
+				}
+			},
+			i: {
+				contains: ["i", "ɪ", "ai", "ɘ", "ɨ", "ɞ"],
+				draw: function (ctx, x, y, r, lines, former) {
+					ctx.drawShape('circle', lines.outerline, {
+						cx: x + Math.cos(Math.PI * (1.2 )) * r * .7,
+						cy: y + Math.sin(Math.PI * (1.2 )) * r * .7,
+						r: r * .25,
+						fill: document.getElementById('backgroundcolor').value
+					});
+					if (lines.innerline)
+						ctx.drawShape('circle', lines.innerline, {
+							cx: x + Math.cos(Math.PI * (1.2 )) * r * .7,
+							cy: y + Math.sin(Math.PI * (1.2 )) * r * .7,
+							r: r * .15
+						});
+				}
+			},
+			u: {
+				contains: ["u", "ou", "ʌ", "ɐ", "ə", "ɒ"],
+				draw: function (ctx, x, y, r, lines, former) {
+					ctx.drawShape('circle', lines.outerline, {
+						cx: x + Math.cos(Math.PI * (1.2 )) * r * .4,
+						cy: y + Math.sin(Math.PI * (1.2 )) * r * .4,
+						r: r * .25,
+						fill: document.getElementById('backgroundcolor').value
+					});
+					if (lines.innerline)
+						ctx.drawShape('circle', lines.innerline, {
+							cx: x + Math.cos(Math.PI * (1.2 )) * r * .4,
+							cy: y + Math.sin(Math.PI * (1.2 )) * r * .4,
+							r: r * .15
+						});
+				}
+			},
+			a: {
+				contains: ["a", "æ", "ɜ", "ɤ", "ɔ", "ɶ"],
+				draw: function (ctx, x, y, r, lines, former) {
+					ctx.drawShape('circle', lines.outerline, {
+						cx: x + Math.cos(Math.PI * (1.2 )) * r * .1,
+						cy: y + Math.sin(Math.PI * (1.2 )) * r * .1,
+						r: r * .25,
+						fill: document.getElementById('backgroundcolor').value
+					});
+					if (lines.innerline)
+						ctx.drawShape('circle', lines.innerline, {
+							cx: x + Math.cos(Math.PI * (1.2 )) * r * .1,
+							cy: y + Math.sin(Math.PI * (1.2 )) * r * .1,
+							r: r * .15
+						});
+				}
+			},
+			y: {
+				contains: ["y", "ʉ", "ø", "ɵ", "o"],
+				draw: function (ctx, x, y, r, lines, former) {
+					ctx.drawShape('path', lines.outerline, {
+						d: ctx.circularArc(
+							x + Math.cos(Math.PI * (1.2 )) * r * .4,
+							y + Math.sin(Math.PI * (1.2 )) * r * .4,
+							r * .25, Math.PI * (.6 ), Math.PI * (1.8 ), "major")
+					});
+					if (lines.innerline)
+						ctx.drawShape('path', lines.innerline, {
+							d: ctx.circularArc(
+								x + Math.cos(Math.PI * (1.2 )) * r * .4,
+								y + Math.sin(Math.PI * (1.2 )) * r * .4,
+								r * .15, Math.PI * (.6 ), Math.PI * (1.8 ), "major")
+							});
+				}
+			}
+		};
+	}
+
+	getLines(char) { // return name of line group the given character is assigned to
+		let rtrn = false;
+		Object.keys(this.lines).forEach(row => {
+			if (includes(this.lines[row].contains, char)) rtrn = row;
+		});
+		return rtrn;
+	}
+	getShape(char) { // return name of shape group the given character is assigned to
+		let rtrn = false;
+		Object.keys(this.shape).forEach(row => {
+			if (includes(this.shape[row].contains, char)) rtrn = row;
+		});
+		return rtrn;
+	}
+	keyCollection() { // return an array with rowwise structures vowels like in the official tables
+		let rows = [];
+		Object.keys(this.lines).forEach(row => {
+			let columns = [];
+			Object.keys(this.lines[row].contains).forEach(key => {
+				columns.push(this.lines[row].contains[key]);
+			});
+			rows.push(columns);
+		});
+		return rows;
+	}
+}
 
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
