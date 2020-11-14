@@ -165,7 +165,7 @@ function doctorsCot2Draw(ctx, letter, grouped) {
 		if (currentbase) dc2Consonants.base[currentbase].draw(ctx, x, y, glyphSize * grouped.resize, tilt);
 
 		//might as well be a vowel
-		if (currentlines) dc2Vowels.shape[currentshape].draw(ctx, x, y, glyphSize, dc2Vowels.lines[currentlines], grouped.group[grouped.offset - 1]);
+		if (currentlines) dc2Vowels.shape[currentshape].draw(ctx, x, y, glyphSize, dc2Vowels.lines[currentlines], grouped.group[0]);
 
 	}
 
