@@ -138,14 +138,16 @@ span {
 	display: block;
 }
 
-#ipa-keys>div {
+#ipa-keys>div,
+#cot-options>div {
 	display: inline-block;
 	vertical-align: top;
 	text-align: left;
 	margin-bottom: .5em;
 }
 
-#ipa-keys input {
+#ipa-keys input,
+#cot-options input {
 	display: inline-block;
 	vertical-align: top;
 	border-width: 1px;

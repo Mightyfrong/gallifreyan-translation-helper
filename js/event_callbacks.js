@@ -1,6 +1,7 @@
 import { render as renderShermans } from './shermans/render.js';
 import { render as renderTARDISConsole } from './tardisConsole/render.js';
 import { render as renderDoctorsCot } from './doctorsCot/render.js';
+import { render as renderDoctorsCot2 } from './doctorsCot2/render.js';
 import { render as renderCC } from './cc/render.js';
 import { render as renderDotscript } from './dotscript/render.js';
 
@@ -13,13 +14,14 @@ const langControls = document.getElementById('lang-controls');
 const shermansOpts = document.getElementById('shermans-options');
 const ipaKeys = document.getElementById('ipa-keys');
 const ccOpts = document.getElementById('cc-options');
+const cotOpts = document.getElementById('cot-options');
 
 const img = document.getElementById('output-img');
 
 // Init language selector & constants
 customElements.define('my-select', MySelect);
 const langs = langSelect.querySelectorAll('input');
-const [SHERMAN, COT, TARDIS, CC, DOT] = [...langs].map(input => input.value);
+const [SHERMAN, COT, COT2, TARDIS, CC, DOT] = [...langs].map(input => input.value);
 
 // Event Callbacks
 export function translate(event) {
@@ -34,6 +36,9 @@ export function translate(event) {
 			break;
 		case COT:
 			svg = renderDoctorsCot(input);
+			break;
+		case COT2:
+			svg = renderDoctorsCot2(input);
 			break;
 		case TARDIS:
 			svg = renderTARDISConsole(input);
@@ -73,6 +78,9 @@ export function activateControls(lang) {
 			break;
 		case COT:
 			ipaKeys.classList.toggle('active');
+			break;
+		case COT2:
+			cotOpts.classList.toggle('active');
 			break;
 		case CC:
 			ccOpts.classList.toggle('active');

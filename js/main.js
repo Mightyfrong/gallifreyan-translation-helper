@@ -4,6 +4,13 @@ import {
 	vowelTable
 } from './doctorsCot/setup.js';
 
+import {
+	ipaKeyboard,
+	dc2Consonants,
+	dc2Vowels
+} from './doctorsCot2/setup.js';
+
+
 import { UILanguage } from './utils/UILanguage.js';
 import { selectLang, translate, activateControls, langSelect } from './event_callbacks.js';
 
@@ -18,6 +25,10 @@ const ipaVowels = document.getElementById('ipa-vowels');
 
 genKeyboard(ipaConsons, consonantTable);
 genKeyboard(ipaVowels, vowelTable);
+
+ipaKeyboard(document.getElementById('ipa-consons2'), document.getElementById('text'), dc2Consonants.keyCollection());
+ipaKeyboard(document.getElementById('ipa-vowels2'), document.getElementById('text'), dc2Vowels.keyCollection());
+
 
 //** General
 activateControls(langSelect.value);
