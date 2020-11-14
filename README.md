@@ -12,6 +12,7 @@ Some details on what the translation helper for each system does can be found be
 * [Sherman's](#Shermans)
 * [TARDIS Console](#TARDIS-Console-WIP)
 * [Doctors's Cot](#Doctors-Cot)
+* [Doctors's Cot 2.0](#Doctors-Cot-2.0)
 * [CC Gallifreyan](#CC-Gallifreyan)
 * [DotScript](#DotScript)
 
@@ -116,6 +117,16 @@ This one is the most complicated of the 3 languages as it transcribes the exact 
 
 ### Example
 ![doctors cot](assets/doctors_cot.png)
+
+---
+
+## Doctor's Cot 2.0
+
+The progress of vectorizing all the things got a bit stuck for a few weeks and one of us wasn't able to contribute to foreign code. So Doctor's Cot was rebuild based on the coding style of CC-Gallifreyan. ɑ-based vowels are a bit impure regarding connectivity. but on the plus side there is some punctuation.
+Like the original one there is an IPA-keyboard.
+
+### Example
+![doctors cot 2](assets/doctors_cot_2.png)
 
 ---
 
