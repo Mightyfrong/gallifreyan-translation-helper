@@ -101,7 +101,11 @@ let doctorsCot2Grouped = {
 					current = currenttwo;
 					i++;
 				}
-				if (group.length > 0 && group[group.length - 1].length < 2 && !includes(["'", ",", "?", "!", "."], [current, group[group.length - 1][group[group.length - 1].length-1]])) {
+				// C, V, C-C, C-V, C-C-V, not C-V-C
+				if (group.length > 0 
+					&& ((/* C-C, C-V */ group[group.length - 1].length < 2 && dc2Consonants.getBase(group[group.length - 1][group[group.length - 1].length-1]))
+					|| (/* C-C-V */ group[group.length - 1].length < 3 &&  dc2Vowels.getLines(current) && dc2Consonants.getBase(group[group.length - 1][group[group.length - 1].length-1])))
+					&& /* no punctuation */ !includes(["'", ",", "?", "!", "."], [current, group[group.length - 1][group[group.length - 1].length-1]])) {
 					// add to former group if not full
 					group[group.length - 1].push(current)
 				} else // create current group
