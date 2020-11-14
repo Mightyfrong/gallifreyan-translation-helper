@@ -17,16 +17,14 @@ export function render(input) {
 	let glyphs = 0;
 	groupedInput.forEach(word => {
 		word.forEach(groups => {
-			groups.forEach(group => { // determine maximum expansion due to stacking and amount of groups
-				glyphs++;
-			});
+			glyphs += groups.length;
 		});
 		glyphs++;
 	})
 
 	glyph = {
-		width: glyphSize * 2.5,
-		height: glyphSize * 6
+		width: glyphSize * 2.25,
+		height: glyphSize * 4
 	};
 	width = (Math.min(++glyphs, Math.floor(window.innerWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
 	height = glyph.height * (Math.ceil(++glyphs / (Math.floor(window.innerWidth / glyph.width) || 1)));
@@ -37,16 +35,17 @@ export function render(input) {
 	// iterate through input to set grouping instructions, handle exceptions and draw glyphs
 	groupedInput.forEach(words => { // loop through sentence
 		words.forEach(groups => { // loop through words
-			let groupnum = 0;
 			groups.forEach(group => { // loop through character-groups 
-				groupnum++;
-
+				doctorsCot2Grouped.resetOffset(group.join(''));
 				// iterate through characters within group
 				for (let l = 0; l < group.length; l++) {
 					doctorsCot2Draw(ctx, group[l], doctorsCot2Grouped);
+					doctorsCot2Grouped.setOffset(dc2Consonants.base[dc2Consonants.getBase(group[l])].baserad);
+					//jnt ksχʁ
 				}
 			});
 		});
+		doctorsCot2Grouped.resetOffset();
 		doctorsCot2Draw(ctx, " ", doctorsCot2Grouped);
 	});
 	return ctx;
@@ -96,7 +95,7 @@ let doctorsCot2Grouped = {
 				var current = sword[i],
 					currenttwo = sword[i] + sword[i + 1];
 				// add double characters to group
-				if (includes(["ts", "st", "ks", "ou"], currenttwo)) {
+				if (includes(["ts", "st", "ks", "ou", "ai"], currenttwo)) {
 					current = currenttwo;
 					i++;
 				}
@@ -110,32 +109,54 @@ let doctorsCot2Grouped = {
 		});
 		return sentence;
 	},
-	resize:1
+	resetOffset: function (currentGroupText = '') {
+		this.carriagereturn = false; // true overrides setting the pointer-position to the next character
+		this.resize = 1
+		this.offset = 0; // counter of stacked objects, used for positioning the translated letters on top of the drawings
+		this.currentGroupText = currentGroupText;
+		this.baserad=1;
+	},
+	setOffset: function (baserad = 1) {
+		this.offset++;
+		this.resize=.4;
+		this.carriagereturn = true;
+		this.baserad=baserad;
+	}
+
 }
 
 // draw instructions for base + decoration
 function doctorsCot2Draw(ctx, letter, grouped) {
 	if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
-		if (x + glyph.width * 2 >= width) {
+		if (x + glyph.width * 1.5 >= width) {
 			y += glyph.height;
-			x = glyph.width * 1.5;
+			x = glyph.width;
 		} else x += glyph.width;
 	}
-	console.log(width, height,x,y);
 
-	//define tilt based on stack-number to make the glyphs less monotonous
-	let tilt = .25 - .0625 * (grouped.offset + 1);
-	
-	// draw base
-	if (dc2Consonants.getBase(letter)) dc2Consonants.base[dc2Consonants.getBase(letter)].draw(ctx, x, y, glyphSize * grouped.resize, tilt);
-	// draw decorators
-	if (dc2Consonants.getDeco(letter)) dc2Consonants.decorators[dc2Consonants.getDeco(letter)].draw(ctx, x, y, glyphSize * grouped.resize, tilt);
+	//define tilt based on stack-number todistinguish between stacked characters
+	let tilt = .25 - (grouped.offset + 1) * .1;//.0625;
+
+	let currentbase=dc2Consonants.getBase(letter),
+		currentdeco=dc2Consonants.getDeco(letter);
+	if (!grouped.offset) {
+		// draw outer circle
+		if (currentbase) dc2Consonants.base[currentbase].draw(ctx, x, y, glyphSize * grouped.resize, tilt);
+		// draw decorators
+		if (currentdeco) dc2Consonants.decorators[currentdeco].draw(ctx, x, y, glyphSize * dc2Consonants.base[currentbase].baserad, dc2Consonants.base[currentbase].innerline, tilt);
+	}
+	else {
+		// draw decorators
+		if (currentdeco) dc2Consonants.decorators[currentdeco].draw(ctx, x, y, glyphSize * grouped.baserad, dc2Consonants.base[currentbase].outerline, tilt);
+		// draw filled inner circle to simply overpaint decorators
+		if (currentbase) dc2Consonants.base[currentbase].draw(ctx, x, y, glyphSize * grouped.resize, tilt);
+	}
 
 	// text output for undefined characters as well for informational purpose
 	// print character translation above the drawings
 	if (grouped.offset==0) ctx.drawText(grouped.currentGroupText, {
 		x: x ,
-		y: y - letterheight * .5
+		y: y - glyph.height * .4
 	});
 }
 
