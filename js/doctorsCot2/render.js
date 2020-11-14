@@ -1,7 +1,16 @@
-import { includes } from '../utils/funcs.js';
-import { glyphSize, dc2Consonants } from './setup.js';
-import { UILanguage } from '../utils/UILanguage.js'
-import { SVGRenderingContext } from '../utils/SVGRenderingContext.js';
+import {
+	includes
+} from '../utils/funcs.js';
+import {
+	glyphSize,
+	dc2Consonants
+} from './setup.js';
+import {
+	UILanguage
+} from '../utils/UILanguage.js'
+import {
+	SVGRenderingContext
+} from '../utils/SVGRenderingContext.js';
 
 let width; // canvas width
 let height; // canvas height
@@ -57,18 +66,18 @@ function replacements(word) {
 	return word;
 	let cword = "";
 
-/*y=j
-x=ks
-ng=ŋ
-r=ɹ
-j=ʤ
-ch=ʧ
-sh=ʃ
-th=θ end
-th=ð beginning
-*/
+	/*y=j
+	x=ks
+	ng=ŋ
+	r=ɹ
+	j=ʤ
+	ch=ʧ
+	sh=ʃ
+	th=θ end
+	th=ð beginning
+	*/
 
-for (let i = 0; i < word.length; i++) { // iterate through word 
+	for (let i = 0; i < word.length; i++) { // iterate through word 
 
 		if (word[i] == "c" && option.chandling) {
 			if (word[i + 1] == "h") cword += "c"; // ch is still allowed
@@ -114,13 +123,13 @@ let doctorsCot2Grouped = {
 		this.resize = 1
 		this.offset = 0; // counter of stacked objects, used for positioning the translated letters on top of the drawings
 		this.currentGroupText = currentGroupText;
-		this.baserad=1;
+		this.baserad = 1;
 	},
 	setOffset: function (baserad = 1) {
 		this.offset++;
-		this.resize=.4;
+		this.resize = .4;
 		this.carriagereturn = true;
-		this.baserad=baserad;
+		this.baserad = baserad;
 	}
 
 }
@@ -135,17 +144,16 @@ function doctorsCot2Draw(ctx, letter, grouped) {
 	}
 
 	//define tilt based on stack-number todistinguish between stacked characters
-	let tilt = .25 - (grouped.offset + 1) * .1;//.0625;
+	let tilt = .25 - (grouped.offset + 1) * .1; //.0625;
 
-	let currentbase=dc2Consonants.getBase(letter),
-		currentdeco=dc2Consonants.getDeco(letter);
+	let currentbase = dc2Consonants.getBase(letter),
+		currentdeco = dc2Consonants.getDeco(letter);
 	if (!grouped.offset) {
 		// draw outer circle
 		if (currentbase) dc2Consonants.base[currentbase].draw(ctx, x, y, glyphSize * grouped.resize, tilt);
 		// draw decorators
 		if (currentdeco) dc2Consonants.decorators[currentdeco].draw(ctx, x, y, glyphSize * dc2Consonants.base[currentbase].baserad, dc2Consonants.base[currentbase].innerline, tilt);
-	}
-	else {
+	} else {
 		// draw decorators
 		if (currentdeco) dc2Consonants.decorators[currentdeco].draw(ctx, x, y, glyphSize * grouped.baserad, dc2Consonants.base[currentbase].outerline, tilt);
 		// draw filled inner circle to simply overpaint decorators
@@ -154,8 +162,8 @@ function doctorsCot2Draw(ctx, letter, grouped) {
 
 	// text output for undefined characters as well for informational purpose
 	// print character translation above the drawings
-	if (grouped.offset==0) ctx.drawText(grouped.currentGroupText, {
-		x: x ,
+	if (grouped.offset == 0) ctx.drawText(grouped.currentGroupText, {
+		x: x,
 		y: y - glyph.height * .4
 	});
 }
