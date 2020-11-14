@@ -24,6 +24,7 @@
 				<my-select id="language" data-name="language">
 					<label>Sherman's</label>
 					<label>Doctor's Cot</label>
+					<label>Doctor's Cot 2.0</label>
 					<label>TARDIS Console (WIP)</label>
 					<label>CC Gallifreyan</label>
 					<label>DotScript</label>
@@ -38,6 +39,12 @@
 				<div id="ipa-keys">
 					<div id="ipa-consons"></div>
 					<div id="ipa-vowels"></div>
+				</div>
+				<div id="cot-options">
+					<span><input type="radio" name="cotsystem" id="coten" checked /><label for="coten"> english</label></span>
+					<span><input type="radio" name="cotsystem" id="cotipa" /><label for="cotipa"> ipa</label></span>
+					<div id="ipa-consons2"></div>
+					<div id="ipa-vowels2"></div>
 				</div>
 				<div id="cc-options">
 					<span id="ccstack">Maximum stacked characters</span>
@@ -59,15 +66,18 @@
 
 		<p id="info">
 			Still very early and WIP. Please don't spell check your tattoo with this!<br />
-			This is an online tool aimed at artists and hobbyists who produce designs in one of the supported types of Gallifreyan.<br />
-			Please recognize this tool not as a translator: it serves the purpose of quicker impressions of writing syntax.<br />
-			The artistic composition is, and should be, your challenge. Please do not use any of these outputs for an immediate tattoo template!
+			This is an online tool aimed at artists and hobbyists who produce designs in one of the supported types of
+			Gallifreyan.<br />
+			Please recognize this tool not as a translator: it serves the purpose of quicker impressions of writing
+			syntax.<br />
+			The artistic composition is, and should be, your challenge. Please do not use any of these outputs for an
+			immediate tattoo template!
 		</p>
 
 		<div id="drawoutput">
 			<a><img id="output-img" title="Save Image"></a>
 			<pre id="output"></pre>
-			
+
 			<input type="color" id="foregroundcolor" value="#ff9933" />
 			<input type="color" id="backgroundcolor" value="#000c24" />
 		</div>
