@@ -1,7 +1,9 @@
 import {
 	includes,
 } from '../utils/funcs.js';
-import { dc2Consonants } from './setup.js';
+import {
+	dc2Consonants
+} from './setup.js';
 
 export class cotConsonants {
 	constructor() {
@@ -299,7 +301,7 @@ export class cotConsonants {
 		Object.keys(this.base).forEach(row => {
 			let columns = [];
 			Object.keys(this.base[row].contains).forEach(key => {
-				columns.push(this.base[row].contains[key]);
+				columns.push([this.base[row].contains[key], this.base[row].contains[key]]);
 			});
 			rows.push(columns);
 		});
@@ -345,37 +347,37 @@ export class cotVowels {
 			ɑ: {
 				contains: ["ɑ", "e", "ɛ", "ʊ", "ɯ", "œ"],
 				draw: function (ctx, x, y, r, lines, former) {
-					let formerbaserad= dc2Consonants.base[dc2Consonants.getBase(former)].baserad;
+					let formerbaserad = dc2Consonants.base[dc2Consonants.getBase(former)].baserad;
 
 					ctx.drawShape('path', lines.outerline, {
 						d: ctx.circularArc(
-							x + Math.cos(Math.PI * (1.2 )) * r *(formerbaserad-.1),
-							y + Math.sin(Math.PI * (1.2 )) * r *(formerbaserad-.1),
-							r * .7, Math.PI * (1.8 ), Math.PI * (.6 ), "minor"),
-							fill: document.getElementById('backgroundcolor').value
+							x + Math.cos(Math.PI * (1.2)) * r * (formerbaserad - .1),
+							y + Math.sin(Math.PI * (1.2)) * r * (formerbaserad - .1),
+							r * .7, Math.PI * (1.8), Math.PI * (.6), "minor"),
+						fill: document.getElementById('backgroundcolor').value
 					});
 					if (lines.innerline)
 						ctx.drawShape('path', lines.innerline, {
 							d: ctx.circularArc(
-								x + Math.cos(Math.PI * (1.2 )) * r *(formerbaserad-.1),
-								y + Math.sin(Math.PI * (1.2 )) * r *(formerbaserad-.1),
-								r * .55, Math.PI * (1.8 ), Math.PI * (.6 ), "minor")
-							});
+								x + Math.cos(Math.PI * (1.2)) * r * (formerbaserad - .1),
+								y + Math.sin(Math.PI * (1.2)) * r * (formerbaserad - .1),
+								r * .55, Math.PI * (1.8), Math.PI * (.6), "minor")
+						});
 				}
 			},
 			i: {
 				contains: ["i", "ɪ", "ai", "ɘ", "ɨ", "ɞ"],
 				draw: function (ctx, x, y, r, lines, former) {
 					ctx.drawShape('circle', lines.outerline, {
-						cx: x + Math.cos(Math.PI * (1.2 )) * r * .7,
-						cy: y + Math.sin(Math.PI * (1.2 )) * r * .7,
+						cx: x + Math.cos(Math.PI * (1.2)) * r * .7,
+						cy: y + Math.sin(Math.PI * (1.2)) * r * .7,
 						r: r * .25,
 						fill: document.getElementById('backgroundcolor').value
 					});
 					if (lines.innerline)
 						ctx.drawShape('circle', lines.innerline, {
-							cx: x + Math.cos(Math.PI * (1.2 )) * r * .7,
-							cy: y + Math.sin(Math.PI * (1.2 )) * r * .7,
+							cx: x + Math.cos(Math.PI * (1.2)) * r * .7,
+							cy: y + Math.sin(Math.PI * (1.2)) * r * .7,
 							r: r * .15
 						});
 				}
@@ -384,15 +386,15 @@ export class cotVowels {
 				contains: ["u", "ou", "ʌ", "ɐ", "ə", "ɒ"],
 				draw: function (ctx, x, y, r, lines, former) {
 					ctx.drawShape('circle', lines.outerline, {
-						cx: x + Math.cos(Math.PI * (1.2 )) * r * .4,
-						cy: y + Math.sin(Math.PI * (1.2 )) * r * .4,
+						cx: x + Math.cos(Math.PI * (1.2)) * r * .4,
+						cy: y + Math.sin(Math.PI * (1.2)) * r * .4,
 						r: r * .25,
 						fill: document.getElementById('backgroundcolor').value
 					});
 					if (lines.innerline)
 						ctx.drawShape('circle', lines.innerline, {
-							cx: x + Math.cos(Math.PI * (1.2 )) * r * .4,
-							cy: y + Math.sin(Math.PI * (1.2 )) * r * .4,
+							cx: x + Math.cos(Math.PI * (1.2)) * r * .4,
+							cy: y + Math.sin(Math.PI * (1.2)) * r * .4,
 							r: r * .15
 						});
 				}
@@ -401,15 +403,15 @@ export class cotVowels {
 				contains: ["a", "æ", "ɜ", "ɤ", "ɔ", "ɶ"],
 				draw: function (ctx, x, y, r, lines, former) {
 					ctx.drawShape('circle', lines.outerline, {
-						cx: x + Math.cos(Math.PI * (1.2 )) * r * .1,
-						cy: y + Math.sin(Math.PI * (1.2 )) * r * .1,
+						cx: x + Math.cos(Math.PI * (1.2)) * r * .1,
+						cy: y + Math.sin(Math.PI * (1.2)) * r * .1,
 						r: r * .25,
 						fill: document.getElementById('backgroundcolor').value
 					});
 					if (lines.innerline)
 						ctx.drawShape('circle', lines.innerline, {
-							cx: x + Math.cos(Math.PI * (1.2 )) * r * .1,
-							cy: y + Math.sin(Math.PI * (1.2 )) * r * .1,
+							cx: x + Math.cos(Math.PI * (1.2)) * r * .1,
+							cy: y + Math.sin(Math.PI * (1.2)) * r * .1,
 							r: r * .15
 						});
 				}
@@ -419,17 +421,17 @@ export class cotVowels {
 				draw: function (ctx, x, y, r, lines, former) {
 					ctx.drawShape('path', lines.outerline, {
 						d: ctx.circularArc(
-							x + Math.cos(Math.PI * (1.2 )) * r * .4,
-							y + Math.sin(Math.PI * (1.2 )) * r * .4,
-							r * .25, Math.PI * (.6 ), Math.PI * (1.8 ), "major")
+							x + Math.cos(Math.PI * (1.2)) * r * .4,
+							y + Math.sin(Math.PI * (1.2)) * r * .4,
+							r * .25, Math.PI * (.6), Math.PI * (1.8), "major")
 					});
 					if (lines.innerline)
 						ctx.drawShape('path', lines.innerline, {
 							d: ctx.circularArc(
-								x + Math.cos(Math.PI * (1.2 )) * r * .4,
-								y + Math.sin(Math.PI * (1.2 )) * r * .4,
-								r * .15, Math.PI * (.6 ), Math.PI * (1.8 ), "major")
-							});
+								x + Math.cos(Math.PI * (1.2)) * r * .4,
+								y + Math.sin(Math.PI * (1.2)) * r * .4,
+								r * .15, Math.PI * (.6), Math.PI * (1.8), "major")
+						});
 				}
 			}
 		};
@@ -454,7 +456,7 @@ export class cotVowels {
 		Object.keys(this.lines).forEach(row => {
 			let columns = [];
 			Object.keys(this.lines[row].contains).forEach(key => {
-				columns.push(this.lines[row].contains[key]);
+				columns.push([this.lines[row].contains[key], this.lines[row].contains[key]]);
 			});
 			rows.push(columns);
 		});

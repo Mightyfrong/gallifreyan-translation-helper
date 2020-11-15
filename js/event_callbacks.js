@@ -4,6 +4,7 @@ import { render as renderDoctorsCot } from './doctorsCot/render.js';
 import { render as renderDoctorsCot2 } from './doctorsCot2/render.js';
 import { render as renderCC } from './cc/render.js';
 import { render as renderDotscript } from './dotscript/render.js';
+import { createKeyboard } from './doctorsCot2/setup.js';
 
 import { MySelect } from './utils/MySelect.js';
 
@@ -87,6 +88,10 @@ export function activateControls(lang) {
 			break;
 	}
 }
+
+Array.prototype.forEach.call(document.querySelectorAll('input[type=radio][name="cotsystem"]'), function(radio) {
+   radio.addEventListener('change', createKeyboard);
+});
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
  *

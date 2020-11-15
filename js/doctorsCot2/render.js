@@ -7,9 +7,6 @@ import {
 	dc2Vowels
 } from './setup.js';
 import {
-	UILanguage
-} from '../utils/UILanguage.js'
-import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
 
@@ -61,27 +58,6 @@ export function render(input) {
 	return ctx;
 }
 
-//script specific replacements
-function replacements(word) {
-	return word;
-/*	let cword = "";
-
-	/*y=j
-	x=ks
-	ng=ŋ
-	r=ɹ
-	j=ʤ
-	ch=ʧ
-	sh=ʃ
-	th=θ end
-	th=ð beginning
-
-	for (let i = 0; i < word.length; i++) { // iterate through word 
-	}
-	return cword;
-*/
-}
-
 // set rules for grouping
 let doctorsCot2Grouped = {
 	groups: function (input) {
@@ -92,7 +68,6 @@ let doctorsCot2Grouped = {
 		splitinput.forEach(sword => {
 			sentence.push([]); // init new word
 			let group = [];
-			sword = replacements(sword)
 			for (var i = 0; i < sword.length; i++) { // iterate through word 
 				var current = sword[i],
 					currenttwo = sword[i] + sword[i + 1];

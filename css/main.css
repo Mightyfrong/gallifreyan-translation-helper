@@ -1,4 +1,3 @@
-@import 'header.css';
 @import 'my-select.css';
 
 :root {
@@ -11,7 +10,9 @@
 	--header-height: 360px;
 }
 
-*, ::before, ::after {
+*,
+::before,
+::after {
 	box-sizing: border-box;
 }
 
@@ -138,23 +139,49 @@ span {
 	display: block;
 }
 
-#ipa-keys>div,
-#cot-options>div {
+#ipa-keys>div {
 	display: inline-block;
 	vertical-align: top;
 	text-align: left;
 	margin-bottom: .5em;
 }
 
-#ipa-keys input,
-#cot-options input {
+#ipa-keys input {
 	display: inline-block;
 	vertical-align: top;
 	border-width: 1px;
-	width: 2em;
+	min-width: 2em;
 	padding: .25em;
 	border-radius: 3px;
 	text-align: center;
+}
+
+#dc2consonants,
+#dc2vowels {
+	display: inline-block;
+	vertical-align: top;
+	text-align: left;
+	margin-bottom: .5em;
+}
+
+#dc2consonants>div,
+#dc2vowels>div {
+	display: block;
+}
+
+#dc2consonants>div>div,
+#dc2vowels>div>div {
+	display: inline-block;
+	vertical-align: top;
+	border-width: 1px;
+	min-width: 2em;
+	padding: .25em;
+	margin: .1em;
+	border-radius: 3px;
+	text-align: center;
+	background-color: var(--accent-col);
+	color: var(--col0);
+	cursor: pointer;
 }
 
 #drawoutput {

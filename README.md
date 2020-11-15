@@ -122,8 +122,8 @@ This one is the most complicated of the 3 languages as it transcribes the exact 
 
 ## Doctor's Cot 2.0
 
-The progress of vectorizing all the things got a bit stuck for a few weeks and one of us wasn't able to contribute to foreign code. So Doctor's Cot was rebuild based on the coding style of CC-Gallifreyan. ɑ-based vowels are a bit impure regarding connectivity. but on the plus side there is some punctuation.
-Like the original one there is an IPA-keyboard.
+The progress of vectorizing all the things got a bit stuck for a few weeks and one of us wasn't able to understand and contribute to foreign code. So Doctor's Cot was straightforwand rebuild based on the coding style of CC-Gallifreyan. ɑ-based vowels are a bit impure regarding connectivity, but on the plus side there is canonical punctuation (except start indication).
+Like in the original Cot-module there is an IPA-keyboard. Since the author has published a simplyfied english version as well there is a respective keyboard that translates the english characters to the IPA-characters according to the official tables.
 
 ### Example
 ![doctors cot 2](assets/doctors_cot_2.png)
