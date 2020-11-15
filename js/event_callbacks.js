@@ -4,6 +4,7 @@ import { render as renderDoctorsCot } from './doctorsCot/render.js';
 import { render as renderDoctorsCot2 } from './doctorsCot2/render.js';
 import { render as renderCC } from './cc/render.js';
 import { render as renderDotscript } from './dotscript/render.js';
+import { render as renderABB } from './artbyboredom/render.js';
 import { createKeyboard } from './doctorsCot2/setup.js';
 
 import { MySelect } from './utils/MySelect.js';
@@ -22,7 +23,7 @@ const img = document.getElementById('output-img');
 // Init language selector & constants
 customElements.define('my-select', MySelect);
 const langs = langSelect.querySelectorAll('input');
-const [SHERMAN, COT, COT2, TARDIS, CC, DOT] = [...langs].map(input => input.value);
+const [SHERMAN, COT, COT2, TARDIS, CC, DOT, ABB] = [...langs].map(input => input.value);
 
 // Event Callbacks
 export function translate(event) {
@@ -46,6 +47,9 @@ export function translate(event) {
 			break;
 		case DOT:
 			svg = renderDotscript(input);
+			break;
+		case ABB:
+			svg = renderABB(input);
 			break;
 		case CC:
 			svg = renderCC(input);

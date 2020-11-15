@@ -1,12 +1,13 @@
 # Gallifreyan Translation Helper
 ###### by MightyFrong
 
-This is an online tool aimed at artists and hobbyists who produce designs in one of 5 types of Gallifreyan:
+This is an online tool aimed at artists and hobbyists who produce designs in one of the following types of Gallifreyan:
 * [Sherman's Circular Gallifreyan by Loren Sherman][SCG]
 * [TARDIS Console by Purple Emily][TCG]
 * [Doctor's Cot by Brittany Goodman][DCG]
 * [CC Gallifreyan by gumex][CC]
 * [DotScript by Rachel Sutherland][DS]
+* [Gallifreyan Alphabet by ArtByBoredom][ABB]
 
 Some details on what the translation helper for each system does can be found below:
 * [Sherman's](#Shermans)
@@ -15,6 +16,7 @@ Some details on what the translation helper for each system does can be found be
 * [Doctors's Cot 2.0](#Doctors-Cot-20)
 * [CC Gallifreyan](#CC-Gallifreyan)
 * [DotScript](#DotScript)
+* [ArtByBoredom Gallifreyan](#ArtByBoredom)
 
 Please recognize this tool ***not*** as a translator: it serves the purpose of quicker impressions of writing syntax. The artistic composition is, and should be, your challenge. Please do not use any of these outputs for an immediate tattoo template!
 
@@ -150,6 +152,15 @@ This writing system may be not widely used but is quite easy and was quick and f
 
 ---
 
+## ArtByBoredom
+
+Like DotScript this system is more likely a font with geometric shapes representing latin alphabet letters. It is the first implemented system distinguishing between upper- and lowercase characters.
+
+### What To Expect
+<img src="assets/Gallifreyan_ArtByBoredom.svg" alt="ArtByBoredom gallifreyan" />
+
+---
+
 ## Copyright & Licence Notice
 
 Copyright 2020 [Mightyfrong][MF], [erroronline1][EOL1], [ModisR][MR]
@@ -179,6 +190,7 @@ along with the GTH.  If not, see <https://www.gnu.org/licenses/>.
 [DCG]: https://doctorscotgallifreyan.com/walk-through/4lnekzojej4p5klcph0ppntibb19ib
 [CC]: https://www.deviantart.com/gumex/art/CC-Gallifreyan-458112363
 [DS]: https://www.deviantart.com/rachelsutherland/gallery/58931409/dotscript-gallifreyan-guide
+[ABB]: https://www.deviantart.com/artbyboredom/art/Gallifreyan-Alphabet-298046680
 
 [1]: https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
 [2]: https://en.wikipedia.org/wiki/International_Phonetic_Alphabet
