@@ -39,8 +39,8 @@ Diacritics are supported according to the [official guide][SCG] for german umlau
 Decorator lines do not connect anywhere at the moment. This is as well due to the fact we did not come up with a reasonable algorithm to accomplish that yet, as random straight lines are neither easy to read nor aesthetically appealing.
 
 ### What To Expect
-<img src="assets/Gallifreyan_shermans's linear.svg" alt="shermans's circular gallifreyan linear displayed" />
-<img src="assets/Gallifreyan_shermans's circular.svg" alt="shermans's circular gallifreyan circular displayed" />
+<img src="assets/Gallifreyan_sherman's linear.svg" alt="sherman's circular gallifreyan linear displayed" />
+<img src="assets/Gallifreyan_sherman's circular.svg" alt="sherman's circular gallifreyan circular displayed" />
 
 ### Test Input
 `The quick brown fox jumps over the lazy dog.`
