@@ -12,7 +12,7 @@ Some details on what the translation helper for each system does can be found be
 * [Sherman's](#Shermans)
 * [TARDIS Console](#TARDIS-Console-WIP)
 * [Doctors's Cot](#Doctors-Cot)
-* [Doctors's Cot 2.0](#Doctors-Cot-2.0)
+* [Doctors's Cot 2.0](#Doctors-Cot-20)
 * [CC Gallifreyan](#CC-Gallifreyan)
 * [DotScript](#DotScript)
 
@@ -39,8 +39,8 @@ Diacritics are supported according to the [official guide][SCG] for german umlau
 Decorator lines do not connect anywhere at the moment. This is as well due to the fact we did not come up with a reasonable algorithm to accomplish that yet, as random straight lines are neither easy to read nor aesthetically appealing.
 
 ### What To Expect
-![sherman's circular gallifreyan, linear display](assets/scg_linear.png)
-![sherman's circular gallifreyan, circular display](assets/scg_circular.png)
+<img src="assets/Gallifreyan_shermans's linear.svg" alt="shermans's circular gallifreyan linear displayed" />
+<img src="assets/Gallifreyan_shermans's circular.svg" alt="shermans's circular gallifreyan circular displayed" />
 
 ### Test Input
 `The quick brown fox jumps over the lazy dog.`
@@ -126,7 +126,7 @@ The progress of vectorizing all the things got a bit stuck for a few weeks and o
 Like in the original Cot-module there is an IPA-keyboard. Since the author has published a simplyfied english version as well there is a respective keyboard that translates the english characters to the IPA-characters according to the official tables.
 
 ### Example
-![doctors cot 2](assets/doctors_cot_2.png)
+<img src="assets/Gallifreyan_dɒktəz kɒt.svg" alt="doctor's cot gallifreyan" />
 
 ---
 
@@ -137,7 +137,7 @@ This writing system feels like a hybrid from the look of TARDIS Console and the 
 Characters are simply stacked, while being read from outside to the center, but its up to the artist to decide about the number of stacked characters. This translation helper splits characters in words evenly to the set number. The maximum stacking amount is limited for easier reading, although the writing system itself is not clearly restricted in this context. Base- and decorator-graphics are tilted slightly to make it look less monotonous, yet oriented to one side to avoid problems from overlapping.
 
 ### What to expect
-![cc gallifreyan](assets/cc.png)
+<img src="assets/Gallifreyan_cc gallifreyan.svg" alt="cc gallifreyan" />
 
 ---
 
@@ -146,7 +146,7 @@ Characters are simply stacked, while being read from outside to the center, but 
 This writing system may be not widely used but is quite easy and was quick and fun to program. Each character is assigned one of five geometric shapes that have a special placement regarding the base line for consonants and a smaller representation for vowels. The character `z` has it's own form. This system of a distinct glyph for every character makes DotScript more of a font than a writing system. But implementing it was a useful experience.
 
 ### What To Expect
-![dotscript](assets/ds.png)
+<img src="assets/Gallifreyan_dotscript.svg" alt="dotscript" />
 
 ---
 
