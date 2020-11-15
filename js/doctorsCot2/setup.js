@@ -48,7 +48,8 @@ const alternativeKeyboard = {
 				["v", "v"],
 				["j", "ʤ"],
 				["f", "f"],
-				["bei<b>g</b>e", "ʒ"]
+				["bei<b>g</b>e", "ʒ"],
+				["'","'"]
 			],
 			[
 				["n", "n"],
@@ -58,7 +59,8 @@ const alternativeKeyboard = {
 				["w", "w"],
 				["ch", "ʧ"],
 				["st", "st"],
-				["<b>th</b>e", "ð"]
+				["<b>th</b>e", "ð"],
+				[",",","]
 			],
 			[
 				["t", "t"],
@@ -67,7 +69,8 @@ const alternativeKeyboard = {
 				["d", "d"],
 				["m", "m"],
 				["sh", "ʃ"],
-				["ma<b>th</b>", "θ"]
+				["ma<b>th</b>", "θ"],
+				["?","?"]
 			],
 			[
 				["x", "ks"],
@@ -76,6 +79,12 @@ const alternativeKeyboard = {
 				["b", "b"],
 				["א", "א"],
 				["g", "g"]
+			],
+			[
+				["!","!"]
+			],
+			[
+				[".","."]
 			]
 		],
 		vowels: [
