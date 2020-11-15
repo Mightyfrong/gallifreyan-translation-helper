@@ -32,6 +32,16 @@ export let UILanguage = {
 			de: "Maximal gruppierte Buchstaben",
 			lt: "Didžiausias sukauptų simbolių skaičius"
 		},
+		ipakeys: {
+			en: " IPA keyboard",
+			de: " IPA Tastatur",
+			lt: " IPA klaviatūra"
+		},
+		enkeys: {
+			en: " english keyboard",
+			de: " englische Tastatur",
+			lt: " angliška klaviatūra"
+		},
 		inputplaceholder: {
 			en: "type your text here",
 			de: "Text hier eingeben",
@@ -69,28 +79,33 @@ export let UILanguage = {
 	//return requested chunk in selected or default language
 	write: function (chunk) {
 		let lang = this.get();
-		if (this.say[chunk]===undefined) {alert(chunk + " is undefined"); return;}
-		if (this.say[chunk][lang]===undefined) return this.say[chunk].en;
+		if (this.say[chunk] === undefined) {
+			alert(chunk + " is undefined");
+			return;
+		}
+		if (this.say[chunk][lang] === undefined) return this.say[chunk].en;
 		return this.say[chunk][lang];
 	},
-	init:function(){
+	init: function () {
 		//overwrite initial rendered text putputs
-		document.getElementById("helpwith").innerHTML=this.write('helpwith');
-		document.getElementById("scgcirc").nextSibling.innerHTML= this.write('scgcirc');
-		document.getElementById("scgc").nextSibling.innerHTML= this.write('scgc');
-		document.getElementById("scgg").nextSibling.innerHTML= this.write('scgg');
-		document.getElementById("ccstack").innerHTML=this.write('ccstack');
-		document.getElementById("text").placeholder=this.write('inputplaceholder');
-		document.getElementById("renderbutton").value=this.write('renderbutton');
-		document.getElementById("info").innerHTML=this.write('info');
+		document.getElementById("helpwith").innerHTML = this.write('helpwith');
+		document.getElementById("scgcirc").nextSibling.innerHTML = this.write('scgcirc');
+		document.getElementById("scgc").nextSibling.innerHTML = this.write('scgc');
+		document.getElementById("scgg").nextSibling.innerHTML = this.write('scgg');
+		document.getElementById("ccstack").innerHTML = this.write('ccstack');
+		document.getElementById("cotipalang").innerHTML = this.write('ipakeys');
+		document.getElementById("cotenlang").innerHTML = this.write('enkeys');
+		document.getElementById("text").placeholder = this.write('inputplaceholder');
+		document.getElementById("renderbutton").value = this.write('renderbutton');
+		document.getElementById("info").innerHTML = this.write('info');
 
 		//display supported languages and add event listeners for setting language
 		Object.keys(this.supported).forEach(l => {
-			document.getElementById("UILanguages").innerHTML += '<input type="radio" name="UILanguages" id="UILanguage' + l + '" value="'+l+'" style="display:none" /><label for="UILanguage' + l + '" title="' + this.supported[l][0] + '">' + this.supported[l][1] + '</label> '
+			document.getElementById("UILanguages").innerHTML += '<input type="radio" name="UILanguages" id="UILanguage' + l + '" value="' + l + '" style="display:none" /><label for="UILanguage' + l + '" title="' + this.supported[l][0] + '">' + this.supported[l][1] + '</label> '
 		});
-		const UILanguagesinputs=document.getElementsByName("UILanguages");
-		UILanguagesinputs.forEach(t=>{
-			document.getElementById(t.id).addEventListener('input', event=>{
+		const UILanguagesinputs = document.getElementsByName("UILanguages");
+		UILanguagesinputs.forEach(t => {
+			document.getElementById(t.id).addEventListener('input', event => {
 				this.set(event.target.value);
 				location.reload();
 			});
