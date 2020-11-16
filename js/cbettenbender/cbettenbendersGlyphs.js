@@ -88,7 +88,7 @@ export class cbVowels {
 				contains: ["ɑ", "æ", "eɪ"],
 				keyboard: ["c<b>a</b>r", "h<b>a</b>t", "h<b>a</b>y"],
 				rad: function (char) {
-					return (1.5 + 1 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
+					return (.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
 				},
 				draw: function (ctx, x, y, r, char) {
 					ctx.drawShape('circle', 1, {
@@ -102,7 +102,7 @@ export class cbVowels {
 				contains: ["ɛ", "ɜ", "i"],
 				keyboard: ["fr<b>e</b>t", "p<b>e</b>rch", "fr<b>ee</b>"],
 				rad: function (char) {
-					return (1.5 + 1 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
+					return (.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
 				},
 				draw: function (ctx, x, y, r, char) {
 					ctx.drawShape('circle', 0, {
@@ -144,7 +144,6 @@ export class cbVowels {
 					return (.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
 				},
 				draw: function (ctx, x, y, r, char) {
-					console.log(this.rad(char));
 					let offset = {
 						x: Math.sin(Math.PI * this.rad(char)) * r * -.05,
 						y: Math.cos(Math.PI * this.rad(char)) * r * -.05
@@ -167,7 +166,7 @@ export class cbVowels {
 				contains: ["u", "ʊ", "ʌ"],
 				keyboard: ["y<b>ou</b>", "p<b>u</b>sh", "<b>u</b>p"],
 				rad: function (char) {
-					return (1.5 + 1 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
+					return (.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
 				},
 				draw: function (ctx, x, y, r, char) {
 					ctx.drawShape('circle', 1, {
