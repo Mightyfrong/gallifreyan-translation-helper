@@ -11,6 +11,7 @@ import {
 
 import { UILanguage } from './utils/UILanguage.js';
 import { selectLang, translate, activateControls, langSelect } from './event_callbacks.js';
+import { createCBKeyboard } from './cbettenbender/setup.js';
 
 // Init event handlers
 langSelect.addEventListener('select', selectLang);
@@ -25,6 +26,8 @@ genKeyboard(ipaConsons, consonantTable);
 genKeyboard(ipaVowels, vowelTable);
 
 createKeyboard();
+
+createCBKeyboard();
 
 //** General
 activateControls(langSelect.value);

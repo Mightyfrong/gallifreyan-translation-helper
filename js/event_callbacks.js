@@ -5,6 +5,7 @@ import { render as renderDoctorsCot2 } from './doctorsCot2/render.js';
 import { render as renderCC } from './cc/render.js';
 import { render as renderDotscript } from './dotscript/render.js';
 import { render as renderABB } from './artbyboredom/render.js';
+import { render as renderCB } from './cbettenbender/render.js';
 import { createKeyboard } from './doctorsCot2/setup.js';
 
 import { MySelect } from './utils/MySelect.js';
@@ -17,13 +18,14 @@ const shermansOpts = document.getElementById('shermans-options');
 const ipaKeys = document.getElementById('ipa-keys');
 const ccOpts = document.getElementById('cc-options');
 const cotOpts = document.getElementById('cot-options');
+const cbettenbenders = document.getElementById('cbettenbenders');
 
 const img = document.getElementById('output-img');
 
 // Init language selector & constants
 customElements.define('my-select', MySelect);
 const langs = langSelect.querySelectorAll('input');
-const [SHERMAN, COT, COT2, TARDIS, CC, DOT, ABB] = [...langs].map(input => input.value);
+const [SHERMAN, COT, COT2, TARDIS, CB, CC, DOT, ABB] = [...langs].map(input => input.value);
 
 // Event Callbacks
 export function translate(event) {
@@ -54,7 +56,10 @@ export function translate(event) {
 		case CC:
 			svg = renderCC(input);
 			break;
-		default:
+		case CB:
+			svg = renderCB(input);
+			break;
+			default:
 			svg = renderShermans(input);
 	}
 
@@ -90,7 +95,10 @@ export function activateControls(lang) {
 		case CC:
 			ccOpts.classList.toggle('active');
 			break;
-	}
+		case CB:
+			cbettenbenders.classList.toggle('active');
+			break;
+		}
 }
 
 Array.prototype.forEach.call(document.querySelectorAll('input[type=radio][name="cotsystem"]'), function(radio) {

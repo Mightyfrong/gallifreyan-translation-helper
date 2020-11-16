@@ -157,7 +157,9 @@ span {
 }
 
 #dc2consonants,
-#dc2vowels {
+#dc2vowels,
+#cbconsonants,
+#cbvowels {
 	display: inline-block;
 	vertical-align: top;
 	text-align: left;
@@ -165,12 +167,16 @@ span {
 }
 
 #dc2consonants>div,
-#dc2vowels>div {
+#dc2vowels>div,
+#cbconsonants>div,
+#cbvowels>div {
 	display: block;
 }
 
 #dc2consonants>div>div,
-#dc2vowels>div>div {
+#dc2vowels>div>div,
+#cbconsonants>div>div,
+#cbvowels>div>div {
 	display: inline-block;
 	vertical-align: top;
 	border-width: 1px;
