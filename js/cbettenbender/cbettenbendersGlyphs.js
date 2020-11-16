@@ -53,7 +53,7 @@ export class cbConsonants {
 						r: r * .15
 					});
 					ctx.drawShape('path', 1, {
-						d: ctx.circularArc(x, y, r * .7, Math.PI * (this.rad(char)-.11), Math.PI * (this.rad(char)+.11), "minor")
+						d: ctx.circularArc(x, y, r * .7, Math.PI * (this.rad(char) - .11), Math.PI * (this.rad(char) + .11), "minor")
 					});
 				}
 			}
@@ -88,13 +88,13 @@ export class cbVowels {
 				contains: ["ɑ", "æ", "eɪ"],
 				keyboard: ["c<b>a</b>r", "h<b>a</b>t", "h<b>a</b>y"],
 				rad: function (char) {
-					return 1.5 + 2 / this.contains.length * (1 + this.contains.indexOf(char));
+					return (1.5 + 1 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
 				},
-				draw: function (ctx, x, y, r) {
+				draw: function (ctx, x, y, r, char) {
 					ctx.drawShape('circle', 1, {
-						cx: x,
-						cy: y,
-						r: r,
+						cx: x + Math.cos(Math.PI * this.rad(char)) * r * .55,
+						cy: y + Math.sin(Math.PI * this.rad(char)) * r * .55,
+						r: r * .25,
 					});
 				}
 			},
@@ -102,14 +102,13 @@ export class cbVowels {
 				contains: ["ɛ", "ɜ", "i"],
 				keyboard: ["fr<b>e</b>t", "p<b>e</b>rch", "fr<b>ee</b>"],
 				rad: function (char) {
-					return 1.5 + 2 / this.contains.length * (1 + this.contains.indexOf(char));
+					return (1.5 + 1 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
 				},
-				draw: function (ctx, x, y, r) {
+				draw: function (ctx, x, y, r, char) {
 					ctx.drawShape('circle', 0, {
-						cx: x,
-						cy: y,
-						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						cx: x + Math.cos(Math.PI * this.rad(char)) * r * .55,
+						cy: y + Math.sin(Math.PI * this.rad(char)) * r * .55,
+						r: r * .075,
 					});
 				}
 			},
@@ -117,14 +116,24 @@ export class cbVowels {
 				contains: ["ɪ", "aɪ"],
 				keyboard: ["<b>i</b>f", "l<b>i</b>fe"],
 				rad: function (char) {
-					return 1.5 + 2 / this.contains.length * (1 + this.contains.indexOf(char));
+					return .5 + 2 / this.contains.length * (1 + this.contains.indexOf(char));
 				},
-				draw: function (ctx, x, y, r) {
-					ctx.drawShape('circle', 0, {
-						cx: x,
-						cy: y,
-						r: r,
-						fill: document.getElementById('backgroundcolor').value
+				draw: function (ctx, x, y, r, char) {
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(
+							x + Math.cos(Math.PI * this.rad(char)) * r * .2,
+							y + Math.sin(Math.PI * this.rad(char)) * r * .2,
+							r * .33,
+							Math.PI * (this.rad(char) - .46), Math.PI * (this.rad(char) + .46), "minor"
+						)
+					});
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(
+							x,
+							y,
+							r * .4,
+							Math.PI * (this.rad(char) - .3), Math.PI * (this.rad(char) + .3), "minor"
+						)
 					});
 				}
 			},
@@ -132,14 +141,25 @@ export class cbVowels {
 				contains: ["ɔ", "ɒ", "əʊ"],
 				keyboard: ["f<b>o</b>r", "h<b>o</b>t", "t<b>o</b>e"],
 				rad: function (char) {
-					return 1.5 + 2 / this.contains.length * (1 + this.contains.indexOf(char));
+					return (.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
 				},
-				draw: function (ctx, x, y, r) {
-					ctx.drawShape('circle', 0, {
-						cx: x,
-						cy: y,
-						r: r,
-						fill: document.getElementById('backgroundcolor').value
+				draw: function (ctx, x, y, r, char) {
+					console.log(this.rad(char));
+					let offset = {
+						x: Math.sin(Math.PI * this.rad(char)) * r * -.05,
+						y: Math.cos(Math.PI * this.rad(char)) * r * -.05
+					};
+					ctx.drawShape('line', 1, {
+						x1: x + Math.cos(Math.PI * this.rad(char)) * r - offset.x,
+						y1: y + Math.sin(Math.PI * this.rad(char)) * r + offset.y,
+						x2: x - Math.cos(Math.PI * this.rad(char)) * r - offset.x,
+						y2: y - Math.sin(Math.PI * this.rad(char)) * r + offset.y
+					});
+					ctx.drawShape('line', 1, {
+						x1: x + Math.cos(Math.PI * this.rad(char)) * r + offset.x,
+						y1: y + Math.sin(Math.PI * this.rad(char)) * r - offset.y,
+						x2: x - Math.cos(Math.PI * this.rad(char)) * r + offset.x,
+						y2: y - Math.sin(Math.PI * this.rad(char)) * r - offset.y
 					});
 				}
 			},
@@ -147,14 +167,18 @@ export class cbVowels {
 				contains: ["u", "ʊ", "ʌ"],
 				keyboard: ["y<b>ou</b>", "p<b>u</b>sh", "<b>u</b>p"],
 				rad: function (char) {
-					return 1.5 + 2 / this.contains.length * (1 + this.contains.indexOf(char));
+					return (1.5 + 1 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
 				},
-				draw: function (ctx, x, y, r) {
-					ctx.drawShape('circle', 0, {
-						cx: x,
-						cy: y,
-						r: r,
-						fill: document.getElementById('backgroundcolor').value
+				draw: function (ctx, x, y, r, char) {
+					ctx.drawShape('circle', 1, {
+						cx: x + Math.cos(Math.PI * this.rad(char)) * r * .55,
+						cy: y + Math.sin(Math.PI * this.rad(char)) * r * .55,
+						r: r * .25
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x + Math.cos(Math.PI * this.rad(char)) * r * .55,
+						cy: y + Math.sin(Math.PI * this.rad(char)) * r * .55,
+						r: r * .15
 					});
 				}
 			},

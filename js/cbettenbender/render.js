@@ -24,7 +24,7 @@ export function render(input) {
 	console.log(groupedInput);
 
 	let glyphs = 0;
-	glyphs=groupedInput.length+1;
+	glyphs = groupedInput.length + 1;
 
 	glyph = {
 		width: glyphSize * 2.25,
@@ -57,7 +57,7 @@ let cbettenbacherGrouped = {
 				var current = sword[i],
 					currenttwo = sword[i] + sword[i + 1];
 				// add double characters to group
-				if (includes(["ch", "th", "sh","eɪ","aɪ","əʊ"], currenttwo)) {
+				if (includes(["ch", "th", "sh", "eɪ", "aɪ", "əʊ"], currenttwo)) {
 					current = currenttwo;
 					i++;
 				}
@@ -87,7 +87,7 @@ let cbettenbacherGrouped = {
 function cbDraw(ctx, syllable) {
 	if (x + glyph.width * 2 >= width) {
 		y += glyph.height;
-		x = glyph.width/2;
+		x = glyph.width / 2;
 	} else x += glyph.width;
 
 	//syllable circle
@@ -97,13 +97,13 @@ function cbDraw(ctx, syllable) {
 		r: glyphSize
 	});
 	//characters
-	syllable.forEach(character=>{
+	syllable.forEach(character => {
 		let consonant = cbConsonant.getBase(character),
 			vowel = cbVowel.getBase(character);
 		// draw consonant
 		if (consonant) cbConsonant.base[consonant].draw(ctx, x, y, glyphSize, character);
 		// draw vowel
-//		if (vowel) cbVowel.base[vowel].draw(ctx, x, y, glyphSize, character);
+		if (vowel) cbVowel.base[vowel].draw(ctx, x, y, glyphSize, character);
 	});
 
 	// text output for undefined characters as well for informational purpose
