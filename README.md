@@ -7,7 +7,7 @@ This is an online tool aimed at artists and hobbyists who produce designs in one
 * [Doctor's Cot by Brittany Goodman][DCG]
 * [CC Gallifreyan by gumex][CC]
 * [DotScript by Rachel Sutherland][DS]
-* [Gallifreyan Alphabet by ArtByBoredom][ABB]
+* [Gallifreyan Alphabet by Aaron Jay][ABB]
 
 Some details on what the translation helper for each system does can be found below:
 * [Sherman's](#Shermans)
@@ -140,7 +140,7 @@ Supported characters will be available on the provided keyboard.
 
 This writing system feels like a hybrid from the look of TARDIS Console and the clear base-decorator-relations from Sherman's. This system processes the latin alphabet with th and ng only, no diacritics, punctuation or numbers.
 
-Characters are simply stacked, while being read from outside to the center, but its up to the artist to decide about the number of stacked characters. This translation helper splits characters in words evenly to the set number. The maximum stacking amount is limited for easier reading, although the writing system itself is not clearly restricted in this context. Base- and decorator-graphics are tilted slightly to make it look less monotonous, yet oriented to one side to avoid problems from overlapping.
+Characters are simply stacked, while being read from outside to the center, but its up to the artist to decide about the number of stacked characters. This translation helper splits characters in words evenly to the set number. The maximum stacking amount is limited for easier reading, although the writing system itself is not clearly restricted in this context. Base- and decorator-graphics are tilted slightly to make it look less monotonous, yet orientated to one side to avoid problems from overlapping (this is just a programmatic necessity, not an artistic recommendation!).
 
 Supported characters are `[a-z]`, uppercase will be converted.
 
@@ -151,7 +151,7 @@ Supported characters are `[a-z]`, uppercase will be converted.
 
 ## DotScript
 
-This writing system may be not widely used but is quite easy and was quick and fun to program. Each character is assigned one of five geometric shapes that have a special placement regarding the base line for consonants and a smaller representation for vowels. The character `z` has it's own form. This system of a distinct glyph for every character makes DotScript more of a font than a writing system. But implementing it was a useful experience.
+This writing system may not be widely used but is quite easy and was quick and fun to program. Each character is assigned one of five geometric shapes that have a special placement regarding the base line for consonants and a smaller representation for vowels. The character `z` has it's own shape. This system of one distinct glyph for every character makes DotScript more of a font than a writing system. But implementing it was a useful experience.
 
 Supported characters are `[a-z]`, uppercase will be converted.
 
