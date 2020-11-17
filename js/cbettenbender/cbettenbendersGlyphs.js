@@ -8,84 +8,89 @@ import {
 
 export class cbConsonants {
 	constructor() {
+
 		this.base = {
 			soft: {
 				contains: ["f", "h", "j", "l", "m", "n", "r", "s", "v", "w", "y", "z"],
 				rad: function (char) {
-					let rad = parseFloat((1.5 + 2 / this.contains.length * (this.contains.indexOf(char))).toPrecision(5));
-					if (rad >= 2) rad -= 2;
-					return rad;
+					return 1.5 + 2 / this.contains.length * this.contains.indexOf(char);
 				},
 				property: function (char) {
-					return {
-						x: [Math.cos(Math.PI * this.rad(char)) * .75],
-						y: [Math.sin(Math.PI * this.rad(char)) * .75],
-						r: [.25]
-					};
+					return [{
+						x: Math.cos(Math.PI * this.rad(char)) * .75,
+						y: Math.sin(Math.PI * this.rad(char)) * .75,
+						r: .25
+					}];
 				},
-				draw: function (ctx, x, y, r, char) {
-					ctx.drawShape('circle', 1, {
-						cx: x + r * this.property(char).x[0],
-						cy: y + r * this.property(char).y[0],
-						r: r * this.property(char).r[0],
-					});
+				draw: function (ctx, x, y, r, char, repeat = false) {
+					if (repeat) {} else {
+						this.property(char).forEach(set => {
+							ctx.drawShape('circle', 1, {
+								cx: x + r * set.x,
+								cy: y + r * set.y,
+								r: r * set.r,
+							});
+						});
+					}
 				}
 			},
 			hard: {
 				contains: ["b", "d", "g", "k", "p", "t"],
 				rad: function (char) {
-					let rad = parseFloat((1.5 + 2 / this.contains.length * (this.contains.indexOf(char))).toPrecision(5));
-					if (rad >= 2) rad -= 2;
-					return rad;
+					return 1.5 + 2 / this.contains.length * this.contains.indexOf(char);
 				},
 				property: function (char) {
-					return {
-						x: [Math.cos(Math.PI * this.rad(char)) * .75, Math.cos(Math.PI * this.rad(char)) * .7],
-						y: [Math.sin(Math.PI * this.rad(char)) * .75, Math.sin(Math.PI * this.rad(char)) * .7],
-						r: [.25, .15]
-					};
+					return [{
+						x: Math.cos(Math.PI * this.rad(char)) * .75,
+						y: Math.sin(Math.PI * this.rad(char)) * .75,
+						r: .25
+					}, {
+						x: Math.cos(Math.PI * this.rad(char)) * .7,
+						y: Math.sin(Math.PI * this.rad(char)) * .7,
+						r: .15
+					}];
 				},
-				draw: function (ctx, x, y, r, char) {
-					ctx.drawShape('circle', 1, {
-						cx: x + r * this.property(char).x[0],
-						cy: y + r * this.property(char).y[0],
-						r: r * this.property(char).r[0]
-					});
-					ctx.drawShape('circle', 1, {
-						cx: x + r * this.property(char).x[1],
-						cy: y + r * this.property(char).y[1],
-						r: r * this.property(char).r[1]
-					});
+				draw: function (ctx, x, y, r, char, repeat = false) {
+					if (repeat) {} else {
+						this.property(char).forEach(set => {
+							ctx.drawShape('circle', 1, {
+								cx: x + r * set.x,
+								cy: y + r * set.y,
+								r: r * set.r,
+							});
+						});
+					}
 				}
 			},
 			combi: {
 				contains: ["ch", "th", "sh"],
 				rad: function (char) {
-					let rad = parseFloat((1.5 + 2 / this.contains.length * (this.contains.indexOf(char))).toPrecision(5));
-					if (rad >= 2) rad -= 2;
-					return rad;
+					return 1.5 + 2 / this.contains.length * this.contains.indexOf(char);
 				},
 				property: function (char) {
-					return {
-						x: [Math.cos(Math.PI * this.rad(char)) * .75, Math.cos(Math.PI * this.rad(char)) * .7],
-						y: [Math.sin(Math.PI * this.rad(char)) * .75, Math.sin(Math.PI * this.rad(char)) * .7],
-						r: [.25, .15]
-					};
+					return [{
+						x: Math.cos(Math.PI * this.rad(char)) * .75,
+						y: Math.sin(Math.PI * this.rad(char)) * .75,
+						r: .25
+					}, {
+						x: Math.cos(Math.PI * this.rad(char)) * .7,
+						y: Math.sin(Math.PI * this.rad(char)) * .7,
+						r: .15
+					}];
 				},
-				draw: function (ctx, x, y, r, char) {
-					ctx.drawShape('circle', 1, {
-						cx: x + r * this.property(char).x[0],
-						cy: y + r * this.property(char).y[0],
-						r: r * this.property(char).r[0]
-					});
-					ctx.drawShape('circle', 1, {
-						cx: x + r * this.property(char).x[1],
-						cy: y + r * this.property(char).y[1],
-						r: r * this.property(char).r[1]
-					});
-					ctx.drawShape('path', 1, {
-						d: ctx.circularArc(x, y, r * .7, Math.PI * (this.rad(char) - .11), Math.PI * (this.rad(char) + .11), "minor")
-					});
+				draw: function (ctx, x, y, r, char, repeat = false) {
+					if (repeat) {} else {
+						this.property(char).forEach(set => {
+							ctx.drawShape('circle', 1, {
+								cx: x + r * set.x,
+								cy: y + r * set.y,
+								r: r * set.r,
+							});
+						});
+						ctx.drawShape('path', 1, {
+							d: ctx.circularArc(x, y, r * .7, Math.PI * (this.rad(char) - .11), Math.PI * (this.rad(char) + .11), "minor")
+						});
+					}
 				}
 			}
 		}
@@ -119,64 +124,67 @@ export class cbVowels {
 				contains: ["ɑ", "æ", "eɪ"],
 				keyboard: ["c<b>a</b>r", "h<b>a</b>t", "h<b>a</b>y"],
 				rad: function (char) {
-					let rad = parseFloat(((.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char))).toPrecision(5));
-					if (rad >= 2) rad -= 2;
-					return rad;
+					return (.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
 				},
 				property: function (char) {
-					return {
-						x: [Math.cos(Math.PI * this.rad(char)) * .55],
-						y: [Math.sin(Math.PI * this.rad(char)) * .55],
-						r: [.25]
-					};
+					return [{
+						x: Math.cos(Math.PI * this.rad(char)) * .55,
+						y: Math.sin(Math.PI * this.rad(char)) * .55,
+						r: .25
+					}];
 				},
-				draw: function (ctx, x, y, r, char) {
-					ctx.drawShape('circle', 1, {
-						cx: x + r * this.property(char).x[0],
-						cy: y + r * this.property(char).y[0],
-						r: r * this.property(char).r[0]
-					});
+				draw: function (ctx, x, y, r, char, repeat = false) {
+					if (repeat) {} else {
+						this.property(char).forEach(set => {
+							ctx.drawShape('circle', 1, {
+								cx: x + r * set.x,
+								cy: y + r * set.y,
+								r: r * set.r,
+							});
+						});
+					}
 				}
 			},
 			e: {
 				contains: ["ɛ", "ɜ", "i"],
 				keyboard: ["fr<b>e</b>t", "p<b>e</b>rch", "fr<b>ee</b>"],
 				rad: function (char) {
-					let rad = parseFloat(((.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char))).toPrecision(5));
-					if (rad >= 2) rad -= 2;
-					return rad;
+					return (.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
 				},
 				property: function (char) {
-					return {
-						x: [Math.cos(Math.PI * this.rad(char)) * .55],
-						y: [Math.sin(Math.PI * this.rad(char)) * .55],
-						r: [.075]
-					};
+					return [{
+						x: Math.cos(Math.PI * this.rad(char)) * .55,
+						y: Math.sin(Math.PI * this.rad(char)) * .55,
+						r: .075
+					}];
 				},
-				draw: function (ctx, x, y, r, char) {
-					ctx.drawShape('circle', 0, {
-						cx: x + r * this.property(char).x[0],
-						cy: y + r * this.property(char).y[0],
-						r: r * this.property(char).r[0]
-					});
+				draw: function (ctx, x, y, r, char, repeat = false) {
+					if (repeat) {} else {
+						this.property(char).forEach(set => {
+							ctx.drawShape('circle', 0, {
+								cx: x + r * set.x,
+								cy: y + r * set.y,
+								r: r * set.r,
+							});
+						});
+					}
 				}
 			},
 			i: {
 				contains: ["ɪ", "aɪ"],
 				keyboard: ["<b>i</b>f", "l<b>i</b>fe"],
 				rad: function (char) {
-					let rad = parseFloat((.5 + 2 / this.contains.length * (1 + this.contains.indexOf(char))).toPrecision(5));
-					if (rad >= 2) rad -= 2;
-					return rad;
+					return .5 + 2 / this.contains.length * (1 + this.contains.indexOf(char));
 				},
 				property: function (char) {
+					// i have still do decide whether this is useful in this context or not
 					return {
 						x: [Math.cos(Math.PI * this.rad(char)) * .2],
 						y: [Math.sin(Math.PI * this.rad(char)) * .2],
 						r: [.33]
 					};
 				},
-				draw: function (ctx, x, y, r, char) {
+				draw: function (ctx, x, y, r, char, repeat = false) {
 					ctx.drawShape('path', 1, {
 						d: ctx.circularArc(
 								x + r * this.property(char).x[0],
@@ -197,19 +205,17 @@ export class cbVowels {
 				contains: ["ɔ", "ɒ", "əʊ"],
 				keyboard: ["f<b>o</b>r", "h<b>o</b>t", "t<b>o</b>e"],
 				rad: function (char) {
-					let rad = parseFloat(((.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char))).toPrecision(5));
-					if (rad >= 2) rad -= 2;
-					return rad;
+					return (.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
 				},
 				property: function (char) {
-// i have still do decide whether this is useful in this context or not
+					// i have still do decide whether this is useful in this context or not
 					return {
 						x: [Math.cos(Math.PI * this.rad(char)) * .75, Math.cos(Math.PI * this.rad(char)) * .7],
 						y: [Math.sin(Math.PI * this.rad(char)) * .75, Math.sin(Math.PI * this.rad(char)) * .7],
 						r: [.25, .15]
 					};
 				},
-				draw: function (ctx, x, y, r, char) {
+				draw: function (ctx, x, y, r, char, repeat = false) {
 					let offset = {
 						x: Math.sin(Math.PI * this.rad(char)) * r * -.05,
 						y: Math.cos(Math.PI * this.rad(char)) * r * -.05
@@ -232,28 +238,30 @@ export class cbVowels {
 				contains: ["u", "ʊ", "ʌ"],
 				keyboard: ["y<b>ou</b>", "p<b>u</b>sh", "<b>u</b>p"],
 				rad: function (char) {
-					let rad = parseFloat(((.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char))).toPrecision(5));
-					if (rad >= 2) rad -= 2;
-					return rad;
+					return (.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
 				},
 				property: function (char) {
-					return {
-						x: [Math.cos(Math.PI * this.rad(char)) * .55, Math.cos(Math.PI * this.rad(char)) * .55],
-						y: [Math.sin(Math.PI * this.rad(char)) * .55, Math.sin(Math.PI * this.rad(char)) * .55],
-						r: [.25, .15]
-					};
+					return [{
+						x: Math.cos(Math.PI * this.rad(char)) * .55,
+						y: Math.sin(Math.PI * this.rad(char)) * .55,
+						r: .25
+					},{
+						x: Math.cos(Math.PI * this.rad(char)) * .55,
+						y: Math.sin(Math.PI * this.rad(char)) * .55,
+						r: .15
+					}
+				];
 				},
-				draw: function (ctx, x, y, r, char) {
-					ctx.drawShape('circle', 1, {
-						cx: x + r * this.property(char).x[0],
-						cy: y + r * this.property(char).y[0],
-						r: r * this.property(char).r[0]
-					});
-					ctx.drawShape('circle', 1, {
-						cx: x + r * this.property(char).x[1],
-						cy: y + r * this.property(char).y[1],
-						r: r * this.property(char).r[1]
-					});
+				draw: function (ctx, x, y, r, char, repeat = false) {
+					if (repeat) {} else {
+						this.property(char).forEach(set => {
+							ctx.drawShape('circle', 1, {
+								cx: x + r * set.x,
+								cy: y + r * set.y,
+								r: r * set.r,
+							});
+						});
+					}
 				}
 			},
 		}
@@ -288,32 +296,22 @@ export class cbContext {
 			points.push(parseFloat(i.toPrecision(5)));
 		}
 		this.connectorPoints = points;
-
-
-
-		this.draw = {
-			repeat: {
-				draw: function (ctx, x, y, r, char) {
-					//three points
-				}
-			},
-			startCon: {
-				draw: function () {
-					//curved pointing v-shape
-				}
-			},
-			startVow: {
-				draw: function () {
-					//two curved lines in empty space
-				}
-			},
-			connectCon: {
-				draw: function () {
-					//curved line connection konvex or concav
-				}
-			},
-		}
 	}
+
+	startCon(ctx, x, y, r, char) {
+		//curved pointing v-shape
+		console.log(char, "starting consonant");
+	}
+
+	startVow(ctx, x, y, r, char) {
+		//two curved lines in empty space
+		console.log(char, "starting vowel");
+	}
+
+	connectCon() {
+		//curved line connection konvex or concav
+	}
+
 	delPoints(character) {
 		// replaces valid radiants with null
 		let consonant = cbConsonant.getBase(character),
@@ -322,7 +320,8 @@ export class cbContext {
 			index;
 		if (consonant) position = cbConsonant.base[consonant].rad(character);
 		if (vowel) position = cbVowel.base[vowel].rad(character);
-		index = this.connectorPoints.indexOf(position);
+		if (position>=2)position-=2;
+		index = this.connectorPoints.indexOf(parseFloat(position.toPrecision(5)));
 		if (index > 0) this.connectorPoints.splice(index - 1, 3, null, null, null);
 		else if (index == 0) {
 			this.connectorPoints.splice(0, 2, null, null);
