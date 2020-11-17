@@ -363,16 +363,62 @@ export class cbContext {
 
 	startCon(ctx, x, y, r, char) {
 		//curved pointing v-shape
-		console.log(char, "starting consonant");
+		let con=this.chunkPoints()[0],consonant = cbConsonant.getBase(char), initial;
+		initial = cbConsonant.base[consonant].rad(char);
+
+		let first=Math.floor(Math.random()*con.length),
+			second;
+		do{ second= Math.floor(Math.random()*con.length);}
+		while (first==second)
+
+		ctx.drawShape('line', 1, {
+			x1: x + Math.cos(Math.PI *initial) * r,
+			y1: y + Math.sin(Math.PI * initial) * r,
+			x2: x + Math.cos(Math.PI * con[first]) * r,
+			y2: y + Math.sin(Math.PI * con[first]) * r
+		});
+		ctx.drawShape('line', 1, {
+			x1: x + Math.cos(Math.PI *initial) * r,
+			y1: y + Math.sin(Math.PI * initial) * r,
+			x2: x + Math.cos(Math.PI * con[second]) * r,
+			y2: y + Math.sin(Math.PI * con[second]) * r
+		});
 	}
 
 	startVow(ctx, x, y, r, char) {
 		//two curved lines in empty space
-		console.log(char, "starting vowel");
+		let con=this.chunkPoints()[0];
+		let first=Math.floor(Math.random()*con.length/2),
+			second= first+Math.floor(con.length/2);
+
+		ctx.drawShape('line', 1, {
+			x1: x + Math.cos(Math.PI *con[first]) * r,
+			y1: y + Math.sin(Math.PI * con[first]) * r,
+			x2: x + Math.cos(Math.PI * con[second]) * r,
+			y2: y + Math.sin(Math.PI * con[second]) * r
+		});
 	}
 
 	connectCon() {
 		//curved line connection konvex or concav
+	}
+
+	chunkPoints() {
+		// returns an 2d-array of connectorPoints in a row, descending
+		let sections = [
+				[]
+			],
+			cp = this.connectorPoints;
+		for (let i = 0; i < cp.length; i++) {
+			if (cp[i] !== null) {
+				sections[sections.length - 1].push(cp[i]);
+			} else sections.push([]);
+		}
+		function sizesort(a,b){
+			if (a.length === b.length) 	return 0;
+			else return (a.length < b.length) ? 1 : -1;
+		}
+		return sections.sort(sizesort);
 	}
 
 	delPoints(character) {
@@ -385,12 +431,20 @@ export class cbContext {
 		if (vowel) position = cbVowel.base[vowel].rad(character);
 		if (position >= 2) position -= 2;
 		index = this.connectorPoints.indexOf(parseFloat(position.toPrecision(5)));
-		if (index > 0) this.connectorPoints.splice(index - 1, 3, null, null, null);
-		else if (index == 0) {
-			this.connectorPoints.splice(0, 2, null, null);
-			this.connectorPoints[this.connectorPoints.length - 1] = null;
+		if (index > -1) {
+			if (cbVowel.getBase(character) == "o") {
+				let index2 = index + 12;
+				if (index2 > 23) index2 -= 24;
+				this.connectorPoints.splice(index, 1, null);
+				this.connectorPoints.splice(index2, 1, null);
+			} else {
+				if (index > 0) this.connectorPoints.splice(index - 1, 3, null, null, null);
+				else if (index == 0) {
+					this.connectorPoints.splice(0, 2, null, null);
+					this.connectorPoints[this.connectorPoints.length - 1] = null;
+				}
+			}
 		}
-		console.log(position);
 	}
 	showPoints(ctx, x, y, r) {
 		this.connectorPoints.forEach(rad => {
