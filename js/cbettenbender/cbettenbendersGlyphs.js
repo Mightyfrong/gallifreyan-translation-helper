@@ -37,6 +37,7 @@ export class cbConsonants {
 								cx: x + r * set.x,
 								cy: y + r * set.y,
 								r: r * set.r,
+								fill: document.getElementById('backgroundcolor').value
 							});
 						});
 					}
@@ -73,6 +74,7 @@ export class cbConsonants {
 								cx: x + r * set.x,
 								cy: y + r * set.y,
 								r: r * set.r,
+								fill: document.getElementById('backgroundcolor').value
 							});
 						});
 					}
@@ -109,6 +111,7 @@ export class cbConsonants {
 								cx: x + r * set.x,
 								cy: y + r * set.y,
 								r: r * set.r,
+								fill: document.getElementById('backgroundcolor').value
 							});
 						});
 						ctx.drawShape('path', 1, {
@@ -375,10 +378,10 @@ export class cbContext {
 		} while (first == second)
 
 		ctx.drawShape('path', 1, {
-			d: this.drawCurve(x,y,r,initial, con[first], 0)
+			d: this.drawCurve(x, y, r, initial, con[first], 0)
 		});
 		ctx.drawShape('path', 1, {
-			d: this.drawCurve(x,y,r,initial, con[second], 0)
+			d: this.drawCurve(x, y, r, initial, con[second], 0)
 		});
 	}
 
@@ -390,21 +393,24 @@ export class cbContext {
 			gap = .01;
 
 		ctx.drawShape('path', 1, {
-			d: this.drawCurve(x,y,r,con[first], con[second], -gap)
+			d: this.drawCurve(x, y, r, con[first], con[second], -gap)
 		});
 		ctx.drawShape('path', 1, {
-			d: this.drawCurve(x,y,r,con[first], con[second], gap)
+			d: this.drawCurve(x, y, r, con[first], con[second], gap)
 		});
 	}
 
-	drawCurve(x,y,r, rad1,rad2,offset) {
+	drawCurve(x, y, r, rad1, rad2, offset, ctx = false) {
 		let rad = [
 			Math.PI * (rad1 + offset),
 			Math.PI * (rad2 - offset)
 		];
 		let sect = rad1 - rad2;
 		if (sect < 0) sect *= -1;
-		let curvature = 1 - (1 / 6) / (sect + offset * 2);
+		let curvature = 1 - (sect - offset * 2)*1.2;
+		if (curvature < 0) curvature *= -1;
+		if (curvature>1) curvature-= Math.floor(curvature);
+
 		let c = {
 			x1: x + Math.cos(rad[0]) * r,
 			y1: y + Math.sin(rad[0]) * r,
@@ -415,10 +421,12 @@ export class cbContext {
 			x2: x + Math.cos(rad[1]) * r,
 			y2: y + Math.sin(rad[1]) * r
 		};
-		/* //deprecated debugger tool - curvature lines
-		ctx.drawShape('line', 1, { x1: c.x1, y1: c.y1, x2: c.xs1, y2: c.ys2 });
-		ctx.drawShape('line', 1, { x1: c.x2, y1: c.y2, x2: c.xs2, y2: c.ys2 });
-		*/
+
+		if (ctx) { // deprecated debugger tool - curvature lines
+			ctx.drawShape('circle', 1, { cx: c.x1, cy: c.y1, r:15});
+			ctx.drawShape('line', 1, { x1: c.x1, y1: c.y1, x2: c.xs1, y2: c.ys2 });
+			ctx.drawShape('line', 1, { x1: c.x2, y1: c.y2, x2: c.xs2, y2: c.ys2 });
+		}
 		return "M " + c.x1 + " " + c.y1 + " C " + c.xs1 + " " + c.ys1 + ", " + c.xs2 + " " + c.ys2 + ", " + c.x2 + " " + c.y2;
 	}
 
@@ -428,7 +436,9 @@ export class cbContext {
 
 	chunkPoints() {
 		// returns an 2d-array of connectorPoints in a row, descending length
-		let sections = [[]],
+		let sections = [
+				[]
+			],
 			cp = this.connectorPoints;
 		for (let i = 0; i < cp.length; i++) {
 			if (cp[i] !== null) {
@@ -436,7 +446,12 @@ export class cbContext {
 			} else sections.push([]);
 		}
 		//add last section to first if both are connected, clear last one
-		if (cp[0]!==null && cp[23]!==null) {sections[sections.length-1].forEach(rad=>{sections[0].push(rad);});sections[sections.length-1].length=0;}
+		if (cp[0] !== null && cp[23] !== null) {
+			sections[sections.length - 1].forEach(rad => {
+				sections[0].push(rad);
+			});
+			sections[sections.length - 1].length = 0;
+		}
 
 		function sizesort(a, b) {
 			if (a.length === b.length) return 0;
