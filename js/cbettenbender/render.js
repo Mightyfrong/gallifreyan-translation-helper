@@ -88,8 +88,6 @@ function cbDraw(ctx, syllable) {
 		context.delPoints(character);
 	});
 
-	context.showPoints(ctx, x, y, glyphSize);
-
 	//characters
 	for (let c = 0; c < syllable.length; c++) {
 		let character = syllable[c];
@@ -97,24 +95,38 @@ function cbDraw(ctx, syllable) {
 			vowel = cbVowel.getBase(character);
 		// draw consonant
 		if (consonant) {
+			// mark consonant as starting character if applicable
 			if (c == 0) context.startCon(ctx, x, y, glyphSize, character);
+			// draw current character
 			cbConsonant.base[consonant].draw(
 				ctx, // svg-object
 				x, // current x
-				y, //current y
+				y, // current y
 				glyphSize, // syllable radius
 				character, // current character
 				(c > 0 && syllable.slice(0, c).join('').indexOf(character) > -1) // is current character repetitive?
 			);
+			// draw consontant connector
+			// currently i am not sure if this works out regarding possible numbers of connected consonants within one syllable...
+			if ( // last consonant before a vowel
+				syllable[c - 1]!==undefined && cbConsonant.getBase(syllable[c - 1]) &&
+				syllable[c + 1]!==undefined && !cbConsonant.getBase(syllable[c + 1])
+			) context.connectCon(ctx, x, y, glyphSize, syllable[c - 1], character, 'outwards');
+			if ( // former but one is vowel
+				syllable[c - 2]!==undefined && !cbConsonant.getBase(syllable[c - 2]) &&
+				syllable[c - 1]!==undefined && cbConsonant.getBase(syllable[c - 1])
+			) context.connectCon(ctx, x, y, glyphSize, syllable[c - 1], character, 'inwards');
 
 		}
 		// draw vowel
 		if (vowel) {
+			// mark vocal as starting character if applicable
 			if (c == 0) context.startVow(ctx, x, y, glyphSize, character);
+			// draw current character
 			cbVowel.base[vowel].draw(
 				ctx, // svg-object
 				x, // current x
-				y, //current y
+				y, // current y
 				glyphSize, // syllable radius
 				character, // current character
 				(c > 0 && syllable.slice(0, c).join('').indexOf(character) > -1) // is current character repetitive?
