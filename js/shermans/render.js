@@ -181,7 +181,6 @@ let shermansGrouped = {
 	
 			}
 			sentence[sentence.length - 1].push(group); // append group to last word
-			console.log(group);
 		});
 		return sentence;
 	},
