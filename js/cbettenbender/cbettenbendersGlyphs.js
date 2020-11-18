@@ -363,22 +363,26 @@ export class cbContext {
 
 	startCon(ctx, x, y, r, char) {
 		//curved pointing v-shape
-		let con=this.chunkPoints()[0],consonant = cbConsonant.getBase(char), initial;
+		let con = this.chunkPoints()[0],
+			consonant = cbConsonant.getBase(char),
+			initial;
 		initial = cbConsonant.base[consonant].rad(char);
 
-		let first=Math.floor(Math.random()*con.length),
+		let first = Math.floor(Math.random() * con.length),
 			second;
-		do{ second= Math.floor(Math.random()*con.length);}
-		while (first==second)
+		do {
+			second = Math.floor(Math.random() * con.length);
+		}
+		while (first == second)
 
 		ctx.drawShape('line', 1, {
-			x1: x + Math.cos(Math.PI *initial) * r,
+			x1: x + Math.cos(Math.PI * initial) * r,
 			y1: y + Math.sin(Math.PI * initial) * r,
 			x2: x + Math.cos(Math.PI * con[first]) * r,
 			y2: y + Math.sin(Math.PI * con[first]) * r
 		});
 		ctx.drawShape('line', 1, {
-			x1: x + Math.cos(Math.PI *initial) * r,
+			x1: x + Math.cos(Math.PI * initial) * r,
 			y1: y + Math.sin(Math.PI * initial) * r,
 			x2: x + Math.cos(Math.PI * con[second]) * r,
 			y2: y + Math.sin(Math.PI * con[second]) * r
@@ -387,15 +391,40 @@ export class cbContext {
 
 	startVow(ctx, x, y, r, char) {
 		//two curved lines in empty space
-		let con=this.chunkPoints()[0];
-		let first=Math.floor(Math.random()*con.length/2),
-			second= first+Math.floor(con.length/2);
+		let con = this.chunkPoints()[0];
+		let first = Math.floor(Math.random() * con.length / 2),
+			second = first + Math.floor(con.length / 2),
+			gap = .01;
 
-		ctx.drawShape('line', 1, {
-			x1: x + Math.cos(Math.PI *con[first]) * r,
-			y1: y + Math.sin(Math.PI * con[first]) * r,
-			x2: x + Math.cos(Math.PI * con[second]) * r,
-			y2: y + Math.sin(Math.PI * con[second]) * r
+			function curve(offset) {
+			let rad = [
+				Math.PI * (con[first] + offset),
+				Math.PI * (con[second] - offset)
+			];
+			let sect = con[first]-con[second];
+			if (sect < 0) sect *= -1;
+			let curvature = 1-(1/6) / (sect+offset*2);
+			let c = {
+				x1: x + Math.cos(rad[0]) * r,
+				y1: y + Math.sin(rad[0]) * r,
+				xs1: x + Math.cos(rad[0]) * r * curvature,
+				ys1: y + Math.sin(rad[0]) * r * curvature,
+				xs2: x + Math.cos(rad[1]) * r * curvature,
+				ys2: y +Math.sin( rad[1]) * r * curvature,
+				x2: x + Math.cos(rad[1]) * r,
+				y2: y + Math.sin(rad[1]) * r
+			};
+			/* //control tool - curvature lines
+			ctx.drawShape('line', 1, { x1: c.x1, y1: c.y1, x2: c.xs1, y2: c.ys2 });
+			ctx.drawShape('line', 1, { x1: c.x2, y1: c.y2, x2: c.xs2, y2: c.ys2 });
+			*/
+			return "M " + c.x1 + " " + c.y1 + " C " + c.xs1 + " " + c.ys1 + ", " + c.xs2 + " " + c.ys2 + ", " + c.x2 + " " + c.y2;
+		}
+		ctx.drawShape('path', 1, {
+			d: curve(-gap)
+		});
+		ctx.drawShape('path', 1, {
+			d: curve(gap)
 		});
 	}
 
@@ -414,8 +443,9 @@ export class cbContext {
 				sections[sections.length - 1].push(cp[i]);
 			} else sections.push([]);
 		}
-		function sizesort(a,b){
-			if (a.length === b.length) 	return 0;
+
+		function sizesort(a, b) {
+			if (a.length === b.length) return 0;
 			else return (a.length < b.length) ? 1 : -1;
 		}
 		return sections.sort(sizesort);
