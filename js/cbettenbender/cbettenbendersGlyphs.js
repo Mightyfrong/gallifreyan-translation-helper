@@ -372,20 +372,13 @@ export class cbContext {
 			second;
 		do {
 			second = Math.floor(Math.random() * con.length);
-		}
-		while (first == second)
+		} while (first == second)
 
-		ctx.drawShape('line', 1, {
-			x1: x + Math.cos(Math.PI * initial) * r,
-			y1: y + Math.sin(Math.PI * initial) * r,
-			x2: x + Math.cos(Math.PI * con[first]) * r,
-			y2: y + Math.sin(Math.PI * con[first]) * r
+		ctx.drawShape('path', 1, {
+			d: this.drawCurve(x,y,r,initial, con[first], 0)
 		});
-		ctx.drawShape('line', 1, {
-			x1: x + Math.cos(Math.PI * initial) * r,
-			y1: y + Math.sin(Math.PI * initial) * r,
-			x2: x + Math.cos(Math.PI * con[second]) * r,
-			y2: y + Math.sin(Math.PI * con[second]) * r
+		ctx.drawShape('path', 1, {
+			d: this.drawCurve(x,y,r,initial, con[second], 0)
 		});
 	}
 
@@ -396,36 +389,37 @@ export class cbContext {
 			second = first + Math.floor(con.length / 2),
 			gap = .01;
 
-			function curve(offset) {
-			let rad = [
-				Math.PI * (con[first] + offset),
-				Math.PI * (con[second] - offset)
-			];
-			let sect = con[first]-con[second];
-			if (sect < 0) sect *= -1;
-			let curvature = 1-(1/6) / (sect+offset*2);
-			let c = {
-				x1: x + Math.cos(rad[0]) * r,
-				y1: y + Math.sin(rad[0]) * r,
-				xs1: x + Math.cos(rad[0]) * r * curvature,
-				ys1: y + Math.sin(rad[0]) * r * curvature,
-				xs2: x + Math.cos(rad[1]) * r * curvature,
-				ys2: y +Math.sin( rad[1]) * r * curvature,
-				x2: x + Math.cos(rad[1]) * r,
-				y2: y + Math.sin(rad[1]) * r
-			};
-			/* //control tool - curvature lines
-			ctx.drawShape('line', 1, { x1: c.x1, y1: c.y1, x2: c.xs1, y2: c.ys2 });
-			ctx.drawShape('line', 1, { x1: c.x2, y1: c.y2, x2: c.xs2, y2: c.ys2 });
-			*/
-			return "M " + c.x1 + " " + c.y1 + " C " + c.xs1 + " " + c.ys1 + ", " + c.xs2 + " " + c.ys2 + ", " + c.x2 + " " + c.y2;
-		}
 		ctx.drawShape('path', 1, {
-			d: curve(-gap)
+			d: this.drawCurve(x,y,r,con[first], con[second], -gap)
 		});
 		ctx.drawShape('path', 1, {
-			d: curve(gap)
+			d: this.drawCurve(x,y,r,con[first], con[second], gap)
 		});
+	}
+
+	drawCurve(x,y,r, rad1,rad2,offset) {
+		let rad = [
+			Math.PI * (rad1 + offset),
+			Math.PI * (rad2 - offset)
+		];
+		let sect = rad1 - rad2;
+		if (sect < 0) sect *= -1;
+		let curvature = 1 - (1 / 6) / (sect + offset * 2);
+		let c = {
+			x1: x + Math.cos(rad[0]) * r,
+			y1: y + Math.sin(rad[0]) * r,
+			xs1: x + Math.cos(rad[0]) * r * curvature,
+			ys1: y + Math.sin(rad[0]) * r * curvature,
+			xs2: x + Math.cos(rad[1]) * r * curvature,
+			ys2: y + Math.sin(rad[1]) * r * curvature,
+			x2: x + Math.cos(rad[1]) * r,
+			y2: y + Math.sin(rad[1]) * r
+		};
+		/* //deprecated debugger tool - curvature lines
+		ctx.drawShape('line', 1, { x1: c.x1, y1: c.y1, x2: c.xs1, y2: c.ys2 });
+		ctx.drawShape('line', 1, { x1: c.x2, y1: c.y2, x2: c.xs2, y2: c.ys2 });
+		*/
+		return "M " + c.x1 + " " + c.y1 + " C " + c.xs1 + " " + c.ys1 + ", " + c.xs2 + " " + c.ys2 + ", " + c.x2 + " " + c.y2;
 	}
 
 	connectCon() {
@@ -433,16 +427,16 @@ export class cbContext {
 	}
 
 	chunkPoints() {
-		// returns an 2d-array of connectorPoints in a row, descending
-		let sections = [
-				[]
-			],
+		// returns an 2d-array of connectorPoints in a row, descending length
+		let sections = [[]],
 			cp = this.connectorPoints;
 		for (let i = 0; i < cp.length; i++) {
 			if (cp[i] !== null) {
 				sections[sections.length - 1].push(cp[i]);
 			} else sections.push([]);
 		}
+		//add last section to first if both are connected, clear last one
+		if (cp[0]!==null && cp[23]!==null) {sections[sections.length-1].forEach(rad=>{sections[0].push(rad);});sections[sections.length-1].length=0;}
 
 		function sizesort(a, b) {
 			if (a.length === b.length) return 0;
@@ -477,13 +471,13 @@ export class cbContext {
 		}
 	}
 	showPoints(ctx, x, y, r) {
+		//in theory this is a deprecated debugger tool once the module is up and running, but if you're interested you can just call this within the rendering of the syllables
 		this.connectorPoints.forEach(rad => {
 			if (rad !== null)
 				ctx.drawShape('circle', 0, {
 					cx: x + Math.cos(Math.PI * rad) * r,
 					cy: y + Math.sin(Math.PI * rad) * r,
-					r: r * .025,
-					fill: '#f00'
+					r: r * .025
 				});
 		});
 	}
