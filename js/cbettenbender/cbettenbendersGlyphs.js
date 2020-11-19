@@ -403,22 +403,24 @@ export class cbContext {
 	connectCon(ctx, x, y, r, char1, char2, bent = 'outwards') {
 		//curved line connection konvex or concav
 		let rad1 = cbConsonant.base[cbConsonant.getBase(char1)].rad(char1),
-		rad2 = cbConsonant.base[cbConsonant.getBase(char2)].rad(char2);
+			rad2 = cbConsonant.base[cbConsonant.getBase(char2)].rad(char2);
 		if (bent == 'outwards') {
 
 			// decide direction of bow and occasionally switch character radiants for this task
 			// cut and switch character radiants
-			if (rad1>2)rad1-=2;
-			if (rad2>2)rad2-=2;
-			if ((rad1<rad2 ||Math.abs(rad1-rad2)>1) && (rad1>.5)){
-				let rad3=rad1;rad1=rad2;rad2=rad3;
+			if (rad1 > 2) rad1 -= 2;
+			if (rad2 > 2) rad2 -= 2;
+			if ((rad1 < rad2 || Math.abs(rad1 - rad2) > 1) && (rad1 > .5)) {
+				let rad3 = rad1;
+				rad1 = rad2;
+				rad2 = rad3;
 			}
 			// add a bit for a smoother curve
 			rad1 += 6 / 24;
 			rad2 -= 6 / 24;
 			//draw outwards pointing bow
 			ctx.drawShape('path', 1, {
-				d: this.drawCurve(x, y, r, rad1, rad2, 0, true, ctx)
+				d: this.drawCurve(x, y, r, rad1, rad2, 0, true)
 			});
 		} else {
 			// draw plain inward pointing bow
@@ -428,16 +430,15 @@ export class cbContext {
 		}
 	}
 
-	drawCurve(x, y, r, rad1, rad2, offset, inverse=false, ctx = false) {
+	drawCurve(x, y, r, rad1, rad2, offset, inverse = false, ctx = false) {
 		// this really was just a lot of trial an error. i have just a slight idea whats happening here...
 		let rad = [
 			Math.PI * (rad1 + offset),
 			Math.PI * (rad2 - offset)
 		];
 		let sect = Math.abs(rad1 - rad2);
-		let curvature = Math.abs(1 - (sect - offset * 2) * 1.2);
+		let curvature = Math.abs(1 - (sect - offset * 2)*1.5);
 		if (curvature > 1) curvature -= Math.floor(curvature);
-
 		let c = {
 			x1: x + Math.cos(rad[0]) * r,
 			y1: y + Math.sin(rad[0]) * r,
@@ -449,27 +450,24 @@ export class cbContext {
 			y2: y + Math.sin(rad[1]) * r
 		};
 
-if (inverse) {
-// the prepared and passed parameters have the curve always pointing counterclockwise
-	/*
-	fhaɪ freɪ rfeɪ fsæ sfæ lneɪ nleɪ jmʌ mjʌ
-	*/
+		if (inverse) {
+			// the prepared and passed parameters have the curve always pointing counterclockwise
+			/*
+			fhaɪ freɪ rfeɪ fsæ sfæ lneɪ nleɪ jmʌ mjʌ
+			*/
+			let sect = rad1 - rad2;
+			if (rad1 < rad2) sect += 2;
 
-rad = [
-	Math.PI * (rad1-.5),
-	Math.PI * (rad2+.5)
-];
-curvature=2-1/sect;
-
-console.log(sect,curvature);
-
-	c.xs1= c.x1 + Math.cos(rad[0]) * r * curvature;
-	c.ys1= c.y1 + Math.sin(rad[0]) * r * curvature;
-	c.xs2= c.x2 + Math.cos(rad[1]) * r * curvature;
-	c.ys2= c.y2 + Math.sin(rad[1]) * r * curvature;
-
-}
-
+			curvature = sect ** 2;
+			rad = [
+				Math.PI * (rad1 - .5 - sect / Math.PI ** 2),
+				Math.PI * (rad2 + .5 + sect / Math.PI ** 2)
+			];
+			c.xs1 = c.x1 + Math.cos(rad[0]) * r * curvature;
+			c.ys1 = c.y1 + Math.sin(rad[0]) * r * curvature;
+			c.xs2 = c.x2 + Math.cos(rad[1]) * r * curvature;
+			c.ys2 = c.y2 + Math.sin(rad[1]) * r * curvature;
+		}
 
 		if (ctx) { // deprecated debugger tool - curvature lines
 			ctx.drawShape('circle', 1, {
