@@ -24,7 +24,7 @@ export class cbConsonants {
 						r: .25
 					}];
 				},
-				draw: function (ctx, x, y, r, char, repeat = false) {
+				draw: function (ctx, x, y, r, char, repeat = false, initial = false) {
 					if (repeat) {
 						for (let i = 0; i < 3; i++) {
 							ctx.drawShape('circle', 0, {
@@ -39,7 +39,7 @@ export class cbConsonants {
 								cx: x + r * set.x,
 								cy: y + r * set.y,
 								r: r * set.r,
-								fill: document.getElementById('backgroundcolor').value
+								fill: initial ? document.getElementById('backgroundcolor').value : null
 							});
 						});
 					}
@@ -63,7 +63,7 @@ export class cbConsonants {
 						r: .15
 					}];
 				},
-				draw: function (ctx, x, y, r, char, repeat = false) {
+				draw: function (ctx, x, y, r, char, repeat = false, initial = false) {
 					if (repeat) {
 						for (let i = 0; i < 3; i++) {
 							ctx.drawShape('circle', 0, {
@@ -78,7 +78,7 @@ export class cbConsonants {
 								cx: x + r * set.x,
 								cy: y + r * set.y,
 								r: r * set.r,
-								fill: document.getElementById('backgroundcolor').value
+								fill: initial ? document.getElementById('backgroundcolor').value : null
 							});
 						});
 					}
@@ -102,7 +102,7 @@ export class cbConsonants {
 						r: .15
 					}];
 				},
-				draw: function (ctx, x, y, r, char, repeat = false) {
+				draw: function (ctx, x, y, r, char, repeat = false, initial = false) {
 					if (repeat) {
 						for (let i = 0; i < 3; i++) {
 							ctx.drawShape('circle', 0, {
@@ -117,7 +117,7 @@ export class cbConsonants {
 								cx: x + r * set.x,
 								cy: y + r * set.y,
 								r: r * set.r,
-								fill: document.getElementById('backgroundcolor').value
+								fill: initial ? document.getElementById('backgroundcolor').value : null
 							});
 						});
 						ctx.drawShape('path', 1, {
@@ -163,8 +163,8 @@ export class cbVowels {
 				},
 				property: function (char) {
 					return [{
-						x: Math.cos(Math.PI * this.rad(char)) * .55,
-						y: Math.sin(Math.PI * this.rad(char)) * .55,
+						x: Math.cos(Math.PI * this.rad(char)) * .45,
+						y: Math.sin(Math.PI * this.rad(char)) * .45,
 						r: .25
 					}];
 				},
@@ -198,8 +198,8 @@ export class cbVowels {
 				},
 				property: function (char) {
 					return [{
-						x: Math.cos(Math.PI * this.rad(char)) * .55,
-						y: Math.sin(Math.PI * this.rad(char)) * .55,
+						x: Math.cos(Math.PI * this.rad(char)) * .45,
+						y: Math.sin(Math.PI * this.rad(char)) * .45,
 						r: .075
 					}];
 				},
@@ -317,12 +317,12 @@ export class cbVowels {
 				},
 				property: function (char) {
 					return [{
-						x: Math.cos(Math.PI * this.rad(char)) * .55,
-						y: Math.sin(Math.PI * this.rad(char)) * .55,
+						x: Math.cos(Math.PI * this.rad(char)) * .45,
+						y: Math.sin(Math.PI * this.rad(char)) * .45,
 						r: .25
 					}, {
-						x: Math.cos(Math.PI * this.rad(char)) * .55,
-						y: Math.sin(Math.PI * this.rad(char)) * .55,
+						x: Math.cos(Math.PI * this.rad(char)) * .45,
+						y: Math.sin(Math.PI * this.rad(char)) * .45,
 						r: .15
 					}];
 				},
