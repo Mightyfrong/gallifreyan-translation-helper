@@ -13,7 +13,9 @@ export class cbConsonants {
 			soft: {
 				contains: ["f", "h", "j", "l", "m", "n", "r", "s", "v", "w", "y", "z"],
 				rad: function (char) {
-					return 1.5 + 2 / this.contains.length * this.contains.indexOf(char);
+					let rad = 1.5 + 2 / this.contains.length * this.contains.indexOf(char);
+					if (rad > 2) rad -= 2;
+					return rad;
 				},
 				property: function (char) {
 					return [{
@@ -46,7 +48,9 @@ export class cbConsonants {
 			hard: {
 				contains: ["b", "d", "g", "k", "p", "t"],
 				rad: function (char) {
-					return 1.5 + 2 / this.contains.length * this.contains.indexOf(char);
+					let rad = 1.5 + 2 / this.contains.length * this.contains.indexOf(char);
+					if (rad > 2) rad -= 2;
+					return rad;
 				},
 				property: function (char) {
 					return [{
@@ -83,7 +87,9 @@ export class cbConsonants {
 			combi: {
 				contains: ["ch", "th", "sh"],
 				rad: function (char) {
-					return 1.5 + 2 / this.contains.length * this.contains.indexOf(char);
+					let rad = 1.5 + 2 / this.contains.length * this.contains.indexOf(char);
+					if (rad > 2) rad -= 2;
+					return rad;
 				},
 				property: function (char) {
 					return [{
@@ -151,7 +157,9 @@ export class cbVowels {
 				contains: ["ɑ", "æ", "eɪ"],
 				keyboard: ["c<b>a</b>r", "h<b>a</b>t", "h<b>a</b>y"],
 				rad: function (char) {
-					return (.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
+					let rad = (.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
+					if (rad > 2) rad -= 2;
+					return rad;
 				},
 				property: function (char) {
 					return [{
@@ -184,7 +192,9 @@ export class cbVowels {
 				contains: ["ɛ", "ɜ", "i"],
 				keyboard: ["fr<b>e</b>t", "p<b>e</b>rch", "fr<b>ee</b>"],
 				rad: function (char) {
-					return (.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
+					let rad = (.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
+					if (rad > 2) rad -= 2;
+					return rad;
 				},
 				property: function (char) {
 					return [{
@@ -217,7 +227,9 @@ export class cbVowels {
 				contains: ["ɪ", "aɪ"],
 				keyboard: ["<b>i</b>f", "l<b>i</b>fe"],
 				rad: function (char) {
-					return .5 + 2 / this.contains.length * (1 + this.contains.indexOf(char));
+					let rad = .5 + 2 / this.contains.length * (1 + this.contains.indexOf(char));
+					if (rad > 2) rad -= 2;
+					return rad;
 				},
 				property: function (char) {
 					// i have still do decide whether this is useful in this context or not
@@ -258,7 +270,9 @@ export class cbVowels {
 				contains: ["ɔ", "ɒ", "əʊ"],
 				keyboard: ["f<b>o</b>r", "h<b>o</b>t", "t<b>o</b>e"],
 				rad: function (char) {
-					return (.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
+					let rad = (.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
+					if (rad > 2) rad -= 2;
+					return rad;
 				},
 				property: function (char) {
 					// i have still do decide whether this is useful in this context or not
@@ -297,7 +311,9 @@ export class cbVowels {
 				contains: ["u", "ʊ", "ʌ"],
 				keyboard: ["y<b>ou</b>", "p<b>u</b>sh", "<b>u</b>p"],
 				rad: function (char) {
-					return (.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
+					let rad = (.5 + 2 / this.contains.length) + 2 / this.contains.length * (1 + this.contains.indexOf(char));
+					if (rad > 2) rad -= 2;
+					return rad;
 				},
 				property: function (char) {
 					return [{
@@ -408,8 +424,6 @@ export class cbContext {
 
 			// decide direction of bow and occasionally switch character radiants for this task
 			// cut and switch character radiants
-			if (rad1 > 2) rad1 -= 2;
-			if (rad2 > 2) rad2 -= 2;
 			if ((rad1 < rad2 || Math.abs(rad1 - rad2) > 1) && (rad1 > .5)) {
 				let rad3 = rad1;
 				rad1 = rad2;
@@ -437,7 +451,7 @@ export class cbContext {
 			Math.PI * (rad2 - offset)
 		];
 		let sect = Math.abs(rad1 - rad2);
-		let curvature = Math.abs(1 - (sect - offset * 2)*1.5);
+		let curvature = Math.abs(1 - (sect - offset * 2));
 		if (curvature > 1) curvature -= Math.floor(curvature);
 		let c = {
 			x1: x + Math.cos(rad[0]) * r,
