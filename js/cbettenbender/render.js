@@ -25,14 +25,14 @@ export function render(input) {
 	groupedInput = cbettenbacherGrouped.groups(input.toLowerCase());
 
 	let glyphs = 0;
-	glyphs = groupedInput.length + 1;
-
+	glyphs = groupedInput.length;
+	//kæt bɛt tɛn bɛn bɜr
 	glyph = {
 		width: glyphSize * 2.25,
 		height: glyphSize * 3
 	};
-	width = (Math.min(++glyphs, Math.floor(window.innerWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
-	height = glyph.height * (Math.ceil(++glyphs / (Math.floor(window.innerWidth / glyph.width) || 1)));
+	width = (Math.min(glyphs, Math.floor(window.innerWidth / glyph.width)) * glyph.width || glyph.width);
+	height = glyph.height * (Math.ceil(glyphs / (Math.floor(window.innerWidth / glyph.width) || 1)));
 	x = glyph.width * -.5;
 	y = glyph.height * .5;
 	const ctx = new SVGRenderingContext(width, height);
@@ -71,7 +71,7 @@ let cbettenbacherGrouped = {
 
 // draw instructions for base + decoration
 function cbDraw(ctx, syllable) {
-	if (x + glyph.width * 2 >= width) {
+	if (x + glyph.width >= width) {
 		y += glyph.height;
 		x = glyph.width / 2;
 	} else x += glyph.width;
@@ -104,7 +104,8 @@ function cbDraw(ctx, syllable) {
 				y, // current y
 				glyphSize, // syllable radius
 				character, // current character
-				(c > 0 && syllable.slice(0, c).join('').indexOf(character) > -1) // is current character repetitive?
+				(c > 0 && syllable.slice(0, c).join('').indexOf(character) > -1), // is current character repetitive?
+				c==0 // initial consonants are filled
 			);
 			// draw consontant connector
 			// currently i am not sure if this works out regarding possible numbers of connected consonants within one syllable...
