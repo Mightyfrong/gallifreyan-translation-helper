@@ -42,6 +42,11 @@ export let UILanguage = {
 			de: " englische Tastatur",
 			lt: " angliška klaviatūra"
 		},
+		bettenbendersyllable: {
+			en: "Please separate syllables manually with a space",
+			de: "Silben bitte manuell mit Leerzeichen trennen",
+			lt: "Skydus rankiniu būdu atskirkite tarpais"
+		},
 		inputplaceholder: {
 			en: "type your text here",
 			de: "Text hier eingeben",
@@ -95,6 +100,7 @@ export let UILanguage = {
 		document.getElementById("ccstack").innerHTML = this.write('ccstack');
 		document.getElementById("cotipalang").innerHTML = this.write('ipakeys');
 		document.getElementById("cotenlang").innerHTML = this.write('enkeys');
+		document.getElementById("bettenbendersyllable").innerHTML = this.write('bettenbendersyllable');
 		document.getElementById("text").placeholder = this.write('inputplaceholder');
 		document.getElementById("renderbutton").value = this.write('renderbutton');
 		document.getElementById("info").innerHTML = this.write('info');

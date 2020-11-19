@@ -5,6 +5,7 @@ This is an online tool aimed at artists and hobbyists who produce designs in one
 * [Sherman's Circular Gallifreyan by Loren Sherman][SCG]
 * [TARDIS Console by Purple Emily][TCG]
 * [Doctor's Cot by Brittany Goodman][DCG]
+* [Circular Gallifreyan by Cat Bettenbender][CB]
 * [CC Gallifreyan by gumex][CC]
 * [DotScript by Rachel Sutherland][DS]
 * [Gallifreyan Alphabet by Aaron Jay][ABB]
@@ -14,6 +15,7 @@ Some details on what the translation helper for each system does can be found be
 * [TARDIS Console](#TARDIS-Console-WIP)
 * [Doctors's Cot](#Doctors-Cot)
 * [Doctors's Cot 2.0](#Doctors-Cot-20)
+* [cBettenbender's](#cBettenbenders)
 * [CC Gallifreyan](#CC-Gallifreyan)
 * [DotScript](#DotScript)
 * [ArtByBoredom Gallifreyan](#ArtByBoredom)
@@ -136,6 +138,24 @@ Supported characters will be available on the provided keyboard.
 
 ---
 
+## cBettenbender's
+
+By time of implementing this writing system the instructions were still described as unfinished and surely felt a bit unclear. To make matters worse the initial publication was long time ago. Although the first page of the documentation describes the system as literal without phonetic replacements for consonants, some latin characters are missing, examples lead to other conclusions and vowels are most definetly described as phonetic. So after all there has to be a keyboard that limits allowed characters and inserts respective ipa-vowels. Grouping characters happens by syllables, but since putting this into an algorithm is currently beyond the ability of this helper you'll have to group by splitting character groupy by your own.
+
+Some of the design choices are based on personal choice, contextual considerations, the few impressions from the guide and maybe lack of coding skills:
+* *repetition indicators for vowels* are a thing in this interpretation. double vowels normally change the sound, probably leading to another glyph, but in case of names double vowels might be allowed
+* *start indicators* for consonants and vowels will always attach to or be placed within the widest free section of the syllable circle. There's hope that this interferes the least but will surely do occasionally (**again: this is not a translator, just a helping aid for patterns!**). since the indicators will be random placed within their boundary maybe a re-render fixes it from time to time. the consonant indicator will never direct to opposing sides, but you'll get the spirit
+* *consonant connectors* work for only two connected consonants, i am currently unaware in which scenario one syllable contains longer chains
+
+Since the documentation is unfinished the GTH gives even less warranty for this module than for any others.
+
+Supported characters will be available on the provided keyboard.
+
+### What to expect
+<img src="assets/Gallifreyan_cbettenbenders.svg" alt="cBettenbenders gallifreyan" />
+
+---
+
 ## CC Gallifreyan
 
 This writing system feels like a hybrid from the look of TARDIS Console and the clear base-decorator-relations from Sherman's. This system processes the latin alphabet with th and ng only, no diacritics, punctuation or numbers.
@@ -198,6 +218,7 @@ along with the GTH.  If not, see <https://www.gnu.org/licenses/>.
 [SCG]: https://shermansplanet.com/gallifreyan/guide.pdf
 [TCG]: https://tardisconsolegallifreyan.weebly.com/tutorials.html
 [DCG]: https://doctorscotgallifreyan.com/walk-through/4lnekzojej4p5klcph0ppntibb19ib
+[CB]: https://www.deviantart.com/cbettenbender/gallery/33798145/circular-gallifreyan
 [CC]: https://www.deviantart.com/gumex/art/CC-Gallifreyan-458112363
 [DS]: https://www.deviantart.com/rachelsutherland/gallery/58931409/dotscript-gallifreyan-guide
 [ABB]: https://www.deviantart.com/artbyboredom/art/Gallifreyan-Alphabet-298046680
