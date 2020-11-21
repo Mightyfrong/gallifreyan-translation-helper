@@ -19,7 +19,7 @@ Some details on what the translation helper for each system does can be found be
 * [CC Gallifreyan](#CC-Gallifreyan)
 * [DotScript](#DotScript)
 * [ArtByBoredom Gallifreyan](#ArtByBoredom)
-* [DariFaerie's Gallifreyan](#Darkifaeries)
+* [DarkIfaerie's Gallifreyan](#Darkifaeries)
 
 Please recognize this tool ***not*** as a translator: it serves the purpose of quicker impressions of writing syntax. The artistic composition is, and should be, your challenge. Please do not use any of these outputs for an immediate tattoo template!
 
@@ -185,7 +185,7 @@ Supported characters are `[a-zA-Z].,:;-/"'` and if you say *but there are more p
 
 ## DarkIfaerie'S
 
-With one glyph for every character of the english alphabet DarkIFaerie's gallifreyan is more or less another font. The small difference making it a system is arranging the characters in a circle and reading clockwise.
+With one glyph for every character of the english alphabet DarkIFaerie's gallifreyan is more or less another font. The small difference considering it a system is arranging the characters in a circle and reading clockwise.
 
 Supported characters are `[a-z]`, uppercase will be converted.
 
