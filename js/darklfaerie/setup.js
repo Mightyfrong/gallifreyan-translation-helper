@@ -1,2 +1,2 @@
-export const consonant = 30; // radius of consonants
-export const linewidth = 1; // thicker lines add a cute chubbyness
+export const character = 40; // radius of single characters
+export const lwfactor = 1; // line weight factor
