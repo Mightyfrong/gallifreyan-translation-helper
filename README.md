@@ -15,7 +15,6 @@ Some details on what the translation helper for each system does can be found be
 * [Sherman's](#Shermans)
 * [TARDIS Console](#TARDIS-Console-WIP)
 * [Doctors's Cot](#Doctors-Cot)
-* [Doctors's Cot 2.0](#Doctors-Cot-20)
 * [cBettenbender's](#cBettenbenders)
 * [CC Gallifreyan](#CC-Gallifreyan)
 * [DotScript](#DotScript)
@@ -120,15 +119,6 @@ phaphephiphophu
 ---
 
 ## Doctor's Cot
-
-This one is the most complicated of the 3 languages as it transcribes the exact phonetics of words instead of just their letters. Hence, the user is given an on-screen IPA ([International Phonetic Alphabet][2]) keyboard.
-
-### Example
-![doctors cot](assets/doctors_cot.png)
-
----
-
-## Doctor's Cot 2.0
 
 The progress of vectorizing all the things got a bit stuck for a few weeks and one of us wasn't able to understand and contribute to foreign code. So Doctor's Cot was straightforwand rebuild based on the coding style of CC-Gallifreyan. ɑ-based vowels are a bit impure regarding connectivity, but on the plus side there is canonical punctuation (except start indication).
 Like in the original Cot-module there is an IPA-keyboard. Since the author has published a simplyfied english version as well there is a respective keyboard that translates the english characters to the IPA-characters according to the official tables.
