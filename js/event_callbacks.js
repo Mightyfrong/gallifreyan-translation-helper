@@ -40,9 +40,9 @@ export function translate(event) {
 		case SHERMAN:
 			svg = renderShermans(input);
 			break;
-		case COT:
-			svg = renderDoctorsCot(input);
-			break;
+//		case COT:
+//			svg = renderDoctorsCot(input);
+//			break;
 		case COT2:
 			svg = renderDoctorsCot2(input);
 			break;
@@ -91,9 +91,9 @@ export function activateControls(lang) {
 		case SHERMAN:
 			shermansOpts.classList.toggle('active');
 			break;
-		case COT:
-			ipaKeys.classList.toggle('active');
-			break;
+//		case COT:
+//			ipaKeys.classList.toggle('active');
+//			break;
 		case COT2:
 			cotOpts.classList.toggle('active');
 			break;
