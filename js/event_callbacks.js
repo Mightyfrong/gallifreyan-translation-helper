@@ -20,6 +20,7 @@ const ipaKeys = document.getElementById('ipa-keys');
 const ccOpts = document.getElementById('cc-options');
 const cotOpts = document.getElementById('cot-options');
 const cbettenbenders = document.getElementById('cbettenbenders');
+const darklfaerie = document.getElementById('darklfaerie');
 
 const img = document.getElementById('output-img');
 
@@ -101,6 +102,9 @@ export function activateControls(lang) {
 			break;
 		case CB:
 			cbettenbenders.classList.toggle('active');
+			break;
+		case DF:
+			darklfaerie.classList.toggle('active');
 			break;
 		}
 }

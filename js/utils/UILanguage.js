@@ -47,6 +47,16 @@ export let UILanguage = {
 			de: "Silben bitte manuell mit Leerzeichen trennen",
 			lt: "Skydus rankiniu būdu atskirkite tarpais"
 		},
+		dlsllang: {
+			en: " linear",
+			de: " Linear",
+			lt: " linijinis"
+		},
+		dlsclang: {
+			en: " circular",
+			de: " Kreisförmig",
+			lt: " žiedinis"
+		},
 		inputplaceholder: {
 			en: "type your text here",
 			de: "Text hier eingeben",
@@ -101,6 +111,8 @@ export let UILanguage = {
 		document.getElementById("cotipalang").innerHTML = this.write('ipakeys');
 		document.getElementById("cotenlang").innerHTML = this.write('enkeys');
 		document.getElementById("bettenbendersyllable").innerHTML = this.write('bettenbendersyllable');
+		document.getElementById("dlsllang").innerHTML = this.write('dlsllang');
+		document.getElementById("dlsclang").innerHTML = this.write('dlsclang');
 		document.getElementById("text").placeholder = this.write('inputplaceholder');
 		document.getElementById("renderbutton").value = this.write('renderbutton');
 		document.getElementById("info").innerHTML = this.write('info');
