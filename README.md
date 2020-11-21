@@ -9,6 +9,7 @@ This is an online tool aimed at artists and hobbyists who produce designs in one
 * [CC Gallifreyan by gumex][CC]
 * [DotScript by Rachel Sutherland][DS]
 * [Gallifreyan Alphabet by Aaron Jay][ABB]
+* [Gallifreyan Alphabet by Sarah "DarkIfaerie"][DF]
 
 Some details on what the translation helper for each system does can be found below:
 * [Sherman's](#Shermans)
@@ -19,6 +20,7 @@ Some details on what the translation helper for each system does can be found be
 * [CC Gallifreyan](#CC-Gallifreyan)
 * [DotScript](#DotScript)
 * [ArtByBoredom Gallifreyan](#ArtByBoredom)
+* [DariFaerie's Gallifreyan](#Darkifaeries)
 
 Please recognize this tool ***not*** as a translator: it serves the purpose of quicker impressions of writing syntax. The artistic composition is, and should be, your challenge. Please do not use any of these outputs for an immediate tattoo template!
 
@@ -191,6 +193,18 @@ Supported characters are `[a-zA-Z].,:;-/"'` and if you say *but there are more p
 
 ---
 
+## DarkIfaerie'S
+
+With one glyph for every character of the english alphabet DarkIFaerie's gallifreyan is more or less another font. The small difference making it a system is arranging the characters in a circle and reading clockwise.
+
+Supported characters are `[a-z]`, uppercase will be converted.
+
+### What To Expect
+<img src="assets/Gallifreyan_darkifaerie_linear.svg" alt="DarkIfaerie's gallifreyan" />
+<img src="assets/Gallifreyan_darkifaerie_circular.svg" alt="DarkIfaerie's gallifreyan" />
+
+---
+
 ## Copyright & Licence Notice
 
 Copyright 2020 [Mightyfrong][MF], [erroronline1][EOL1], [ModisR][MR]
@@ -222,6 +236,7 @@ along with the GTH.  If not, see <https://www.gnu.org/licenses/>.
 [CC]: https://www.deviantart.com/gumex/art/CC-Gallifreyan-458112363
 [DS]: https://www.deviantart.com/rachelsutherland/gallery/58931409/dotscript-gallifreyan-guide
 [ABB]: https://www.deviantart.com/artbyboredom/art/Gallifreyan-Alphabet-298046680
+[DF]: https://www.deviantart.com/darkifaerie/art/Gallifreyan-Alphabet-270857268
 
 [1]: https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
 [2]: https://en.wikipedia.org/wiki/International_Phonetic_Alphabet
