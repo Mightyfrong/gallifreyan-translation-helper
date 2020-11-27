@@ -10,6 +10,7 @@ This is an online tool aimed at artists and hobbyists who produce designs in one
 * [DotScript by Rachel Sutherland][DS]
 * [Gallifreyan Alphabet by Aaron Jay][ABB]
 * [Gallifreyan Alphabet by Sarah "DarkIfaerie"][DF]
+* [Old High Gallifreyan by bpjmarriott][BPJM]
 
 Some details on what the translation helper for each system does can be found below:
 * [Sherman's](#Shermans)
@@ -20,6 +21,7 @@ Some details on what the translation helper for each system does can be found be
 * [DotScript](#DotScript)
 * [ArtByBoredom Gallifreyan](#ArtByBoredom)
 * [DarkIfaerie's Gallifreyan](#Darkifaeries)
+* [bpjmarriott's Old High Gallifreyan](#bpjmarriotts)
 
 Please recognize this tool ***not*** as a translator: it serves the purpose of quicker impressions of writing syntax. The artistic composition is, and should be, your challenge. Please do not use any of these outputs for an immediate tattoo template!
 
@@ -43,7 +45,7 @@ Diacritics are supported according to the [official guide][SCG] for german umlau
 
 Decorator lines do not connect anywhere at the moment. This is as well due to the fact we did not come up with a reasonable algorithm to accomplish that yet, as random straight lines are neither easy to read nor aesthetically appealing.
 
-Supported characters are `[a-z0-9].?!"'-,;:éèíìüúùæäáàåöóòøñ`, uppercase will be converted.
+Supported characters are `[a-z0-9.?!"'-,;:éèíìüúùæäáàåöóòøñ]`, uppercase will be converted.
 
 ### What To Expect
 <img src="assets/Gallifreyan_sherman's linear.svg" alt="sherman's circular gallifreyan linear displayed" />
@@ -176,14 +178,14 @@ Supported characters are `[a-z]`, uppercase will be converted.
 
 Like DotScript this system is more likely a font with geometric shapes representing latin alphabet letters. It is the first implemented gallifreyan distinguishing between upper- and lowercase characters. And like DotScript this is not a writing system per se but included for the sake of completeness and another coding exercise.
 
-Supported characters are `[a-zA-Z].,:;-/"'` and if you say *but there are more punctuation characters* you most probably won't need this tool anyway.
+Supported characters are `[a-zA-Z.,:;-/"']` and if you say *but there are more punctuation characters* you most probably won't need this tool anyway.
 
 ### What To Expect
 <img src="assets/Gallifreyan_ArtByBoredom.svg" alt="ArtByBoredom gallifreyan" />
 
 ---
 
-## DarkIfaerie'S
+## DarkIfaerie's
 
 With one glyph for every character of the english alphabet DarkIFaerie's gallifreyan is more or less another font. The small difference considering it a system is arranging the characters in a circle and reading clockwise.
 
@@ -192,6 +194,17 @@ Supported characters are `[a-z]`, uppercase will be converted.
 ### What To Expect
 <img src="assets/Gallifreyan_darkifaerie_linear.svg" alt="DarkIfaerie's gallifreyan" />
 <img src="assets/Gallifreyan_darkifaerie_circular.svg" alt="DarkIfaerie's gallifreyan" />
+
+---
+
+## bpjmarriott's
+
+Old High Gallifreyan is not a circular font at all, but since it is a timelords script it still is considerable fitting in the translation helper. bpjmarriott's gallifreyan is supposed to be read from top to bottom.
+
+Supported characters are `[a-z0-9.,!?":;']`, uppercase will be converted.
+
+### What To Expect
+<img src="assets/Gallifreyan_bpjmarriotts old high gallifreyan.svg" alt="bpjmarriot's gallifreyan" />
 
 ---
 
@@ -227,6 +240,7 @@ along with the GTH.  If not, see <https://www.gnu.org/licenses/>.
 [DS]: https://www.deviantart.com/rachelsutherland/gallery/58931409/dotscript-gallifreyan-guide
 [ABB]: https://www.deviantart.com/artbyboredom/art/Gallifreyan-Alphabet-298046680
 [DF]: https://www.deviantart.com/darkifaerie/art/Gallifreyan-Alphabet-270857268
+[BPJM]: https://www.deviantart.com/bpjmarriott/art/Old-High-Gallifreyan-Alphabet-370087020
 
 [1]: https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
 [2]: https://en.wikipedia.org/wiki/International_Phonetic_Alphabet

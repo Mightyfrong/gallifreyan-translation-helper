@@ -1,12 +1,13 @@
 import { render as renderShermans } from './shermans/render.js';
 import { render as renderTARDISConsole } from './tardisConsole/render.js';
-import { render as renderDoctorsCot } from './doctorsCot/render.js';
+//import { render as renderDoctorsCot } from './doctorsCot/render.js';
 import { render as renderDoctorsCot2 } from './doctorsCot2/render.js';
 import { render as renderCC } from './cc/render.js';
 import { render as renderDotscript } from './dotscript/render.js';
 import { render as renderABB } from './artbyboredom/render.js';
 import { render as renderCB } from './cbettenbender/render.js';
 import { render as renderDF } from './darkifaerie/render.js';
+import { render as renderBPJM } from './bpjmarriott/render.js';
 import { createKeyboard } from './doctorsCot2/setup.js';
 
 import { MySelect } from './utils/MySelect.js';
@@ -16,7 +17,7 @@ export const langSelect = document.getElementById('language');
 const langControls = document.getElementById('lang-controls');
 
 const shermansOpts = document.getElementById('shermans-options');
-const ipaKeys = document.getElementById('ipa-keys');
+//const ipaKeys = document.getElementById('ipa-keys');
 const ccOpts = document.getElementById('cc-options');
 const cotOpts = document.getElementById('cot-options');
 const cbettenbenders = document.getElementById('cbettenbenders');
@@ -27,7 +28,7 @@ const img = document.getElementById('output-img');
 // Init language selector & constants
 customElements.define('my-select', MySelect);
 const langs = langSelect.querySelectorAll('input');
-const [SHERMAN, COT2, TARDIS, CB, CC, DOT, ABB, DF] = [...langs].map(input => input.value);
+const [SHERMAN, COT2, TARDIS, CB, CC, DOT, ABB, DF, BPJM] = [...langs].map(input => input.value);
 
 // Event Callbacks
 export function translate(event) {
@@ -63,6 +64,9 @@ export function translate(event) {
 			break;
 		case DF:
 			svg = renderDF(input);
+			break;
+		case BPJM:
+			svg = renderBPJM(input);
 			break;
 		default:
 			svg = renderShermans(input);
