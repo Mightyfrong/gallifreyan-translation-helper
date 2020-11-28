@@ -1,9 +1,3 @@
-/*import {
-	genKeyboard,
-	consonantTable,
-	vowelTable
-} from './doctorsCot/setup.js';
-*/
 import {
 	createKeyboard
 } from './doctorsCot2/setup.js';
@@ -20,19 +14,13 @@ import { selectLang, translate, activateControls, langSelect } from './event_cal
 langSelect.addEventListener('select', selectLang);
 document.forms[0].addEventListener('submit', translate);
 
-// Init UI elems
-//** IPA keys for Doctor's Cot
-//const ipaConsons = document.getElementById('ipa-consons');
-//const ipaVowels = document.getElementById('ipa-vowels');
-
-//genKeyboard(ipaConsons, consonantTable);
-//genKeyboard(ipaVowels, vowelTable);
-
+// Init UI elementss
 createKeyboard();
 
 createCBKeyboard();
 
 createFreakKeyboard();
+
 //** General
 activateControls(langSelect.value);
 UILanguage.init(); //rewrite user interface language, direct implementation on document rendering throws errors

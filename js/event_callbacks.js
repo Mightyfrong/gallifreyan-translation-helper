@@ -1,6 +1,5 @@
 import { render as renderShermans } from './shermans/render.js';
 import { render as renderTARDISConsole } from './tardisConsole/render.js';
-//import { render as renderDoctorsCot } from './doctorsCot/render.js';
 import { render as renderDoctorsCot2 } from './doctorsCot2/render.js';
 import { render as renderCC } from './cc/render.js';
 import { render as renderDotscript } from './dotscript/render.js';
@@ -19,7 +18,6 @@ export const langSelect = document.getElementById('language');
 const langControls = document.getElementById('lang-controls');
 
 const shermansOpts = document.getElementById('shermans-options');
-//const ipaKeys = document.getElementById('ipa-keys');
 const ccOpts = document.getElementById('cc-options');
 const cotOpts = document.getElementById('cot-options');
 const cbettenbenders = document.getElementById('cbettenbenders');
@@ -44,9 +42,6 @@ export function translate(event) {
 		case SHERMAN:
 			svg = renderShermans(input);
 			break;
-//		case COT:
-//			svg = renderDoctorsCot(input);
-//			break;
 		case COT2:
 			svg = renderDoctorsCot2(input);
 			break;
@@ -101,9 +96,6 @@ export function activateControls(lang) {
 		case SHERMAN:
 			shermansOpts.classList.toggle('active');
 			break;
-//		case COT:
-//			ipaKeys.classList.toggle('active');
-//			break;
 		case COT2:
 			cotOpts.classList.toggle('active');
 			break;
