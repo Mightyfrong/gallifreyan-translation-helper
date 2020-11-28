@@ -45,7 +45,6 @@ export function render(input) {
 	for (let i = 0; i <= groupedInput.length - 1; i++) {
 		wordHeight = groupedInput[i].length * glyph.height; // height of current word
 		if (lineHeight < wordHeight) lineHeight = wordHeight; // line height set to longest word
-console.log(lineHeight,wordHeight, height);
 		if (i % maxWordsPerWidth == 0 || i == groupedInput.length - 1) { // canvas size added longest word, reset latter on "linebreak"
 			if (groupedInput.length > maxWordsPerWidth) height += lineHeight + glyph.height;
 			else if (height<lineHeight)height = lineHeight+glyph.height;
