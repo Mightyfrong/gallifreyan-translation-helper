@@ -11,6 +11,7 @@ This is an online tool aimed at artists and hobbyists who produce designs in one
 * [Gallifreyan Alphabet by Aaron Jay][ABB]
 * [Gallifreyan Alphabet by Sarah "DarkIfaerie"][DF]
 * [Old High Gallifreyan by bpjmarriott][BPJM]
+* [Old High Gallifreyan by FREAKISM][F]
 
 Some details on what the translation helper for each system does can be found below:
 * [Sherman's](#Shermans)
@@ -22,6 +23,7 @@ Some details on what the translation helper for each system does can be found be
 * [ArtByBoredom Gallifreyan](#ArtByBoredom)
 * [DarkIfaerie's Gallifreyan](#Darkifaeries)
 * [bpjmarriott's Old High Gallifreyan](#bpjmarriotts)
+* [FREAKISM's Old High Gallifreyan](#FREAKISMs)
 
 Please recognize this tool ***not*** as a translator: it serves the purpose of quicker impressions of writing syntax. The artistic composition is, and should be, your challenge. Please do not use any of these outputs for an immediate tattoo template!
 
@@ -208,6 +210,17 @@ Supported characters are `[a-z0-9.,!?":;']`, uppercase will be converted.
 
 ---
 
+## FREAKISM's
+
+Another Old High Gallifreyan thats not a circular font. According to the authors sourced this font seems to be written from left to right. Or maybe the other way round, but this was the decision. This is a phonetic font - the original table has words instead of IPA-characters. Both are provided as keyboards, but the input will be filled with IPA-characters.
+
+Supported characters will be available on the provided keyboard.
+
+### What To Expect
+<img src="assets/Gallifreyan_fɹikɪsm əʊld haɪ gællɪfɹeɪæn.svg" alt="FREAKISM's gallifreyan" />
+
+---
+
 ## Copyright & Licence Notice
 
 Copyright 2020 [Mightyfrong][MF], [erroronline1][EOL1], [ModisR][MR]
@@ -241,6 +254,7 @@ along with the GTH.  If not, see <https://www.gnu.org/licenses/>.
 [ABB]: https://www.deviantart.com/artbyboredom/art/Gallifreyan-Alphabet-298046680
 [DF]: https://www.deviantart.com/darkifaerie/art/Gallifreyan-Alphabet-270857268
 [BPJM]: https://www.deviantart.com/bpjmarriott/art/Old-High-Gallifreyan-Alphabet-370087020
+[F]: https://freakism.tumblr.com/post/11577887916/im-proud-click-here-for-big-version-i-did
 
 [1]: https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
 [2]: https://en.wikipedia.org/wiki/International_Phonetic_Alphabet

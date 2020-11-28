@@ -8,7 +8,9 @@ import { render as renderABB } from './artbyboredom/render.js';
 import { render as renderCB } from './cbettenbender/render.js';
 import { render as renderDF } from './darkifaerie/render.js';
 import { render as renderBPJM } from './bpjmarriott/render.js';
+import { render as renderF } from './freakism/render.js';
 import { createKeyboard } from './doctorsCot2/setup.js';
+import { createFreakKeyboard } from './freakism/setup.js';
 
 import { MySelect } from './utils/MySelect.js';
 
@@ -22,13 +24,14 @@ const ccOpts = document.getElementById('cc-options');
 const cotOpts = document.getElementById('cot-options');
 const cbettenbenders = document.getElementById('cbettenbenders');
 const darkifaerie = document.getElementById('darkifaerie');
+const freakism = document.getElementById('freakism');
 
 const img = document.getElementById('output-img');
 
 // Init language selector & constants
 customElements.define('my-select', MySelect);
 const langs = langSelect.querySelectorAll('input');
-const [SHERMAN, COT2, TARDIS, CB, CC, DOT, ABB, DF, BPJM] = [...langs].map(input => input.value);
+const [SHERMAN, COT2, TARDIS, CB, CC, DOT, ABB, DF, BPJM, F] = [...langs].map(input => input.value);
 
 // Event Callbacks
 export function translate(event) {
@@ -67,6 +70,9 @@ export function translate(event) {
 			break;
 		case BPJM:
 			svg = renderBPJM(input);
+			break;
+		case F:
+			svg = renderF(input);
 			break;
 		default:
 			svg = renderShermans(input);
@@ -110,11 +116,17 @@ export function activateControls(lang) {
 		case DF:
 			darkifaerie.classList.toggle('active');
 			break;
-		}
+		case F:
+			freakism.classList.toggle('active');
+			break;
+	}
 }
 
-Array.prototype.forEach.call(document.querySelectorAll('input[type=radio][name="cotsystem"]'), function(radio) {
-   radio.addEventListener('change', createKeyboard);
+Array.prototype.forEach.call(document.querySelectorAll('input[type=radio][name="cotsystem"]'), function (radio) {
+	radio.addEventListener('change', createKeyboard);
+});
+Array.prototype.forEach.call(document.querySelectorAll('input[type=radio][name="freakismsystem"]'), function (radio) {
+	radio.addEventListener('change', createFreakKeyboard);
 });
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR

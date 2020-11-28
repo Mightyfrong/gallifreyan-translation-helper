@@ -159,7 +159,9 @@ span {
 #dc2consonants,
 #dc2vowels,
 #cbconsonants,
-#cbvowels {
+#cbvowels,
+#freakismconsonants,
+#freakismvowels {
 	display: inline-block;
 	vertical-align: top;
 	text-align: left;
@@ -176,7 +178,9 @@ span {
 #dc2consonants>div>div,
 #dc2vowels>div>div,
 #cbconsonants>div>div,
-#cbvowels>div>div {
+#cbvowels>div>div,
+#freakismconsonants>div,
+#freakismvowels>div {
 	display: inline-block;
 	vertical-align: top;
 	border-width: 1px;

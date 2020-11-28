@@ -1,17 +1,20 @@
-import {
+/*import {
 	genKeyboard,
 	consonantTable,
 	vowelTable
 } from './doctorsCot/setup.js';
-
+*/
 import {
 	createKeyboard
 } from './doctorsCot2/setup.js';
 
+import {
+	createFreakKeyboard
+} from './freakism/setup.js';
+import { createCBKeyboard } from './cbettenbender/setup.js';
 
 import { UILanguage } from './utils/UILanguage.js';
 import { selectLang, translate, activateControls, langSelect } from './event_callbacks.js';
-import { createCBKeyboard } from './cbettenbender/setup.js';
 
 // Init event handlers
 langSelect.addEventListener('select', selectLang);
@@ -19,16 +22,17 @@ document.forms[0].addEventListener('submit', translate);
 
 // Init UI elems
 //** IPA keys for Doctor's Cot
-const ipaConsons = document.getElementById('ipa-consons');
-const ipaVowels = document.getElementById('ipa-vowels');
+//const ipaConsons = document.getElementById('ipa-consons');
+//const ipaVowels = document.getElementById('ipa-vowels');
 
-genKeyboard(ipaConsons, consonantTable);
-genKeyboard(ipaVowels, vowelTable);
+//genKeyboard(ipaConsons, consonantTable);
+//genKeyboard(ipaVowels, vowelTable);
 
 createKeyboard();
 
 createCBKeyboard();
 
+createFreakKeyboard();
 //** General
 activateControls(langSelect.value);
 UILanguage.init(); //rewrite user interface language, direct implementation on document rendering throws errors

@@ -42,6 +42,11 @@ export let UILanguage = {
 			de: " englische Tastatur",
 			lt: " angliška klaviatūra"
 		},
+		phonetickeys: {
+			en: " phonetic keyboard",
+			de: " lautsprachliche Tastatur",
+			lt: " fonetinė klaviatūra"
+		},
 		bettenbendersyllable: {
 			en: "Please separate syllables manually with a space",
 			de: "Silben bitte manuell mit Leerzeichen trennen",
@@ -113,6 +118,8 @@ export let UILanguage = {
 		document.getElementById("bettenbendersyllable").innerHTML = this.write('bettenbendersyllable');
 		document.getElementById("dlsllang").innerHTML = this.write('dlsllang');
 		document.getElementById("dlsclang").innerHTML = this.write('dlsclang');
+		document.getElementById("freakismenlang").innerHTML = this.write('phonetickeys');
+		document.getElementById("freakismipalang").innerHTML = this.write('ipakeys');
 		document.getElementById("text").placeholder = this.write('inputplaceholder');
 		document.getElementById("renderbutton").value = this.write('renderbutton');
 		document.getElementById("info").innerHTML = this.write('info');
