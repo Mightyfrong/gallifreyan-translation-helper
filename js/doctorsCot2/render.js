@@ -35,7 +35,7 @@ export function render(input) {
 	};
 	width = (Math.min(++glyphs, Math.floor(window.innerWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
 	height = glyph.height * (Math.ceil(++glyphs / (Math.floor(window.innerWidth / glyph.width) || 1)));
-	x = 0;
+	x = -glyph.width*.5;
 	y = glyph.height * .5;
 	const ctx = new SVGRenderingContext(width, height);
 
@@ -110,9 +110,9 @@ let doctorsCot2Grouped = {
 // draw instructions for base + decoration
 function doctorsCot2Draw(ctx, letter, grouped) {
 	if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
-		if (x + glyph.width * 1.5 >= width) {
+		if (x + glyph.width >= width) {
 			y += glyph.height;
-			x = glyph.width;
+			x = glyph.width*.5;
 		} else x += glyph.width;
 	}
 
