@@ -23,7 +23,7 @@ Some details on what the translation helper for each system does can be found be
 * [ArtByBoredom Gallifreyan](#ArtByBoredom)
 * [DarkIfaerie's Gallifreyan](#Darkifaeries)
 * [bpjmarriott's Old High Gallifreyan](#bpjmarriotts)
-* [oddISM's Old High Gallifreyan](#oddISMs)
+* [ODDISM's Old High Gallifreyan](#ODDISMs)
 
 Please recognize this tool ***not*** as a translator: it serves the purpose of quicker impressions of writing syntax. The artistic composition is, and should be, your challenge. Please do not use any of these outputs for an immediate tattoo template!
 
@@ -212,12 +212,12 @@ Supported characters are `[a-z0-9.,!?":;']`, uppercase will be converted.
 
 ## ODDISM's
 
-Another Old High Gallifreyan thats not a circular font. It is the latest version and the successor of FREAKISM's Old High Gallifreyan (that is in fact the same author). According to the authors sources this font seems to be written from left to right. Or maybe the other way round, but this was the decision. This is a phonetic font - the original table has words as well as IPA-characters. Both are provided as keyboards, but the input will be filled with IPA-characters.
+Another Old High Gallifreyan thats not a circular font. It is the latest version and the successor of [FREAKISM's Old High Gallifreyan](https://freakism.tumblr.com/post/11577887916/im-proud-click-here-for-big-version-i-did) ([that is in fact the same author](https://freakism.tumblr.com/post/42112673388/so-i-just-found-your-old-high-gallifreyan)). According to the authors sources this font seems to be written from left to right. Or maybe the other way round, but this was the decision. This is a phonetic font - the original table has words as well as IPA-characters. Both are provided as keyboards, but the input will be filled with IPA-characters.
 
 Supported characters will be available on the provided keyboard.
 
 ### What To Expect
-<img src="assets/Gallifreyan_fɹikɪsm əʊld haɪ gællɪfɹeɪæn.svg" alt="oddISM's gallifreyan" />
+<img src="assets/Gallifreyan_ɒddɪsm oʊld haɪ gællɪfreɪæn.svg" alt="oddISM's gallifreyan" />
 
 ---
 
