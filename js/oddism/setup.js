@@ -1,6 +1,6 @@
 import {
-    freakismGlyphs
-} from './freakismGlyphs.js';
+    oddismGlyphs
+} from './oddismGlyphs.js';
 
 export const character = {
     width: 54,
@@ -8,7 +8,7 @@ export const character = {
 }; // dimensions of characters, keep ratio on resizing
 export const linewidth = 1; // line weight factor
 
-function freakKeyboard(appendTo, writeTo, keys) {
+function oddKeyboard(appendTo, writeTo, keys) {
     keys.forEach(char => {
         const keyInput = document.createElement('div');
         keyInput.innerHTML = char[0];
@@ -24,8 +24,8 @@ function freakKeyboard(appendTo, writeTo, keys) {
     });
 }
 
-export function createFreakKeyboard() {
-    document.getElementById('freakismconsonants').innerHTML = document.getElementById('freakismvowels').innerHTML = "";
-    freakKeyboard(document.getElementById('freakismconsonants'), document.getElementById('text'), freakismGlyphs.getKeys("consonants", document.getElementById('freakismen').checked));
-    freakKeyboard(document.getElementById('freakismvowels'), document.getElementById('text'), freakismGlyphs.getKeys("vowels", document.getElementById('freakismen').checked));
+export function createoddKeyboard() {
+    document.getElementById('oddismconsonants').innerHTML = document.getElementById('oddismvowels').innerHTML = "";
+    oddKeyboard(document.getElementById('oddismconsonants'), document.getElementById('text'), oddismGlyphs.getKeys("consonants", document.getElementById('oddismen').checked));
+    oddKeyboard(document.getElementById('oddismvowels'), document.getElementById('text'), oddismGlyphs.getKeys("vowels", document.getElementById('oddismen').checked));
 }

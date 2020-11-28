@@ -3,8 +3,8 @@ import {
 } from './doctorsCot2/setup.js';
 
 import {
-	createFreakKeyboard
-} from './freakism/setup.js';
+	createoddKeyboard
+} from './oddism/setup.js';
 import { createCBKeyboard } from './cbettenbender/setup.js';
 
 import { UILanguage } from './utils/UILanguage.js';
@@ -19,7 +19,7 @@ createKeyboard();
 
 createCBKeyboard();
 
-createFreakKeyboard();
+createoddKeyboard();
 
 //** General
 activateControls(langSelect.value);

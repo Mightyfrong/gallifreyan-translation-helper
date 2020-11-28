@@ -160,8 +160,8 @@ span {
 #dc2vowels,
 #cbconsonants,
 #cbvowels,
-#freakismconsonants,
-#freakismvowels {
+#oddismconsonants,
+#oddismvowels {
 	display: inline-block;
 	vertical-align: top;
 	text-align: left;
@@ -179,8 +179,8 @@ span {
 #dc2vowels>div>div,
 #cbconsonants>div>div,
 #cbvowels>div>div,
-#freakismconsonants>div,
-#freakismvowels>div {
+#oddismconsonants>div,
+#oddismvowels>div {
 	display: inline-block;
 	vertical-align: top;
 	border-width: 1px;

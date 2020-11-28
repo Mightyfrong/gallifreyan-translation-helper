@@ -5,8 +5,8 @@ import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
 import {
-	freakismGlyphs
-} from './freakismGlyphs.js';
+	oddismGlyphs
+} from './oddismGlyphs.js';
 import {
 	character,
 	linewidth
@@ -56,11 +56,11 @@ export function render(input) {
 		}
 
 		let type;
-		if (current in freakismGlyphs.vowels) type = "vowels";
-		if (current in freakismGlyphs.consonants) type = "consonants";
+		if (current in oddismGlyphs.vowels) type = "vowels";
+		if (current in oddismGlyphs.consonants) type = "consonants";
 
 		if (type != undefined) {
-			freakismDraw(ctx, x, y+glyph.height*.5, freakismGlyphs[type][current]);
+			oddismDraw(ctx, x, y+glyph.height*.5, oddismGlyphs[type][current]);
 			// display character
 			ctx.drawText(current, {
 				x: x + glyph.width * .5,
@@ -82,7 +82,7 @@ export function render(input) {
 	return ctx;
 }
 
-function freakismDraw(ctx, x, y, glyph) {
+function oddismDraw(ctx, x, y, glyph) {
 	// this method assumes the provided paths have relative coordinates
 	let path;
 	const add = { // put x and y into usable scope, set correction value

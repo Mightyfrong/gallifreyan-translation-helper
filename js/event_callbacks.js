@@ -7,9 +7,9 @@ import { render as renderABB } from './artbyboredom/render.js';
 import { render as renderCB } from './cbettenbender/render.js';
 import { render as renderDF } from './darkifaerie/render.js';
 import { render as renderBPJM } from './bpjmarriott/render.js';
-import { render as renderF } from './freakism/render.js';
+import { render as renderF } from './oddism/render.js';
 import { createKeyboard } from './doctorsCot2/setup.js';
-import { createFreakKeyboard } from './freakism/setup.js';
+import { createoddKeyboard } from './oddism/setup.js';
 
 import { MySelect } from './utils/MySelect.js';
 
@@ -22,7 +22,7 @@ const ccOpts = document.getElementById('cc-options');
 const cotOpts = document.getElementById('cot-options');
 const cbettenbenders = document.getElementById('cbettenbenders');
 const darkifaerie = document.getElementById('darkifaerie');
-const freakism = document.getElementById('freakism');
+const oddism = document.getElementById('oddism');
 
 const img = document.getElementById('output-img');
 
@@ -109,7 +109,7 @@ export function activateControls(lang) {
 			darkifaerie.classList.toggle('active');
 			break;
 		case F:
-			freakism.classList.toggle('active');
+			oddism.classList.toggle('active');
 			break;
 	}
 }
@@ -117,8 +117,8 @@ export function activateControls(lang) {
 Array.prototype.forEach.call(document.querySelectorAll('input[type=radio][name="cotsystem"]'), function (radio) {
 	radio.addEventListener('change', createKeyboard);
 });
-Array.prototype.forEach.call(document.querySelectorAll('input[type=radio][name="freakismsystem"]'), function (radio) {
-	radio.addEventListener('change', createFreakKeyboard);
+Array.prototype.forEach.call(document.querySelectorAll('input[type=radio][name="oddismsystem"]'), function (radio) {
+	radio.addEventListener('change', createoddKeyboard);
 });
 
 /**Copyright 2020 Mightyfrong, erroronline1, ModisR
