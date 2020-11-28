@@ -50,7 +50,7 @@ export function render(input) {
 		let current = input[i],
 			currenttwo = input[i] + input[i + 1];
 		// add double latin characters to group
-		if (includes(["aʊ", "eɪ", "əʊ", "ɔɪ", "ɛə", "ɪə", "aɪ", "ʊə", "ju","t͡ʃ", "d͡ʒ"], currenttwo)) {
+		if (includes(["aʊ", "eɪ", "əʊ", "ɔɪ", "ɛə", "ɪə", "aɪ", "ʊə", "oʊ", "ju","tʃ", "dʒ"], currenttwo)) {
 			current = currenttwo;
 			i++;
 		}
