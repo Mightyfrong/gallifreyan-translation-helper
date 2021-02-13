@@ -63,41 +63,40 @@ export function render(input) {
 	//return ctx;
 	// iterate through input
 	groupedInput.forEach(word => {
+		if (displayCircular) {
+			// draw word circle
+			dia = wordcircleRadius(word.length + 1, character);
+			ctx.drawShape('circle', lwfactor * 2, {
+				cx: x,
+				cy: y,
+				r: dia - character * .5 / ((word.length + 1) ** 1.15)
+			});
+		}
+		for (let i = 0; i < word.length; i++) {
+			// define center for character
 			if (displayCircular) {
-				// draw word circle
-				dia = wordcircleRadius(word.length + 1, character);
-				ctx.drawShape('circle', lwfactor * 2, {
-					cx: x,
-					cy: y,
-					r: dia - character * .5 / ((word.length + 1) ** 1.15)
-				});
+				let rad = 1.5 + 2 / (word.length) * i;
+				if (rad > 2) rad -= 2;
+				charX = x + Math.cos(Math.PI * rad) * dia * (1 - character / (dia - character * 1.6));
+				charY = y + Math.sin(Math.PI * rad) * dia * (1 - character / (dia - character * 1.6));
+				textX = x + Math.cos(Math.PI * rad) * dia * (1.1 - .4 / ((word.length + 1) ** 1.15));
+				textY = y + Math.sin(Math.PI * rad) * dia * (1.1 - .4 / ((word.length + 1) ** 1.15));
+			} else {
+				if (x + glyph.width >= width) {
+					y += glyph.height;
+					x = glyph.width;
+				} else x += glyph.width;
+				charX = x;
+				charY = y;
+				textX = x;
+				textY = y - character * 1.5;
 			}
-			for (let i = 0; i < word.length; i++) {
-				// define center for character
-				if (displayCircular) {
-					let rad = 1.5 + 2 / (word.length) * i;
-					if (rad > 2) rad -= 2;
-					charX = x + Math.cos(Math.PI * rad) * dia * (1 - character / (dia - character * 1.6));
-					charY = y + Math.sin(Math.PI * rad) * dia * (1 - character / (dia - character * 1.6));
-					textX = x + Math.cos(Math.PI * rad) * dia * (1.1 - .4 / ((word.length + 1) ** 1.15));
-					textY = y + Math.sin(Math.PI * rad) * dia * (1.1 - .4 / ((word.length + 1) ** 1.15));
-				} else {
-					if (x + glyph.width >= width) {
-						y += glyph.height;
-						x = glyph.width;
-					} else x += glyph.width;
-					charX = x;
-					charY = y;
-					textX = x;
-					textY = y - character * 1.5;
-				}
-				// draw character chunks
-				for (let j = 0; j < word[i].length; j++) {
-					if (word[i][j] in consoleGlyphs) {
-						tcDraw(ctx, charX, charY, includes(['a', 'e', 'i', 'o', 'u'], word[i][j]) ? consoleGlyphs[word[i][j]](word[i][j - 1]) : consoleGlyphs[word[i][j]]);
-					console.log(includes(['a', 'e', 'i', 'o', 'u'], word[i][j]) ? consoleGlyphs[word[i][j]](word[i][j - 1]) : consoleGlyphs[word[i][j]]);
-					} else warning += ", " + word[i][j];
-				}
+			// draw character chunks
+			for (let j = 0; j < word[i].length; j++) {
+				if (word[i][j] in consoleGlyphs) {
+					tcDraw(ctx, charX, charY, includes(['a', 'e', 'i', 'o', 'u'], word[i][j]) ? consoleGlyphs[word[i][j]](word[i][j - 1]) : consoleGlyphs[word[i][j]]);
+				} else warning += ", " + word[i][j];
+			}
 			// display character
 			ctx.drawText(word[i].join(''), {
 				x: textX,
@@ -111,11 +110,11 @@ export function render(input) {
 		} else x += glyph.width;
 	});
 
-// complain about undefined characters
-if (warning) document.getElementById("output").innerHTML = UILanguage.write("processError") + warning.substr(2);
-else document.getElementById("output").innerHTML = "";
+	// complain about undefined characters
+	if (warning) document.getElementById("output").innerHTML = UILanguage.write("processError") + warning.substr(2);
+	else document.getElementById("output").innerHTML = "";
 
-return ctx;
+	return ctx;
 }
 
 function tardisCharacterGrouping(input) {
@@ -160,7 +159,7 @@ function sizesort(a, b) {
 
 function tcDraw(ctx, x, y, glyph) {
 	// this method assumes the provided paths have relative coordinates
-	let path;
+	let path, fill=false;
 	const add = { // put x and y into usable scope, set correction value
 		x: x - character,
 		y: y - character,
@@ -177,8 +176,11 @@ function tcDraw(ctx, x, y, glyph) {
 			let c = coords.split(",");
 			return (parseFloat(c[0]) + add.x) + "," + (parseFloat(c[1]) + add.y);
 		});
+		if (p.filled=='foreground') fill=document.getElementById('foregroundcolor').value;
+		if (p.filled=='background') fill=document.getElementById('backgroundcolor').value;
 		ctx.drawShape('path', p.lineweight * lwfactor, {
-			d: path
+			d: path,
+			fill: fill
 		});
 	});
 }
