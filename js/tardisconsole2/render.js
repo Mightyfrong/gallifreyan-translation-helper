@@ -90,11 +90,6 @@ export function render(input) {
 			}
 			// draw character
 			if (word[i] in consoleGlyphs) {
-				ctx.drawShape('circle', lwfactor * 2, {
-					cx: charX,
-					cy: charY,
-					r: character
-				});
 				tcDraw(ctx, charX, charY, consoleGlyphs[word[i]]);
 				// display character
 				ctx.drawText(word[i], {
@@ -133,7 +128,7 @@ function tcDraw(ctx, x, y, glyph) {
 	const add = { // put x and y into usable scope, set correction value
 		x: x - character,
 		y: y - character,
-		scale: character / 23.5 // manually determined and totally dependable of inkscape canvas
+		scale: character / 15 // manually determined and totally dependable of inkscape canvas
 	};
 	glyph.forEach(p => { // loop through thick and slim paths
 		// find all coordinates and rescale
