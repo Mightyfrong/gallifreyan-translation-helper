@@ -1,5 +1,5 @@
 import { render as renderShermans } from './shermans/render.js';
-import { render as renderTARDISConsole } from './tardisConsole/render.js';
+import { render as renderTARDISConsole } from './tardisConsole2/render.js';
 import { render as renderDoctorsCot2 } from './doctorsCot2/render.js';
 import { render as renderCC } from './cc/render.js';
 import { render as renderDotscript } from './dotscript/render.js';
@@ -22,6 +22,7 @@ const ccOpts = document.getElementById('cc-options');
 const cotOpts = document.getElementById('cot-options');
 const cbettenbenders = document.getElementById('cbettenbenders');
 const darkifaerie = document.getElementById('darkifaerie');
+const tardisconsole = document.getElementById('tardisconsole');
 const oddism = document.getElementById('oddism');
 
 const img = document.getElementById('output-img');
@@ -107,6 +108,9 @@ export function activateControls(lang) {
 			break;
 		case DF:
 			darkifaerie.classList.toggle('active');
+			break;
+		case TARDIS:
+			tardisconsole.classList.toggle('active');
 			break;
 		case F:
 			oddism.classList.toggle('active');
