@@ -85,8 +85,7 @@ Currently only the table of the guide part 1 is supported `[a-zא]`, punctuation
 The progress of vectorizing all the things got a bit stuck for a few weeks and one of us wasn't able to understand and contribute to foreign code. So Doctor's Cot was straightforwand rebuild based on the coding style of CC-Gallifreyan. ɑ-based vowels are a bit impure regarding connectivity, but on the plus side there is canonical punctuation (except start indication).
 Like in the original Cot-module there is an IPA-keyboard. Since the author has published a simplyfied english version as well there is a respective keyboard that translates the english characters to the IPA-characters according to the official tables.
 
-Supported characters will be available on the provided keyboard.
-
+Supported characters will be available on the provided keyboard. Please be aware about adding `א` (aleph) for lonely vowels manually.
 ### Example
 <img src="assets/Gallifreyan_dɒktəz kɒt.svg" alt="doctor's cot gallifreyan" />
 

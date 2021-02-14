@@ -47,6 +47,11 @@ export let UILanguage = {
 			de: " lautsprachliche Tastatur",
 			lt: " fonetinė klaviatūra"
 		},
+		cotaleph: {
+			en: "Please add aleph (א) to lonely vowels manually",
+			de: "Bitte Aleph (א) manuell zu einsamen Vokalen voranstellen",
+			lt: "Rankiniu būdu pridėti aleph (א) prie atskirų balsių"
+		},
 		bettenbendersyllable: {
 			en: "Please separate syllables manually with a space",
 			de: "Silben bitte manuell mit Leerzeichen trennen",
@@ -120,6 +125,7 @@ export let UILanguage = {
 		document.getElementById("text").placeholder = this.write('inputplaceholder');
 		document.getElementById("renderbutton").value = this.write('renderbutton');
 		document.getElementById("info").innerHTML = this.write('info');
+		document.getElementById("cotaleph").innerHTML = this.write('cotaleph');
 
 		//display supported languages and add event listeners for setting language
 		Object.keys(this.supported).forEach(l => {
