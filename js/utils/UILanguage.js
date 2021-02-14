@@ -73,16 +73,13 @@ export let UILanguage = {
 			lt: "Rodyti"
 		},
 		info: {
-			en: "Still very early and WIP. Please don't spell check your tattoo with this!<br />" +
-				"This is an online tool aimed at artists and hobbyists who produce designs in one of the supported types of Gallifreyan.<br />" +
+			en: "This is an online tool aimed at artists and hobbyists who produce designs in one of the supported types of Gallifreyan.<br />" +
 				"Please recognize this tool not as a translator: it serves the purpose of quicker impressions of writing syntax.<br />" +
 				"The artistic composition is, and should be, your challenge. Please do not use any of these outputs for an immediate tattoo template!",
-			de: "Frühe Version und noch in Arbeit. Bitte prüft nicht die Schreibweise eures Tattoos damit!<br />" +
-				"Dieses Hilfsmittel richtet sich an Künster und Hobbyisten, welche Designs in einem oder mehreren der unterstützen Arten Gallifreyisch erstellen<br />" +
+			de: "Dieses Hilfsmittel richtet sich an Künster und Hobbyisten, welche Designs in einem oder mehreren der unterstützen Arten Gallifreyisch erstellen<br />" +
 				"Bitte betrachtet dieses Werkzeug nicht als Übersetzer: es dient nur einem schnellen Eindruck der Schreibweise.<br />" +
 				"Die ästhetische Ausarbeitung ist bewusst eure Herausforderung. Bitte benutzt keines der Ergebnisse als direkte Tattoo-Vorlage!",
-			lt: "WIP dar labai anksti. Prašau tuo netikrinti savo rašybos!<br />" +
-				"Tai internetinė priemonė menininkams ir mėgėjams, kurie kuria vieną iš palaikomų Gallifreyan tipų.<br />" +
+			lt: "Tai internetinė priemonė menininkams ir mėgėjams, kurie kuria vieną iš palaikomų Gallifreyan tipų.<br />" +
 				"Atpažinkite šį įrankį ne kaip vertėją: jis skirtas greičiau parodyti rašymo sintaksę.<br />" +
 				"Meninė kompozicija yra ir turėtų būti jūsų iššūkis. Prašau nenaudoti nė vieno iš šių rezultatų, jei norite iš karto tatuiruoti šabloną!"
 		},
