@@ -15,7 +15,7 @@ This is an online tool aimed at artists and hobbyists who produce designs in one
 
 Some details on what the translation helper for each system does can be found below:
 * [Sherman's](#Shermans)
-* [TARDIS Console](#TARDIS-Console-WIP)
+* [TARDIS Console](#TARDIS-Console)
 * [Doctors's Cot](#Doctors-Cot)
 * [cBettenbender's](#cBettenbenders)
 * [CC Gallifreyan](#CC-Gallifreyan)
@@ -66,59 +66,17 @@ Supported characters are `[a-z0-9.?!"'-,;:éèíìüúùæäáàåöóòøñ]`, 
 
 ---
 
-## TARDIS Console (WIP)
+## TARDIS Console
 
-Due to the detail in TARDIS Console glyphs, a look-up table of some sort of drawing instructions is needed for each individual letter. The format we chose was [SVG path data][1], which can be parsed by the `CanvasRenderContext2D.prototype.stroke()` and `.fill()` methods.
+Another approach was chosen to get this one finally running. TARDIS Console is heavily inspired by the shows artwork and therefore has huge tables of glyphs that have no simple pattern or system to style consonants and vowels. This style is not easily wrapped up to an algorithm. The glyps and paired vowels were redrawn in inkscape and will be resized and placed to the canvas.
 
-Because glyphs consist of a mixture of filled shapes and different line thicknesses, one set path data was insufficient for each letter. 3 line thicknesses were identified, and so each glyph is described by 4 sets of path data, the first being filled shapes. A semi-colon was chosen to separate the path strings, so the code which processes them looks like this:
+Vowels are always attached to a consonant, leading or double vowels or these that come on the third place are accompanied by aleph.
+Currently only the table of the guide part 1 is supported `[a-zא]`, punctuation and number are postponed ([the construction file is available](assets/tardisconsole.svg)).
 
-```js
-function drawGlyph(ctx, pathString) {
-	pathString.split(";")              
-		.forEach((str, idx) => { 
-			const path = new Path2D(str);
 
-			if (idx) {
-				ctx.lineWidth = idx;
-				ctx.stroke(path);
-			} else
-				ctx.fill(path);
-		});
-}
-```
-
-### Test Input
-
-For checking that TARDIS Console vowel rendering works.
-
-```
-babebibobu
-cacecicocu
-chachechichochu
-dadedidodu
-fafefifofu
-gagegigoguhahehihohu
-jajejijoju
-kakekikoku
-lalelilolu
-mamemimomu
-naneninonu
-papepipopu
-qaqeqiqoqu
-ngangengingongu
-quaquequiquoquu
-rareriroru
-sasesisosu
-shasheshishoshu
-tatetitotu
-thathethithothu
-vavevivovu
-wawewiwowu
-xaxexixoxu
-yayeyiyoyu
-zazezizozu
-phaphephiphophu
-```
+### What To Expect
+<img src="assets/Gallifreyan_tardis console linear.svg" alt="sherman's circular gallifreyan linear displayed" />
+<img src="assets/Gallifreyan_tardis console circular.svg" alt="sherman's circular gallifreyan circular displayed" />
 
 ---
 
