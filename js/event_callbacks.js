@@ -1,5 +1,5 @@
 import { render as renderShermans } from './shermans/render.js';
-import { render as renderTARDISConsole } from './tardisConsole2/render.js';
+import { render as renderTARDISConsole } from './tardisconsole2/render.js';
 import { render as renderDoctorsCot2 } from './doctorsCot2/render.js';
 import { render as renderCC } from './cc/render.js';
 import { render as renderDotscript } from './dotscript/render.js';
