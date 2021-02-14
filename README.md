@@ -111,7 +111,7 @@ Supported characters will be available on the provided keyboard.
 
 ## CC Gallifreyan
 
-This writing system feels like a hybrid from the look of TARDIS Console and the clear base-decorator-relations from Sherman's. This system processes the latin alphabet with th and ng only, no diacritics, punctuation or numbers.
+This system processes the latin alphabet with th and ng only, no diacritics, punctuation or numbers.
 
 Characters are simply stacked, while being read from outside to the center, but its up to the artist to decide about the number of stacked characters. This translation helper splits characters in words evenly to the set number. The maximum stacking amount is limited for easier reading, although the writing system itself is not clearly restricted in this context. Base- and decorator-graphics are tilted slightly to make it look less monotonous, yet orientated to one side to avoid problems from overlapping (this is just a programmatic necessity, not an artistic recommendation!).
 
@@ -180,7 +180,7 @@ Supported characters will be available on the provided keyboard.
 
 ## Copyright & Licence Notice
 
-Copyright 2020 [Mightyfrong][MF], [erroronline1][EOL1], [ModisR][MR]
+Copyright 2020-2021 [Mightyfrong][MF], [erroronline1][EOL1], [ModisR][MR]
  
 This file is part of the Gallifreyan Translation Helper,
 henceforth referred to as "the GTH".

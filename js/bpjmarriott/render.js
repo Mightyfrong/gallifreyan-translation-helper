@@ -110,7 +110,7 @@ function bpjmDraw(ctx, x, y, glyph) {
 	});
 }
 
-/**Copyright 2020 Mightyfrong, erroronline1, ModisR
+/**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR
  *
  * This file is part of the Gallifreyan Translation Helper,
  * henceforth referred to as "the GTH".

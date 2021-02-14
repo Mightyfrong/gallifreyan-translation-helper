@@ -25,7 +25,7 @@ createoddKeyboard();
 activateControls(langSelect.value);
 UILanguage.init(); //rewrite user interface language, direct implementation on document rendering throws errors
 
-/**Copyright 2020 Mightyfrong, erroronline1, ModisR
+/**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR
  *
  * This file is part of the Gallifreyan Translation Helper,
  * henceforth referred to as "the GTH".
