@@ -1,7 +1,7 @@
 # Gallifreyan Translation Helper
 ###### by MightyFrong
 
-This is an online tool aimed at artists and hobbyists who produce designs in one of the following types of Gallifreyan:
+This is a tool aimed at artists and hobbyists who produce designs in one of the following types of Gallifreyan:
 * [Sherman's Circular Gallifreyan by Loren Sherman][SCG]
 * [TARDIS Console by Purple Emily][TCG]
 * [Doctor's Cot by Brittany Goodman][DCG]
@@ -34,6 +34,8 @@ Please recognize this tool ***not*** as a translator: it serves the purpose of q
 See the [wiki](https://github.com/Mightyfrong/gallifreyan-translation-helper/wiki) for a high-level overview of the project. The rest of this documentation is planned to follow.
 
 (All of) the supported systems generate an svg-output that can be saved by right-clicking and are hopefully useful to initiate artistic work within your vector-graphics-application.
+
+The application can be used online and/or installed as a progressive web app for offline use on the go (props to [simplepwa.com](https://simplepwa.com/)).
 
 ## Sherman's
 
