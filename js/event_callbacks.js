@@ -1,6 +1,6 @@
 import { render as renderShermans } from './shermans/render.js';
 import { render as renderTARDISConsole } from './tardisconsole2/render.js';
-import { render as renderDoctorsCot2 } from './doctorsCot2/render.js';
+import { render as renderDoctorsCot } from './doctorsCot/render.js';
 import { render as renderCC } from './cc/render.js';
 import { render as renderDotscript } from './dotscript/render.js';
 import { render as renderABB } from './artbyboredom/render.js';
@@ -8,7 +8,7 @@ import { render as renderCB } from './cbettenbender/render.js';
 import { render as renderDF } from './darkifaerie/render.js';
 import { render as renderBPJM } from './bpjmarriott/render.js';
 import { render as renderF } from './oddism/render.js';
-import { createKeyboard } from './doctorsCot2/setup.js';
+import { createKeyboard } from './doctorsCot/setup.js';
 import { createoddKeyboard } from './oddism/setup.js';
 
 import { MySelect } from './utils/MySelect.js';
@@ -44,7 +44,7 @@ export function translate(event) {
 			svg = renderShermans(input);
 			break;
 		case COT2:
-			svg = renderDoctorsCot2(input);
+			svg = renderDoctorsCot(input);
 			break;
 		case TARDIS:
 			svg = renderTARDISConsole(input);

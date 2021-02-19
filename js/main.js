@@ -1,6 +1,6 @@
 import {
 	createKeyboard
-} from './doctorsCot2/setup.js';
+} from './doctorsCot/setup.js';
 
 import {
 	createoddKeyboard

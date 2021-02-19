@@ -73,9 +73,9 @@ self.addEventListener("install", event => {
 				"./js/darkifaerie/render.js",
 				"./js/darkifaerie/setup.js",
 
-				"./js/doctorsCot2/doctorsCotGlyphs.js",
-				"./js/doctorsCot2/render.js",
-				"./js/doctorsCot2/setup.js",
+				"./js/doctorsCot/doctorsCotGlyphs.js",
+				"./js/doctorsCot/render.js",
+				"./js/doctorsCot/setup.js",
 
 				"./js/dotscript/render.js",
 

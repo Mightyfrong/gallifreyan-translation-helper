@@ -19,7 +19,7 @@ let groupedInput; //global variable for input to be updated
 
 export function render(input) {
 	// convert input-string to grouped array and determine number of groups
-	groupedInput = doctorsCot2Grouped.groups(input.toLowerCase());
+	groupedInput = doctorsCotGrouped.groups(input.toLowerCase());
 
 	let glyphs = 0;
 	groupedInput.forEach(word => {
@@ -43,23 +43,23 @@ export function render(input) {
 	groupedInput.forEach(words => { // loop through sentence
 		words.forEach(groups => { // loop through words
 			groups.forEach(group => { // loop through character-groups 
-				doctorsCot2Grouped.resetOffset(group);
+				doctorsCotGrouped.resetOffset(group);
 				// iterate through characters within group
 				for (let l = 0; l < group.length; l++) {
-					doctorsCot2Draw(ctx, group[l], doctorsCot2Grouped);
+					doctorsCotDraw(ctx, group[l], doctorsCotGrouped);
 					if (dc2Consonants.getBase(group[l]))
-						doctorsCot2Grouped.setOffset(dc2Consonants.base[dc2Consonants.getBase(group[l])].baserad);
+						doctorsCotGrouped.setOffset(dc2Consonants.base[dc2Consonants.getBase(group[l])].baserad);
 				}
 			});
 		});
-		doctorsCot2Grouped.resetOffset();
-		doctorsCot2Draw(ctx, " ", doctorsCot2Grouped);
+		doctorsCotGrouped.resetOffset();
+		doctorsCotDraw(ctx, " ", doctorsCotGrouped);
 	});
 	return ctx;
 }
 
 // set rules for grouping
-let doctorsCot2Grouped = {
+let doctorsCotGrouped = {
 	groups: function (input) {
 		// creates a multidimensional array for
 		// sentence -> words -> groups -> single letters
@@ -108,7 +108,7 @@ let doctorsCot2Grouped = {
 }
 
 // draw instructions for base + decoration
-function doctorsCot2Draw(ctx, letter, grouped) {
+function doctorsCotDraw(ctx, letter, grouped) {
 	if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
 		if (x + glyph.width >= width) {
 			y += glyph.height;
