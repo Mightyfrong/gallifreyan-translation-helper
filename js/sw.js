@@ -53,7 +53,7 @@ self.addEventListener("install", event => {
 
 				// js modules
 				"./js/main.js",
-				"./js/event_callback.js",
+				"./js/event_callbacks.js",
 
 				"./js/artbyboredom/render.js",
 
