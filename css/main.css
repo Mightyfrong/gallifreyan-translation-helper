@@ -34,31 +34,17 @@ header {
 	background-image: linear-gradient(to top, var(--accent-col) -1rem, transparent 1rem);
 }
 
-header::before {
-	content: "";
-	display: block;
-	margin: auto;
-	width: var(--header-width);
-	height: var(--header-height);
-
-	/* continue glow effect around time lord silhouette */
-	background-color: var(--accent-col);
-	mask: no-repeat url(../assets/time_lord_glow.svg);
-	-webkit-mask: no-repeat url(../assets/time_lord_glow.svg);
-}
 
 h1 {
 	margin: auto;
-	/* negative margin to overlay silhouette on glow */
-	/* calc() doesn't work without 0px in front of minus sign */
-	margin-top: calc(0px - var(--header-height));
-	width: var(--header-width);
-	height: var(--header-height);
-	padding: 4em 2em;
+	max-width: var(--header-width);
+	padding: .5em;
+	text-align: left;
+}
 
-	background-color: var(--col1);
-	mask: no-repeat url(../assets/time_lord_silhouette.svg);
-	-webkit-mask: no-repeat url(../assets/time_lord_silhouette.svg);
+h1>img {
+	float: left;
+	margin: .25em
 }
 
 #creator {
@@ -66,18 +52,15 @@ h1 {
 	font-size: .5em;
 }
 
-#creator::before,
-#creator::after {
-	content: '\2666';
-	/* Unicode diamond */
-	font-size: 1.5em;
-	margin: 1em;
-	vertical-align: middle;
+#menu {
+	position: absolute;
+	top: 1em;
+	right: 1em;
 }
 
 /** Main & Footer **/
 main {
-	padding-bottom: 6em;
+	padding: 1em 1em 6em 1em;
 	background-color: inherit;
 }
 
@@ -224,6 +207,10 @@ span {
 	display: none;
 }
 
+#output-img {
+	max-width: 95vw;
+}
+
 a>svg {
 	height: 1em;
 	width: 1em;
@@ -242,7 +229,57 @@ label {
 	font-size: 1.3em;
 }
 
-@media (min-width: 640px) {
+@media all and (min-width: 640px) {
+	header::before {
+		content: "";
+		display: block;
+		margin: auto;
+		width: var(--header-width);
+		height: var(--header-height);
+
+		/* continue glow effect around time lord silhouette */
+		background-color: var(--accent-col);
+		mask: no-repeat url(../assets/time_lord_glow.svg);
+		-webkit-mask: no-repeat url(../assets/time_lord_glow.svg);
+	}
+
+	h1 {
+		margin: auto;
+		/* negative margin to overlay silhouette on glow */
+		/* calc() doesn't work without 0px in front of minus sign */
+		margin-top: calc(0px - var(--header-height));
+		width: var(--header-width);
+		height: var(--header-height);
+		padding: 3em 2em;
+		text-align: center;
+		background-color: var(--col1);
+		mask: no-repeat url(../assets/time_lord_silhouette.svg);
+		-webkit-mask: no-repeat url(../assets/time_lord_silhouette.svg);
+	}
+
+	#creator {
+		color: var(--accent-col);
+		font-size: .5em;
+	}
+
+	#creator::before,
+	#creator::after {
+		content: '\2666';
+		/* Unicode diamond */
+		font-size: 1.5em;
+		margin: 1em;
+		vertical-align: middle;
+	}
+
+	h1>img {
+		float: none;
+	}
+
+	#menu {
+		position: relative;
+		top: initial;
+		right: initial;
+	}
 
 	footer {
 		font-size: 1em;
