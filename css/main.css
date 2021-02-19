@@ -94,6 +94,9 @@ footer>div {
 	margin: 0 auto;
 	background-color: var(--accent-col);
 	color: var(--col1);
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	column-gap: 2em;
 }
 
 footer>div::after {
@@ -102,16 +105,39 @@ footer>div::after {
 	clear: both;
 }
 
-.ftr-elem {
-	float: left;
+footer>div>div {
 	padding: .5em 1em;
+	text-align: center;
 }
 
-.ftr-elem+.ftr-elem {
-	float: right;
+footer>div>div:first-child {
+	text-align: left;
+}
+
+footer>div>div:last-child {
+	text-align: right;
+}
+
+#acknowledgement {
+	display: none;
+	position: absolute;
+	width: min(40em, 90vw);
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	padding: 2em;
+	border-radius: .5em;
+	text-align: justify;
+	cursor: pointer;
+	color: var(--col0);
+	background: var(--accent-col);
 }
 
 /** Small Components **/
+#menu {
+	fill: var(--accent-col);
+	cursor: pointer;
+}
 
 #info {
 	font-weight: bold;
@@ -208,6 +234,14 @@ label>svg {
 	width: 3em;
 }
 
+input[type=checkbox],
+input[type=radio],
+input[type=submit],
+textarea,
+label {
+	font-size: 1.3em;
+}
+
 @media (min-width: 640px) {
 
 	footer {
@@ -218,6 +252,14 @@ label>svg {
 	input[type=submit],
 	#lang-controls {
 		max-width: 640px;
+	}
+
+	input[type=checkbox],
+	input[type=radio],
+	input[type=submit],
+	textarea,
+	label {
+		font-size: 1em;
 	}
 }
 

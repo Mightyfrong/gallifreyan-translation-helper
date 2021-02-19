@@ -15,6 +15,15 @@
 		<h1>
 			<div id="creator">Mightyfrong's</div>
 			Gallifreyan Translation Helper
+			<br /><br />
+			<svg version="1.1" id="menu" xmlns="http://www.w3.org/2000/svg" width="32px" height="32px"
+				viewBox="0 0 64 64"  onclick="document.getElementById('acknowledgement').style.display='block'">
+				<g>
+					<rect x="0" y="0" width="64" height="12.8" />
+					<rect x="0" y="25.6" width="64" height="12.8" />
+					<rect x="0" y="51.2" width="64" height="12.8" />
+				</g>
+			</svg>
 		</h1>
 	</header>
 	<main>
@@ -36,20 +45,25 @@
 			</div>
 			<fieldset id="lang-controls">
 				<div id="shermans-options">
-					<span><input type="checkbox" id="scgcirc" checked /><label for="scgcirc"> circular words</label></span>
+					<span><input type="checkbox" id="scgcirc" checked /><label for="scgcirc"> circular
+							words</label></span>
 					<span><input type="checkbox" id="scgc" checked /><label for="scgc"> convert C</label></span>
 					<span><input type="checkbox" id="scgg" /><label for="scgg"> character stacking</label></div></span>
 				</div>
 				<div id="cot-options">
-					<span><input type="radio" name="cotsystem" id="cotipa" checked /><label for="cotipa" id="cotipalang"> IPA keyboard</label></span>
-					<span><input type="radio" name="cotsystem" id="coten" /><label for="coten" id="cotenlang"> english keyboard</label></span><br /><br />
+					<span><input type="radio" name="cotsystem" id="cotipa" checked /><label for="cotipa"
+							id="cotipalang"> IPA keyboard</label></span>
+					<span><input type="radio" name="cotsystem" id="coten" /><label for="coten" id="cotenlang"> english
+							keyboard</label></span><br /><br />
 					<div id="dc2consonants"></div>
 					<div id="dc2vowels"></div>
 					<span id="cotaleph">please add aleph (א) to lonely vowels manually</span>
 				</div>
 				<div id="oddism">
-					<span><input type="radio" name="oddismsystem" id="oddismipa" checked /><label for="oddismipa" id="oddismipalang"> IPA keyboard</label></span>
-					<span><input type="radio" name="oddismsystem" id="oddismen" /><label for="oddismen" id="oddismenlang"> phonetic keyboard</label></span><br /><br />
+					<span><input type="radio" name="oddismsystem" id="oddismipa" checked /><label for="oddismipa"
+							id="oddismipalang"> IPA keyboard</label></span>
+					<span><input type="radio" name="oddismsystem" id="oddismen" /><label for="oddismen"
+							id="oddismenlang"> phonetic keyboard</label></span><br /><br />
 					<div id="oddismconsonants"></div>
 					<div id="oddismvowels"></div>
 				</div>
@@ -72,12 +86,16 @@
 					<div id="cbvowels"></div>
 				</div>
 				<div id="darkifaerie">
-					<span><input type="radio" name="dlsystem" id="dlslinear" checked /><label for="dlslinear" id="dlsllang"> linear</label></span>
-					<span><input type="radio" name="dlsystem" id="dlscircular" /><label for="dlscircular" id="dlsclang"> circular</label></span><br />
+					<span><input type="radio" name="dlsystem" id="dlslinear" checked /><label for="dlslinear"
+							id="dlsllang"> linear</label></span>
+					<span><input type="radio" name="dlsystem" id="dlscircular" /><label for="dlscircular" id="dlsclang">
+							circular</label></span><br />
 				</div>
 				<div id="tardisconsole">
-					<span><input type="radio" name="tcsystem" id="tclinear" checked /><label for="tclinear" id="tcllang"> linear</label></span>
-					<span><input type="radio" name="tcsystem" id="tccircular" /><label for="tccircular" id="tcclang"> circular</label></span><br />
+					<span><input type="radio" name="tcsystem" id="tclinear" checked /><label for="tclinear"
+							id="tcllang"> linear</label></span>
+					<span><input type="radio" name="tcsystem" id="tccircular" /><label for="tccircular" id="tcclang">
+							circular</label></span><br />
 				</div>
 			</fieldset>
 			<textarea id="text" rows="4" placeholder="type your text here"></textarea>
@@ -104,9 +122,9 @@
 
 	<footer>
 		<div>
+			<div>&copy; 2020-2021 Mightyfrong, erroronline1, ModisR</div>
 			<div id="UILanguages"></div>
-			<div class="ftr-elem">&copy; 2020 Mightyfrong, erroronline1, ModisR</div>
-			<div class="ftr-elem">
+			<div>
 				<a href="https://github.com/Mightyfrong/gallifreyan-translation-helper" target="_blank">
 					<svg class="tileimg" fill="currentColor" viewBox="0 0 16 16" version="1.1" aria-hidden="true">
 						<path fill-rule="evenodd"
@@ -118,7 +136,35 @@
 			</div>
 		</div>
 	</footer>
-	<script type="module" src="js/main.js"></script>
+	<div id="acknowledgement" onclick="this.style.display='none'">
+		This is an online tool aimed at artists and hobbyists who produce designs in one of the supported types of
+		Gallifreyan.<br />
+		Please recognize this tool not as a translator: it serves the purpose of quicker impressions of writing
+		syntax.<br />
+		The artistic composition is, and should be, your challenge. Please do not use any of these outputs for an
+		immediate tattoo template!<br /><br />
+		The list of provided writing styles is not complete regarding every known style or font. To be implemented
+		into the GTH a writing style is supposed to follow a pattern that can be translated into an algorithm. To
+		date this has not been possible for styles that keep tenses into account, have incomplete or cumbersome
+		guides or other reasons. We acknowledge and appreciate other writing styles as well and one or the other may
+		or may not be on our inofficial to-do-list:
+		<ul>
+			<li><a href="https://fluxgallifreyan.weebly.com/" target="ack">r/lost_chm Flux Gallifreyan</a></li>
+			<li><a href="https://fyeahgallifreyan.tumblr.com/post/49952734330/clockwork-gallifreyan-complete-writing-guide"
+					target="ack">Fyeahgallifreyan Cockwork Gallifreyan</a></li>
+			<li><a href="https://rasiloniangallifreyan.tumblr.com/" target="ack">Crystal-Avery Chaleureux Rasilonian
+					Gallifreyan</a></li>
+			<li><a href="https://www.deviantart.com/skippyrulestheworld/art/Gralifreyan-Alphabet-Table1-180500264"
+					target="ack">SkippyRulesTheWorld Gallifreyan</a></li>
+			<li><a href="https://www.deviantart.com/searingdestiny/art/Gallifreyan-Alphabet-numbers-187106661"
+					target="ack">SearingDestiny Gallifreyan</a></li>
+			<li><a href="https://www.dafont.com/ws-simple-gallifreyan.font" target="ack">WS simple Gallifreyan</a>
+			</li>
+		</ul>
+
+
+	</div>
+<script type="module" src="js/main.js"></script>
 </body>
 
 </html>
