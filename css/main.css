@@ -28,12 +28,6 @@ body {
 }
 
 /* Large Sections */
-/** Header **/
-header {
-	/* horizontal glow effect bordering top of <main> */
-	background-image: linear-gradient(to top, var(--accent-col) -1rem, transparent 1rem);
-}
-
 
 h1 {
 	margin: auto;
@@ -56,24 +50,28 @@ h1>img {
 	position: absolute;
 	top: 1em;
 	right: 1em;
+	width: .8em;
+	height: .8em;
 }
 
 /** Main & Footer **/
 main {
-	padding: 1em 1em 6em 1em;
+	min-height: calc(100vh - 8em);
+	padding: 1em 1em 5em 1em;
 	background-color: inherit;
+	border-top-right-radius: 2em;
+	box-shadow: 2em 2em 2em 2em var(--accent-col);
 }
 
 footer {
+	border-top-right-radius: 2em;
 	position: absolute;
 	left: 0;
 	right: 0;
 	bottom: 0;
 	width: auto;
 	font-size: .7em;
-}
-
-footer>div {
+	padding-top: 1em;
 	margin: 0 auto;
 	background-color: var(--accent-col);
 	color: var(--col1);
@@ -82,22 +80,16 @@ footer>div {
 	column-gap: 2em;
 }
 
-footer>div::after {
-	content: '';
-	display: block;
-	clear: both;
-}
-
-footer>div>div {
+footer>div {
 	padding: .5em 1em;
 	text-align: center;
 }
 
-footer>div>div:first-child {
+footer>div:first-child {
 	text-align: left;
 }
 
-footer>div>div:last-child {
+footer>div:last-child {
 	text-align: right;
 }
 
@@ -110,6 +102,7 @@ footer>div>div:last-child {
 	transform: translate(-50%, -50%);
 	padding: 2em;
 	border-radius: .5em;
+	border-top-right-radius: 2em;
 	text-align: justify;
 	cursor: pointer;
 	color: var(--col0);
@@ -129,10 +122,12 @@ footer>div>div:last-child {
 #text,
 input[type=submit],
 #lang-controls {
-	display: block;
-	margin: .5em auto;
-	width: 90%;
-	padding: 0;
+	display: inline-block;
+	margin: .5em;
+	width: 100%;
+	padding: .25em;
+	border: 1px solid var(--accent-col);
+	border-radius: .25em;
 }
 
 span {
@@ -203,6 +198,57 @@ span {
 	cursor: pointer;
 }
 
+input[type=submit] {
+	display: none;
+}
+
+form>label {
+	display: inline-block;
+	width: 4em;
+	height: 4em;
+	border-radius: 50%;
+	background-color: var(--accent-col);
+}
+
+form>label:before {
+	content: '';
+	position: absolute;
+	left: 0;
+	background-color: var(--accent-col);
+	width: 100vw;
+	height: .1em;
+	margin-top: 3em;
+}
+
+form>label:after {
+	content: '';
+	position: absolute;
+	border-bottom: .1em solid var(--accent-col);
+	border-radius: 50%;
+	width: 4.5em;
+	height: 4.5em;
+	margin-left: -4.25em;
+}
+
+
+form>label:active,
+#dc2consonants>div>div:active,
+#dc2vowels>div>div:active,
+#cbconsonants>div>div:active,
+#cbvowels>div>div:active,
+#oddismconsonants>div:active,
+#oddismvowels>div:active {
+	transform: scale(.95);
+}
+
+#renderbutton {
+	width: inherit;
+	height: inherit;
+	padding: 1em;
+	fill: var(--col0);
+}
+
+
 #drawoutput {
 	display: none;
 }
@@ -223,13 +269,13 @@ label>svg {
 
 input[type=checkbox],
 input[type=radio],
-input[type=submit],
 textarea,
 label {
 	font-size: 1.3em;
 }
 
 @media all and (min-width: 640px) {
+
 	header::before {
 		content: "";
 		display: block;
@@ -277,8 +323,13 @@ label {
 
 	#menu {
 		position: relative;
-		top: initial;
+		top: 1em;
 		right: initial;
+	}
+
+	main,
+	footer {
+		border-top-right-radius: unset;
 	}
 
 	footer {
