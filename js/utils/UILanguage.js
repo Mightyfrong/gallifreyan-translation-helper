@@ -78,7 +78,7 @@ export let UILanguage = {
 			lt: "Rodyti"
 		},
 		info: {
-			en: "This a tool aimed at artists and hobbyists who produce designs in one of the supported types of Gallifreyan. " +
+			en: "This is a tool aimed at artists and hobbyists who produce designs in one of the supported types of Gallifreyan. " +
 				"Use it online or install it as a progressive web app on your device to use it offline on the go.<br />" +
 				"Please recognize this tool not as a translator: it serves the purpose of quicker impressions of writingsyntax. " +
 				"The artistic composition is, and should be, your challenge. Please do not use any of these outputs for an immediate tattoo template!",
