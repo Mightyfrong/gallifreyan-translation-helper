@@ -57,7 +57,7 @@ h1>img {
 /** Main & Footer **/
 main {
 	min-height: calc(100vh - 8em);
-	padding: 1em 1em 5em 1em;
+	padding: 1em 2em 5em 1em;
 	background-color: inherit;
 	border-top-right-radius: 2em;
 	box-shadow: 2em 2em 2em 2em var(--accent-col);
@@ -107,6 +107,7 @@ footer>div:last-child {
 	cursor: pointer;
 	color: var(--col0);
 	background: var(--accent-col);
+	z-index:10;
 }
 
 /** Small Components **/
@@ -250,6 +251,7 @@ form>label:active,
 
 
 #drawoutput {
+	margin-top:1em;
 	display: none;
 }
 

@@ -8,6 +8,7 @@ my-select {
 	margin: 0 .5em;
 	height: var(--height);
 	line-height: var(--height);
+	z-index:2;
 }
 
 my-select::after {
