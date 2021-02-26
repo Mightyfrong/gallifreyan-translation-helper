@@ -14,7 +14,9 @@ export class MySelect extends HTMLElement {
 				radioBtn.id = radioBtn.value = value;
 
 				// set checked = true for 1st input, ie idx = 0
-				radioBtn.checked = !idx;
+				let lastUsed = window.localStorage.getItem("selectedLang");
+				if (lastUsed == null) radioBtn.checked = !idx;
+				else radioBtn.checked = lastUsed == value;
 
 				// dispatch custom event 'select' for main.js to hook into
 				// when new option is chosen
