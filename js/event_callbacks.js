@@ -30,7 +30,7 @@ const img = document.getElementById('output-img');
 // Init language selector & constants
 customElements.define('my-select', MySelect);
 const langs = langSelect.querySelectorAll('input');
-const [SHERMAN, COT2, TARDIS, CB, CC, DOT, ABB, DF, BPJM, F] = [...langs].map(input => input.value);
+const [SHERMAN, COT, TARDIS, CB, CC, DOT, ABB, DF, BPJM, F] = [...langs].map(input => input.value);
 
 // Event Callbacks
 export function translate(event) {
@@ -43,7 +43,7 @@ export function translate(event) {
 		case SHERMAN:
 			svg = renderShermans(input);
 			break;
-		case COT2:
+		case COT:
 			svg = renderDoctorsCot(input);
 			break;
 		case TARDIS:
@@ -97,7 +97,7 @@ export function activateControls(lang) {
 		case SHERMAN:
 			shermansOpts.classList.toggle('active');
 			break;
-		case COT2:
+		case COT:
 			cotOpts.classList.toggle('active');
 			break;
 		case CC:
@@ -116,6 +116,7 @@ export function activateControls(lang) {
 			oddism.classList.toggle('active');
 			break;
 	}
+	window.localStorage.setItem("selectedLang", lang);
 }
 
 Array.prototype.forEach.call(document.querySelectorAll('input[type=radio][name="cotsystem"]'), function (radio) {
