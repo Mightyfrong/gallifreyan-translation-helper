@@ -49,7 +49,7 @@ export let UILanguage = {
 		},
 		cotaleph: {
 			en: "Please add aleph (א) to lonely vowels manually",
-			de: "Bitte Aleph (א) manuell zu einsamen Vokalen voranstellen",
+			de: "Bitte Aleph (א) manuell einsamen Vokalen voranstellen",
 			lt: "Rankiniu būdu pridėti aleph (א) prie atskirų balsių"
 		},
 		bettenbendersyllable: {
@@ -80,7 +80,7 @@ export let UILanguage = {
 		info: {
 			en: "This is a tool aimed at artists and hobbyists who produce designs in one of the supported types of Gallifreyan. " +
 				"Use it online or install it as a progressive web app on your device to use it offline on the go.<br />" +
-				"Please recognize this tool not as a translator: it serves the purpose of quicker impressions of writingsyntax. " +
+				"Please recognize this tool not as a translator: it serves the purpose of quicker impressions of writing syntax. " +
 				"The artistic composition is, and should be, your challenge. Please do not use any of these outputs for an immediate tattoo template!",
 			de: "Dieses Hilfsmittel richtet sich an Künster und Hobbyisten, welche Designs in einem oder mehreren der unterstützen Arten Gallifreyisch erstellen. "+ 
 				"Nutzt es online oder installiert es als Progressive Web App auf eurem Gerät um es auch offline immer dabei zu haben.<br />" +
