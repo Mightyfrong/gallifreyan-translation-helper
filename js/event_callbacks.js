@@ -1,6 +1,7 @@
 import { render as renderShermans } from './shermans/render.js';
 import { render as renderTARDISConsole } from './tardisconsole2/render.js';
 import { render as renderDoctorsCot } from './doctorsCot/render.js';
+import { render as renderFlux } from './flux/render.js';
 import { render as renderCC } from './cc/render.js';
 import { render as renderDotscript } from './dotscript/render.js';
 import { render as renderABB } from './artbyboredom/render.js';
@@ -30,7 +31,7 @@ const img = document.getElementById('output-img');
 // Init language selector & constants
 customElements.define('my-select', MySelect);
 const langs = langSelect.querySelectorAll('input');
-const [SHERMAN, COT, TARDIS, CB, CC, DOT, ABB, DF, BPJM, F] = [...langs].map(input => input.value);
+const [SHERMAN, COT, TARDIS, FLUX, CB, CC, DOT, ABB, DF, BPJM, F] = [...langs].map(input => input.value);
 
 // Event Callbacks
 export function translate(event) {
@@ -48,6 +49,9 @@ export function translate(event) {
 			break;
 		case TARDIS:
 			svg = renderTARDISConsole(input);
+			break;
+		case FLUX:
+			svg = renderFlux(input);
 			break;
 		case DOT:
 			svg = renderDotscript(input);
