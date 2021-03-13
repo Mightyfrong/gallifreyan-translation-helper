@@ -1,6 +1,6 @@
 import { includes } from '../utils/funcs.js';
 import { fluxBase, fluxDeco } from './fluxGlyphs.js';
-import { consonant, vowel } from './setup.js';
+import { consonant, decorator } from './setup.js';
 import { SVGRenderingContext } from '../utils/SVGRenderingContext.js';
 
 let width; // canvas width
@@ -10,7 +10,7 @@ let y; // current coordinate y
 let glyph; // glyph dimensions-object
 let option; // user option-object
 
-const base = new fluxBase(consonant, vowel);
+const base = new fluxBase(consonant, decorator);
 const deco = new fluxDeco(base);
 
 export function render(input) {
@@ -20,7 +20,7 @@ export function render(input) {
 	};
 
 	// convert input-string to word array
-	input=replacements(input).toLowerCase().trim().replace(/\s+/g, " ").split(" ");
+	input = replacements(input).toLowerCase().trim().replace(/\s+/g, " ").split(" ");
 	let glyphs = 0,
 		biggestWordCircle = 0;
 	input.forEach(word => {
@@ -55,11 +55,30 @@ export function render(input) {
 	const ctx = new SVGRenderingContext(width, height);
 	// iterate through input to set grouping instructions, handle exceptions and draw glyphs
 	input.forEach(word => { // loop through sentence
-		for (let i=0;i<word.length;i++){ // loop through words
+		let wordlength = word.length;
+		if (word.match(/(sh|wh|ph|ch)/g) != null) wordlength -= word.match(/(sh|wh|ph|ch)/g).length;
+		let j = -1; // additional "iterator" to handle double letters (ch, sh, ph, wh)
+		for (let i = 0; i < word.length; i++) { // loop through words
+			let current = word[i],
+				currenttwo = word[i] + word[i + 1];
+			// add double latin characters to group
+			if (includes(["ch", "sh", "ph", "wh"], currenttwo)) {
+				current = currenttwo;
+				i++;
+			}
+			j++;
 			// draw
-			fluxDraw(ctx, {word:word, index:i});
+			fluxDraw(ctx, {
+				char: current,
+				wordlength: wordlength,
+				index: j
+			});
 		}
-		fluxDraw(ctx, {word:" ", index:0});
+		fluxDraw(ctx, {
+			char: " ",
+			wordlength: 0,
+			index: 0
+		});
 	});
 	return ctx;
 }
@@ -69,35 +88,35 @@ function replacements(word) {
 	let cword = "";
 	for (let i = 0; i < word.length; i++) { // iterate through word 
 		if (word[i] == "c") {
-			if (word[i + 1] == "h") {cword += "k"; i++;} // ch is always replaced to k
+			if (word[i + 1] == "h") {
+				cword += "c";
+			} // ch is still allowed
 			else if (includes(["e", "i", "y"], word[i + 1])) cword += "s";
 			else cword += "k"; // end of the word
-		} else if (word[i] == "ß") cword += "ss";
-		else cword += word[i];
+		} else cword += word[i];
 	}
 	return cword;
 }
 
 // draw instructions for base + decoration
-function fluxDraw(ctx, current){
-	if (!option.circular || current.word[current.index] == " ") {
+function fluxDraw(ctx, current) {
+	if (!option.circular || current.char == " ") {
 		if (x + glyph.width >= width) {
 			y += glyph.height;
 			x = glyph.width / (option.circular ? 2 : 1);
 		} else x += glyph.width;
 	}
-	let currentbase = base.getBase(current.word[current.index]);
+	let currentbase = base.getBase(current.char);
 	if (!currentbase) return false;
 	// rotation of charactergroups in regards of circular display
 	let rad = 0,
 		wordCircleRadius = glyph.height;
 	if (option.circular) {
-		rad = 1+ (2 / current.word.length) * (current.index);
-		wordCircleRadius = Math.ceil(Math.sqrt(current.word.length * Math.pow(2 * consonant, 2) / Math.PI)) * 1.5;
+		rad = 1 + (2 / current.wordlength) * (current.index);
+		wordCircleRadius = Math.ceil(Math.sqrt(current.wordlength * Math.pow(2 * consonant, 2) / Math.PI)) * 1.5;
 	}
 
 	if (currentbase) { // works only for defined characters
-
 		// define basic positional arguments
 		let center = { // relative center of base
 			x: -1 * (wordCircleRadius * Math.sin(Math.PI * rad) + base.fluxtable[currentbase].centerYoffset * Math.sin(Math.PI * rad)),
@@ -107,9 +126,9 @@ function fluxDraw(ctx, current){
 		// draw base and sentence line if applicable
 		let angle = .068;
 		if (option.circular) {
-			angle = 1 / current.word.length;
+			angle = 1 / current.wordlength;
 		}
-		if (current.word.length == 1 && option.circular) ctx.drawShape('circle', 1, {
+		if (current.wordlength == 1 && option.circular) ctx.drawShape('circle', 1, {
 			cx: x,
 			cy: y,
 			r: wordCircleRadius
@@ -124,7 +143,7 @@ function fluxDraw(ctx, current){
 		base.fluxtable[currentbase].draw(ctx, x + center.x, y + center.y, r, rad, current);
 
 		// draw decorators
-		let decorators = deco.getDeco(current.word[current.index]);
+		let decorators = deco.getDeco(current.char);
 		if (decorators) {
 			decorators.forEach(decorator => {
 				if (decorators)
@@ -135,8 +154,8 @@ function fluxDraw(ctx, current){
 	// text output for undefined characters as well for informational purpose
 	// print character translation above the drawings unless it's a (numeral) control character
 	let fontsize = parseFloat(getComputedStyle(document.body, null).fontSize),
-		text = current.word[current.index];
-	
+		text = current.char;
+
 	ctx.drawText(text, {
 		x: x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad),
 		y: y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad) + fontsize * .25

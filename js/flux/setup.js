@@ -1,5 +1,5 @@
 export const consonant = 30; // radius of consonants
-export const vowel = Math.floor(consonant / 2); // radius of vowels
+export const decorator = Math.floor(consonant / 5); // radius of circular decorators
 
 /**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR
  *

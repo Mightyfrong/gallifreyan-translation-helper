@@ -1,31 +1,21 @@
-import { includes } from '../utils/funcs.js';
+import {
+	includes
+} from '../utils/funcs.js';
 
 //specify base for every letter, assign base to latin characters and specify geometric properties
 export class fluxBase {
-	constructor(consonant, vowel) {
+	constructor(consonant, decorator) {
 		this.consonant = consonant;
-		this.vowel = vowel;
+		this.decorator = decorator;
 		this.fluxtable = {
 			ab: {
 				contains: ["a", "e", "i", "o", "u", "b", "j", "z", "d", "m"],
 				centerYoffset: -consonant * 1.25,
-				radialPlacement: function (rad = .25, item = "vo") {
-					let options = {
-						ve: {
-							x: 0,
-							y: 0
-						},
-						va: {
-							x: -this.centerYoffset * Math.sin(Math.PI * (rad - .25)) + vowel * 1.75 * Math.sin(Math.PI * (rad - .25)),
-							y: -this.centerYoffset * Math.cos(Math.PI * (rad - .25)) + vowel * 1.75 * Math.cos(Math.PI * (rad - .25))
-						},
-						vo: {
-							x: consonant * Math.cos(Math.PI * (.5 + rad)),
-							y: -consonant * Math.sin(Math.PI * (.5 + rad))
-						}
-					}
-					if (!(item in options)) item = "vo";
-					return options[item];
+				radialPlacement: function (rad = .25) {
+					return {
+						x: consonant * Math.cos(Math.PI * (.5 + rad)),
+						y: -consonant * Math.sin(Math.PI * (.5 + rad))
+					};
 				},
 				draw: function (ctx, x, y, r, rad = 0) {
 					ctx.drawShape('circle', 1, {
@@ -36,57 +26,33 @@ export class fluxBase {
 				}
 			},
 			gh: {
-				contains: ["g", "k", "p", "t", "x", "h", "r","n","q","v"],
+				contains: ["g", "k", "p", "t", "x", "h", "r", "n", "q", "v","ß","ph", "wh"],
 				centerYoffset: 0,
-				radialPlacement: function (rad = .25, item = "vo") {
-					let options = {
-						ve: {
-							x: 0,
-							y: 0
-						},
-						va: {
-							x: vowel * 1.75 * Math.sin(Math.PI * (rad - .25)),
-							y: -this.centerYoffset + vowel * 1.75 * Math.cos(Math.PI * (rad - .25))
-						},
-						vo: {
+				radialPlacement: function (rad = .25) {
+					return {
 							x: consonant * Math.cos(Math.PI * (.5 + rad)),
 							y: -consonant * Math.sin(Math.PI * (.5 + rad))
-						}
-					}
-					if (!(item in options)) item = "vo";
-					return options[item];
+						};
 				},
 				draw: function (ctx, x, y, r, rad = 0, current) {
-					if (includes(["g", "k", "p", "t", "x"],current.word[current.index])) ctx.clearShape('circle', {
+					if (includes(["g", "k", "p", "t", "x"], current.char)) ctx.clearShape('circle', {
 						cx: x,
 						cy: y,
 						r: r
 					});
 					ctx.drawShape('path', 1, {
-						d: ctx.circularArc(x, y, r, (1 + rad) * Math.PI + Math.asin(r*.01/current.word.length), (2 + rad) * Math.PI - Math.asin(r*.01/current.word.length), "minor")
+						d: ctx.circularArc(x, y, r, (1 + rad) * Math.PI + Math.asin(r * .01 / current.wordlength), (2 + rad) * Math.PI - Math.asin(r * .01 / current.wordlength), "minor")
 					});
 				}
 			},
 			s: {
-				contains: ["s", "f", "l", "w", "y"],
+				contains: ["s", "f", "l", "w", "y", "ch", "sh"],
 				centerYoffset: -consonant * .9,
 				radialPlacement: function (rad = .25, item = "vo") {
-					let options = {
-						ve: {
-							x: 0,
-							y: 0
-						},
-						va: {
-							x: -this.centerYoffset * Math.sin(Math.PI * (rad - .25)) + vowel * 1.75 * Math.sin(Math.PI * (rad - .25)),
-							y: -this.centerYoffset * Math.cos(Math.PI * (rad - .25)) + vowel * 1.75 * Math.cos(Math.PI * (rad - .25))
-						},
-						vo: {
+					return {
 							x: consonant * Math.cos(Math.PI * (.5 + rad)),
 							y: -consonant * Math.sin(Math.PI * (.5 + rad))
-						}
-					}
-					if (!(item in options)) item = "vo";
-					return options[item];
+						};
 				},
 				draw: function (ctx, x, y, r, rad = 0) {
 					ctx.clearShape('circle', {
@@ -116,55 +82,78 @@ export class fluxDeco {
 	constructor(base) {
 		this.base = base;
 		this.fluxtable = {
-			"1l": {
-				contains: ["b", "j", "m","i","p","l","n"],
-				radiants: [.6],
+			"b": {
+				contains: ["b", "j", "z", "d", "m"],
+				radiants: [.4],
 				fromto: [1, 1.5]
+			},
+			"1l": {
+				contains: ["i", "p", "z", "l", "n"],
+				radiants: [.4],
+				fromto: [1.3, 1.3]
 			},
 			"2l": {
-				contains: ["z", "o", "t", "w","q"],
-				radiants: [.85, .75],
-				fromto: [1, 1.5]
+				contains: ["o", "t", "d", "w", "q"],
+				radiants: [.35, .4],
+				fromto: [1.3, 1.3]
 			},
 			"3l": {
-				contains: ["d"],
-				radiants: [.9, .8, .7],
-				fromto: [1, 1.5]
+				contains: ["sh", "wh"],
+				radiants: [.3, .35, .4],
+				fromto: [1.3, 1.3]
 			},
 			"c": {
-				contains: ["a", "g", "b", "s","h","u","x","m","y","v"],
+				contains: ["a", "g", "b", "s", "h", "u", "x", "m", "y", "v"],
 				radiants: [.7],
-				fromto: [1]
+				fromto: [.7]
 			},
 			"d": {
-				contains: ["e", "k", "j","f","r","u","x","m","y","v"],
-				radiants: [.4],
-				fromto: [1]
-			}
+				contains: ["e", "k", "j", "f", "r", "u", "x", "m", "y", "v"],
+				radiants: [.5],
+				fromto: [.7]
+			},
+			"cd": {
+				contains: ["ß", "ch", "ph"],
+				radiants: [.2],
+				fromto: [.7]
+			},
 		}
 	}
 	draw(ctx, deco, x, y, currentbase, baserad) {
 		baserad += .5;
-		 if (includes(["d"], deco)) {
+		if (includes(["d"], deco)) {
 			this.fluxtable[deco].radiants.forEach(rad => {
 				let fromto = this.fluxtable[deco].fromto;
 				ctx.drawShape('circle', 0, {
-					cx: x + this.base.fluxtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] ,
-					cy: y + this.base.fluxtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] ,
-					r: this.base.vowel * .25
+					cx: x + this.base.fluxtable[currentbase].radialPlacement(rad - baserad).x * fromto[0],
+					cy: y + this.base.fluxtable[currentbase].radialPlacement(rad - baserad).y * fromto[0],
+					r: this.base.decorator * .4
 				});
 			});
 		} else if (includes(["c"], deco)) {
 			this.fluxtable[deco].radiants.forEach(rad => {
 				let fromto = this.fluxtable[deco].fromto;
 				ctx.drawShape('circle', 1, {
-					cx: x + this.base.fluxtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] ,
-					cy: y + this.base.fluxtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] ,
-					r: this.base.vowel
+					cx: x + this.base.fluxtable[currentbase].radialPlacement(rad - baserad).x * fromto[0],
+					cy: y + this.base.fluxtable[currentbase].radialPlacement(rad - baserad).y * fromto[0],
+					r: this.base.decorator
 				});
 			});
-		} else {
-			/* lines */
+		} else if (includes(["cd"], deco)) {
+			this.fluxtable[deco].radiants.forEach(rad => {
+				let fromto = this.fluxtable[deco].fromto;
+				ctx.drawShape('circle', 1, {
+					cx: x + this.base.fluxtable[currentbase].radialPlacement(rad - baserad).x * fromto[0],
+					cy: y + this.base.fluxtable[currentbase].radialPlacement(rad - baserad).y * fromto[0],
+					r: this.base.decorator
+				});
+				ctx.drawShape('circle', 0, {
+					cx: x + this.base.fluxtable[currentbase].radialPlacement(rad - baserad).x * fromto[0],
+					cy: y + this.base.fluxtable[currentbase].radialPlacement(rad - baserad).y * fromto[0],
+					r: this.base.decorator * .4
+				});
+			});
+		} else if (includes(["b"], deco)) {
 			this.fluxtable[deco].radiants.forEach(rad => {
 				let fromto = this.fluxtable[deco].fromto;
 				ctx.drawShape('line', 1, {
@@ -174,6 +163,17 @@ export class fluxDeco {
 					y2: y + this.base.fluxtable[currentbase].radialPlacement(rad - baserad).y * fromto[1]
 				});
 			});
+		} else {
+			this.fluxtable[deco].radiants.forEach(rad => {
+				let fromto = this.fluxtable[deco].fromto;
+				ctx.drawShape('line', 1, {
+					x1: x + this.base.fluxtable[currentbase].radialPlacement(.5 - rad - baserad).x * fromto[0],
+					y1: y + this.base.fluxtable[currentbase].radialPlacement(.5 - rad - baserad).y * fromto[0],
+					x2: x + this.base.fluxtable[currentbase].radialPlacement(.5 + rad - baserad).x * fromto[1],
+					y2: y + this.base.fluxtable[currentbase].radialPlacement(.5 + rad - baserad).y * fromto[1]
+				});
+			});
+
 		}
 	}
 	getDeco(char) { // return array of names of decorators the given character is assigned to
