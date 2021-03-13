@@ -27,6 +27,11 @@ export let UILanguage = {
 			de: "gruppierte Buchstaben",
 			lt: "simbolių kaupimas"
 		},
+		fluxcirc: {
+			en: "circular words",
+			de: "kreisförmige Wörter",
+			lt: "žiediniai žodžiai"
+		},
 		ccstack: {
 			en: "Maximum stacked characters",
 			de: "Maximal gruppierte Buchstaben",
@@ -116,6 +121,7 @@ export let UILanguage = {
 		document.getElementById("scgcirc").nextSibling.innerHTML = this.write('scgcirc');
 		document.getElementById("scgc").nextSibling.innerHTML = this.write('scgc');
 		document.getElementById("scgg").nextSibling.innerHTML = this.write('scgg');
+		document.getElementById("fluxcirc").nextSibling.innerHTML = this.write('fluxcirc');
 		document.getElementById("ccstack").innerHTML = this.write('ccstack');
 		document.getElementById("cotipalang").innerHTML = this.write('ipakeys');
 		document.getElementById("cotenlang").innerHTML = this.write('enkeys');
