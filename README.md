@@ -5,6 +5,7 @@ This is a tool aimed at artists and hobbyists who produce designs in one of the 
 * [Sherman's Circular Gallifreyan by Loren Sherman][SCG]
 * [TARDIS Console by Purple Emily][TCG]
 * [Doctor's Cot by Brittany Goodman][DCG]
+* [Flux Gallifreyan by u/lost_chm][FLUX]
 * [Circular Gallifreyan by Cat Bettenbender][CB]
 * [CC Gallifreyan by gumex][CC]
 * [DotScript by Rachel Sutherland][DS]
@@ -17,6 +18,7 @@ Some details on what the translation helper for each system does can be found be
 * [Sherman's](#Shermans)
 * [TARDIS Console](#TARDIS-Console)
 * [Doctors's Cot](#Doctors-Cot)
+* [Flux](#Flux)
 * [cBettenbender's](#cBettenbenders)
 * [CC Gallifreyan](#CC-Gallifreyan)
 * [DotScript](#DotScript)
@@ -90,6 +92,22 @@ Like in the original Cot-module there is an IPA-keyboard. Since the author has p
 Supported characters will be available on the provided keyboard. Please be aware about adding `א` (aleph) for lonely vowels manually.
 ### Example
 <img src="assets/Gallifreyan_dɒktəz kɒt.svg" alt="doctor's cot gallifreyan" />
+
+---
+
+## Flux
+
+The GTH displays the words either in a clockwise circular fashion (not spiral or layers though) or every glyph/group in horizontal lines (left to right) for ease of reading.
+
+C will always be converted to phonetic s or k unless it is part of ch - which is of course a character on its own.
+
+Decorator lines do not connect anywhere at the moment. This is as well due to the fact we did not come up with a reasonable algorithm to accomplish that yet, as random straight lines are neither easy to read nor aesthetically appealing.
+
+Supported characters are currently `[a-zß]`, uppercase will be converted.
+
+### What To Expect
+<img src="assets/Gallifreyan_linear flux.svg" alt="flux gallifreyan linear displayed" />
+<img src="assets/Gallifreyan_circular flux.svg" alt="flux gallifreyan circular displayed" />
 
 ---
 
@@ -214,6 +232,7 @@ along with the GTH.  If not, see <https://www.gnu.org/licenses/>.
 [DF]: https://www.deviantart.com/darkifaerie/art/Gallifreyan-Alphabet-270857268
 [BPJM]: https://www.deviantart.com/bpjmarriott/art/Old-High-Gallifreyan-Alphabet-370087020
 [ODD]: https://odd-things-happen.tumblr.com/post/21573543574/my-finished-gallifreyan-alphabet-i-think-im
+[FLUX]: https://fluxgallifreyan.weebly.com/
 
 [1]: https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
 [2]: https://en.wikipedia.org/wiki/International_Phonetic_Alphabet
