@@ -35,7 +35,7 @@ export class fluxBase {
 						};
 				},
 				draw: function (ctx, x, y, r, rad = 0, current) {
-					if (includes(["g", "k", "p", "t", "x"], current.char)) ctx.clearShape('circle', {
+					if (includes(["g", "k", "p", "t", "x", "ß"], current.char)) ctx.clearShape('circle', {
 						cx: x,
 						cy: y,
 						r: r
