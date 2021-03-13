@@ -16,7 +16,7 @@ const deco = new fluxDeco(base);
 export function render(input) {
 	//retrieve options and make them compact
 	option = {
-		circular: true //document.getElementById('fluxcirc').checked
+		circular: document.getElementById('fluxcirc').checked
 	};
 
 	// convert input-string to word array

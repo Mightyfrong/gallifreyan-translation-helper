@@ -19,6 +19,7 @@ export const langSelect = document.getElementById('language');
 const langControls = document.getElementById('lang-controls');
 
 const shermansOpts = document.getElementById('shermans-options');
+const fluxOpts = document.getElementById('flux-options');
 const ccOpts = document.getElementById('cc-options');
 const cotOpts = document.getElementById('cot-options');
 const cbettenbenders = document.getElementById('cbettenbenders');
@@ -100,6 +101,9 @@ export function activateControls(lang) {
 	switch (lang) {
 		case SHERMAN:
 			shermansOpts.classList.toggle('active');
+			break;
+		case FLUX:
+			fluxOpts.classList.toggle('active');
 			break;
 		case COT:
 			cotOpts.classList.toggle('active');
