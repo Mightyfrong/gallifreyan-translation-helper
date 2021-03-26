@@ -47,8 +47,8 @@ export function render(input) {
 				// iterate through characters within group
 				for (let l = 0; l < group.length; l++) {
 					clockworkDraw(ctx, group[l], clockworkGrouped);
-					if (cwConsonants.getBase(group[l]))
-						clockworkGrouped.setOffset(cwConsonants.base[cwConsonants.getBase(group[l])].baserad);
+//					if (cwConsonants.getBase(group[l]))
+//						clockworkGrouped.setOffset(cwConsonants.base[cwConsonants.getBase(group[l])].baserad);
 				}
 			});
 		});
@@ -67,23 +67,19 @@ let clockworkGrouped = {
 		let splitinput = input.trim().replace(/\s+/g, " ").split(" "); // trim and strip multiple whitespaces, split input to single words and iterate through these
 		splitinput.forEach(sword => {
 			sentence.push([]); // init new word
+			let word=sword.split(/\/{1,}/); // split characters by control character /
+			
+			
 			let group = [];
-			for (var i = 0; i < sword.length; i++) { // iterate through word 
-				var current = sword[i],
-					currenttwo = sword[i] + sword[i + 1];
-				// add double characters to group
-				if (includes(["ts", "st", "ks", "ou", "ai"], currenttwo)) {
-					current = currenttwo;
-					i++;
-				}
-				// C, V, C-C, C-V, C-C-V, not C-V-C
-				if (group.length > 0 
-					&& ((/* C-C, C-V */ group[group.length - 1].length < 2 && cwConsonants.getBase(group[group.length - 1][group[group.length - 1].length-1]))
-					|| (/* C-C-V */ group[group.length - 1].length < 3 &&  cwVowels.getLines(current) && cwConsonants.getBase(group[group.length - 1][group[group.length - 1].length-1])))
-					&& /* no punctuation */ !includes(["'", ",", "?", "!", "."], [current, group[group.length - 1][group[group.length - 1].length-1]])) {
-					// add to former group if not full
-					group[group.length - 1].push(current)
-				} else // create current group
+			for (var i = 0; i < word.length; i++) { // iterate through word 
+				var current = word[i]
+//				if (group.length > 0 
+//					&& ((/* C-C, C-V */ group[group.length - 1].length < 2 && cwConsonants.getBase(group[group.length - 1][group[group.length - 1].length-1]))
+//					|| (/* C-C-V */ group[group.length - 1].length < 3 &&  cwVowels.getLines(current) && cwConsonants.getBase(group[group.length - 1][group[group.length - 1].length-1])))
+//					&& /* no punctuation */ !includes(["'", ",", "?", "!", "."], [current, group[group.length - 1][group[group.length - 1].length-1]])) {
+//					// add to former group if not full
+//					group[group.length - 1].push(current)
+//				} else // create current group
 					group.push([current]);
 			}
 			sentence[sentence.length - 1].push(group); // append group to last word
@@ -116,33 +112,13 @@ function clockworkDraw(ctx, letter, grouped) {
 		} else x += glyph.width;
 	}
 
-	//define tilt based on stack-number todistinguish between stacked characters
+	//define tilt based on stack-number to distinguish between stacked characters
 	let tilt = .25 - (grouped.offset + 1) * .1; //.0625;
 
-	let currentbase = cwConsonants.getBase(letter),
-		currentdeco = cwConsonants.getDeco(letter),
-		currentlines = cwVowels.getLines(letter),
-		currentshape = cwVowels.getShape(letter);
-	if (!grouped.offset) {
-		// draw outer circle
-		if (currentbase) cwConsonants.base[currentbase].draw(ctx, x, y, glyphSize * grouped.resize, tilt);
-		// draw decorators
-		if (currentdeco) cwConsonants.decorators[currentdeco].draw(ctx, x, y, glyphSize * cwConsonants.base[currentbase].baserad, cwConsonants.base[currentbase].innerline, tilt);
-
-		//draw inner circle if next character in group is not a consonant (or it's a single letter)
-		if (currentbase && !cwConsonants.getBase(grouped.group[grouped.offset + 1]))
-			cwConsonants.base[currentbase].draw(ctx, x, y, glyphSize * .4, tilt);
-
-	} else {
-		// draw decorators
-		if (currentdeco) cwConsonants.decorators[currentdeco].draw(ctx, x, y, glyphSize * grouped.baserad, cwConsonants.base[currentbase].outerline, tilt);
-		// draw filled inner circle to simply overpaint decorators
-		if (currentbase) cwConsonants.base[currentbase].draw(ctx, x, y, glyphSize * grouped.resize, tilt);
-
-		//might as well be a vowel
-		if (currentlines) cwVowels.shape[currentshape].draw(ctx, x, y, glyphSize, cwVowels.lines[currentlines], grouped.group[0]);
-
-	}
+	// draw consonant
+	if (letter in cwConsonants.glyphs) cwConsonants.glyphs[letter].draw(ctx, x, y, glyphSize * grouped.resize, tilt);
+	// draw vowel
+	else if (letter in cwVowels.glyphs) cwVowels.glyphs[letter].draw(ctx, x, y, glyphSize * grouped.resize, tilt);
 
 	// text output for undefined characters as well for informational purpose
 	// print character translation above the drawings
