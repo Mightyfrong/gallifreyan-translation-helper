@@ -178,9 +178,7 @@ span {
 #dc2consonants>div,
 #dc2vowels>div,
 #cbconsonants>div,
-#cbvowels>div,
-#cwconsonants>div,
-#cwvowels>div {
+#cbvowels>div {
 	display: block;
 }
 
@@ -190,8 +188,8 @@ span {
 #cbvowels>div>div,
 #oddismconsonants>div,
 #oddismvowels>div,
-#cwconsonants>div>div,
-#cwvowels>div>div {
+#cwconsonants>div,
+#cwvowels>div {
 	display: inline-block;
 	vertical-align: top;
 	border-width: 1px;
@@ -245,8 +243,8 @@ form>label:active,
 #cbvowels>div>div:active,
 #oddismconsonants>div:active,
 #oddismvowels>div:active,
-#cwconsonants>div>div:active,
-#cwvowels>div>div:active {
+#cwconsonants>div:active,
+#cwvowels>div:active {
 	transform: scale(.95);
 }
 

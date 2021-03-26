@@ -1,29 +1,22 @@
-import {
-	clockworkConsonants,
-	clockworkVowels
-} from './clockworkGlyphs.js';
+import { clockworkConsonants, clockworkVowels } from './clockworkGlyphs.js';
 
 export const glyphSize = 50; // radius of glyphs
 export const cwConsonants = new clockworkConsonants();
 export const cwVowels = new clockworkVowels();
 
 function cwKeyboard(appendTo, writeTo, keys) {
-	keys.forEach(row => {
-		const keyRow = document.createElement('div');
-		row.forEach(char => {
-			const keyInput = document.createElement('div');
-			keyInput.innerHTML = char[0];
-			keyInput.onclick = () => {
-				const pos0 = writeTo.selectionStart;
-				const pos1 = writeTo.selectionEnd;
-				const val = writeTo.value;
-				writeTo.value = val.slice(0, pos0) + char[1] + val.slice(pos1);
-				writeTo.focus();
-				writeTo.selectionStart = writeTo.selectionEnd = pos0 + char.length;
-			}
-			keyRow.appendChild(keyInput);
-		});
-		appendTo.appendChild(keyRow);
+	keys.forEach(char => {
+		const keyInput = document.createElement('div');
+		keyInput.innerHTML = char[0];
+		keyInput.onclick = () => {
+			const pos0 = writeTo.selectionStart;
+			const pos1 = writeTo.selectionEnd;
+			const val = writeTo.value;
+			writeTo.value = val.slice(0, pos0) + char[1] + val.slice(pos1);
+			writeTo.focus();
+			writeTo.selectionStart = writeTo.selectionEnd = pos0 + char.length;
+		}
+		appendTo.appendChild(keyInput);
 	});
 }
 
@@ -42,80 +35,53 @@ const alternativeKeyboard = {
 	//[display and insert]
 	en: {
 		consonants: [
-			[
-				["y", "j"],
-				["ng", "ŋ"],
-				["v", "v"],
-				["j", "ʤ"],
-				["f", "f"],
-				["bei<b>g</b>e", "ʒ"],
-				["'","'"]
-			],
-			[
-				["n", "n"],
-				["h", "h"],
-				["l", "l"],
-				["p", "p"],
-				["w", "w"],
-				["ch", "ʧ"],
-				["st", "st"],
-				["<b>th</b>e", "ð"],
-				[",",","]
-			],
-			[
-				["t", "t"],
-				["s", "s"],
-				["r", "ɹ"],
-				["d", "d"],
-				["m", "m"],
-				["sh", "ʃ"],
-				["ma<b>th</b>", "θ"],
-				["?","?"]
-			],
-			[
-				["x", "ks"],
-				["k", "k"],
-				["z", "z"],
-				["b", "b"],
-				["א", "א"],
-				["g", "g"]
-			],
-			[
-				["!","!"]
-			],
-			[
-				[".","."]
-			]
+			["b", "b"],
+			["d", "d"],
+			["f", "f"],
+			["<b>g</b>et", "g"],
+			["bei<b>g</b>e", "ʒ"],
+			["h", "h"],
+			["j", "ʤ"],
+			["k", "k"],
+			["l", "l"],
+			["m", "m"],
+			["n", "n"],
+			["p", "p"],
+			["qu", "kw"],
+			["r", "ɹ"],
+			["<b>th</b>e", "ð"],
+			["s", "s"],
+			["t", "t"],
+			["v", "v"],
+			["w", "w"],
+			["x", "ks"],
+			["j", "y"],
+			["z", "z"],
+			["ba<b>ng</b>", "ŋ"],
+			["sh", "ʃ"],
+			["<b>th</b>ing", "θ"],
+			["<b>th</b>is", "ð"]
 		],
 		vowels: [
-			[
-				["f<b>a</b>ther", "ɑ"],
-				["s<b>ee</b>n", "i"],
-				["s<b>oo</b>n", "u"],
-				["h<b>a</b>", "a"]
-			],
-			[
-				["m<b>ay</b>", "e"],
-				["b<b>i</b>t", "ɪ"],
-				["g<b>o</b>", "ou"],
-				["b<b>a</b>n", "æ"]
-			],
-			[
-				["s<b>e</b>t", "ɛ"],
-				["<b>eye</b>", "ai"],
-				["m<b>u</b>st", "ʌ"],
-				["f<b>u</b>r", "ɜ"]
-			],
-			[
-				["p<b>u</b>t", "ʊ"]
-			],
-			[
-				["wint<b>uh</b>", "ə"],
-				["l<b>aw</b>", "əɔ"]
-			],
-			[
-				["l<b>o</b>t", "ɒ"]
-			]
+			["fl<b>ee</b>ce", "i"],
+			["pr<b>i</b>ce", "ai"],
+			["m<b>ou</b>th", "aʊ"],
+			["g<b>oo</b>se", "u"],
+			["dr<b>e</b>ss", "ɛ"],
+			["n<b>u</b>rse", "ɜ"],
+			["str<b>u</b>t", "ʌ"],
+			["th<b>ou</b>ght", "ɔ"],
+			["k<b>i</b>t", "ɪ"],
+			["f<b>a</b>ce", "eɪ"],
+			["g<b>oa</b>t", "oʊ"],
+			["f<b>oo</b>t", "ʊ"],
+			["tr<b>a</b>p", "æ"],
+			["comm<b>a</b>", "ə"],
+			["st<b>a</b>rt", "ɑ"],
+			["l<b>o</b>t", "ɒ"],
+			["<b>e</b>ɪ", "e"],
+			["<b>o</b>ʊ", "o"],
+			["<b>a</b>ɪ/ <b>a</b>ʊ", "a"]
 		]
 	}
 }
