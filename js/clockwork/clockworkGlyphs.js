@@ -7,135 +7,475 @@ import {
 
 export class clockworkConsonants {
 	constructor() {
-		this.glyphs= {
+		this.glyphs = {
 			b: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('path', 4, {
+						d: ctx.circularArc(x, y, r, Math.PI * (.8 + tilt), Math.PI * (2.5 + tilt), "major")
+					});
+					ctx.drawShape('circle', 4, {
+						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
+						r: r * .25,
+						fill: document.getElementById('backgroundcolor').value
+					});
 				}
 			},
 			d: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 4, {
+						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
+						r: r * .25,
+						fill: document.getElementById('backgroundcolor').value
+					});
 				}
 			},
 			f: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x, y, r, Math.PI * (.39 + tilt), Math.PI * (1.91 + tilt), "major")
+					});
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x + Math.cos(Math.PI * .25 + tilt) * r, y + Math.sin(Math.PI * .25 + tilt) * r, r * .75, Math.PI * .875 + tilt, Math.PI * 1.625 + tilt, "minor")
+					});
 				}
 			},
 			g: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					r*=.8;
+					x+=Math.cos(Math.PI * (.85 + tilt)) * r*.2;
+					y+=Math.sin(Math.PI * (.85 + tilt)) * r*.2;
+					ctx.drawShape('path', 4, {
+						d: ctx.circularArc(x, y, r, Math.PI * (.05 + tilt), Math.PI * (1.65 + tilt), "major")
+					});
+					ctx.drawShape('path', 4, {
+						d: ctx.circularArc(x + Math.cos(Math.PI * (1.75 + tilt)) * r * .9, y, r * .6, Math.PI * (1.3 + tilt), Math.PI * (2.4 + tilt), "major")
+					});
+					ctx.drawShape('circle', 4, {
+						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
+						r: r * .25,
+						fill: document.getElementById('backgroundcolor').value
+					});
 				}
 			},
 			ʒ: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('line', 4, {
+						x1: x - Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y - Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x - Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y - Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
 				}
 			},
 			h: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					for (let i=0;i<2;i+=2/6){
+						ctx.drawShape('line', 1, {
+							x1: x + Math.cos(Math.PI * (i + tilt)) * r,
+							y1: y + Math.sin(Math.PI * (i + tilt)) * r,
+							x2: x + Math.cos(Math.PI * (i+2/6 + tilt)) * r,
+							y2: y + Math.sin(Math.PI * (i+2/6 + tilt)) * r
+						});
+					}
 				}
 			},
 			ʤ: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 4, {
+						cx: x+Math.cos(Math.PI * (.85 + tilt))*r*.25,
+						cy: y+Math.sin(Math.PI * (.85 + tilt))*r*.25,
+						r: r*.7
+					});
+					ctx.drawShape('circle', 4, {
+						cx: x-Math.cos(Math.PI * (.85 + tilt))*r*.4,
+						cy: y-Math.sin(Math.PI * (.85 + tilt))*r*.4,
+						r: r*.25,
+						fill: document.getElementById('backgroundcolor').value
+					});
+					ctx.drawShape('line', 4, {
+						x1: x - Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y - Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x - Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y - Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
 				}
 			},
 			k: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					r*=.8;
+					x+=Math.cos(Math.PI * (.85 + tilt)) * r*.2;
+					y+=Math.sin(Math.PI * (.85 + tilt)) * r*.2;
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x, y, r, Math.PI * (.05 + tilt), Math.PI * (1.65 + tilt), "major")
+					});
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x + Math.cos(Math.PI * (1.75 + tilt)) * r * .9, y + Math.sin(Math.PI * (1.85 + tilt)) * r * .9, r * .6, Math.PI * (1.3 + tilt), Math.PI * (2.4 + tilt), "major")
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
+						r: r * .25,
+						fill: document.getElementById('backgroundcolor').value
+					});
 				}
 			},
 			l: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x - Math.cos(Math.PI * (1.1 + tilt)) * r,
+						cy: y - Math.sin(Math.PI * (1.1 + tilt)) * r,
+						r: r*.15
+					});
+					ctx.drawShape('line', 4, {
+						x1: x - Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y - Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x - Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y - Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
 				}
 			},
 			m: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('path', 4, {
+						d: ctx.circularArc(x, y, r, Math.PI * (.8 + tilt), Math.PI * (2.5 + tilt), "major")
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x + Math.cos(Math.PI * (.8 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (.8 + tilt)) * r,
+						r: r*.15
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x + Math.cos(Math.PI * (2.5 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (2.5 + tilt)) * r,
+						r: r*.15
+					});
 				}
 			},
 			n: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x + Math.cos(Math.PI * (.35 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (.35 + tilt)) * r,
+						r: r*.15
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x + Math.cos(Math.PI * (1.35 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (1.35 + tilt)) * r,
+						r: r*.15
+					});
 				}
 			},
 			p: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x, y, r, Math.PI * (.8 + tilt), Math.PI * (2.5 + tilt), "major")
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
+						r: r * .25,
+						fill: document.getElementById('backgroundcolor').value
+					});
 				}
 			},
 			kw: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					r*=.8;
+					x+=Math.cos(Math.PI * (.85 + tilt)) * r*.2;
+					y+=Math.sin(Math.PI * (.85 + tilt)) * r*.2;
+					ctx.drawShape('path', 4, {
+						d: ctx.circularArc(x, y, r, Math.PI * (.05 + tilt), Math.PI * (.65 + tilt), "minor")
+					});
+					ctx.drawShape('path', 4, {
+						d: ctx.circularArc(x, y, r, Math.PI * (1.05 + tilt), Math.PI * (1.65 + tilt), "minor")
+					});
+					ctx.drawShape('path', 4, {
+						d: ctx.circularArc(x + Math.cos(Math.PI * (1.75 + tilt)) * r * .9, y, r * .6, Math.PI * (1.3 + tilt), Math.PI * (2.4 + tilt), "major")
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x + Math.cos(Math.PI * (1.75 + tilt)) * r * 1.5,
+						cy: y,
+						r: r * .15,
+						fill: document.getElementById('backgroundcolor').value
+					});
+
+					r*=.7;
+					x+=Math.cos(Math.PI * (.85 + tilt)) * r*.2;
+					y+=Math.sin(Math.PI * (.85 + tilt)) * r*.2;
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x, y, r, Math.PI * (.05 + tilt), Math.PI * (1.65 + tilt), "major")
+					});
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x + Math.cos(Math.PI * (1.75 + tilt)) * r * .9, y, r * .6, Math.PI * (1.3 + tilt), Math.PI * (2.4 + tilt), "major")
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x + Math.cos(Math.PI * (.85 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (.85 + tilt)) * r,
+						r: r * .25,
+						fill: document.getElementById('backgroundcolor').value
+					});
 				}
 			},
 			ɹ: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x + Math.cos(Math.PI * (1.85 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (1.85 + tilt)) * r,
+						r: r*.15
+					});
 				}
 			},
 			s: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r
+					});
 				}
 			},
 			t: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
+						r: r * .25,
+						fill: document.getElementById('backgroundcolor').value
+					});
 				}
 			},
 			v: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('path', 4, {
+						d: ctx.circularArc(x, y, r, Math.PI * (.39 + tilt), Math.PI * (1.91 + tilt), "major")
+					});
+					ctx.drawShape('path', 4, {
+						d: ctx.circularArc(x + Math.cos(Math.PI * .25 + tilt) * r, y + Math.sin(Math.PI * .25 + tilt) * r, r * .75, Math.PI * .875 + tilt, Math.PI * 1.625 + tilt, "minor")
+					});
 				}
 			},
 			w: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					r*=.8;
+					x+=Math.cos(Math.PI * (.85 + tilt)) * r*.2;
+					y+=Math.sin(Math.PI * (.85 + tilt)) * r*.2;
+					ctx.drawShape('path', 4, {
+						d: ctx.circularArc(x, y, r, Math.PI * (.05 + tilt), Math.PI * (.65 + tilt), "minor")
+					});
+					ctx.drawShape('path', 4, {
+						d: ctx.circularArc(x, y, r, Math.PI * (1.05 + tilt), Math.PI * (1.65 + tilt), "minor")
+					});
+					ctx.drawShape('path', 4, {
+						d: ctx.circularArc(x + Math.cos(Math.PI * (1.75 + tilt)) * r * .9, y, r * .6, Math.PI * (1.3 + tilt), Math.PI * (2.4 + tilt), "major")
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x + Math.cos(Math.PI * (1.75 + tilt)) * r * 1.5,
+						cy: y,
+						r: r * .15
+					});
 				}
 			},
 			ks: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					r*=.6;
+					x+=Math.cos(Math.PI * (.85 + tilt)) * r*.2;
+					y+=Math.sin(Math.PI * (.85 + tilt)) * r*.2;
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x, y, r, Math.PI * (.05 + tilt), Math.PI * (1.65 + tilt), "major")
+					});
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x + Math.cos(Math.PI * (1.75 + tilt)) * r * .9, y + Math.sin(Math.PI * (1.85 + tilt)) * r * .9, r * .6, Math.PI * (1.3 + tilt), Math.PI * (2.4 + tilt), "major")
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
+						r: r * .25,
+						fill: document.getElementById('backgroundcolor').value
+					});
 				}
 			},
 			j: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					r*=.7;
+					x+=Math.cos(Math.PI * (.85 + tilt)) * r*.2;
+					y+=Math.sin(Math.PI * (.85 + tilt)) * r*.2;
+					ctx.drawShape('path', 4, {
+						d: ctx.circularArc(x, y, r, Math.PI * (.05 + tilt), Math.PI * (1.65 + tilt), "major")
+					});
+					ctx.drawShape('path', 4, {
+						d: ctx.circularArc(x + Math.cos(Math.PI * (1.75 + tilt)) * r * .9, y + Math.sin(Math.PI * (1.85 + tilt)) * r * .9, r * .6, Math.PI * (1.3 + tilt), Math.PI * (2.4 + tilt), "major")
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
+						r: r * .25
+					});
+				ctx.drawShape('line', 4, {
+					x1: x + Math.cos(Math.PI * (1.75 + tilt)) * r * 1.5,
+					y1: y,
+					x2: x + Math.cos(Math.PI * (1.75 + tilt)) * r * 1.8,
+					y2: y
+					});
 				}
 			},
 			z: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r
+					});
 				}
 			},
 			ʧ: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x+Math.cos(Math.PI * (.85 + tilt))*r*.25,
+						cy: y+Math.sin(Math.PI * (.85 + tilt))*r*.25,
+						r: r*.7
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x-Math.cos(Math.PI * (.85 + tilt))*r*.4,
+						cy: y-Math.sin(Math.PI * (.85 + tilt))*r*.4,
+						r: r*.25,
+						fill: document.getElementById('backgroundcolor').value
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y - Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x - Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y - Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
 				}
 			},
 			ŋ: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					r*=.8;
+					x+=Math.cos(Math.PI * (.85 + tilt)) * r*.2;
+					y+=Math.sin(Math.PI * (.85 + tilt)) * r*.2;
+					ctx.drawShape('path', 4, {
+						d: ctx.circularArc(x, y, r, Math.PI * (.05 + tilt), Math.PI * (1.65 + tilt), "major")
+					});
+					ctx.drawShape('path', 4, {
+						d: ctx.circularArc(x + Math.cos(Math.PI * (1.75 + tilt)) * r * .9, y, r * .6, Math.PI * (1.3 + tilt), Math.PI * (2.4 + tilt), "major")
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x + Math.cos(Math.PI * (.35 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (.35 + tilt)) * r,
+						r: r*.15
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x + Math.cos(Math.PI * (1.35 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (1.35 + tilt)) * r,
+						r: r*.15
+					});
 				}
 			},
 			ʃ: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y - Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x - Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y - Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
 				}
 			},
 			θ: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					r*=.8;
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x + Math.cos(Math.PI * (1.75 + tilt)) * r * 1.35,
+						y1: y + Math.sin(Math.PI * (1.75 + tilt)) * r * 1.35,
+						x2: x + Math.cos(Math.PI * (1.75 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (1.75 + tilt)) * r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x + Math.cos(Math.PI * (0 + tilt)) * r * 1.35,
+						y1: y + Math.sin(Math.PI * (0 + tilt)) * r * 1.35,
+						x2: x + Math.cos(Math.PI * (0 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (0 + tilt)) * r
+					});
 				}
 			},
 			ð: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					r*=.8;
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('line', 4, {
+						x1: x + Math.cos(Math.PI * (1.75 + tilt)) * r * 1.35,
+						y1: y + Math.sin(Math.PI * (1.75 + tilt)) * r * 1.35,
+						x2: x + Math.cos(Math.PI * (1.75 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (1.75 + tilt)) * r
+					});
+					ctx.drawShape('line', 4, {
+						x1: x + Math.cos(Math.PI * (0 + tilt)) * r * 1.35,
+						y1: y + Math.sin(Math.PI * (0 + tilt)) * r * 1.35,
+						x2: x + Math.cos(Math.PI * (0 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (0 + tilt)) * r
+					});
 				}
 			}
 		}
@@ -143,7 +483,7 @@ export class clockworkConsonants {
 	keyCollection() { // return an array with rowwise structures vowels like in the official tables
 		let keys = [];
 		Object.keys(this.glyphs).forEach(key => {
-			keys.push([key,key]);
+			keys.push([key, key]);
 		});
 		return keys;
 	}
@@ -153,80 +493,452 @@ export class clockworkVowels {
 	constructor() {
 		this.glyphs = {
 			i: {
-				draw: function (ctx, x, y, r) {
-					return;
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (0.5 + tilt)) * r,
+						y1: y - Math.sin(Math.PI * (0.5 + tilt)) * r,
+						x2: x + Math.cos(Math.PI * (0.5 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (0.5 + tilt)) * r
+					});
 				}
-			}, ai: {
-				draw: function (ctx, x, y, r) {
-					return;
+			},
+			aɪ: {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (0.5 + tilt)) * r,
+						y1: y - Math.sin(Math.PI * (0.5 + tilt)) * r,
+						x2: x + Math.cos(Math.PI * (0.5 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (0.5 + tilt)) * r
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x,
+						cy: y,
+						r: r * .5
+					});
 				}
-			}, aʊ: {
-				draw: function (ctx, x, y, r) {
-					return;
+			},
+			aʊ: {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (0.5 + tilt)) * r,
+						y1: y - Math.sin(Math.PI * (0.5 + tilt)) * r,
+						x2: x + Math.cos(Math.PI * (0.5 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (0.5 + tilt)) * r
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x,
+						cy: y,
+						r: r * .5
+					});
+					ctx.drawShape('line', 1, {
+						x1: x + Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y + Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x + Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y - Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x - Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y - Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
 				}
-			}, u: {
-				draw: function (ctx, x, y, r) {
-					return;
+			},
+			u: {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (0.5 + tilt)) * r,
+						y1: y - Math.sin(Math.PI * (0.5 + tilt)) * r,
+						x2: x + Math.cos(Math.PI * (0.5 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (0.5 + tilt)) * r
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x + Math.cos(Math.PI * (.25 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (.25 + tilt)) * r,
+						r: r * .25,
+						fill: document.getElementById('backgroundcolor').value
+					});
+					ctx.drawShape('line', 1, {
+						x1: x + Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y + Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x + Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y - Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x - Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y - Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
 				}
-			}, ɛ: {
-				draw: function (ctx, x, y, r) {
-					return;
+			},
+			ɛ: {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r * .8
+					});
 				}
-			}, ɜ: {
-				draw: function (ctx, x, y, r) {
-					return;
+			},
+			ɜ: {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r * .8
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y - Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x - Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y - Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
 				}
-			}, ʌ: {
-				draw: function (ctx, x, y, r) {
-					return;
+			},
+			ʌ: {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r * .8
+					});
+					ctx.drawShape('line', 1, {
+						x1: x + Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y + Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x + Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y - Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x - Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y - Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
 				}
-			}, ɔ: {
-				draw: function (ctx, x, y, r) {
-					return;
+			},
+			ɔ: {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r * .8
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x + Math.cos(Math.PI * (1.5 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (1.5 + tilt)) * r,
+						r: r * .25,
+						fill: document.getElementById('backgroundcolor').value
+					});
+					ctx.drawShape('line', 1, {
+						x1: x + Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y + Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x + Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y - Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x - Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y - Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
 				}
-			}, ɪ: {
-				draw: function (ctx, x, y, r) {
-					return;
+			},
+			ɪ: {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (0.5 + tilt)) * r,
+						y1: y - Math.sin(Math.PI * (0.5 + tilt)) * r,
+						x2: x + Math.cos(Math.PI * (0.5 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (0.5 + tilt)) * r
+					});
 				}
-			}, eɪ: {
-				draw: function (ctx, x, y, r) {
-					return;
+			},
+			eɪ: {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r * .75
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (0.5 + tilt)) * r,
+						y1: y - Math.sin(Math.PI * (0.5 + tilt)) * r,
+						x2: x + Math.cos(Math.PI * (0.5 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (0.5 + tilt)) * r
+					});
 				}
-			}, oʊ: {
-				draw: function (ctx, x, y, r) {
-					return;
+			},
+			oʊ: {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r * .75
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (0.5 + tilt)) * r,
+						y1: y - Math.sin(Math.PI * (0.5 + tilt)) * r,
+						x2: x + Math.cos(Math.PI * (0.5 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (0.5 + tilt)) * r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x + Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y + Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x + Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y - Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x - Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y - Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
 				}
-			}, ʊ: {
-				draw: function (ctx, x, y, r) {
-					return;
+			},
+			ʊ: {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
+						r: r * .25,
+						fill: document.getElementById('backgroundcolor').value
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (0.5 + tilt)) * r,
+						y1: y - Math.sin(Math.PI * (0.5 + tilt)) * r,
+						x2: x + Math.cos(Math.PI * (0.5 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (0.5 + tilt)) * r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x + Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y + Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x + Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y - Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x - Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y - Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
 				}
-			}, æ: {
-				draw: function (ctx, x, y, r) {
-					return;
+			},
+			æ: {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x,
+						cy: y,
+						r: r * .5
+					});
 				}
-			}, ə: {
-				draw: function (ctx, x, y, r) {
-					return;
+			},
+			ə: {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r * .8
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r * .6
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y - Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x - Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y - Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
 				}
-			}, ɑ: {
-				draw: function (ctx, x, y, r) {
-					return;
+			},
+			ɑ: {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x,
+						cy: y,
+						r: r * .5
+					});
+					ctx.drawShape('line', 1, {
+						x1: x + Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y + Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x + Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y - Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x - Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y - Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
 				}
-			}, ɒ: {
-				draw: function (ctx, x, y, r) {
-					return;
+			},
+			ɒ: {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x,
+						cy: y,
+						r: r * .5
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x + Math.cos(Math.PI * (1.5 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (1.5 + tilt)) * r,
+						r: r * .25,
+						fill: document.getElementById('backgroundcolor').value
+					});
+					ctx.drawShape('line', 1, {
+						x1: x + Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y + Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x + Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y - Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x - Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y - Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
 				}
-			}, e: {
-				draw: function (ctx, x, y, r) {
-					return;
+			},
+			e: {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r * .75
+					});
 				}
-			}, o: {
-				draw: function (ctx, x, y, r) {
-					return;
+			},
+			o: {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r * .75
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x + Math.cos(Math.PI * (1.5 + tilt)) * r,
+						cy: y + Math.sin(Math.PI * (1.5 + tilt)) * r,
+						r: r * .25,
+						fill: document.getElementById('backgroundcolor').value
+					});
+					ctx.drawShape('line', 1, {
+						x1: x + Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y + Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x + Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y + Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
+					ctx.drawShape('line', 1, {
+						x1: x - Math.cos(Math.PI * (1.1 + tilt)) * r * 1.35,
+						y1: y - Math.sin(Math.PI * (1.1 + tilt)) * r * 1.35,
+						x2: x - Math.cos(Math.PI * (1.1 + tilt)) * r,
+						y2: y - Math.sin(Math.PI * (1.1 + tilt)) * r
+					});
 				}
-			}, a: {
-				draw: function (ctx, x, y, r) {
-					return;
+			},
+			a: {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: r
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x,
+						cy: y,
+						r: r * .5
+					});
 				}
 			}
 		};
@@ -235,7 +947,7 @@ export class clockworkVowels {
 	keyCollection() { // return an array with rowwise structures vowels like in the official tables
 		let keys = [];
 		Object.keys(this.glyphs).forEach(key => {
-			keys.push([key,key]);
+			keys.push([key, key]);
 		});
 		return keys;
 	}
