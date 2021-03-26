@@ -1,11 +1,7 @@
-import {
-	createKeyboard
-} from './doctorsCot/setup.js';
-
-import {
-	createoddKeyboard
-} from './oddism/setup.js';
+import { createKeyboard } from './doctorsCot/setup.js';
+import { createoddKeyboard } from './oddism/setup.js';
 import { createCBKeyboard } from './cbettenbender/setup.js';
+import { createClockworkKeyboard } from './clockwork/setup.js';
 
 import { UILanguage } from './utils/UILanguage.js';
 import { selectLang, translate, activateControls, langSelect } from './event_callbacks.js';
@@ -20,6 +16,8 @@ createKeyboard();
 createCBKeyboard();
 
 createoddKeyboard();
+
+createClockworkKeyboard();
 
 //** General
 activateControls(langSelect.value);

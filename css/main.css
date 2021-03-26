@@ -166,7 +166,9 @@ span {
 #cbconsonants,
 #cbvowels,
 #oddismconsonants,
-#oddismvowels {
+#oddismvowels,
+#cwconsonants,
+#cwvowels {
 	display: inline-block;
 	vertical-align: top;
 	text-align: left;
@@ -176,7 +178,9 @@ span {
 #dc2consonants>div,
 #dc2vowels>div,
 #cbconsonants>div,
-#cbvowels>div {
+#cbvowels>div,
+#cwconsonants>div,
+#cwvowels>div {
 	display: block;
 }
 
@@ -185,7 +189,9 @@ span {
 #cbconsonants>div>div,
 #cbvowels>div>div,
 #oddismconsonants>div,
-#oddismvowels>div {
+#oddismvowels>div,
+#cwconsonants>div>div,
+#cwvowels>div>div {
 	display: inline-block;
 	vertical-align: top;
 	border-width: 1px;
@@ -238,7 +244,9 @@ form>label:active,
 #cbconsonants>div>div:active,
 #cbvowels>div>div:active,
 #oddismconsonants>div:active,
-#oddismvowels>div:active {
+#oddismvowels>div:active,
+#cwconsonants>div>div:active,
+#cwvowels>div>div:active {
 	transform: scale(.95);
 }
 
@@ -248,7 +256,6 @@ form>label:active,
 	padding: 1em;
 	fill: var(--col0);
 }
-
 
 #drawoutput {
 	margin-top:1em;
