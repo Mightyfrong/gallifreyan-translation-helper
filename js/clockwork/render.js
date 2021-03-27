@@ -24,12 +24,11 @@ export function render(input) {
 	let glyphs = 0,
 		maxstack = document.getElementById("cw-stack").options[document.getElementById("cw-stack").selectedIndex].value;
 	groupedInput.forEach(word => {
-		console.log(word[0], word[0].length);
 		glyphs += word[0].length;
 	});
 	glyph = {
-		width: glyphSize * 1.25 + glyphSize * 1.5 ** maxstack,
-		height: glyphSize * 3 + glyphSize * 1.5 ** maxstack
+		width: glyphSize * 3 + glyphSize * 1.8 ** maxstack,
+		height: glyphSize * 3 + glyphSize * 1.8 ** maxstack
 	};
 	width = (Math.min(++glyphs, Math.floor(window.innerWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
 	height = glyph.height * (Math.ceil(++glyphs / (Math.floor(window.innerWidth / glyph.width) || 1)));
@@ -41,7 +40,7 @@ export function render(input) {
 	groupedInput.forEach(words => { // loop through sentence
 		words.forEach(groups => { // loop through words
 			groups.forEach(group => { // loop through character-groups 
-				clockworkGrouped.resetOffset(group.length);
+				clockworkGrouped.resetOffset(group.length, group.join(''));
 				// iterate through characters within group
 				for (let l = 0; l < group.length; l++) {
 					clockworkDraw(ctx, group[l], clockworkGrouped);
@@ -87,7 +86,7 @@ let clockworkGrouped = {
 	setOffset: function () {
 		this.offset++;
 		this.carriagereturn = true;
-		this.resize *= 1.5;
+		this.resize *= 1.8;
 	}
 }
 
