@@ -1,6 +1,6 @@
 import { clockworkConsonants, clockworkVowels } from './clockworkGlyphs.js';
 
-export const glyphSize = 50; // radius of glyphs
+export const glyphSize = 30; // radius of glyphs
 export const cwConsonants = new clockworkConsonants();
 export const cwVowels = new clockworkVowels();
 
