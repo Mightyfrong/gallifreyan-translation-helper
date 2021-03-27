@@ -102,10 +102,21 @@ function clockworkDraw(ctx, letter, grouped) {
 	//define tilt based on stack-number to distinguish between stacked characters
 	let tilt = .25 - (grouped.offset + 1) * .1; //.0625;
 	// draw consonant
-	if (letter in cwConsonants.glyphs) cwConsonants.glyphs[letter].draw(ctx, x, y, glyphSize * grouped.resize, tilt);
-	// draw vowel
-	else if (letter in cwVowels.glyphs) cwVowels.glyphs[letter].draw(ctx, x, y, glyphSize * grouped.resize, tilt);
-
+	if (letter in cwConsonants.glyphs)
+		cwConsonants.glyphs[letter].draw(ctx,
+			x,
+			y,
+			glyphSize * grouped.resize,
+			tilt);
+	// draw vowel, smaller and randomly slightly offcentric
+	else if (letter in cwVowels.glyphs) {
+		let rot = Math.PI * Math.random() * 2;
+		cwVowels.glyphs[letter].draw(ctx,
+			x + Math.cos(rot) * glyphSize * grouped.resize * .75,
+			y + Math.sin(rot) * glyphSize * grouped.resize * .75,
+			glyphSize * .7,
+			tilt);
+	}
 	// text output for undefined characters as well for informational purpose
 	// print character translation above the drawings
 	if (grouped.offset == 0) ctx.drawText(grouped.currentGroupText, {
