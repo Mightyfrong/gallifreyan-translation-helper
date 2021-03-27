@@ -22,13 +22,17 @@ export function render(input) {
 	groupedInput = clockworkGrouped.groups(input.toLowerCase());
 
 	let glyphs = 0,
+		stackedglyph = 1.8,
 		maxstack = document.getElementById("cw-stack").options[document.getElementById("cw-stack").selectedIndex].value;
 	groupedInput.forEach(word => {
 		glyphs += word[0].length;
 	});
+	for (let i = 1; i <= maxstack; i++) {
+		stackedglyph *= 1 + .8 / i;
+	}
 	glyph = {
-		width: glyphSize * 3 + glyphSize * 1.8 ** maxstack,
-		height: glyphSize * 3 + glyphSize * 1.8 ** maxstack
+		width: glyphSize * (stackedglyph+2),
+		height: glyphSize * (stackedglyph + 2)
 	};
 	width = (Math.min(++glyphs, Math.floor(window.innerWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
 	height = glyph.height * (Math.ceil(++glyphs / (Math.floor(window.innerWidth / glyph.width) || 1)));
@@ -86,7 +90,7 @@ let clockworkGrouped = {
 	setOffset: function () {
 		this.offset++;
 		this.carriagereturn = true;
-		this.resize *= 1.8;
+		this.resize *= 1 + .8 / this.offset;
 	}
 }
 
