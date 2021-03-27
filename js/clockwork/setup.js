@@ -55,7 +55,7 @@ const alternativeKeyboard = {
 			["v", "v"],
 			["w", "w"],
 			["x", "ks"],
-			["j", "y"],
+			["y", "j"],
 			["z", "z"],
 			["ba<b>ng</b>", "ŋ"],
 			["sh", "ʃ"],
