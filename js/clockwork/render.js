@@ -67,10 +67,11 @@ let clockworkGrouped = {
 		let splitinput = input.trim().replace(/\s+/g, " ").split(" "); // trim and strip multiple whitespaces, split input to single words and iterate through these
 		splitinput.forEach(sword => {
 			sentence.push([]); // init new word
-			let word = sword.replace(/^\/|\/$/, '').split(/\/{1,}/); // split by control character /, strip first and last beforehand
+			let word = sword.match(/\/.+\/|./g); // match single characters or encapsulated by control characters 
 			let maxstack = document.getElementById("cw-stack").options[document.getElementById("cw-stack").selectedIndex].value;
 			let group = [];
 			for (var i = 0; i < word.length; i++) { // iterate through word 
+				word[i]=word[i].replace(/\//g, ''); // get rid of control characters
 				if (group.length > 0 && group[group.length - 1].length < maxstack) {
 					// add to former group if not full
 					group[group.length - 1].push(word[i])

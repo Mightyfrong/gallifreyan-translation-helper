@@ -12,9 +12,11 @@ function cwKeyboard(appendTo, writeTo, keys) {
 			const pos0 = writeTo.selectionStart;
 			const pos1 = writeTo.selectionEnd;
 			const val = writeTo.value;
-			writeTo.value = val.slice(0, pos0) + "/" + char[1] + "/" + val.slice(pos1);
+			let ch=char[1];
+			if (ch.length>1) ch= "/"+ch+"/";
+			writeTo.value = val.slice(0, pos0) + ch + val.slice(pos1);
 			writeTo.focus();
-			writeTo.selectionStart = writeTo.selectionEnd = pos0 + char.length + 2;
+			writeTo.selectionStart = writeTo.selectionEnd = pos0 + ch.length;
 		}
 		appendTo.appendChild(keyInput);
 	});
