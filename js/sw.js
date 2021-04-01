@@ -69,6 +69,10 @@ self.addEventListener("install", event => {
 				"./js/cc/render.js",
 				"./js/cc/setup.js",
 
+				"./js/clockwork/clockworkGlyphs.js",
+				"./js/clockwork/render.js",
+				"./js/clockwork/setup.js",
+
 				"./js/darkifaerie/darkifaeriesGlyphs.js",
 				"./js/darkifaerie/render.js",
 				"./js/darkifaerie/setup.js",
