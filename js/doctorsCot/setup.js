@@ -28,13 +28,13 @@ function cotKeyboard(appendTo, writeTo, keys) {
 }
 
 export function createKeyboard() {
-	document.getElementById('dc2consonants').innerHTML = document.getElementById('dc2vowels').innerHTML = "";
+	document.getElementById('dcconsonants').innerHTML = document.getElementById('dcvowels').innerHTML = "";
 	if (document.getElementById('cotipa').checked) {
-		cotKeyboard(document.getElementById('dc2consonants'), document.getElementById('text'), dc2Consonants.keyCollection());
-		cotKeyboard(document.getElementById('dc2vowels'), document.getElementById('text'), dc2Vowels.keyCollection());
+		cotKeyboard(document.getElementById('dcconsonants'), document.getElementById('text'), dc2Consonants.keyCollection());
+		cotKeyboard(document.getElementById('dcvowels'), document.getElementById('text'), dc2Vowels.keyCollection());
 	} else if (document.getElementById('coten').checked) {
-		cotKeyboard(document.getElementById('dc2consonants'), document.getElementById('text'), alternativeKeyboard.en.consonants);
-		cotKeyboard(document.getElementById('dc2vowels'), document.getElementById('text'), alternativeKeyboard.en.vowels);
+		cotKeyboard(document.getElementById('dcconsonants'), document.getElementById('text'), alternativeKeyboard.en.consonants);
+		cotKeyboard(document.getElementById('dcvowels'), document.getElementById('text'), alternativeKeyboard.en.vowels);
 	}
 }
 

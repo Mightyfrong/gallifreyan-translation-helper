@@ -107,7 +107,7 @@ footer>div:last-child {
 	cursor: pointer;
 	color: var(--col0);
 	background: var(--accent-col);
-	z-index:10;
+	z-index: 10;
 }
 
 /** Small Components **/
@@ -161,36 +161,18 @@ span {
 	text-align: center;
 }
 
-#dc2consonants,
-#dc2vowels,
-#cbconsonants,
-#cbvowels,
-#oddismconsonants,
-#oddismvowels,
-#cwconsonants,
-#cwvowels {
-	display: inline-block;
-	vertical-align: top;
+.keys {
+	display: block;
 	text-align: left;
 	margin-bottom: .5em;
 }
 
-#dc2consonants>div,
-#dc2vowels>div,
-#cbconsonants>div,
-#cbvowels>div {
-	display: block;
+.keys>div {
+	display: flex;
+	flex-wrap:wrap;
 }
 
-#dc2consonants>div>div,
-#dc2vowels>div>div,
-#cbconsonants>div>div,
-#cbvowels>div>div,
-#oddismconsonants>div,
-#oddismvowels>div,
-#cwconsonants>div,
-#cwvowels>div {
-	display: inline-block;
+.keys>div>div {
 	vertical-align: top;
 	border-width: 1px;
 	min-width: 2em;
@@ -237,14 +219,7 @@ form>label:after {
 
 
 form>label:active,
-#dc2consonants>div>div:active,
-#dc2vowels>div>div:active,
-#cbconsonants>div>div:active,
-#cbvowels>div>div:active,
-#oddismconsonants>div:active,
-#oddismvowels>div:active,
-#cwconsonants>div:active,
-#cwvowels>div:active {
+.keys>div>div:active {
 	transform: scale(.95);
 }
 
@@ -256,7 +231,7 @@ form>label:active,
 }
 
 #drawoutput {
-	margin-top:1em;
+	margin-top: 1em;
 	display: none;
 }
 
@@ -277,8 +252,10 @@ label>svg {
 input[type=checkbox],
 input[type=radio],
 textarea,
-label {
-	font-size: 1.3em;
+label,
+.keys,
+select {
+	font-size: 1.5em;
 }
 
 @media all and (min-width: 640px) {
@@ -353,7 +330,9 @@ label {
 	input[type=radio],
 	input[type=submit],
 	textarea,
-	label {
+	label,
+	.keys,
+	select {
 		font-size: 1em;
 	}
 }

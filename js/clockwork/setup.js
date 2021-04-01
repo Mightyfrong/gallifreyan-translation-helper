@@ -1,10 +1,14 @@
-import { clockworkConsonants, clockworkVowels } from './clockworkGlyphs.js';
+import {
+	clockworkConsonants,
+	clockworkVowels
+} from './clockworkGlyphs.js';
 
 export const glyphSize = 30; // radius of glyphs
 export const cwConsonants = new clockworkConsonants();
 export const cwVowels = new clockworkVowels();
 
 function cwKeyboard(appendTo, writeTo, keys) {
+	const keyWrapper = document.createElement('div');
 	keys.forEach(char => {
 		const keyInput = document.createElement('div');
 		keyInput.innerHTML = char[0];
@@ -18,8 +22,9 @@ function cwKeyboard(appendTo, writeTo, keys) {
 			writeTo.focus();
 			writeTo.selectionStart = writeTo.selectionEnd = pos0 + ch.length;
 		}
-		appendTo.appendChild(keyInput);
+		keyWrapper.appendChild(keyInput);
 	});
+	appendTo.appendChild(keyWrapper);
 }
 
 export function createClockworkKeyboard() {
