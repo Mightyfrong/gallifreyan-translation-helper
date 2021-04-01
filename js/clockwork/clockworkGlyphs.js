@@ -1,10 +1,3 @@
-import {
-	includes,
-} from '../utils/funcs.js';
-import {
-	cwConsonants
-} from './setup.js';
-
 export class clockworkConsonants {
 	constructor() {
 		this.glyphs = {
@@ -55,7 +48,7 @@ export class clockworkConsonants {
 						d: ctx.circularArc(x, y, r, Math.PI * (.05 + tilt), Math.PI * (1.65 + tilt), "major")
 					});
 					ctx.drawShape('path', 4, {
-						d: ctx.circularArc(x + Math.cos(Math.PI * (1.85 + tilt)) * r * .9, y+ Math.sin(Math.PI * (1.85 + tilt)) * r * .9, r * .6, Math.PI * (1.3 + tilt), Math.PI * (2.4 + tilt), "major")
+						d: ctx.circularArc(x + Math.cos(Math.PI * (1.85 + tilt)) * r * .9, y + Math.sin(Math.PI * (1.85 + tilt)) * r * .9, r * .6, Math.PI * (1.3 + tilt), Math.PI * (2.4 + tilt), "major")
 					});
 					ctx.drawShape('circle', 4, {
 						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
@@ -218,7 +211,7 @@ export class clockworkConsonants {
 						d: ctx.circularArc(x, y, r, Math.PI * (1.05 + tilt), Math.PI * (1.65 + tilt), "minor")
 					});
 					ctx.drawShape('path', 4, {
-						d: ctx.circularArc(x + Math.cos(Math.PI * (1.85 + tilt)) * r * .9, y+ Math.sin(Math.PI * (1.85 + tilt)) * r * .9, r * .6, Math.PI * (1.3 + tilt), Math.PI * (2.4 + tilt), "major")
+						d: ctx.circularArc(x + Math.cos(Math.PI * (1.85 + tilt)) * r * .9, y + Math.sin(Math.PI * (1.85 + tilt)) * r * .9, r * .6, Math.PI * (1.3 + tilt), Math.PI * (2.4 + tilt), "major")
 					});
 					ctx.drawShape('circle', 0, {
 						cx: x + Math.cos(Math.PI * (1.85 + tilt)) * r * 1.5,
@@ -308,7 +301,7 @@ export class clockworkConsonants {
 					});
 					ctx.drawShape('circle', 0, {
 						cx: x + Math.cos(Math.PI * (1.85 + tilt)) * r * 1.5,
-						cy: y+ Math.sin(Math.PI * (1.85 + tilt)) * r * 1.5,
+						cy: y + Math.sin(Math.PI * (1.85 + tilt)) * r * 1.5,
 						r: 8
 					});
 				}
@@ -355,9 +348,9 @@ export class clockworkConsonants {
 					});
 					ctx.drawShape('line', 4, {
 						x1: x + Math.cos(Math.PI * (1.85 + tilt)) * r * 1.5,
-						y1: y+ Math.sin(Math.PI * (1.85 + tilt)) * r * 1.5,
+						y1: y + Math.sin(Math.PI * (1.85 + tilt)) * r * 1.5,
 						x2: x + Math.cos(Math.PI * (1.85 + tilt)) * r * 1.8,
-						y2: y+ Math.sin(Math.PI * (1.85 + tilt)) * r * 1.8
+						y2: y + Math.sin(Math.PI * (1.85 + tilt)) * r * 1.8
 					});
 				}
 			},
@@ -490,6 +483,7 @@ export class clockworkConsonants {
 }
 
 export class clockworkVowels {
+	//this class also contains mid-sentence punctuation for size-related drawing
 	constructor() {
 		this.glyphs = {
 			i: {
@@ -957,6 +951,29 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r * .5
+					});
+				}
+			},
+			";": {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x + Math.cos(Math.PI * (1.1 + tilt)) * r * .35,
+						cy: y + Math.sin(Math.PI * (1.1 + tilt)) * r * .35,
+						r: r * .7
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x - Math.cos(Math.PI * (1.1 + tilt)) * r * .35,
+						cy: y - Math.sin(Math.PI * (1.1 + tilt)) * r * .35,
+						r: r * .7
+					});
+				}
+			},
+			",": {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r
 					});
 				}
 			}

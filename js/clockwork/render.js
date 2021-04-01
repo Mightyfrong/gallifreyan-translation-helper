@@ -16,22 +16,28 @@ let x; // current coordinate x
 let y; // current coordinate y
 let glyph; // glyph dimensions-object
 let groupedInput; //global variable for input to be updated
+let option; // user option-object
 
 export function render(input) {
+	//retrieve options and make them compact
+	option = {
+		circular: document.getElementById('cw-circ').checked,
+		maxstack: document.getElementById("cw-stack").options[document.getElementById("cw-stack").selectedIndex].value
+	};
+
 	// convert input-string to grouped array and determine number of groups
 	groupedInput = clockworkGrouped.groups(input.toLowerCase());
 
 	let glyphs = 0,
-		stackedglyph = 1.8,
-		maxstack = document.getElementById("cw-stack").options[document.getElementById("cw-stack").selectedIndex].value;
+		stackedglyph = 1.8;
 	groupedInput.forEach(word => {
 		glyphs += word[0].length;
 	});
-	for (let i = 1; i <= maxstack; i++) {
+	for (let i = 1; i <= option.maxstack; i++) {
 		stackedglyph *= 1 + .8 / i;
 	}
 	glyph = {
-		width: glyphSize * (stackedglyph+2),
+		width: glyphSize * (stackedglyph + 2),
 		height: glyphSize * (stackedglyph + 2)
 	};
 	width = (Math.min(++glyphs, Math.floor(window.innerWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
@@ -68,12 +74,12 @@ let clockworkGrouped = {
 		splitinput.forEach(sword => {
 			sentence.push([]); // init new word
 			let word = sword.match(/\/.+\/|./g); // match single characters or encapsulated by control characters 
-			let maxstack = document.getElementById("cw-stack").options[document.getElementById("cw-stack").selectedIndex].value;
 			let group = [];
 			for (var i = 0; i < word.length; i++) { // iterate through word 
-				word[i]=word[i].replace(/\//g, ''); // get rid of control characters
-				if (group.length > 0 && group[group.length - 1].length < maxstack) {
-					// add to former group if not full
+				word[i] = word[i].replace(/\//g, ''); // get rid of control characters
+				if ((group.length > 0 && group[group.length - 1].length < option.maxstack) &&
+					!(includes([",", ";"], word[i]) || includes(group[group.length - 1], [",", ";"]))) {
+					// add to former group if not full or mid-sentence punctuation
 					group[group.length - 1].push(word[i])
 				} else // create current group
 					group.push([word[i]]);

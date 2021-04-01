@@ -12,8 +12,8 @@ function cwKeyboard(appendTo, writeTo, keys) {
 			const pos0 = writeTo.selectionStart;
 			const pos1 = writeTo.selectionEnd;
 			const val = writeTo.value;
-			let ch=char[1];
-			if (ch.length>1) ch= "/"+ch+"/";
+			let ch = char[1];
+			if (ch.length > 1) ch = "/" + ch + "/";
 			writeTo.value = val.slice(0, pos0) + ch + val.slice(pos1);
 			writeTo.focus();
 			writeTo.selectionStart = writeTo.selectionEnd = pos0 + ch.length;
@@ -83,7 +83,9 @@ const alternativeKeyboard = {
 			["l<b>o</b>t", "ɒ"],
 			["<b>e</b>ɪ", "e"],
 			["<b>o</b>ʊ", "o"],
-			["<b>a</b>ɪ/ <b>a</b>ʊ", "a"]
+			["<b>a</b>ɪ/ <b>a</b>ʊ", "a"],
+			[";", ";"],
+			[",", ","]
 		]
 	}
 }
