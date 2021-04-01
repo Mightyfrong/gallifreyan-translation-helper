@@ -4,6 +4,7 @@ import {
 import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
+import {unsupportedCharacters} from '../event_callbacks.js';
 
 let glyphSize = 30; // radius of glyphs
 let lineweight = 1; // thicker lines add a cute chubbyness
@@ -13,15 +14,7 @@ let x; // current coordinate x
 let y; // current coordinate y
 let letterwidth; // you'll figure that one out for yourself
 let letterheight; // you'll figure that one out for yourself
-let warning = ""; // used if undefined characters are part of the input
 const FILLED = true;
-
-// add module-specific language chunks
-UILanguage.say.processError = {
-	en: "The following characters could not be processed: ",
-	de: "Die folgenden Zeichen konnten nicht verarbeitet werden: ",
-	lt: "Nepavyko apdoroti šių simbolių: "
-};
 
 class character {
 	constructor(ctx, x, y, r, lineweight) {
@@ -291,7 +284,6 @@ let characters = {
 // scroll through input and draw every letter
 export function render(input) {
 	// initialize widths, heights, default-values, draw-object
-	warning = "";
 	letterwidth = glyphSize * 2.2;
 	letterheight = glyphSize * 4;
 
@@ -316,7 +308,7 @@ export function render(input) {
 			let draw = new character(ctx, x, y, glyphSize, lineweight);
 			characters[input[i].toLowerCase()](draw, input[i] == input[i].toUpperCase());
 
-		} else warning += ", " + input[i];
+		} else unsupportedCharacters.add(input[i]);
 
 		// print character translation above the drawings
 		ctx.drawText(input[i], {
@@ -327,8 +319,7 @@ export function render(input) {
 	}
 
 	// complain about undefined characters
-	if (warning) document.getElementById("output").innerHTML = UILanguage.write("processError") + warning.substr(2);
-	else document.getElementById("output").innerHTML = "";
+	unsupportedCharacters.get();
 
 	return ctx;
 }

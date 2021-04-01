@@ -14,25 +14,19 @@ import {
 import {
 	includes
 } from '../utils/funcs.js';
+import {
+	unsupportedCharacters
+} from '../event_callbacks.js';
 
 let width; // canvas width
 let height; // canvas height
 let x; // current coordinate x
 let y; // current coordinate y
 let glyph; // global scope for glyph dimensions
-let warning = ""; // used if undefined characters are part of the input
-
-// add module-specific language chunks
-UILanguage.say.processError = {
-	en: "The following characters could not be processed: ",
-	de: "Die folgenden Zeichen konnten nicht verarbeitet werden: ",
-	lt: "Nepavyko apdoroti šių simbolių: "
-};
 
 // scroll through input and draw every letter
 export function render(input) {
 	// initialize widths, heights, default-values, draw-object
-	warning = "";
 	let displayCircular = document.getElementById('tccircular').checked,
 		groupedInput = tardisCharacterGrouping(input),
 		charX, charY, textX, textY, dia;
@@ -95,7 +89,7 @@ export function render(input) {
 			for (let j = 0; j < word[i].length; j++) {
 				if (word[i][j] in consoleGlyphs) {
 					tcDraw(ctx, charX, charY, includes(['a', 'e', 'i', 'o', 'u'], word[i][j]) ? consoleGlyphs[word[i][j]](word[i][j - 1]) : consoleGlyphs[word[i][j]]);
-				} else warning += ", " + word[i][j];
+				} else unsupportedCharacters.add(word[i][j]);
 			}
 			// display character
 			ctx.drawText(word[i].join(''), {
@@ -111,8 +105,7 @@ export function render(input) {
 	});
 
 	// complain about undefined characters
-	if (warning) document.getElementById("output").innerHTML = UILanguage.write("processError") + warning.substr(2);
-	else document.getElementById("output").innerHTML = "";
+	unsupportedCharacters.get();
 
 	return ctx;
 }

@@ -1,7 +1,20 @@
-import { includes } from '../utils/funcs.js';
-import { fluxBase, fluxDeco } from './fluxGlyphs.js';
-import { consonant, decorator } from './setup.js';
-import { SVGRenderingContext } from '../utils/SVGRenderingContext.js';
+import {
+	includes
+} from '../utils/funcs.js';
+import {
+	fluxBase,
+	fluxDeco
+} from './fluxGlyphs.js';
+import {
+	consonant,
+	decorator
+} from './setup.js';
+import {
+	SVGRenderingContext
+} from '../utils/SVGRenderingContext.js';
+import {
+	unsupportedCharacters
+} from '../event_callbacks.js';
 
 let width; // canvas width
 let height; // canvas height
@@ -73,6 +86,7 @@ export function render(input) {
 				wordlength: wordlength,
 				index: j
 			});
+			if (!base.getBase(current)) unsupportedCharacters.add(current);
 		}
 		fluxDraw(ctx, {
 			char: " ",
@@ -80,6 +94,10 @@ export function render(input) {
 			index: 0
 		});
 	});
+
+	// complain about unsupported characters
+	unsupportedCharacters.get();
+
 	return ctx;
 }
 

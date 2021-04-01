@@ -1,8 +1,23 @@
-import { includes } from '../utils/funcs.js';
-import { shermansBase, shermansDeco } from './shermansGlyphs.js';
-import { consonant, vowel } from './setup.js';
-import { UILanguage } from '../utils/UILanguage.js'
-import { SVGRenderingContext } from '../utils/SVGRenderingContext.js';
+import {
+	includes
+} from '../utils/funcs.js';
+import {
+	shermansBase,
+	shermansDeco
+} from './shermansGlyphs.js';
+import {
+	consonant,
+	vowel
+} from './setup.js';
+import {
+	UILanguage
+} from '../utils/UILanguage.js'
+import {
+	SVGRenderingContext
+} from '../utils/SVGRenderingContext.js';
+import {
+	unsupportedCharacters
+} from '../event_callbacks.js';
 
 let cLetter; // is there a "c"?
 let qLetter; // is there a "q"?
@@ -98,20 +113,27 @@ export function render(input) {
 				for (let l = 0; l < group.length; l++) {
 					// check whether an occuring dot or comma is a decimal sign or not
 					let isNumber = /*is number group */ includes("1234567890", [group[0], group[1]]) && (
-						( /*is comma*/ includes(",.", group[l])) 
-//						|| ( /*is last digit without comma*/ l == group.length - 1 && !includes(group, ",."))
+						( /*is comma*/ includes(",.", group[l]))
+						//						|| ( /*is last digit without comma*/ l == group.length - 1 && !includes(group, ",."))
 					);
-					if (isNumber && includes(",.", group[l])) group[l]="|";
+					if (isNumber && includes(",.", group[l])) group[l] = "|";
 					// adjust offset properties according to former character/base
 					if (l > 0) shermansGrouped.setOffset(group[l - 1], group[l]);
 					// draw
 					shermansDraw(ctx, group[l], shermansGrouped, isNumber);
+
+					if (!base.getBase(group[l])) unsupportedCharacters.add(group[l]);
+
 				}
 			});
 		});
 		shermansGrouped.resetOffset();
 		shermansDraw(ctx, " ", shermansGrouped);
 	});
+
+	// complain about unsupported characters
+	unsupportedCharacters.get();
+
 	// complain about c and q
 	let output = "";
 	if (cLetter) {
@@ -120,7 +142,8 @@ export function render(input) {
 	if (qLetter) {
 		output += "<br>" + UILanguage.write("qLetter");
 	}
-	document.getElementById("output").innerHTML = output;
+	document.getElementById("output").innerHTML += output;
+
 	return ctx;
 }
 
@@ -172,13 +195,12 @@ let shermansGrouped = {
 					group.push([current]);
 			}
 			// add control characters to the number group(s)
-			for(let i = 0; i < group.length; i++){
+			for (let i = 0; i < group.length; i++) {
 				if (includes("1234567890", group[i][0])) group[i].push("/");
 				if (group[i][0] === "-" && includes("1234567890", group[i][1])) {
 					group[i].shift();
 					group[i][group[i].length] = ("\\");
 				}
-	
 			}
 			sentence[sentence.length - 1].push(group); // append group to last word
 		});
@@ -302,9 +324,9 @@ function shermansDraw(ctx, letter, grouped, isNumber) {
 		text = grouped.currentGroupText;
 	// handle numerical control characters
 	text = text.replace(/\//g, '');
-	if (includes(text,"\\")) text="-" + grouped.currentGroupText.replace(/\\/g, '');
-	
-	if (grouped.offset==0) ctx.drawText(text, {
+	if (includes(text, "\\")) text = "-" + grouped.currentGroupText.replace(/\\/g, '');
+
+	if (grouped.offset == 0) ctx.drawText(text, {
 		x: x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad),
 		y: y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad) + fontsize * .25
 	});

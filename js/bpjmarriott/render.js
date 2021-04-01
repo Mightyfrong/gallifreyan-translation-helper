@@ -11,24 +11,18 @@ import {
 	character,
 	linewidth
 } from './setup.js';
+import {
+	unsupportedCharacters
+} from '../event_callbacks.js';
 
 let width; // canvas width
 let height; // canvas height
 let x; // current coordinate x
 let y; // current coordinate y
-let warning = ""; // used if undefined characters are part of the input
-
-// add module-specific language chunks
-UILanguage.say.processError = {
-	en: "The following characters could not be processed: ",
-	de: "Die folgenden Zeichen konnten nicht verarbeitet werden: ",
-	lt: "Nepavyko apdoroti šių simbolių: "
-};
 
 // scroll through input and draw every letter
 export function render(input) {
 	// initialize widths, heights, default-values, draw-object
-	warning = "";
 	height = x = y = 0;
 	let groupedInput = input.toLowerCase().split(/\s+/),
 		glyph = {
@@ -47,7 +41,7 @@ export function render(input) {
 		if (lineHeight < wordHeight) lineHeight = wordHeight; // line height set to longest word
 		if (i % maxWordsPerWidth == 0 || i == groupedInput.length - 1) { // canvas size added longest word, reset latter on "linebreak"
 			if (groupedInput.length > maxWordsPerWidth) height += lineHeight + glyph.height;
-			else if (height<lineHeight)height = lineHeight+glyph.height;
+			else if (height < lineHeight) height = lineHeight + glyph.height;
 			lineHeight = 0;
 		}
 	}
@@ -64,7 +58,7 @@ export function render(input) {
 					x: x + character.width * 1.2,
 					y: y + charY + character.height * .6
 				});
-			} else if (groupedInput[i][c] !== undefined) warning += ", " + groupedInput[i][c];
+			} else if (groupedInput[i][c] !== undefined) unsupportedCharacters.add(groupedInput[i][c]);
 			charY += character.height;
 		}
 		charY = 0;
@@ -80,8 +74,7 @@ export function render(input) {
 	}
 
 	// complain about unsupported characters
-	if (warning) document.getElementById("output").innerHTML = UILanguage.write("processError") + warning.substr(2);
-	else document.getElementById("output").innerHTML = "";
+	unsupportedCharacters.get();
 
 	return ctx;
 }

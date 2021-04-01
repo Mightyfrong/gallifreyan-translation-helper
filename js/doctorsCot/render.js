@@ -9,6 +9,9 @@ import {
 import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
+import {
+	unsupportedCharacters
+} from '../event_callbacks.js';
 
 let width; // canvas width
 let height; // canvas height
@@ -35,7 +38,7 @@ export function render(input) {
 	};
 	width = (Math.min(++glyphs, Math.floor(window.innerWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
 	height = glyph.height * (Math.ceil(++glyphs / (Math.floor(window.innerWidth / glyph.width) || 1)));
-	x = -glyph.width*.5;
+	x = -glyph.width * .5;
 	y = glyph.height * .5;
 	const ctx = new SVGRenderingContext(width, height);
 
@@ -46,6 +49,9 @@ export function render(input) {
 				doctorsCotGrouped.resetOffset(group);
 				// iterate through characters within group
 				for (let l = 0; l < group.length; l++) {
+					if (!(dc2Consonants.getBase(group[l]) || dc2Vowels.getShape(group[l])))
+						unsupportedCharacters.add(group[l]);
+
 					doctorsCotDraw(ctx, group[l], doctorsCotGrouped);
 					if (dc2Consonants.getBase(group[l]))
 						doctorsCotGrouped.setOffset(dc2Consonants.base[dc2Consonants.getBase(group[l])].baserad);
@@ -55,6 +61,10 @@ export function render(input) {
 		doctorsCotGrouped.resetOffset();
 		doctorsCotDraw(ctx, " ", doctorsCotGrouped);
 	});
+
+	// complain about unsupported characters
+	unsupportedCharacters.get();
+
 	return ctx;
 }
 
@@ -77,10 +87,10 @@ let doctorsCotGrouped = {
 					i++;
 				}
 				// C, V, C-C, C-V, C-C-V, not C-V-C
-				if (group.length > 0 
-					&& ((/* C-C, C-V */ group[group.length - 1].length < 2 && dc2Consonants.getBase(group[group.length - 1][group[group.length - 1].length-1]))
-					|| (/* C-C-V */ group[group.length - 1].length < 3 &&  dc2Vowels.getLines(current) && dc2Consonants.getBase(group[group.length - 1][group[group.length - 1].length-1])))
-					&& /* no punctuation */ !includes(["'", ",", "?", "!", "."], [current, group[group.length - 1][group[group.length - 1].length-1]])) {
+				if (group.length > 0 &&
+					(( /* C-C, C-V */ group[group.length - 1].length < 2 && dc2Consonants.getBase(group[group.length - 1][group[group.length - 1].length - 1])) ||
+						( /* C-C-V */ group[group.length - 1].length < 3 && dc2Vowels.getLines(current) && dc2Consonants.getBase(group[group.length - 1][group[group.length - 1].length - 1]))) &&
+					/* no punctuation */ !includes(["'", ",", "?", "!", "."], [current, group[group.length - 1][group[group.length - 1].length - 1]])) {
 					// add to former group if not full
 					group[group.length - 1].push(current)
 				} else // create current group
@@ -112,7 +122,7 @@ function doctorsCotDraw(ctx, letter, grouped) {
 	if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
 		if (x + glyph.width >= width) {
 			y += glyph.height;
-			x = glyph.width*.5;
+			x = glyph.width * .5;
 		} else x += glyph.width;
 	}
 

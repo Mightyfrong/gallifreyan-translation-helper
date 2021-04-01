@@ -7,6 +7,9 @@ import {
 import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
+import {
+	unsupportedCharacters
+} from '../event_callbacks.js';
 
 let consonant = 30; // radius of consonants
 let linewidth = 1; // thicker lines add a cute chubbyness
@@ -16,14 +19,6 @@ let x; // current coordinate x
 let y; // current coordinate y
 let letterwidth; // you'll figure that one out for yourself
 let letterheight; // you'll figure that one out for yourself
-let warning = ""; // used if undefined characters are part of the input
-
-// add module-specific language chunks
-UILanguage.say.processError = {
-	en: "The following characters could not be processed: ",
-	de: "Die folgenden Zeichen konnten nicht verarbeitet werden: ",
-	lt: "Nepavyko apdoroti šių simbolių: "
-};
 
 //specify forms and positions
 let characters = {
@@ -246,7 +241,6 @@ let characters = {
 // scroll through input and draw every letter
 export function render(input) {
 	// initialize widths, heights, default-values, draw-object
-	warning = "";
 	input = input.toLowerCase();
 	letterwidth = consonant * 1.5;
 	letterheight = consonant * 6;
@@ -287,7 +281,7 @@ export function render(input) {
 			let directions = characters.characters[input[i]];
 			let lw = directions.float > 0 ? linewidth : 0;
 			characters.form[directions.form](ctx, x + consonant, y + consonant * directions.float + lw, consonant * directions.size);
-		} else warning += ", " + input[i];
+		} else unsupportedCharacters.add(input[i]);
 
 		// print character translation above the drawings
 		ctx.drawText(input[i], {
@@ -298,8 +292,7 @@ export function render(input) {
 	}
 
 	// complain about undefined characters
-	if (warning) document.getElementById("output").innerHTML = UILanguage.write("processError") + warning.substr(2);
-	else document.getElementById("output").innerHTML = "";
+	unsupportedCharacters.get();
 
 	return ctx;
 }

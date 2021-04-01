@@ -12,6 +12,9 @@ import {
 import {
 	cbContext
 } from './cbettenbendersGlyphs.js';
+import {
+	unsupportedCharacters
+} from '../event_callbacks.js';
 
 let width; // canvas width
 let height; // canvas height
@@ -41,6 +44,9 @@ export function render(input) {
 	groupedInput.forEach(syllable => { // loop through sentence
 		cbDraw(ctx, syllable);
 	});
+
+	// complain about unsupported characters
+	unsupportedCharacters.get();
 
 	return ctx;
 }
@@ -85,7 +91,10 @@ function cbDraw(ctx, syllable) {
 
 	let context = new cbContext();
 	syllable.forEach(character => {
-		context.delPoints(character);
+		if (cbConsonant.getBase(character) || cbVowel.getBase(character))
+			context.delPoints(character);
+		else
+			unsupportedCharacters.add(character);
 	});
 
 	//characters
@@ -105,17 +114,17 @@ function cbDraw(ctx, syllable) {
 				glyphSize, // syllable radius
 				character, // current character
 				(c > 0 && syllable.slice(0, c).join('').indexOf(character) > -1), // is current character repetitive?
-				c==0 // initial consonants are filled
+				c == 0 // initial consonants are filled
 			);
 			// draw consontant connector
 			// currently i am not sure if this works out regarding possible numbers of connected consonants within one syllable...
 			if ( // last consonant before a vowel
-				syllable[c - 1]!==undefined && cbConsonant.getBase(syllable[c - 1]) &&
-				syllable[c + 1]!==undefined && !cbConsonant.getBase(syllable[c + 1])
+				syllable[c - 1] !== undefined && cbConsonant.getBase(syllable[c - 1]) &&
+				syllable[c + 1] !== undefined && !cbConsonant.getBase(syllable[c + 1])
 			) context.connectCon(ctx, x, y, glyphSize, syllable[c - 1], character, 'outwards');
 			if ( // former but one is vowel
-				syllable[c - 2]!==undefined && !cbConsonant.getBase(syllable[c - 2]) &&
-				syllable[c - 1]!==undefined && cbConsonant.getBase(syllable[c - 1])
+				syllable[c - 2] !== undefined && !cbConsonant.getBase(syllable[c - 2]) &&
+				syllable[c - 1] !== undefined && cbConsonant.getBase(syllable[c - 1])
 			) context.connectCon(ctx, x, y, glyphSize, syllable[c - 1], character, 'inwards');
 
 		}

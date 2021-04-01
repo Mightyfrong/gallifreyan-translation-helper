@@ -82,12 +82,17 @@ export let UILanguage = {
 			de: "Anzeigen",
 			lt: "Rodyti"
 		},
+		processError: {
+			en: "The following characters could not be processed: ",
+			de: "Die folgenden Zeichen konnten nicht verarbeitet werden: ",
+			lt: "Nepavyko apdoroti šių simbolių: "
+		},
 		info: {
 			en: "This is a tool aimed at artists and hobbyists who produce designs in one of the supported types of Gallifreyan. " +
 				"Use it online or install it as a progressive web app on your device to use it offline on the go.<br />" +
 				"Please recognize this tool not as a translator: it serves the purpose of quicker impressions of writing syntax. " +
 				"The artistic composition is, and should be, your challenge. Please do not use any of these outputs for an immediate tattoo template!",
-			de: "Dieses Hilfsmittel richtet sich an Künster und Hobbyisten, welche Designs in einem oder mehreren der unterstützen Arten Gallifreyisch erstellen. "+ 
+			de: "Dieses Hilfsmittel richtet sich an Künster und Hobbyisten, welche Designs in einem oder mehreren der unterstützen Arten Gallifreyisch erstellen. " +
 				"Nutzt es online oder installiert es als Progressive Web App auf eurem Gerät um es auch offline immer dabei zu haben.<br />" +
 				"Bitte betrachtet dieses Werkzeug nicht als Übersetzer: es dient nur einem schnellen Eindruck der Schreibweise.<br />" +
 				"Die ästhetische Ausarbeitung ist bewusst eure Herausforderung. Bitte benutzt keines der Ergebnisse als direkte Tattoo-Vorlage!",

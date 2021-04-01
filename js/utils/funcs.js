@@ -1,3 +1,7 @@
+import {
+	UILanguage
+} from './UILanguage.js';
+
 export function createSVGElement(tagName, attributes = {}) {
 	const elem = document.createElementNS("http://www.w3.org/2000/svg", tagName);
 
@@ -30,6 +34,24 @@ export function includes(obj, values) {
 	return Array.isArray(values) ?
 		values.some(value => obj.includes(value)) :
 		obj.includes(values);
+}
+
+export class unsupportedChars {
+	constructor() {
+		this.item = [];
+	}
+	reset() {
+		this.item = [];
+	}
+	add(item) {
+		this.item.push(item);
+	}
+	get() {
+		if (this.item === undefined || this.item.length < 1)
+			document.getElementById("output").innerHTML = "";
+		else
+			document.getElementById("output").innerHTML = UILanguage.write("processError") + this.item.join(", ");
+	}
 }
 
 /**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR

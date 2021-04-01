@@ -9,6 +9,9 @@ import {
 import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
+import {
+	unsupportedCharacters
+} from '../event_callbacks.js';
 
 let width; // canvas width
 let height; // canvas height
@@ -21,7 +24,7 @@ let option; // user option-object
 export function render(input) {
 	//retrieve options and make them compact
 	option = {
-		circular: document.getElementById('cw-circ').checked,
+		//circular: document.getElementById('cw-circ').checked,
 		maxstack: document.getElementById("cw-stack").options[document.getElementById("cw-stack").selectedIndex].value
 	};
 
@@ -53,7 +56,10 @@ export function render(input) {
 				clockworkGrouped.resetOffset(group.length, group.join(''));
 				// iterate through characters within group
 				for (let l = 0; l < group.length; l++) {
-					clockworkDraw(ctx, group[l], clockworkGrouped);
+					if (group[l] in cwConsonants.glyphs || group[l] in cwVowels.glyphs)
+						clockworkDraw(ctx, group[l], clockworkGrouped);
+					else
+						unsupportedCharacters.add(group[l]);
 					clockworkGrouped.setOffset();
 				}
 			});
@@ -61,6 +67,10 @@ export function render(input) {
 		clockworkGrouped.resetOffset();
 		clockworkDraw(ctx, " ", clockworkGrouped);
 	});
+
+	// complain about unsupported characters
+	unsupportedCharacters.get();
+
 	return ctx;
 }
 

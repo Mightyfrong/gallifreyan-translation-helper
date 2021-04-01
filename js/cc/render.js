@@ -1,8 +1,22 @@
-import { includes } from '../utils/funcs.js'
-import { ccBase, ccDeco } from './ccGlyphs.js'
-import { consonant } from './setup.js';
-import { SVGRenderingContext } from '../utils/SVGRenderingContext.js';
-import { UILanguage } from '../utils/UILanguage.js'
+import {
+	includes
+} from '../utils/funcs.js'
+import {
+	ccBase,
+	ccDeco
+} from './ccGlyphs.js'
+import {
+	consonant
+} from './setup.js';
+import {
+	SVGRenderingContext
+} from '../utils/SVGRenderingContext.js';
+import {
+	UILanguage
+} from '../utils/UILanguage.js'
+import {
+	unsupportedCharacters
+} from '../event_callbacks.js';
 
 let width; // canvas width
 let height; // canvas height
@@ -12,13 +26,6 @@ let letterwidth; // you'll figure that one out for yourself
 let letterheight; // you'll figure that one out for yourself
 let groupedInput; //global variable for input to be updated
 
-// add module-specific language chunks
-UILanguage.say.processError = {
-	en: "The following characters could not be processed: ",
-	de: "Die folgenden Zeichen konnten nicht verarbeitet werden: ",
-	lt: "Nepavyko apdoroti šių simbolių: "
-};
-
 const base = new ccBase();
 const deco = new ccDeco();
 
@@ -26,8 +33,7 @@ export function render(input) {
 	// convert input-string to grouped array and determine number of groups
 	groupedInput = ccGrouped.groups(input.toLowerCase());
 	let maxstack = 1,
-		lettergroups = 0,
-		warning = "";
+		lettergroups = 0;
 
 	groupedInput.forEach(word => {
 		word.forEach(groups => {
@@ -62,7 +68,7 @@ export function render(input) {
 					if (l > 0) ccGrouped.setOffset();
 					// draw
 					if (base.getBase(group[l])) ccDraw(ctx, group[l], ccGrouped);
-					else warning += ", " + group[l];
+					else unsupportedCharacters.add(group[l]);
 				}
 			});
 		});
@@ -71,8 +77,7 @@ export function render(input) {
 	});
 
 	// complain about undefined characters
-	if (warning) document.getElementById("output").innerHTML = UILanguage.write("processError") + warning.substr(2);
-	else document.getElementById("output").innerHTML = "";
+	unsupportedCharacters.get();
 
 	return ctx;
 }
@@ -136,8 +141,8 @@ function ccDraw(ctx, letter, grouped) {
 
 	// text output for undefined characters as well for informational purpose
 	// print character translation above the drawings
-	if (grouped.offset==0) ctx.drawText(grouped.currentGroupText, {
-		x: x ,
+	if (grouped.offset == 0) ctx.drawText(grouped.currentGroupText, {
+		x: x,
 		y: y - letterheight * .5
 	});
 }

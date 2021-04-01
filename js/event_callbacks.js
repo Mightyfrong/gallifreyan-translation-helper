@@ -16,6 +16,10 @@ import { createClockworkKeyboard } from './clockwork/setup.js';
 
 import { MySelect } from './utils/MySelect.js';
 
+// initialize fetching unsupported characters
+import {unsupportedChars} from './utils/funcs.js';
+export const unsupportedCharacters=new unsupportedChars();
+
 // Get hooks for main UI elements
 export const langSelect = document.getElementById('language');
 const langControls = document.getElementById('lang-controls');
@@ -42,6 +46,7 @@ export function translate(event) {
 	document.getElementById('info').style.display = 'none';
 	document.getElementById('drawoutput').style.display = 'block';
 
+	unsupportedCharacters.reset();
 	let input = document.getElementById("text").value;
 	let svg;
 	switch (langSelect.value) {

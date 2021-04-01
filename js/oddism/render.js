@@ -14,24 +14,18 @@ import {
 import {
 	includes
 } from '../utils/funcs.js';
+import {
+	unsupportedCharacters
+} from '../event_callbacks.js';
 
 let width; // canvas width
 let height; // canvas height
 let x; // current coordinate x
 let y; // current coordinate y
-let warning = ""; // used if undefined characters are part of the input
-
-// add module-specific language chunks
-UILanguage.say.processError = {
-	en: "The following characters could not be processed: ",
-	de: "Die folgenden Zeichen konnten nicht verarbeitet werden: ",
-	lt: "Nepavyko apdoroti šių simbolių: "
-};
 
 // scroll through input and draw every letter
 export function render(input) {
 	// initialize widths, heights, default-values, draw-object
-	warning = "";
 	x = y = 0;
 	let glyph = {
 		width: character.width,
@@ -50,7 +44,7 @@ export function render(input) {
 		let current = input[i],
 			currenttwo = input[i] + input[i + 1];
 		// add double latin characters to group
-		if (includes(["aʊ", "eɪ", "əʊ", "ɔɪ", "ɛə", "ɪə", "aɪ", "ʊə", "oʊ", "ju","tʃ", "dʒ"], currenttwo)) {
+		if (includes(["aʊ", "eɪ", "əʊ", "ɔɪ", "ɛə", "ɪə", "aɪ", "ʊə", "oʊ", "ju", "tʃ", "dʒ"], currenttwo)) {
 			current = currenttwo;
 			i++;
 		}
@@ -60,13 +54,13 @@ export function render(input) {
 		if (current in oddismGlyphs.consonants) type = "consonants";
 
 		if (type != undefined) {
-			oddismDraw(ctx, x, y+glyph.height*.5, oddismGlyphs[type][current]);
+			oddismDraw(ctx, x, y + glyph.height * .5, oddismGlyphs[type][current]);
 			// display character
 			ctx.drawText(current, {
 				x: x + glyph.width * .5,
 				y: y + glyph.height * .2
 			});
-		} else if (current !== undefined) warning += ", " + current;
+		} else if (current !== undefined) unsupportedCharacters.add(current);
 
 		// position pointer for words
 		if (x + glyph.width >= width) {
@@ -76,8 +70,7 @@ export function render(input) {
 	}
 
 	// complain about unsupported characters
-	if (warning) document.getElementById("output").innerHTML = UILanguage.write("processError") + warning.substr(2);
-	else document.getElementById("output").innerHTML = "";
+	unsupportedCharacters.get();
 
 	return ctx;
 }
