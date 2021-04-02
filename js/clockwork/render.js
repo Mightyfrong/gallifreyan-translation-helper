@@ -196,8 +196,13 @@ function clockworkDraw(ctx, letter, grouped) {
 			cwPunctuation.glyphs[letter].draw(ctx,
 				x,
 				y,
-				(option.circular ? wordCircleRadius * 2 : glyphSize * grouped.resize),
+				(option.circular ? wordCircleRadius * 2 : glyphSize * grouped.resize)
 			);
+			if (option.circular) cwPunctuation.glyphs["start"].draw(ctx,
+				x + center.x,
+				y + center.y,
+				glyphSize * .7,
+				tilt);
 		}
 	}
 	// text output for undefined characters as well for informational purpose

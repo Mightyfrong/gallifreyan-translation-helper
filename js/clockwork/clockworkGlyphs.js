@@ -1056,6 +1056,17 @@ export class clockworkPunctuation {
 						r: 20
 					});
 				}
+			},
+			"start": {
+				draw: function (ctx, x, y, r, tilt) {
+					for (let i = 0; i < 3; i++) {
+						ctx.drawShape('circle', 0, {
+							cx: x + Math.cos(Math.PI * (1.1 + tilt + i / 3)) * r * 2,
+							cy: y + Math.sin(Math.PI * (1.1 + tilt + i / 3)) * r * 2,
+							r: 12 / (i + 1)
+						});
+					}
+				}
 			}
 		};
 	}
@@ -1063,7 +1074,7 @@ export class clockworkPunctuation {
 	keyCollection() { // return an array with rowwise structures vowels like in the official tables
 		let keys = [];
 		Object.keys(this.glyphs).forEach(key => {
-			keys.push([key, key]);
+			if (key != "start") keys.push([key, key]);
 		});
 		return keys;
 	}
