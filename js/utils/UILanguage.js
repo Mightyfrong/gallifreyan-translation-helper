@@ -72,6 +72,16 @@ export let UILanguage = {
 			de: " Kreisförmig",
 			lt: " žiedinis"
 		},
+		cwcirc: {
+			en: "circular sentences",
+			de: "kreisförmige Sätze",
+			lt: "Žiedų rinkiniai "
+		},
+		cwhint:{
+			en: "Inconsistent use of punctuation may cause errors. Provide either full punctuation or none.",
+			de: "Eine inkonsistente Verwendung von Satzzeichen kann zu Fehlern führen, Bitte vollständige Satzzeichensetzung oder keine benutzen.",
+			lt: "Nenuoseklus skyrybos ženklų naudojimas gali sukelti klaidų. Įtraukite skyrybos ženklus arba be jų."
+		},
 		inputplaceholder: {
 			en: "type your text here",
 			de: "Text hier eingeben",
@@ -135,6 +145,11 @@ export let UILanguage = {
 		document.getElementById("dlsclang").innerHTML = this.write('dlsclang');
 		document.getElementById("oddismenlang").innerHTML = this.write('phonetickeys');
 		document.getElementById("oddismipalang").innerHTML = this.write('ipakeys');
+		document.getElementById("cwipalang").innerHTML = this.write('ipakeys');
+		document.getElementById("cwenlang").innerHTML = this.write('phonetickeys');
+		document.getElementById("cwcirc").nextSibling.innerHTML = this.write('cwcirc');
+		document.getElementById("cwstack").innerHTML = this.write('ccstack');
+		document.getElementById("cwhint").innerHTML = this.write('cwhint');
 		document.getElementById("text").placeholder = this.write('inputplaceholder');
 		document.getElementById("renderbutton").value = this.write('renderbutton');
 		document.getElementById("info").innerHTML = this.write('info');
