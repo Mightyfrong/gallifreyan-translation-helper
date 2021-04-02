@@ -1,11 +1,13 @@
 import {
 	clockworkConsonants,
+	clockworkPunctuation,
 	clockworkVowels
 } from './clockworkGlyphs.js';
 
 export const glyphSize = 30; // radius of glyphs
 export const cwConsonants = new clockworkConsonants();
 export const cwVowels = new clockworkVowels();
+export const cwPunctuation = new clockworkPunctuation();
 
 function cwKeyboard(appendTo, writeTo, keys) {
 	const keyWrapper = document.createElement('div');
@@ -28,13 +30,15 @@ function cwKeyboard(appendTo, writeTo, keys) {
 }
 
 export function createClockworkKeyboard() {
-	document.getElementById('cwconsonants').innerHTML = document.getElementById('cwvowels').innerHTML = "";
+	document.getElementById('cwconsonants').innerHTML = document.getElementById('cwvowels').innerHTML = document.getElementById('cwpunctuation').innerHTML = "";
 	if (document.getElementById('cwipa').checked) {
 		cwKeyboard(document.getElementById('cwconsonants'), document.getElementById('text'), cwConsonants.keyCollection());
 		cwKeyboard(document.getElementById('cwvowels'), document.getElementById('text'), cwVowels.keyCollection());
+		cwKeyboard(document.getElementById('cwpunctuation'), document.getElementById('text'), cwPunctuation.keyCollection());
 	} else if (document.getElementById('cwen').checked) {
 		cwKeyboard(document.getElementById('cwconsonants'), document.getElementById('text'), alternativeKeyboard.en.consonants);
 		cwKeyboard(document.getElementById('cwvowels'), document.getElementById('text'), alternativeKeyboard.en.vowels);
+		cwKeyboard(document.getElementById('cwpunctuation'), document.getElementById('text'), cwPunctuation.keyCollection());
 	}
 }
 
@@ -88,9 +92,7 @@ const alternativeKeyboard = {
 			["l<b>o</b>t", "ɒ"],
 			["<b>e</b>ɪ", "e"],
 			["<b>o</b>ʊ", "o"],
-			["<b>a</b>ɪ/ <b>a</b>ʊ", "a"],
-			[";", ";"],
-			[",", ","]
+			["<b>a</b>ɪ/ <b>a</b>ʊ", "a"]
 		]
 	}
 }

@@ -483,7 +483,6 @@ export class clockworkConsonants {
 }
 
 export class clockworkVowels {
-	//this class also contains mid-sentence punctuation for size-related drawing
 	constructor() {
 		this.glyphs = {
 			i: {
@@ -953,7 +952,22 @@ export class clockworkVowels {
 						r: r * .5
 					});
 				}
-			},
+			}
+		};
+	}
+
+	keyCollection() { // return an array with rowwise structures vowels like in the official tables
+		let keys = [];
+		Object.keys(this.glyphs).forEach(key => {
+			keys.push([key, key]);
+		});
+		return keys;
+	}
+}
+
+export class clockworkPunctuation {
+	constructor() {
+		this.glyphs = {
 			";": {
 				draw: function (ctx, x, y, r, tilt) {
 					ctx.drawShape('circle', 4, {
@@ -976,6 +990,72 @@ export class clockworkVowels {
 						r: r
 					});
 				}
+			},
+			".": {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r * .9
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: (r * .95 - r * .9 > 8 ? r * .95 : r * 1.2) // make it distinguishable for linear display
+					});
+				}
+			},
+			"!": {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r * .9
+					});
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: (r * .95 - r * .9 > 8 ? r * .95 : r * 1.2) // make it distinguishable for linear display
+					});
+				}
+			},
+			"?": {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r * .9
+					});
+					ctx.drawShape('circle', 1, {
+						cx: x,
+						cy: y,
+						r: (r * .95 - r * .9 > 8 ? r * .95 : r * 1.2) // make it distinguishable for linear display
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x + Math.cos(Math.PI * .25) * r * .925,
+						cy: y + Math.sin(Math.PI * .25) * r * .925,
+						r: 20
+					});
+				}
+			},
+			"‽": {
+				draw: function (ctx, x, y, r, tilt) {
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: r * .9
+					});
+					ctx.drawShape('circle', 4, {
+						cx: x,
+						cy: y,
+						r: (r * .95 - r * .9 > 8 ? r * .95 : r * 1.2) // make it distinguishable for linear display
+					});
+					ctx.drawShape('circle', 0, {
+						cx: x + Math.cos(Math.PI * .25) * r * .925,
+						cy: y + Math.sin(Math.PI * .25) * r * .925,
+						r: 20
+					});
+				}
 			}
 		};
 	}
@@ -988,8 +1068,6 @@ export class clockworkVowels {
 		return keys;
 	}
 }
-
-
 /**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR
  *
  * This file is part of the Gallifreyan Translation Helper,
