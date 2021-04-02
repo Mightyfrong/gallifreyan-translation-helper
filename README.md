@@ -6,6 +6,7 @@ This is a tool aimed at artists and hobbyists who produce designs in one of the 
 * [TARDIS Console by Purple Emily][TCG]
 * [Doctor's Cot by Brittany Goodman][DCG]
 * [Flux Gallifreyan by u/lost_chm][FLUX]
+* [Clockwork Gallifreyan by FYeahGallifreyan][CW]
 * [Circular Gallifreyan by Cat Bettenbender][CB]
 * [CC Gallifreyan by gumex][CC]
 * [DotScript by Rachel Sutherland][DS]
@@ -19,6 +20,7 @@ Some details on what the translation helper for each system does can be found be
 * [TARDIS Console](#TARDIS-Console)
 * [Doctors's Cot](#Doctors-Cot)
 * [Flux](#Flux)
+* [Clockwork](#Clockwork)
 * [cBettenbender's](#cBettenbenders)
 * [CC Gallifreyan](#CC-Gallifreyan)
 * [DotScript](#DotScript)
@@ -30,7 +32,13 @@ Some details on what the translation helper for each system does can be found be
 Please recognize this tool ***not*** as a translator: it serves the purpose of quicker impressions of writing syntax. The artistic composition is, and should be, your challenge. Please do not use any of these outputs for an immediate tattoo template!
 
 ---
+## Disclaimer
 
+Gallifreyan is based on the Doctor Who TV Series by BBC. All writing systems are based on the shows artwork but finally fan based and made up. The shows graphics do not translate to anything. But these awesome writing systems do.
+
+The creators of the Gallifreyan Translation Helper do not guarantee for correct output and strongly recommend to let everything be proofread by people that are comfortable with the respective system. Head over to the fine people of [r/gallifreyan](https://www.reddit.com/r/gallifreyan/) for advice.
+
+---
 ## Abstract
 
 See the [wiki](https://github.com/Mightyfrong/gallifreyan-translation-helper/wiki) for a high-level overview of the project. The rest of this documentation is planned to follow.
@@ -90,7 +98,8 @@ The progress of vectorizing all the things got a bit stuck for a few weeks and o
 Like in the original Cot-module there is an IPA-keyboard. Since the author has published a simplyfied english version as well there is a respective keyboard that translates the english characters to the IPA-characters according to the official tables.
 
 Supported characters will be available on the provided keyboard. Please be aware about adding `א` (aleph) for lonely vowels manually.
-### Example
+
+### What to expect
 <img src="assets/Gallifreyan_dɒktəz kɒt.svg" alt="doctor's cot gallifreyan" />
 
 ---
@@ -111,6 +120,19 @@ Supported characters are currently `[a-zß]`, uppercase will be converted.
 
 ---
 
+## Clockwork
+
+The GTH displays the words either in a clockwise circular fashion (not spiral or layers though) or every glyph/group in horizontal lines (left to right) for ease of reading.
+
+Decorator lines do not connect anywhere at the moment. This is as well due to the fact we did not come up with a reasonable algorithm to accomplish that yet, as random straight lines are neither easy to read nor aesthetically appealing.
+
+Supported characters will be available on the provided keyboard. Ellipsis(...) is not supported unfortunately. Inconsistent use of punctuation may cause errors. Provide either full punctuation or none. In case of a proper punctuation and circular display the start indicator will be displayed. You can choose the amout of stacking.
+
+### What To Expect
+<img src="assets/Gallifreyan_klɒkwɜɹk lineɛ..svg" alt="clockwork gallifreyan linear displayed" />
+<img src="assets/Gallifreyan_klɒkwɜɹk siɹkjulɛ..svg" alt="clockwork gallifreyan circular displayed" />
+
+---
 ## cBettenbender's
 
 By time of implementing this writing system the instructions were still described as unfinished and surely felt a bit unclear. To make matters worse the initial publication was long time ago. Although the first page of the documentation describes the system as literal without phonetic replacements for consonants, some latin characters are missing, examples lead to other conclusions and vowels are most definetly described as phonetic. So after all there has to be a keyboard that limits allowed characters and inserts respective ipa-vowels. Grouping characters happens by syllables, but since putting this into an algorithm is currently beyond the ability of this helper you'll have to group by splitting character groupy by your own.
@@ -225,6 +247,7 @@ along with the GTH.  If not, see <https://www.gnu.org/licenses/>.
 [SCG]: https://shermansplanet.com/gallifreyan/guide.pdf
 [TCG]: https://tardisconsolegallifreyan.weebly.com/tutorials.html
 [DCG]: https://doctorscotgallifreyan.com/walk-through/4lnekzojej4p5klcph0ppntibb19ib
+[CW]: https://fyeahgallifreyan.tumblr.com/post/49952734330/clockwork-gallifreyan-complete-writing-guide
 [CB]: https://www.deviantart.com/cbettenbender/gallery/33798145/circular-gallifreyan
 [CC]: https://www.deviantart.com/gumex/art/CC-Gallifreyan-458112363
 [DS]: https://www.deviantart.com/rachelsutherland/gallery/58931409/dotscript-gallifreyan-guide
