@@ -209,8 +209,8 @@ function clockworkDraw(ctx, letter, grouped) {
 	// print character translation above the drawings
 	let fontsize = parseFloat(getComputedStyle(document.body, null).fontSize),
 		distance;
-	if (option.circular) distance = wordCircleRadius + glyphSize * grouped.resize * 4.5;
-	else distance = -glyphSize * grouped.resize * 4;
+	if (option.circular) distance = wordCircleRadius + glyphSize * .5 * stackedGlyph;
+	else distance = -glyphSize * .5 * stackedGlyph;
 	if (grouped.offset == 0) ctx.drawText(grouped.currentGroupText, {
 		x: x - distance * Math.sin(Math.PI * rad),
 		y: y + distance * Math.cos(Math.PI * rad) + fontsize * .25
