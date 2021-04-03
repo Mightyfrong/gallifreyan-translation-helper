@@ -1,21 +1,56 @@
-import { render as renderShermans } from './shermans/render.js';
-import { render as renderTARDISConsole } from './tardisconsole2/render.js';
-import { render as renderDoctorsCot } from './doctorsCot/render.js';
-import { render as renderFlux } from './flux/render.js';
-import { render as renderClockwork } from './clockwork/render.js';
-import { render as renderCC } from './cc/render.js';
-import { render as renderDotscript } from './dotscript/render.js';
-import { render as renderABB } from './artbyboredom/render.js';
-import { render as renderCB } from './cbettenbender/render.js';
-import { render as renderDF } from './darkifaerie/render.js';
-import { render as renderBPJM } from './bpjmarriott/render.js';
-import { render as renderF } from './oddism/render.js';
-import { createKeyboard } from './doctorsCot/setup.js';
-import { createoddKeyboard } from './oddism/setup.js';
-import { createClockworkKeyboard } from './clockwork/setup.js';
+import {
+	render as renderShermans
+} from './shermans/render.js';
+import {
+	render as renderTARDISConsole
+} from './tardisconsole2/render.js';
+import {
+	render as renderDoctorsCot
+} from './doctorsCot/render.js';
+import {
+	render as renderFlux
+} from './flux/render.js';
+import {
+	render as renderClockwork
+} from './clockwork/render.js';
+import {
+	render as renderCC
+} from './cc/render.js';
+import {
+	render as renderDotscript
+} from './dotscript/render.js';
+import {
+	render as renderABB
+} from './artbyboredom/render.js';
+import {
+	render as renderCB
+} from './cbettenbender/render.js';
+import {
+	render as renderDF
+} from './darkifaerie/render.js';
+import {
+	render as renderBPJM
+} from './bpjmarriott/render.js';
+import {
+	render as renderODD
+} from './oddism/render.js';
+import {
+	createKeyboard as createCotKeyboard
+} from './doctorsCot/setup.js';
+import {
+	createKeyboard as createoddKeyboard
+} from './oddism/setup.js';
+import {
+	createKeyboard as createClockworkKeyboard
+} from './clockwork/setup.js';
 
-import { MySelect } from './utils/MySelect.js';
-import { unsupportedChars, renderOpts } from './utils/funcs.js';
+import {
+	MySelect
+} from './utils/MySelect.js';
+import {
+	unsupportedChars,
+	renderOpts
+} from './utils/funcs.js';
 
 // initialize fetching unsupported characters
 export const unsupportedCharacters = new unsupportedChars();
@@ -24,10 +59,11 @@ export const unsupportedCharacters = new unsupportedChars();
 export const langSelect = document.getElementById('language');
 const langControls = document.getElementById('lang-controls');
 
-const cotOpts = document.getElementById('cot-options');
-const cwOpts = document.getElementById('clockwork-options');
-const cbettenbenders = document.getElementById('cbettenbenders');
-const oddism = document.getElementById('oddism');
+const keyoptions = document.getElementById('keyoptions');
+const cotkeys = document.getElementById('cot-keys');
+const cwkeys = document.getElementById('clockwork-keys');
+const oddismkeys = document.getElementById('oddism-keys');
+const cbkeys = document.getElementById('cbettenbenders-keys');
 
 export const renderOptions = new renderOpts();
 
@@ -36,7 +72,7 @@ const img = document.getElementById('output-img');
 // Init language selector & constants
 customElements.define('my-select', MySelect);
 const langs = langSelect.querySelectorAll('input');
-const [SHERMAN, COT, TARDIS, FLUX, CW, CB, CC, DOT, ABB, DF, BPJM, F] = [...langs].map(input => input.value);
+const [SHERMAN, COT, TARDIS, FLUX, CW, CB, CC, DOT, ABB, DF, BPJM, ODD] = [...langs].map(input => input.value);
 
 // Event Callbacks
 export function translate(event) {
@@ -80,8 +116,8 @@ export function translate(event) {
 		case BPJM:
 			svg = renderBPJM(input);
 			break;
-		case F:
-			svg = renderF(input);
+		case ODD:
+			svg = renderODD(input);
 			break;
 		default:
 			svg = renderShermans(input);
@@ -115,18 +151,21 @@ export function activateControls(lang) {
 			break;
 		case COT:
 			renderOptions.display([]);
-			cotOpts.classList.toggle('active');
+			keyoptions.classList.toggle('active');
+			cotkeys.classList.toggle('active');
 			break;
 		case CW:
-			renderOptions.display(["circular","stack"]);
-			cwOpts.classList.toggle('active');
+			renderOptions.display(["circular", "stack"]);
+			keyoptions.classList.toggle('active');
+			cwkeys.classList.toggle('active');
 			break;
 		case CC:
 			renderOptions.display(["stack"]);
 			break;
 		case CB:
 			renderOptions.display([]);
-			cbettenbenders.classList.toggle('active');
+			keyoptions.classList.toggle('active');
+			cbkeys.classList.toggle('active');
 			break;
 		case DF:
 			renderOptions.display(["circular"]);
@@ -134,8 +173,10 @@ export function activateControls(lang) {
 		case TARDIS:
 			renderOptions.display(["circular"]);
 			break;
-		case F:
-			oddism.classList.toggle('active');
+		case ODD:
+			renderOptions.display([]);
+			keyoptions.classList.toggle('active');
+			oddismkeys.classList.toggle('active');
 			break;
 		default:
 			renderOptions.display([]);
@@ -143,15 +184,23 @@ export function activateControls(lang) {
 	window.localStorage.setItem("selectedLang", lang);
 }
 
-Array.prototype.forEach.call(document.querySelectorAll('input[type=radio][name="cotsystem"]'), function (radio) {
-	radio.addEventListener('change', createKeyboard);
+Array.prototype.forEach.call(document.querySelectorAll('input[type=radio][name="keyboard"]'), function (radio) {
+	radio.addEventListener('change', keyboardupdate);
 });
-Array.prototype.forEach.call(document.querySelectorAll('input[type=radio][name="oddismsystem"]'), function (radio) {
-	radio.addEventListener('change', createoddKeyboard);
-});
-Array.prototype.forEach.call(document.querySelectorAll('input[type=radio][name="cwsystem"]'), function (radio) {
-	radio.addEventListener('change', createClockworkKeyboard);
-});
+
+function keyboardupdate() {
+	switch (langSelect.value) {
+		case COT:
+			createCotKeyboard();
+			break;
+		case CW:
+			createClockworkKeyboard();
+			break;
+		case ODD:
+			createoddKeyboard();
+			break;
+	}
+}
 
 /**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR
  *

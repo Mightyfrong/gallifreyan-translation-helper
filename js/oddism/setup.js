@@ -1,6 +1,9 @@
 import {
 	oddismGlyphs
 } from './oddismGlyphs.js';
+import {
+	keyboard
+} from '../utils/funcs.js'
 
 export const character = {
 	width: 54,
@@ -8,28 +11,72 @@ export const character = {
 }; // dimensions of characters, keep ratio on resizing
 export const linewidth = 1; // line weight factor
 
-function oddKeyboard(appendTo, writeTo, keys) {
-	const keyWrapper = document.createElement('div');
-	keys.forEach(char => {
-		const keyInput = document.createElement('div');
-		keyInput.innerHTML = char[0];
-		keyInput.onclick = () => {
-			const pos0 = writeTo.selectionStart;
-			const pos1 = writeTo.selectionEnd;
-			const val = writeTo.value;
-			writeTo.value = val.slice(0, pos0) + char[1] + val.slice(pos1);
-			writeTo.focus();
-			writeTo.selectionStart = writeTo.selectionEnd = pos0 + char.length;
-		}
-		keyWrapper.appendChild(keyInput);
-	});
-	appendTo.appendChild(keyWrapper);
+export function createKeyboard() {
+	document.getElementById('oddismconsonants').innerHTML = document.getElementById('oddismvowels').innerHTML = "";
+	if (document.getElementById('ipakeys').checked) {
+		keyboard(document.getElementById('oddismconsonants'), document.getElementById('text'), oddismGlyphs.getKeys("consonants"));
+		keyboard(document.getElementById('oddismvowels'), document.getElementById('text'), oddismGlyphs.getKeys("vowels"));
+	}
+	else if (document.getElementById('enkeys').checked) {
+		keyboard(document.getElementById('oddismconsonants'), document.getElementById('text'), alternativeKeyboard.en.consonants);
+		keyboard(document.getElementById('oddismvowels'), document.getElementById('text'), alternativeKeyboard.en.vowels);
+	}
 }
 
-export function createoddKeyboard() {
-	document.getElementById('oddismconsonants').innerHTML = document.getElementById('oddismvowels').innerHTML = "";
-	oddKeyboard(document.getElementById('oddismconsonants'), document.getElementById('text'), oddismGlyphs.getKeys("consonants", document.getElementById('oddismen').checked));
-	oddKeyboard(document.getElementById('oddismvowels'), document.getElementById('text'), oddismGlyphs.getKeys("vowels", document.getElementById('oddismen').checked));
+const alternativeKeyboard = {
+	//[display and insert]
+	en: {
+		consonants: [
+			[
+				["la<b>b</b>","b"],
+				["di<b>d</b>","d"],
+				["<b>f</b>ind","f"],
+				["<b>g</b>ive","g"],
+				["<b>h</b>ow","h"],
+				["<b>c</b>at","k"],
+				["<b>l</b>eg","l"],
+				["<b>m</b>an","m"],
+				["<b>n</b>o","n"],
+				["si<b>ng</b>","ŋ"],
+				["<b>p</b>et","p"],
+				["<b>r</b>ed","r"],
+				["<b>s</b>un","s"],
+				["<b>sh</b>e","ʃ"],
+				["<b>t</b>ea","t"],
+				["<b>ch</b>eck","tʃ"],
+				["<b>th</b>ink","θ"],
+				["<b>v</b>oice","v"],
+				["<b>w</b>et","w"],
+				["<b>z</b>oo","z"],
+				["plea<b>s</b>ure","ʒ"],
+				["<b>j</b>ust","dʒ"]
+			]
+		],
+		vowels: [
+			[
+				["<b>a</b>rm","ɑ"],
+				["c<b>a</b>t","æ"],
+				["m<b>e</b>t","ɛ"],
+				["<b>a</b>way","ə"],
+				["t<b>ur</b>n","ɝ"],
+				["h<b>i</b>t","ɪ"],
+				["s<b>ee</b>","i"],
+				["h<b>o</b>t","ɒ"],
+				["c<b>a</b>ll","ɔ"],
+				["p<b>u</b>t","ʊ"],
+				["t<b>oo</b>","u"],
+				["f<b>i</b>ve","aɪ"],
+				["n<b>ow</b>","aʊ"],
+				["s<b>ay</b>","eɪ"],
+				["<b>y</b>es","j"],
+				["g<b>o</b>","oʊ"],
+				["b<b>oy</b>","ɔɪ"],
+				["wh<b>ere</b>","ɛə"],
+				["n<b>ear</b>","ɪə"],
+				["p<b>ure</b>","ʊə"]
+			]
+		]
+	}
 }
 
 /**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR

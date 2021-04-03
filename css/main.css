@@ -165,6 +165,7 @@ span {
 	display: block;
 	text-align: left;
 	margin-bottom: .5em;
+	user-select: none;
 }
 
 .keys>div {

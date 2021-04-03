@@ -1,7 +1,7 @@
-import { createKeyboard } from './doctorsCot/setup.js';
-import { createoddKeyboard } from './oddism/setup.js';
-import { createCBKeyboard } from './cbettenbender/setup.js';
-import { createClockworkKeyboard } from './clockwork/setup.js';
+import { createKeyboard as createCotKeyboard } from './doctorsCot/setup.js';
+import { createKeyboard as createOddKeyboard } from './oddism/setup.js';
+import { createKeyboard as createCBKeyboard } from './cbettenbender/setup.js';
+import { createKeyboard as createClockworkKeyboard } from './clockwork/setup.js';
 
 import { UILanguage } from './utils/UILanguage.js';
 import { selectLang, translate, activateControls, langSelect } from './event_callbacks.js';
@@ -11,11 +11,11 @@ langSelect.addEventListener('select', selectLang);
 document.forms[0].addEventListener('submit', translate);
 
 // Init UI elementss
-createKeyboard();
+createCotKeyboard();
 
 createCBKeyboard();
 
-createoddKeyboard();
+createOddKeyboard();
 
 createClockworkKeyboard();
 

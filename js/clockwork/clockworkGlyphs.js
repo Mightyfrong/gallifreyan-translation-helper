@@ -482,7 +482,7 @@ export class clockworkConsonants {
 		Object.keys(this.glyphs).forEach(key => {
 			keys.push([key, key]);
 		});
-		return keys;
+		return [keys];
 	}
 }
 
@@ -965,7 +965,7 @@ export class clockworkVowels {
 		Object.keys(this.glyphs).forEach(key => {
 			keys.push([key, key]);
 		});
-		return keys;
+		return [keys];
 	}
 }
 
@@ -1080,7 +1080,7 @@ export class clockworkPunctuation {
 		Object.keys(this.glyphs).forEach(key => {
 			if (key != "start") keys.push([key, key]);
 		});
-		return keys;
+		return [keys];
 	}
 }
 /**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR

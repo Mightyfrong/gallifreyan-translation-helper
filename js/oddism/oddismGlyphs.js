@@ -171,12 +171,12 @@ export const oddismGlyphs = {
             altkey: "<b>j</b>ust"
         }
     },
-    getKeys: function (what, alt = false) {
+    getKeys: function (what) {
         let keys = [];
         Object.keys(this[what]).forEach(char => {
-            keys.push([alt ? this[what][char].altkey : char, char]);
+            keys.push([char, char]);
         });
-        return keys;
+        return [keys];
     }
 };
 

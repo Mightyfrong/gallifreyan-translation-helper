@@ -12,13 +12,13 @@ export const cwConsonants = new clockworkConsonants();
 export const cwVowels = new clockworkVowels();
 export const cwPunctuation = new clockworkPunctuation();
 
-export function createClockworkKeyboard() {
+export function createKeyboard() {
 	document.getElementById('cwconsonants').innerHTML = document.getElementById('cwvowels').innerHTML = document.getElementById('cwpunctuation').innerHTML = "";
-	if (document.getElementById('cwipa').checked) {
+	if (document.getElementById('ipakeys').checked) {
 		keyboard(document.getElementById('cwconsonants'), document.getElementById('text'), cwConsonants.keyCollection());
 		keyboard(document.getElementById('cwvowels'), document.getElementById('text'), cwVowels.keyCollection());
 		keyboard(document.getElementById('cwpunctuation'), document.getElementById('text'), cwPunctuation.keyCollection());
-	} else if (document.getElementById('cwen').checked) {
+	} else if (document.getElementById('enkeys').checked) {
 		keyboard(document.getElementById('cwconsonants'), document.getElementById('text'), alternativeKeyboard.en.consonants);
 		keyboard(document.getElementById('cwvowels'), document.getElementById('text'), alternativeKeyboard.en.vowels);
 		keyboard(document.getElementById('cwpunctuation'), document.getElementById('text'), cwPunctuation.keyCollection());

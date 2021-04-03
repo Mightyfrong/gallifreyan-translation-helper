@@ -79,13 +79,13 @@ export class renderOpts {
 	get() {
 		let output = {};
 		this.value.forEach(id => {
-			output[id] = document.getElementById(id).style.display == 'none' ? false : document.getElementById(id).value;
+			output[id] = document.getElementById(id).parentElement.style.display == 'none' ? false : document.getElementById(id).value;
 		});
 		this.option.forEach(id => {
-			output[id] = document.getElementById(id).style.display == 'none' ? false : document.getElementById(id).options[document.getElementById(id).selectedIndex].value;
+			output[id] = document.getElementById(id).parentElement.style.display == 'none' ? false : document.getElementById(id).options[document.getElementById(id).selectedIndex].value;
 		});
 		this.checked.forEach(id => {
-			output[id] = document.getElementById(id).style.display == 'none' ? false : (document.getElementById(id).checked ? true : false);
+			output[id] = document.getElementById(id).parentElement.style.display == 'none' ? false : (document.getElementById(id).checked ? true : false);
 		});
 
 		output.fontsize = parseFloat(getComputedStyle(document.body, null).fontSize);
@@ -94,23 +94,24 @@ export class renderOpts {
 }
 
 export function keyboard(appendTo, writeTo, keys) {
-	const keyWrapper = document.createElement('div'); // wrapper for grouping, e.g. rows
-	keys.forEach(char => {
-		const keyInput = document.createElement('div');
-		keyInput.innerHTML = char[0];
-		keyInput.onclick = () => {
-			const pos0 = writeTo.selectionStart;
-			const pos1 = writeTo.selectionEnd;
-			const val = writeTo.value;
-			let ch = char[1];
-			if (ch.length > 1) ch = "/" + ch + "/";
-			writeTo.value = val.slice(0, pos0) + ch + val.slice(pos1);
-			writeTo.focus();
-			writeTo.selectionStart = writeTo.selectionEnd = pos0 + ch.length;
-		}
-		keyWrapper.appendChild(keyInput);
+	// keys is expected to be a twodimensional array of rows and keys
+	keys.forEach(row => {
+		const keyRow = document.createElement('div');
+		row.forEach(char => {
+			const keyInput = document.createElement('div');
+			keyInput.innerHTML = char[0];
+			keyInput.onclick = () => {
+				const pos0 = writeTo.selectionStart;
+				const pos1 = writeTo.selectionEnd;
+				const val = writeTo.value;
+				writeTo.value = val.slice(0, pos0) + char[1] + val.slice(pos1);
+				writeTo.focus();
+				writeTo.selectionStart = writeTo.selectionEnd = pos0 + char.length;
+			}
+			keyRow.appendChild(keyInput);
+		});
+		appendTo.appendChild(keyRow);
 	});
-	appendTo.appendChild(keyWrapper);
 }
 
 /**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR

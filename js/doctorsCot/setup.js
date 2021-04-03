@@ -2,39 +2,22 @@ import {
 	cotConsonants,
 	cotVowels
 } from './doctorsCotGlyphs.js';
+import {
+	keyboard
+} from '../utils/funcs.js'
 
 export const glyphSize = 50; // radius of glyphs
 export const dc2Consonants = new cotConsonants();
 export const dc2Vowels = new cotVowels();
 
-function cotKeyboard(appendTo, writeTo, keys) {
-	keys.forEach(row => {
-		const keyRow = document.createElement('div');
-		row.forEach(char => {
-			const keyInput = document.createElement('div');
-			keyInput.innerHTML = char[0];
-			keyInput.onclick = () => {
-				const pos0 = writeTo.selectionStart;
-				const pos1 = writeTo.selectionEnd;
-				const val = writeTo.value;
-				writeTo.value = val.slice(0, pos0) + char[1] + val.slice(pos1);
-				writeTo.focus();
-				writeTo.selectionStart = writeTo.selectionEnd = pos0 + char.length;
-			}
-			keyRow.appendChild(keyInput);
-		});
-		appendTo.appendChild(keyRow);
-	});
-}
-
 export function createKeyboard() {
 	document.getElementById('dcconsonants').innerHTML = document.getElementById('dcvowels').innerHTML = "";
-	if (document.getElementById('cotipa').checked) {
-		cotKeyboard(document.getElementById('dcconsonants'), document.getElementById('text'), dc2Consonants.keyCollection());
-		cotKeyboard(document.getElementById('dcvowels'), document.getElementById('text'), dc2Vowels.keyCollection());
-	} else if (document.getElementById('coten').checked) {
-		cotKeyboard(document.getElementById('dcconsonants'), document.getElementById('text'), alternativeKeyboard.en.consonants);
-		cotKeyboard(document.getElementById('dcvowels'), document.getElementById('text'), alternativeKeyboard.en.vowels);
+	if (document.getElementById('ipakeys').checked) {
+		keyboard(document.getElementById('dcconsonants'), document.getElementById('text'), dc2Consonants.keyCollection());
+		keyboard(document.getElementById('dcvowels'), document.getElementById('text'), dc2Vowels.keyCollection());
+	} else if (document.getElementById('enkeys').checked) {
+		keyboard(document.getElementById('dcconsonants'), document.getElementById('text'), alternativeKeyboard.en.consonants);
+		keyboard(document.getElementById('dcvowels'), document.getElementById('text'), alternativeKeyboard.en.vowels);
 	}
 }
 

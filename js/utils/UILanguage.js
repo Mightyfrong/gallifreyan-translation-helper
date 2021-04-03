@@ -12,27 +12,22 @@ export let UILanguage = {
 			de: "Hilf bei",
 			lt: "Padėti su"
 		},
-		scgcirc: {
+		circular: {
 			en: "circular words",
 			de: "kreisförmige Wörter",
 			lt: "žiediniai žodžiai"
 		},
-		scgc: {
+		convertc: {
 			en: "convert C",
 			de: "C umwandeln",
 			lt: "konvertuoti C"
 		},
-		scgg: {
+		stacking: {
 			en: "character stacking",
 			de: "gruppierte Buchstaben",
 			lt: "simbolių kaupimas"
 		},
-		fluxcirc: {
-			en: "circular words",
-			de: "kreisförmige Wörter",
-			lt: "žiediniai žodžiai"
-		},
-		ccstack: {
+		stack: {
 			en: "Maximum stacked characters",
 			de: "Maximal gruppierte Buchstaben",
 			lt: "Didžiausias sukauptų simbolių skaičius"
@@ -43,14 +38,9 @@ export let UILanguage = {
 			lt: " IPA klaviatūra"
 		},
 		enkeys: {
-			en: " english keyboard",
-			de: " englische Tastatur",
-			lt: " angliška klaviatūra"
-		},
-		phonetickeys: {
-			en: " phonetic keyboard",
-			de: " lautsprachliche Tastatur",
-			lt: " fonetinė klaviatūra"
+			en: " phonetic/english keyboard",
+			de: " lautsprachliche/englische Tastatur",
+			lt: " fonetinė/angliška klaviatūra"
 		},
 		cotaleph: {
 			en: "Please add aleph (א) to lonely vowels manually",
@@ -61,21 +51,6 @@ export let UILanguage = {
 			en: "Please separate syllables manually with a space",
 			de: "Silben bitte manuell mit Leerzeichen trennen",
 			lt: "Skydus rankiniu būdu atskirkite tarpais"
-		},
-		dlsllang: {
-			en: " linear",
-			de: " Linear",
-			lt: " linijinis"
-		},
-		dlsclang: {
-			en: " circular",
-			de: " Kreisförmig",
-			lt: " žiedinis"
-		},
-		cwcirc: {
-			en: "circular sentences",
-			de: "kreisförmige Sätze",
-			lt: "Žiedų rinkiniai "
 		},
 		cwhint:{
 			en: "Inconsistent use of punctuation may cause errors. Provide either full punctuation or none.",
@@ -133,13 +108,13 @@ export let UILanguage = {
 	init: function () {
 		//overwrite initial rendered text putputs
 		document.getElementById("helpwith").innerHTML = this.write('helpwith');
-		document.getElementById("cotipalang").innerHTML = this.write('ipakeys');
-		document.getElementById("cotenlang").innerHTML = this.write('enkeys');
+		document.getElementById("circular").parentElement.innerText = this.write('circular');
+		document.getElementById("convertc").parentElement.innerText = this.write('convertc');
+		document.getElementById("stacking").parentElement.innerText = this.write('stacking');
+		document.getElementById("stack").parentElement.innerText = this.write('stack');
+		document.getElementById("ipakeys").parentElement.innerText = this.write('ipakeys');
+		document.getElementById("enkeys").parentElement.innerText = this.write('enkeys');
 		document.getElementById("bettenbendersyllable").innerHTML = this.write('bettenbendersyllable');
-		document.getElementById("oddismenlang").innerHTML = this.write('phonetickeys');
-		document.getElementById("oddismipalang").innerHTML = this.write('ipakeys');
-		document.getElementById("cwipalang").innerHTML = this.write('ipakeys');
-		document.getElementById("cwenlang").innerHTML = this.write('phonetickeys');
 		document.getElementById("cwhint").innerHTML = this.write('cwhint');
 		document.getElementById("text").placeholder = this.write('inputplaceholder');
 		document.getElementById("renderbutton").value = this.write('renderbutton');
