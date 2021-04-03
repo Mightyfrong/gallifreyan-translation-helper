@@ -15,24 +15,21 @@ import { createoddKeyboard } from './oddism/setup.js';
 import { createClockworkKeyboard } from './clockwork/setup.js';
 
 import { MySelect } from './utils/MySelect.js';
+import { unsupportedChars, renderOpts } from './utils/funcs.js';
 
 // initialize fetching unsupported characters
-import {unsupportedChars} from './utils/funcs.js';
-export const unsupportedCharacters=new unsupportedChars();
+export const unsupportedCharacters = new unsupportedChars();
 
 // Get hooks for main UI elements
 export const langSelect = document.getElementById('language');
 const langControls = document.getElementById('lang-controls');
 
-const shermansOpts = document.getElementById('shermans-options');
-const fluxOpts = document.getElementById('flux-options');
-const ccOpts = document.getElementById('cc-options');
 const cotOpts = document.getElementById('cot-options');
 const cwOpts = document.getElementById('clockwork-options');
 const cbettenbenders = document.getElementById('cbettenbenders');
-const darkifaerie = document.getElementById('darkifaerie');
-const tardisconsole = document.getElementById('tardisconsole');
 const oddism = document.getElementById('oddism');
+
+export const renderOptions = new renderOpts();
 
 const img = document.getElementById('output-img');
 
@@ -111,32 +108,37 @@ export function selectLang(event) {
 export function activateControls(lang) {
 	switch (lang) {
 		case SHERMAN:
-			shermansOpts.classList.toggle('active');
+			renderOptions.display(["circular", "convertc", "stacking"]);
 			break;
 		case FLUX:
-			fluxOpts.classList.toggle('active');
+			renderOptions.display(["circular"]);
 			break;
 		case COT:
+			renderOptions.display([]);
 			cotOpts.classList.toggle('active');
 			break;
 		case CW:
+			renderOptions.display(["circular","stack"]);
 			cwOpts.classList.toggle('active');
 			break;
 		case CC:
-			ccOpts.classList.toggle('active');
+			renderOptions.display(["stack"]);
 			break;
 		case CB:
+			renderOptions.display([]);
 			cbettenbenders.classList.toggle('active');
 			break;
 		case DF:
-			darkifaerie.classList.toggle('active');
+			renderOptions.display(["circular"]);
 			break;
 		case TARDIS:
-			tardisconsole.classList.toggle('active');
+			renderOptions.display(["circular"]);
 			break;
 		case F:
 			oddism.classList.toggle('active');
 			break;
+		default:
+			renderOptions.display([]);
 	}
 	window.localStorage.setItem("selectedLang", lang);
 }

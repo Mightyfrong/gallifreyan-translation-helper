@@ -2,13 +2,10 @@ import {
 	includes
 } from '../utils/funcs.js'
 import {
-	UILanguage
-} from '../utils/UILanguage.js'
-import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
 import {
-	unsupportedCharacters
+	unsupportedCharacters, renderOptions
 } from '../event_callbacks.js';
 
 let consonant = 30; // radius of consonants
@@ -19,6 +16,7 @@ let x; // current coordinate x
 let y; // current coordinate y
 let letterwidth; // you'll figure that one out for yourself
 let letterheight; // you'll figure that one out for yourself
+let option;
 
 //specify forms and positions
 let characters = {
@@ -28,7 +26,7 @@ let characters = {
 				cx: x,
 				cy: y,
 				r: size,
-				fill: document.getElementById('backgroundcolor').value
+				fill: option.backgroundcolor
 			});
 		},
 		doublecircle: function (ctx, x, y, size) {
@@ -36,7 +34,7 @@ let characters = {
 				cx: x,
 				cy: y,
 				r: size,
-				fill: document.getElementById('backgroundcolor').value
+				fill: option.backgroundcolor
 			});
 			ctx.drawShape('circle', 1, {
 				cx: x,
@@ -47,7 +45,7 @@ let characters = {
 		divotcircle: function (ctx, x, y, size) {
 			ctx.drawShape('path', 1, {
 				d: ctx.circularArc(x, y, size, Math.PI * 1.74, Math.PI * 1.4,"major"),
-				fill: document.getElementById('backgroundcolor').value
+				fill: option.backgroundcolor
 			});
 			ctx.drawShape('path', 1, {
 				d: ctx.circularArc(x + Math.cos(Math.PI * 1.575) * size, y + Math.sin(Math.PI * 1.575) * size, size * .5, Math.PI * .15, Math.PI * 1,"major")
@@ -78,11 +76,11 @@ let characters = {
 		z: function (ctx, x, y, size) {
 			ctx.drawShape('path', 1, {
 				d: ctx.circularArc(x, y, size, Math.PI * .65, Math.PI * 1.65),
-				fill: document.getElementById('backgroundcolor').value
+				fill: option.backgroundcolor
 			});
 			ctx.drawShape('path', 1, {
 				d: ctx.circularArc(x, y, size * .6, Math.PI * 1.65, Math.PI * 2.65),
-				fill: document.getElementById('backgroundcolor').value
+				fill: option.backgroundcolor
 			});
 			ctx.drawShape('line', 1, {
 				x1: x + Math.cos(Math.PI * 1.65) * size,
@@ -240,6 +238,7 @@ let characters = {
 
 // scroll through input and draw every letter
 export function render(input) {
+	option=renderOptions.get();
 	// initialize widths, heights, default-values, draw-object
 	input = input.toLowerCase();
 	letterwidth = consonant * 1.5;

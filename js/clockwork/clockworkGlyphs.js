@@ -1,3 +1,7 @@
+import {
+	renderOptions
+} from '../event_callbacks.js';
+
 export class clockworkConsonants {
 	constructor() {
 		this.glyphs = {
@@ -10,7 +14,7 @@ export class clockworkConsonants {
 						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
 						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
 						r: 8,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 				}
 			},
@@ -25,7 +29,7 @@ export class clockworkConsonants {
 						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
 						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
 						r: 8,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 				}
 			},
@@ -54,7 +58,7 @@ export class clockworkConsonants {
 						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
 						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
 						r: 8,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 				}
 			},
@@ -101,7 +105,7 @@ export class clockworkConsonants {
 						cx: x - Math.cos(Math.PI * (.85 + tilt)) * r * .4,
 						cy: y - Math.sin(Math.PI * (.85 + tilt)) * r * .4,
 						r: 8,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('line', 4, {
 						x1: x - Math.cos(Math.PI * (1.1 + tilt)) * r * 1.7,
@@ -126,7 +130,7 @@ export class clockworkConsonants {
 						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
 						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
 						r: 8,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 				}
 			},
@@ -195,7 +199,7 @@ export class clockworkConsonants {
 						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
 						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
 						r: 8,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 				}
 			},
@@ -217,7 +221,7 @@ export class clockworkConsonants {
 						cx: x + Math.cos(Math.PI * (1.85 + tilt)) * r * 1.5,
 						cy: y + Math.sin(Math.PI * (1.85 + tilt)) * r * 1.5,
 						r: 8,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 
 					r *= .7;
@@ -233,7 +237,7 @@ export class clockworkConsonants {
 						cx: x + Math.cos(Math.PI * (.85 + tilt)) * r,
 						cy: y + Math.sin(Math.PI * (.85 + tilt)) * r,
 						r: 8,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 				}
 			},
@@ -271,7 +275,7 @@ export class clockworkConsonants {
 						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
 						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
 						r: 8,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 				}
 			},
@@ -326,7 +330,7 @@ export class clockworkConsonants {
 						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
 						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
 						r: 8,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 				}
 			},
@@ -379,7 +383,7 @@ export class clockworkConsonants {
 						cx: x - Math.cos(Math.PI * (.85 + tilt)) * r * .4,
 						cy: y - Math.sin(Math.PI * (.85 + tilt)) * r * .4,
 						r: 8,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('line', 1, {
 						x1: x - Math.cos(Math.PI * (1.1 + tilt)) * r * 1.7,
@@ -491,7 +495,7 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('line', 1, {
 						x1: x - Math.cos(Math.PI * (0.5 + tilt)) * r,
@@ -507,7 +511,7 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('line', 1, {
 						x1: x - Math.cos(Math.PI * (0.5 + tilt)) * r,
@@ -528,7 +532,7 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('line', 1, {
 						x1: x - Math.cos(Math.PI * (0.5 + tilt)) * r,
@@ -561,7 +565,7 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('line', 1, {
 						x1: x - Math.cos(Math.PI * (0.5 + tilt)) * r,
@@ -573,7 +577,7 @@ export class clockworkVowels {
 						cx: x + Math.cos(Math.PI * (.25 + tilt)) * r,
 						cy: y + Math.sin(Math.PI * (.25 + tilt)) * r,
 						r: 8,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('line', 1, {
 						x1: x + Math.cos(Math.PI * (1.1 + tilt)) * r * 1.7,
@@ -595,7 +599,7 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 1, {
 						cx: x,
@@ -610,7 +614,7 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 1, {
 						cx: x,
@@ -631,7 +635,7 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 1, {
 						cx: x,
@@ -658,7 +662,7 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 1, {
 						cx: x,
@@ -669,7 +673,7 @@ export class clockworkVowels {
 						cx: x + Math.cos(Math.PI * (1.5 + tilt)) * r,
 						cy: y + Math.sin(Math.PI * (1.5 + tilt)) * r,
 						r: 8,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('line', 1, {
 						x1: x + Math.cos(Math.PI * (1.1 + tilt)) * r * 1.7,
@@ -691,7 +695,7 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('line', 1, {
 						x1: x - Math.cos(Math.PI * (0.5 + tilt)) * r,
@@ -707,7 +711,7 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 4, {
 						cx: x,
@@ -728,7 +732,7 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 4, {
 						cx: x,
@@ -761,13 +765,13 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 1, {
 						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
 						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
 						r: 8,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('line', 1, {
 						x1: x - Math.cos(Math.PI * (0.5 + tilt)) * r,
@@ -795,7 +799,7 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 0, {
 						cx: x,
@@ -810,7 +814,7 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 1, {
 						cx: x,
@@ -836,7 +840,7 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 0, {
 						cx: x,
@@ -863,7 +867,7 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 0, {
 						cx: x,
@@ -874,7 +878,7 @@ export class clockworkVowels {
 						cx: x + Math.cos(Math.PI * (1.5 + tilt)) * r,
 						cy: y + Math.sin(Math.PI * (1.5 + tilt)) * r,
 						r: 8,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('line', 1, {
 						x1: x + Math.cos(Math.PI * (1.1 + tilt)) * r * 1.7,
@@ -896,7 +900,7 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 4, {
 						cx: x,
@@ -911,7 +915,7 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 4, {
 						cx: x,
@@ -922,7 +926,7 @@ export class clockworkVowels {
 						cx: x + Math.cos(Math.PI * (1.5 + tilt)) * r,
 						cy: y + Math.sin(Math.PI * (1.5 + tilt)) * r,
 						r: 8,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('line', 1, {
 						x1: x + Math.cos(Math.PI * (1.1 + tilt)) * r * 1.7,
@@ -944,7 +948,7 @@ export class clockworkVowels {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 0, {
 						cx: x,

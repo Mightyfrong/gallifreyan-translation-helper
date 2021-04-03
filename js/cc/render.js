@@ -12,10 +12,7 @@ import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
 import {
-	UILanguage
-} from '../utils/UILanguage.js'
-import {
-	unsupportedCharacters
+	unsupportedCharacters, renderOptions
 } from '../event_callbacks.js';
 
 let width; // canvas width
@@ -25,27 +22,28 @@ let y; // current coordinate y
 let letterwidth; // you'll figure that one out for yourself
 let letterheight; // you'll figure that one out for yourself
 let groupedInput; //global variable for input to be updated
+let option;
 
 const base = new ccBase();
 const deco = new ccDeco();
 
 export function render(input) {
-	// convert input-string to grouped array and determine number of groups
+	option=renderOptions.get();
+		// convert input-string to grouped array and determine number of groups
 	groupedInput = ccGrouped.groups(input.toLowerCase());
-	let maxstack = 1,
-		lettergroups = 0;
+	let lettergroups = 0;
 
 	groupedInput.forEach(word => {
 		word.forEach(groups => {
 			groups.forEach(group => { // determine maximum expansion due to stacking and amount of groups
-				if (maxstack < 1 + .6 * group.length) maxstack = 1 + .6 * group.length;
+				if (option.stack < 1 + .6 * group.length) option.stack = 1 + .6 * group.length;
 				lettergroups++;
 			});
 		});
 		lettergroups++;
 	})
 	// initialize widths, heights, default-values, draw-object
-	letterwidth = consonant * maxstack;
+	letterwidth = consonant * option.stack;
 	letterheight = letterwidth * 3;
 	// set canvas scale according to number of groups times letterwidth
 	width = Math.min(lettergroups + 2, Math.floor(window.innerWidth / letterwidth)) * letterwidth - letterwidth;
@@ -92,7 +90,6 @@ let ccGrouped = {
 		splitinput.forEach(sword => {
 			sentence.push([]); // init new word
 			let group = [];
-			let maxstack = document.getElementById("cc-stack").options[document.getElementById("cc-stack").selectedIndex].value;
 			for (var i = 0; i < sword.length; i++) { // iterate through word 
 				var current = sword[i],
 					currenttwo = sword[i] + sword[i + 1];
@@ -101,7 +98,7 @@ let ccGrouped = {
 					current = currenttwo;
 					i++;
 				}
-				if (group.length > 0 && group[group.length - 1].length < maxstack) {
+				if (group.length > 0 && group[group.length - 1].length < option.stack) {
 					// add to former group if not full
 					group[group.length - 1].push(current)
 				} else // create current group

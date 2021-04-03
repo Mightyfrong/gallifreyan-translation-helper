@@ -1,7 +1,4 @@
 import {
-	UILanguage
-} from '../utils/UILanguage.js'
-import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
 import {
@@ -12,16 +9,17 @@ import {
 	linewidth
 } from './setup.js';
 import {
-	unsupportedCharacters
+	unsupportedCharacters, renderOptions
 } from '../event_callbacks.js';
 
 let width; // canvas width
 let height; // canvas height
 let x; // current coordinate x
 let y; // current coordinate y
-
+let option;
 // scroll through input and draw every letter
 export function render(input) {
+	option=renderOptions.get();
 	// initialize widths, heights, default-values, draw-object
 	height = x = y = 0;
 	let groupedInput = input.toLowerCase().split(/\s+/),
@@ -99,7 +97,7 @@ function bpjmDraw(ctx, x, y, glyph) {
 	});
 	ctx.drawShape('path', linewidth, {
 		d: path,
-		fill: glyph.fill ? document.getElementById("foregroundcolor").value : null
+		fill: glyph.fill ? option.foregroundcolor : null
 	});
 }
 

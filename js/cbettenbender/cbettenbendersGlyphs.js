@@ -5,6 +5,9 @@ import {
 	cbConsonant,
 	cbVowel
 } from './setup.js';
+import {
+	renderOptions
+} from '../event_callbacks.js';
 
 export class cbConsonants {
 	constructor() {
@@ -39,7 +42,7 @@ export class cbConsonants {
 								cx: x + r * set.x,
 								cy: y + r * set.y,
 								r: r * set.r,
-								fill: initial ? document.getElementById('backgroundcolor').value : null
+								fill: initial ? renderOptions.get().backgroundcolor : null
 							});
 						});
 					}
@@ -78,7 +81,7 @@ export class cbConsonants {
 								cx: x + r * set.x,
 								cy: y + r * set.y,
 								r: r * set.r,
-								fill: initial ? document.getElementById('backgroundcolor').value : null
+								fill: initial ? renderOptions.get().backgroundcolor : null
 							});
 						});
 					}
@@ -117,7 +120,7 @@ export class cbConsonants {
 								cx: x + r * set.x,
 								cy: y + r * set.y,
 								r: r * set.r,
-								fill: initial ? document.getElementById('backgroundcolor').value : null
+								fill: initial ? renderOptions.get().backgroundcolor : null
 							});
 						});
 						ctx.drawShape('path', 1, {

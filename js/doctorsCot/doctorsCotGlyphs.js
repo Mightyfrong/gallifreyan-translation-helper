@@ -4,6 +4,9 @@ import {
 import {
 	dc2Consonants
 } from './setup.js';
+import {
+	renderOptions
+} from '../event_callbacks.js';
 
 export class cotConsonants {
 	constructor() {
@@ -18,7 +21,7 @@ export class cotConsonants {
 							cx: x,
 							cy: y,
 							r: r,
-							fill: document.getElementById('backgroundcolor').value
+							fill: renderOptions.get().backgroundcolor
 						});
 					}
 				},
@@ -32,7 +35,7 @@ export class cotConsonants {
 							cx: x,
 							cy: y,
 							r: r,
-							fill: document.getElementById('backgroundcolor').value
+							fill: renderOptions.get().backgroundcolor
 						});
 						ctx.drawShape('circle', this.innerline, {
 							cx: x,
@@ -51,7 +54,7 @@ export class cotConsonants {
 							cx: x,
 							cy: y,
 							r: r,
-							fill: document.getElementById('backgroundcolor').value
+							fill: renderOptions.get().backgroundcolor
 						});
 					}
 				},
@@ -65,7 +68,7 @@ export class cotConsonants {
 							cx: x,
 							cy: y,
 							r: r,
-							fill: document.getElementById('backgroundcolor').value
+							fill: renderOptions.get().backgroundcolor
 						});
 						ctx.drawShape('circle', this.innerline, {
 							cx: x,
@@ -84,7 +87,7 @@ export class cotConsonants {
 							cx: x,
 							cy: y,
 							r: r,
-							fill: document.getElementById('backgroundcolor').value
+							fill: renderOptions.get().backgroundcolor
 						});
 						ctx.drawShape('circle', this.innerline, {
 							cx: x,
@@ -103,7 +106,7 @@ export class cotConsonants {
 							cx: x,
 							cy: y,
 							r: r,
-							fill: document.getElementById('backgroundcolor').value
+							fill: renderOptions.get().backgroundcolor
 						});
 						ctx.drawShape('circle', this.innerline, {
 							cx: x,
@@ -354,7 +357,7 @@ export class cotVowels {
 							x + Math.cos(Math.PI * (1.2)) * r * (formerbaserad - .1),
 							y + Math.sin(Math.PI * (1.2)) * r * (formerbaserad - .1),
 							r * .7, Math.PI * (1.8), Math.PI * (.6), "minor"),
-						fill: document.getElementById('backgroundcolor').value
+							fill: renderOptions.get().backgroundcolor
 					});
 					if (lines.innerline)
 						ctx.drawShape('path', lines.innerline, {
@@ -372,7 +375,7 @@ export class cotVowels {
 						cx: x + Math.cos(Math.PI * (1.2)) * r * .7,
 						cy: y + Math.sin(Math.PI * (1.2)) * r * .7,
 						r: r * .25,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					if (lines.innerline)
 						ctx.drawShape('circle', lines.innerline, {
@@ -389,7 +392,7 @@ export class cotVowels {
 						cx: x + Math.cos(Math.PI * (1.2)) * r * .4,
 						cy: y + Math.sin(Math.PI * (1.2)) * r * .4,
 						r: r * .25,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					if (lines.innerline)
 						ctx.drawShape('circle', lines.innerline, {
@@ -406,7 +409,7 @@ export class cotVowels {
 						cx: x + Math.cos(Math.PI * (1.2)) * r * .1,
 						cy: y + Math.sin(Math.PI * (1.2)) * r * .1,
 						r: r * .25,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					if (lines.innerline)
 						ctx.drawShape('circle', lines.innerline, {

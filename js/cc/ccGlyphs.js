@@ -1,6 +1,9 @@
 import {
 	includes,
 } from '../utils/funcs.js';
+import {
+	renderOptions
+} from '../event_callbacks.js';
 
 //specify base for every letter, assign base to latin characters and specify geometric properties
 export class ccBase {
@@ -19,7 +22,7 @@ export class ccBase {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 1, {
 						cx: x,
@@ -35,7 +38,7 @@ export class ccBase {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('line', 1, {
 						x1: x,
@@ -58,7 +61,7 @@ export class ccBase {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('path', 1, {
 						d: ctx.circularArc(x, y, r * .9, Math.PI * (.75 + tilt), Math.PI * (1.25 + tilt),"minor")
@@ -84,7 +87,7 @@ export class ccBase {
 						cx: x,
 						cy: y,
 						r: r,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 3, {
 						cx: x,
@@ -132,7 +135,7 @@ export class ccDeco {
 						cx: x + Math.cos(Math.PI * (1 + tilt)) * r * .9,
 						cy: y + Math.sin(Math.PI * (1 + tilt)) * r * .9,
 						r: r * .1,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 				}
 			},
@@ -143,7 +146,7 @@ export class ccDeco {
 						cx: x + Math.cos(Math.PI * (1 + tilt)) * r * .9,
 						cy: y + Math.sin(Math.PI * (1 + tilt)) * r * .9,
 						r: r * .1,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 1, {
 						cx: x + Math.cos(Math.PI * (1 + tilt)) * r * .9,
@@ -164,7 +167,7 @@ export class ccDeco {
 						cx: x + Math.cos(Math.PI * (.9 + tilt)) * r * .9,
 						cy: y + Math.sin(Math.PI * (.9 + tilt)) * r * .9,
 						r: r * .1,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 				}
 			},
@@ -190,13 +193,13 @@ export class ccDeco {
 						cx: x + Math.cos(Math.PI * (1.1 + tilt)) * r * .9,
 						cy: y + Math.sin(Math.PI * (1.1 + tilt)) * r * .9,
 						r: r * .1,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 1, {
 						cx: x + Math.cos(Math.PI * (.9 + tilt)) * r * .9,
 						cy: y + Math.sin(Math.PI * (.9 + tilt)) * r * .9,
 						r: r * .1,
-						fill: document.getElementById('backgroundcolor').value
+						fill: renderOptions.get().backgroundcolor
 					});
 				}
 			},

@@ -12,7 +12,7 @@ import {
 	lwfactor
 } from './setup.js';
 import {
-	unsupportedCharacters
+	unsupportedCharacters, renderOptions
 } from '../event_callbacks.js';
 
 let width; // canvas width
@@ -24,11 +24,11 @@ let glyph; // global scope for glyph dimensions
 // scroll through input and draw every letter
 export function render(input) {
 	// initialize widths, heights, default-values, draw-object
-	let displayCircular = document.getElementById('dlscircular').checked,
+	let option=renderOptions.get(),
 		groupedInput = input.toLowerCase().split(/\s+/),
 		charX, charY, textX, textY, dia;
 
-	if (displayCircular) {
+	if (option.circular) {
 		let longest = groupedInput.slice();
 		dia = wordcircleRadius(longest.sort(sizesort)[0].length + 1, character) * 2.25;
 		glyph = {
@@ -54,7 +54,7 @@ export function render(input) {
 	//return ctx;
 	// iterate through input
 	groupedInput.forEach(word => {
-		if (displayCircular) {
+		if (option.circular) {
 			// draw word circle
 			dia = wordcircleRadius(word.length + 1, character);
 			ctx.drawShape('circle', lwfactor * 2, {
@@ -65,7 +65,7 @@ export function render(input) {
 		}
 		for (let i = 0; i < word.length; i++) {
 			// define center for character
-			if (displayCircular) {
+			if (option.circular) {
 				let rad = 1.5 + 2 / (word.length) * i;
 				if (rad > 2) rad -= 2;
 				charX = x + Math.cos(Math.PI * rad) * dia * (1 - character / (dia - character * 1.6));
@@ -100,7 +100,7 @@ export function render(input) {
 		// position pointer for word circles or consider space between linear written words
 		if (x + glyph.width >= width) {
 			y += glyph.height;
-			x = glyph.width * (displayCircular ? .5 : 1);
+			x = glyph.width * (option.circular ? .5 : 1);
 		} else x += glyph.width;
 	});
 

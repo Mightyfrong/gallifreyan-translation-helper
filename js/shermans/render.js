@@ -16,7 +16,7 @@ import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
 import {
-	unsupportedCharacters
+	unsupportedCharacters, renderOptions
 } from '../event_callbacks.js';
 
 let cLetter; // is there a "c"?
@@ -45,12 +45,7 @@ const base = new shermansBase(consonant, vowel);
 const deco = new shermansDeco(base);
 
 export function render(input) {
-	//retrieve options and make them compact
-	option = {
-		circular: document.getElementById('scgcirc').checked,
-		chandling: document.getElementById('scgc').checked,
-		grouped: document.getElementById('scgg').checked
-	};
+	option = renderOptions.get();
 
 	// convert input-string to grouped array and determine number of groups
 	groupedInput = shermansGrouped.groups(input.toLowerCase());
@@ -151,7 +146,7 @@ export function render(input) {
 function replacements(word) {
 	let cword = "";
 	for (let i = 0; i < word.length; i++) { // iterate through word 
-		if (word[i] == "c" && option.chandling) {
+		if (word[i] == "c" && option.convertc) {
 			if (word[i + 1] == "h") cword += "c"; // ch is still allowed
 			else if (includes(["e", "i", "y"], word[i + 1])) cword += "s";
 			else cword += "k"; // end of the word
@@ -180,7 +175,7 @@ let shermansGrouped = {
 					current = currenttwo;
 					i++;
 				}
-				if (option.grouped && group.length > 0) {
+				if (option.stacking && group.length > 0) {
 					// add vowels if none or the same, consonants of same base, numbers to former group if selected
 					let former = group[group.length - 1][group[group.length - 1].length - 1];
 					if (

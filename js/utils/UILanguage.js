@@ -133,22 +133,13 @@ export let UILanguage = {
 	init: function () {
 		//overwrite initial rendered text putputs
 		document.getElementById("helpwith").innerHTML = this.write('helpwith');
-		document.getElementById("scgcirc").nextSibling.innerHTML = this.write('scgcirc');
-		document.getElementById("scgc").nextSibling.innerHTML = this.write('scgc');
-		document.getElementById("scgg").nextSibling.innerHTML = this.write('scgg');
-		document.getElementById("fluxcirc").nextSibling.innerHTML = this.write('fluxcirc');
-		document.getElementById("ccstack").innerHTML = this.write('ccstack');
 		document.getElementById("cotipalang").innerHTML = this.write('ipakeys');
 		document.getElementById("cotenlang").innerHTML = this.write('enkeys');
 		document.getElementById("bettenbendersyllable").innerHTML = this.write('bettenbendersyllable');
-		document.getElementById("dlsllang").innerHTML = this.write('dlsllang');
-		document.getElementById("dlsclang").innerHTML = this.write('dlsclang');
 		document.getElementById("oddismenlang").innerHTML = this.write('phonetickeys');
 		document.getElementById("oddismipalang").innerHTML = this.write('ipakeys');
 		document.getElementById("cwipalang").innerHTML = this.write('ipakeys');
 		document.getElementById("cwenlang").innerHTML = this.write('phonetickeys');
-		document.getElementById("cwcirc").nextSibling.innerHTML = this.write('cwcirc');
-		document.getElementById("cwstack").innerHTML = this.write('ccstack');
 		document.getElementById("cwhint").innerHTML = this.write('cwhint');
 		document.getElementById("text").placeholder = this.write('inputplaceholder');
 		document.getElementById("renderbutton").value = this.write('renderbutton');

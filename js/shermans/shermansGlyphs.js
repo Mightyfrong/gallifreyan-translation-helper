@@ -1,7 +1,9 @@
 import {
 	includes,
 } from '../utils/funcs.js';
-
+import {
+	renderOptions
+} from '../event_callbacks.js';
 
 //specify base for every letter, assign base to latin characters and specify geometric properties
 export class shermansBase {
@@ -439,7 +441,7 @@ export class shermansDeco {
 						x,
 						y,
 						this.base.consonant * group.cresize, Math.PI * (baserad - .4), Math.PI * (baserad - .1), "minor"),
-					stroke: document.getElementById('backgroundcolor').value
+					stroke: renderOptions.get().backgroundcolor
 				});
 			});
 		} else if (includes(this.base.scgtable.punctuation.contains, deco)) {

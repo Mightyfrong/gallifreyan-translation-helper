@@ -169,7 +169,7 @@ span {
 
 .keys>div {
 	display: flex;
-	flex-wrap:wrap;
+	flex-wrap: wrap;
 }
 
 .keys>div>div {
@@ -256,6 +256,56 @@ label,
 .keys,
 select {
 	font-size: 1.5em;
+	margin: 0 .5em;
+}
+
+select {
+	background-color: var(--accent-col);
+	color:var(--col1);
+	border-radius: .25em;
+	padding:.25em;
+	border:none
+}
+.custominput {
+	display: inline-block;
+	position: relative;
+	user-select: none;
+	margin: .5em
+}
+
+.custominput input {
+	/* Hide the browser's default checkbox */
+	display: none;
+}
+
+.checkmark {
+	/* Create a custom checkbox */
+	position: relative;
+	top: .25em;
+	margin: 0 .5em;
+	height: 1em;
+	width: 2em;
+	border-radius: .5em;
+	border: none;
+	background-color: rgba(255, 255, 255, .8);
+}
+
+.checkmark::after {
+	transition: ease .3s;
+	position: absolute;
+	content: '';
+	top: 10%;
+	left: 5%;
+	display: block;
+	width: 40%;
+	height: 80%;
+	border-radius: 50%;
+	background-color: var(--col1);
+}
+
+.custominput input:checked~.checkmark::after {
+	left: 55%;
+	background-color: var(--accent-col);
 }
 
 @media all and (min-width: 640px) {

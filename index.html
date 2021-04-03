@@ -62,16 +62,19 @@
 					</select>
 			</div>
 			<fieldset id="lang-controls">
-				<div id="shermans-options">
-					<span><input type="checkbox" id="scgcirc" checked /><label for="scgcirc"> circular
-							words</label></span>
-					<span><input type="checkbox" id="scgc" checked /><label for="scgc"> convert C</label></span>
-					<span><input type="checkbox" id="scgg" /><label for="scgg"> character stacking</label></div></span>
-				</div>
-				<div id="flux-options">
-					<span><input type="checkbox" id="fluxcirc" checked /><label for="fluxcirc"> circular
-							words</label></span>
-				</div>
+				<label class="custominput" for="circular"><input type="checkbox" id="circular" checked /> circular <span class="checkmark"></span></label>
+				<label class="custominput" for="convertc"><input type="checkbox" id="convertc" checked /> convert c <span class="checkmark"></span></label>
+				<label class="custominput" for="stacking"><input type="checkbox" id="stacking" checked /> stacking <span class="checkmark"></span></label>
+				<label class="custominput" for="stack"> stack <select id="stack">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4" selected>4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+				</select></label>
+
 				<div id="cot-options">
 					<span><input type="radio" name="cotsystem" id="cotipa" checked /><label for="cotipa"
 							id="cotipalang"> IPA keyboard</label></span>
@@ -90,18 +93,6 @@
 					<div id="cwconsonants" class="keys"></div>
 					<div id="cwvowels" class="keys"></div>
 					<div id="cwpunctuation" class="keys"></div>
-					<span id="cwstack">Maximum stacked characters</span>
-					<select id="cw-stack">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4" selected>4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-					</select>
-					<span><input type="checkbox" id="cwcirc" checked /><label for="cwcirc"> circular
-							sentences</label></span><br />
 					<span id="cwhint">Inconsistent use of punctuation may cause errors. Provide either full punctuation or none.</span>
 				</div>
 				<div id="oddism">
@@ -112,36 +103,11 @@
 					<div id="oddismconsonants" class="keys"></div>
 					<div id="oddismvowels" class="keys"></div>
 				</div>
-				<div id="cc-options">
-					<span id="ccstack">Maximum stacked characters</span>
-					<select id="cc-stack">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4" selected>4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="8">8</option>
-					</select>
-				</div>
 				<div id="cbettenbenders">
 					<div id="cbconsonants" class="keys"></div>
 					<div id="cbvowels" class="keys"></div>
 					<br />
 					<span id="bettenbendersyllable">Please separate syllables manually with a space</span><br />
-				</div>
-				<div id="darkifaerie">
-					<span><input type="radio" name="dlsystem" id="dlslinear" checked /><label for="dlslinear"
-							id="dlsllang"> linear</label></span>
-					<span><input type="radio" name="dlsystem" id="dlscircular" /><label for="dlscircular" id="dlsclang">
-							circular</label></span><br />
-				</div>
-				<div id="tardisconsole">
-					<span><input type="radio" name="tcsystem" id="tclinear" checked /><label for="tclinear"
-							id="tcllang"> linear</label></span>
-					<span><input type="radio" name="tcsystem" id="tccircular" /><label for="tccircular" id="tcclang">
-							circular</label></span><br />
 				</div>
 			</fieldset>
 			<br />

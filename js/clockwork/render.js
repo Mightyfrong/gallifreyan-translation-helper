@@ -11,7 +11,7 @@ import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
 import {
-	unsupportedCharacters
+	unsupportedCharacters, renderOptions
 } from '../event_callbacks.js';
 
 let width; // canvas width
@@ -24,10 +24,7 @@ let option; // user option-object
 let stackedGlyph;
 export function render(input) {
 	//retrieve options and make them compact
-	option = {
-		circular: document.getElementById('cwcirc').checked,
-		maxstack: document.getElementById("cw-stack").options[document.getElementById("cw-stack").selectedIndex].value
-	};
+	option = renderOptions.get();
 
 	// convert input-string to grouped array and determine number of groups
 	groupedInput = clockworkGrouped.groups(input.toLowerCase());
@@ -35,7 +32,7 @@ export function render(input) {
 	let glyphs = 0,
 		circularGroups = 0,
 		biggestWordCircle = 0;
-	for (let i = 1; i <= option.maxstack; i++) {
+	for (let i = 1; i <= option.stack; i++) {
 		stackedGlyph *= 1 + .8 / i;
 	}
 
@@ -115,7 +112,7 @@ let clockworkGrouped = {
 			let characters = sentence.trim().match(/\/.+\/|./g); // match single characters or encapsulated by control characters 
 			for (var i = 0; i < characters.length; i++) { // iterate through word 
 				let character = characters[i].replace(/\//g, ''); // get rid of control characters
-				if ((group.length > 0 && group[group.length - 1].length < option.maxstack) &&
+				if ((group.length > 0 && group[group.length - 1].length < option.stack) &&
 					!(includes(",; .!?‽", character) || includes(",; .!?‽", group[group.length - 1]))) {
 					// add to former group if not full or punctuation
 					group[group.length - 1].push(character)

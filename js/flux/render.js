@@ -13,7 +13,7 @@ import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
 import {
-	unsupportedCharacters
+	unsupportedCharacters, renderOptions
 } from '../event_callbacks.js';
 
 let width; // canvas width
@@ -28,9 +28,7 @@ const deco = new fluxDeco(base);
 
 export function render(input) {
 	//retrieve options and make them compact
-	option = {
-		circular: document.getElementById('fluxcirc').checked
-	};
+	option = renderOptions.get();
 
 	// convert input-string to word array
 	input = replacements(input).toLowerCase().trim().replace(/\s+/g, " ").split(" ");

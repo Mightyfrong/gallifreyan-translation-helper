@@ -3,42 +3,25 @@ import {
 	clockworkPunctuation,
 	clockworkVowels
 } from './clockworkGlyphs.js';
+import {
+	keyboard
+} from '../utils/funcs.js'
 
 export const glyphSize = 30; // radius of glyphs
 export const cwConsonants = new clockworkConsonants();
 export const cwVowels = new clockworkVowels();
 export const cwPunctuation = new clockworkPunctuation();
 
-function cwKeyboard(appendTo, writeTo, keys) {
-	const keyWrapper = document.createElement('div');
-	keys.forEach(char => {
-		const keyInput = document.createElement('div');
-		keyInput.innerHTML = char[0];
-		keyInput.onclick = () => {
-			const pos0 = writeTo.selectionStart;
-			const pos1 = writeTo.selectionEnd;
-			const val = writeTo.value;
-			let ch = char[1];
-			if (ch.length > 1) ch = "/" + ch + "/";
-			writeTo.value = val.slice(0, pos0) + ch + val.slice(pos1);
-			writeTo.focus();
-			writeTo.selectionStart = writeTo.selectionEnd = pos0 + ch.length;
-		}
-		keyWrapper.appendChild(keyInput);
-	});
-	appendTo.appendChild(keyWrapper);
-}
-
 export function createClockworkKeyboard() {
 	document.getElementById('cwconsonants').innerHTML = document.getElementById('cwvowels').innerHTML = document.getElementById('cwpunctuation').innerHTML = "";
 	if (document.getElementById('cwipa').checked) {
-		cwKeyboard(document.getElementById('cwconsonants'), document.getElementById('text'), cwConsonants.keyCollection());
-		cwKeyboard(document.getElementById('cwvowels'), document.getElementById('text'), cwVowels.keyCollection());
-		cwKeyboard(document.getElementById('cwpunctuation'), document.getElementById('text'), cwPunctuation.keyCollection());
+		keyboard(document.getElementById('cwconsonants'), document.getElementById('text'), cwConsonants.keyCollection());
+		keyboard(document.getElementById('cwvowels'), document.getElementById('text'), cwVowels.keyCollection());
+		keyboard(document.getElementById('cwpunctuation'), document.getElementById('text'), cwPunctuation.keyCollection());
 	} else if (document.getElementById('cwen').checked) {
-		cwKeyboard(document.getElementById('cwconsonants'), document.getElementById('text'), alternativeKeyboard.en.consonants);
-		cwKeyboard(document.getElementById('cwvowels'), document.getElementById('text'), alternativeKeyboard.en.vowels);
-		cwKeyboard(document.getElementById('cwpunctuation'), document.getElementById('text'), cwPunctuation.keyCollection());
+		keyboard(document.getElementById('cwconsonants'), document.getElementById('text'), alternativeKeyboard.en.consonants);
+		keyboard(document.getElementById('cwvowels'), document.getElementById('text'), alternativeKeyboard.en.vowels);
+		keyboard(document.getElementById('cwpunctuation'), document.getElementById('text'), cwPunctuation.keyCollection());
 	}
 }
 

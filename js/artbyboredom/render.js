@@ -1,10 +1,7 @@
 import {
-	UILanguage
-} from '../utils/UILanguage.js'
-import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
-import {unsupportedCharacters} from '../event_callbacks.js';
+import {unsupportedCharacters, renderOptions} from '../event_callbacks.js';
 
 let glyphSize = 30; // radius of glyphs
 let lineweight = 1; // thicker lines add a cute chubbyness
@@ -14,6 +11,7 @@ let x; // current coordinate x
 let y; // current coordinate y
 let letterwidth; // you'll figure that one out for yourself
 let letterheight; // you'll figure that one out for yourself
+let option;
 const FILLED = true;
 
 class character {
@@ -34,7 +32,7 @@ class character {
 		this.inverse = Boolean(filled);
 	}
 	inner(filled = false) {
-		let col = this.inverse ? document.getElementById('backgroundcolor').value : null;
+		let col = this.inverse ? option.backgroundcolor : null;
 		this.ctx.drawShape('circle', filled ? 0 : this.lineweight, {
 			cx: this.x,
 			cy: this.y,
@@ -45,8 +43,8 @@ class character {
 	}
 	middle(rad, cutout = false) {
 		let col = cutout ?
-			(this.inverse ? document.getElementById('foregroundcolor').value : document.getElementById('backgroundcolor').value) :
-			(this.inverse ? document.getElementById('backgroundcolor').value : null);
+			(this.inverse ? option.foregroundcolor : option.backgroundcolor) :
+			(this.inverse ? option.backgroundcolor : null);
 
 		this.ctx.drawShape('circle', cutout ? 5 : this.lineweight, {
 			cx: this.x + Math.cos(Math.PI * rad) * this.r * .5,
@@ -57,8 +55,8 @@ class character {
 		});
 	}
 	bullseye(filled = false) {
-		let col = this.inverse ? document.getElementById('backgroundcolor').value : null;
-		let fill = this.inverse ? document.getElementById('foregroundcolor').value : document.getElementById('backgroundcolor').value;
+		let col = this.inverse ? option.backgroundcolor : null;
+		let fill = this.inverse ? option.foregroundcolor : option.backgroundcolor;
 		this.ctx.drawShape('circle', filled ? 0 : this.lineweight, {
 			cx: this.x,
 			cy: this.y,
@@ -68,10 +66,10 @@ class character {
 		});
 	}
 	upperChar(rad, pos, filled = false) {
-		let col = this.inverse ? document.getElementById('backgroundcolor').value : null;
+		let col = this.inverse ? option.backgroundcolor : null;
 		let fill = this.inverse ?
-			(filled ? document.getElementById('backgroundcolor').value : document.getElementById('foregroundcolor').value) :
-			(filled ? document.getElementById('foregroundcolor').value : document.getElementById('backgroundcolor').value);
+			(filled ? option.backgroundcolor : option.foregroundcolor) :
+			(filled ? option.foregroundcolor : option.backgroundcolor);
 		this.ctx.drawShape('circle', filled ? 0 : this.lineweight, {
 			cx: this.x + Math.cos(Math.PI * rad) * this.r * pos,
 			cy: this.y + Math.sin(Math.PI * rad) * this.r * pos,
@@ -283,6 +281,7 @@ let characters = {
 
 // scroll through input and draw every letter
 export function render(input) {
+	option=renderOptions.get();
 	// initialize widths, heights, default-values, draw-object
 	letterwidth = glyphSize * 2.2;
 	letterheight = glyphSize * 4;

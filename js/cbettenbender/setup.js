@@ -28,6 +28,6 @@ function cbKeyboard(appendTo, writeTo, keys) {
 }
 
 export function createCBKeyboard() {
-	cbKeyboard(document.getElementById('cbconsonants'), document.getElementById('text'), cbConsonant.keyCollection());
-	cbKeyboard(document.getElementById('cbvowels'), document.getElementById('text'), cbVowel.keyCollection());
+	keyboard(document.getElementById('cbconsonants'), document.getElementById('text'), cbConsonant.keyCollection());
+	keyboard(document.getElementById('cbvowels'), document.getElementById('text'), cbVowel.keyCollection());
 }
