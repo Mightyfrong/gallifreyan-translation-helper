@@ -1,5 +1,6 @@
 import {
-	includes
+	includes,
+	wordcircleRadius
 } from '../utils/funcs.js';
 import {
 	glyphSize,
@@ -11,7 +12,8 @@ import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
 import {
-	unsupportedCharacters, renderOptions
+	unsupportedCharacters,
+	renderOptions
 } from '../event_callbacks.js';
 
 let width; // canvas width
@@ -42,7 +44,7 @@ export function render(input) {
 			if (option.circular) {
 				let twc2;
 				if (!includes(" .!?‽", sentence[0][i]))
-					twc2 = Math.ceil(Math.sqrt(++circularGroups * Math.pow(2 * glyphSize * stackedGlyph, 2) / Math.PI)) * 1.5 + glyphSize * 2;
+					twc2 = wordcircleRadius(++circularGroups, glyphSize * stackedGlyph) * 1.5;
 				if (biggestWordCircle < twc2) biggestWordCircle = twc2;
 
 			} else {

@@ -9,7 +9,7 @@ import {
 	lwfactor
 } from './setup.js';
 import {
-	includes
+	includes, wordcircleRadius
 } from '../utils/funcs.js';
 import {
 	unsupportedCharacters,
@@ -137,11 +137,6 @@ function tardisCharacterGrouping(input) {
 		}
 	});
 	return output;
-}
-
-function wordcircleRadius(num, inner) {
-	num = Math.floor(num ** 1.15);
-	return (Math.ceil(Math.sqrt(num * Math.pow(2 * inner, 2) / Math.PI)) + inner);
 }
 
 function sizesort(a, b) {

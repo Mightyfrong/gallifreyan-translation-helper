@@ -1,7 +1,4 @@
 import {
-	UILanguage
-} from '../utils/UILanguage.js'
-import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
 import {
@@ -12,8 +9,12 @@ import {
 	lwfactor
 } from './setup.js';
 import {
-	unsupportedCharacters, renderOptions
+	unsupportedCharacters,
+	renderOptions
 } from '../event_callbacks.js';
+import {
+	wordcircleRadius
+} from '../utils/funcs.js';
 
 let width; // canvas width
 let height; // canvas height
@@ -24,7 +25,7 @@ let glyph; // global scope for glyph dimensions
 // scroll through input and draw every letter
 export function render(input) {
 	// initialize widths, heights, default-values, draw-object
-	let option=renderOptions.get(),
+	let option = renderOptions.get(),
 		groupedInput = input.toLowerCase().split(/\s+/),
 		charX, charY, textX, textY, dia;
 
@@ -48,7 +49,7 @@ export function render(input) {
 	}
 	// set canvas scale according to number of characters
 	width = Math.min(glyph.count, Math.floor(option.maxWidth / glyph.width) || 1) * glyph.width;
-	height = glyph.height * Math.ceil(glyph.count / (Math.floor(option.maxWidth / glyph.width)||1));
+	height = glyph.height * Math.ceil(glyph.count / (Math.floor(option.maxWidth / glyph.width) || 1));
 	const ctx = new SVGRenderingContext(width, height);
 
 	//return ctx;
@@ -108,11 +109,6 @@ export function render(input) {
 	unsupportedCharacters.get();
 
 	return ctx;
-}
-
-function wordcircleRadius(num, inner) {
-	num = Math.floor(num ** 1.15);
-	return (Math.ceil(Math.sqrt(num * Math.pow(2 * inner, 2) / Math.PI)) + inner);
 }
 
 function sizesort(a, b) {

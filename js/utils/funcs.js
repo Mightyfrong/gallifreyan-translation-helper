@@ -36,6 +36,12 @@ export function includes(obj, values) {
 		obj.includes(values);
 }
 
+//standard size of word- or sentence circles with circular distribution of elements
+export function wordcircleRadius(numberOfElements, elementSize) {
+	numberOfElements = Math.floor(numberOfElements ** 1.15);
+	return (Math.ceil(Math.sqrt(numberOfElements * Math.pow(2 * elementSize, 2) / Math.PI)) + elementSize);
+}
+
 export class unsupportedChars {
 	constructor() {
 		this.item = [];

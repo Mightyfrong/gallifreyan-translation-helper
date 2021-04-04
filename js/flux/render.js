@@ -1,5 +1,5 @@
 import {
-	includes
+	includes, wordcircleRadius
 } from '../utils/funcs.js';
 import {
 	fluxBase,
@@ -36,7 +36,7 @@ export function render(input) {
 		biggestWordCircle = 0;
 	input.forEach(word => {
 		if (option.circular) {
-			let twc2 = Math.ceil(Math.sqrt(word.length * Math.pow(2 * consonant, 2) / Math.PI)) * 4.5 + consonant * 2;
+			let twc2 = wordcircleRadius(groups.length, consonant) * 4.5;
 			if (biggestWordCircle < twc2) biggestWordCircle = twc2;
 		} else {
 			glyphs += word.length;
@@ -129,7 +129,7 @@ function fluxDraw(ctx, current) {
 		wordCircleRadius = glyph.height;
 	if (option.circular) {
 		rad = 1 + (2 / current.wordlength) * (current.index);
-		wordCircleRadius = Math.ceil(Math.sqrt(current.wordlength * Math.pow(2 * consonant, 2) / Math.PI)) * 1.5;
+		wordCircleRadius = wordcircleRadius(current.wordlength, consonant) * 1.5;
 	}
 
 	if (currentbase) { // works only for defined characters

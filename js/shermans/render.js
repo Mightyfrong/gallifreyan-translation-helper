@@ -1,5 +1,6 @@
 import {
-	includes
+	includes,
+	wordcircleRadius
 } from '../utils/funcs.js';
 import {
 	shermansBase,
@@ -16,7 +17,8 @@ import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
 import {
-	unsupportedCharacters, renderOptions
+	unsupportedCharacters,
+	renderOptions
 } from '../event_callbacks.js';
 
 let cLetter; // is there a "c"?
@@ -54,7 +56,7 @@ export function render(input) {
 	groupedInput.forEach(word => {
 		word.forEach(groups => {
 			if (option.circular) {
-				let twc2 = Math.ceil(Math.sqrt(groups.length * Math.pow(2 * consonant, 2) / Math.PI)) * 4.5 + consonant * 2;
+				let twc2 = wordcircleRadius(groups.length, consonant) * 4.5;
 				if (biggestWordCircle < twc2) biggestWordCircle = twc2;
 			} else {
 				glyphs += groups.length;
@@ -251,7 +253,7 @@ function shermansDraw(ctx, letter, grouped, isNumber) {
 		wordCircleRadius = glyph.height;
 	if (option.circular) {
 		rad = -(2 / grouped.numberOfGroups) * (grouped.currentGroup - 1);
-		wordCircleRadius = Math.ceil(Math.sqrt(grouped.numberOfGroups * Math.pow(2 * consonant, 2) / Math.PI)) * 1.5;
+		wordCircleRadius = wordcircleRadius(grouped.numberOfGroups, consonant) * 1.5;
 	}
 
 	if (currentbase) { // works only for defined characters
