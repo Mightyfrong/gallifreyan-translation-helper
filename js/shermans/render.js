@@ -23,12 +23,9 @@ import {
 
 let cLetter; // is there a "c"?
 let qLetter; // is there a "q"?
-let width; // canvas width
-let height; // canvas height
-let x; // current coordinate x
-let y; // current coordinate y
+let canvas = {}; // canvas properties
 let glyph; // glyph dimensions-object
-let option; // user option-object
+let option; // user selected render options handler
 let groupedInput; //global variable for input to be updated
 
 // add module-specific language chunks
@@ -70,21 +67,21 @@ export function render(input) {
 			width: biggestWordCircle + consonant,
 			height: biggestWordCircle
 		};
-		width = (Math.min(glyphs, Math.floor(option.maxWidth / biggestWordCircle)) * glyph.width || glyph.width);
-		height = biggestWordCircle * Math.ceil(glyphs / (Math.floor(option.maxWidth / glyph.width) || 1));
-		x = glyph.width / 2;
-		y = glyph.height / 2;
+		canvas["width"] = (Math.min(glyphs, Math.floor(option.maxWidth / biggestWordCircle)) * glyph.width || glyph.width);
+		canvas["height"] = biggestWordCircle * Math.ceil(glyphs / (Math.floor(option.maxWidth / glyph.width) || 1));
+		canvas["currentX"] = glyph.width / 2;
+		canvas["currentY"] = glyph.height / 2;
 	} else {
 		glyph = {
 			width: consonant * 2.5,
 			height: consonant * 6
 		};
-		width = (Math.min(++glyphs, Math.floor(option.maxWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
-		height = glyph.height * (Math.ceil(++glyphs / (Math.floor(option.maxWidth / glyph.width) || 1)));
-		x = 0;
-		y = -glyph.height * .5;
+		canvas["width"] = (Math.min(++glyphs, Math.floor(option.maxWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
+		canvas["height"] = glyph.height * (Math.ceil(++glyphs / (Math.floor(option.maxWidth / glyph.width) || 1)));
+		canvas["currentX"] = 0;
+		canvas["currentY"] = -glyph.height * .5;
 	}
-	const ctx = new SVGRenderingContext(width, height);
+	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
 
 	// initialize widths, heights, default-values, draw-object
 	cLetter = false;
@@ -240,10 +237,10 @@ let shermansGrouped = {
 function shermansDraw(ctx, letter, grouped, isNumber) {
 	if (!option.circular || letter == " ") {
 		if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
-			if (x + glyph.width >= width) {
-				y += glyph.height;
-				x = glyph.width / (option.circular ? 2 : 1);
-			} else x += glyph.width;
+			if (canvas.currentX + glyph.width >= canvas.width) {
+				canvas.currentY += glyph.height;
+				canvas.currentX = glyph.width / (option.circular ? 2 : 1);
+			} else canvas.currentX += glyph.width;
 		}
 	}
 	let currentbase = base.getBase(letter);
@@ -280,18 +277,18 @@ function shermansDraw(ctx, letter, grouped, isNumber) {
 		}
 		if (!grouped.carriagereturn || includes(["b", "t"], currentbase)) {
 			if (grouped.numberOfGroups == 1 && option.circular) ctx.drawShape('circle', 1, {
-				cx: x,
-				cy: y,
+				cx: canvas.currentX,
+				cy: canvas.currentY,
 				r: wordCircleRadius
 			});
 			else ctx.drawShape('path', 1, {
-				d: ctx.circularArc(x, y, wordCircleRadius, Math.PI * (2.5 + rad - angle), Math.PI * (.5 + rad + angle)),
+				d: ctx.circularArc(canvas.currentX, canvas.currentY, wordCircleRadius, Math.PI * (2.5 + rad - angle), Math.PI * (.5 + rad + angle)),
 				fill: 'transparent'
 			});
 		}
 		if (includes(["punctuation"], currentbase) && !isNumber) {
 			ctx.drawShape('path', 1, {
-				d: ctx.circularArc(x, y, wordCircleRadius + 2 * consonant, Math.PI * (2.5 + rad - angle), Math.PI * (.5 + rad + angle)),
+				d: ctx.circularArc(canvas.currentX, canvas.currentY, wordCircleRadius + 2 * consonant, Math.PI * (2.5 + rad - angle), Math.PI * (.5 + rad + angle)),
 				fill: 'transparent'
 			});
 		}
@@ -303,7 +300,7 @@ function shermansDraw(ctx, letter, grouped, isNumber) {
 		const hasPunc = includes(["punctuation"], currentbase);
 		if (!hasPunc || (hasPunc && !isNumber)) {
 			if (includes(["ve", "va", "vo"], currentbase)) r = vowel * grouped.vresize;
-			base.scgtable[currentbase].draw(ctx, x + center.x, y + center.y, r, rad, grouped);
+			base.scgtable[currentbase].draw(ctx, canvas.currentX + center.x, canvas.currentY + center.y, r, rad, grouped);
 		}
 
 		// draw decorators
@@ -311,7 +308,7 @@ function shermansDraw(ctx, letter, grouped, isNumber) {
 		if (decorators) {
 			decorators.forEach(decorator => {
 				if (decorators && !isNumber)
-					deco.draw(ctx, decorator, x + center.x, y + center.y, currentbase, rad, grouped, letter);
+					deco.draw(ctx, decorator, canvas.currentX + center.x, canvas.currentY + center.y, currentbase, rad, grouped, letter);
 			});
 		}
 	}
@@ -324,8 +321,8 @@ function shermansDraw(ctx, letter, grouped, isNumber) {
 	if (includes(text, "\\")) text = "-" + grouped.currentGroupText.replace(/\\/g, '');
 
 	if (grouped.offset == 0) ctx.drawText(text, {
-		x: x - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad),
-		y: y + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad) + fontsize * .25
+		x: canvas.currentX - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad),
+		y: canvas.currentY + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad) + fontsize * .25
 	});
 }
 

@@ -1,17 +1,17 @@
 import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
-import {unsupportedCharacters, renderOptions} from '../event_callbacks.js';
+import {
+	unsupportedCharacters,
+	renderOptions
+} from '../event_callbacks.js';
 
 let glyphSize = 30; // radius of glyphs
 let lineweight = 1; // thicker lines add a cute chubbyness
-let width; // canvas width
-let height; // canvas height
-let x; // current coordinate x
-let y; // current coordinate y
+let canvas = {}; // canvas properties
 let letterwidth; // you'll figure that one out for yourself
 let letterheight; // you'll figure that one out for yourself
-let option;
+let option; // user selected render options handler
 const FILLED = true;
 
 class character {
@@ -281,38 +281,38 @@ let characters = {
 
 // scroll through input and draw every letter
 export function render(input) {
-	option=renderOptions.get();
+	option = renderOptions.get();
 	// initialize widths, heights, default-values, draw-object
 	letterwidth = glyphSize * 2.2;
 	letterheight = glyphSize * 4;
 
-	x = 0;
-	y = letterheight * .6;
+	canvas["currentX"] = 0;
+	canvas["currentY"] = letterheight * .6;
 
 	// set canvas scale according to number of characters
-	width = Math.min(input.length + 1, Math.floor(option.maxWidth / letterwidth)) * letterwidth;
-	height = letterheight * Math.ceil(input.length / Math.floor(option.maxWidth / letterwidth));
-	const ctx = new SVGRenderingContext(width, height);
+	canvas["width"] = Math.min(input.length + 1, Math.floor(option.maxWidth / letterwidth)) * letterwidth;
+	canvas["height"] = letterheight * Math.ceil(input.length / Math.floor(option.maxWidth / letterwidth));
+	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
 
 	// iterate through input
 	for (let i = 0; i < input.length; i++) {
 		// position pointer
-		if (x + letterwidth * 1.5 >= width) {
-			y += letterheight;
-			x = letterwidth;
-		} else x += letterwidth;
+		if (canvas.currentX + letterwidth * 1.5 >= canvas.width) {
+			canvas.currentY += letterheight;
+			canvas.currentX = letterwidth;
+		} else canvas.currentX += letterwidth;
 
 		if (input[i].toLowerCase() in characters) {
 			// draw character
-			let draw = new character(ctx, x, y, glyphSize, lineweight);
+			let draw = new character(ctx, canvas.currentX, canvas.currentY, glyphSize, lineweight);
 			characters[input[i].toLowerCase()](draw, input[i] == input[i].toUpperCase());
 
 		} else unsupportedCharacters.add(input[i]);
 
 		// print character translation above the drawings
 		ctx.drawText(input[i], {
-			x: x,
-			y: y - glyphSize * 1.5
+			x: canvas.currentX,
+			y: canvas.currentY - glyphSize * 1.5
 		});
 
 	}

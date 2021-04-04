@@ -12,30 +12,28 @@ import {
 	includes
 } from '../utils/funcs.js';
 import {
-	unsupportedCharacters, renderOptions
+	unsupportedCharacters,
+	renderOptions
 } from '../event_callbacks.js';
 
-let width; // canvas width
-let height; // canvas height
-let x; // current coordinate x
-let y; // current coordinate y
-let option;
+let canvas = {}; // canvas properties
+let option; // user selected render options handler
 
 // scroll through input and draw every letter
 export function render(input) {
 	option = renderOptions.get();
 	// initialize widths, heights, default-values, draw-object
-	x = y = 0;
+	canvas["currentX"] = canvas["currentY"] = 0;
 	let glyph = {
 		width: character.width,
 		height: character.height * 2.2
 	};
 
 	// set canvas scale according to number of characters
-	width = Math.min(input.length, Math.floor(option.maxWidth / glyph.width)) * glyph.width;
-	height = glyph.height * Math.ceil(input.length / Math.floor(option.maxWidth / glyph.width));
+	canvas["width"] = Math.min(input.length, Math.floor(option.maxWidth / glyph.width)) * glyph.width;
+	canvas["height"] = glyph.height * Math.ceil(input.length / Math.floor(option.maxWidth / glyph.width));
 
-	const ctx = new SVGRenderingContext(width, height);
+	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
 
 	// iterate through input
 	for (let i = 0; i <= input.length - 1; i++) {
@@ -53,19 +51,19 @@ export function render(input) {
 		if (current in oddismGlyphs.consonants) type = "consonants";
 
 		if (type != undefined) {
-			oddismDraw(ctx, x, y + glyph.height * .5, oddismGlyphs[type][current]);
+			oddismDraw(ctx, canvas.currentX, canvas.currentY + glyph.height * .5, oddismGlyphs[type][current]);
 			// display character
 			ctx.drawText(current, {
-				x: x + glyph.width * .5,
-				y: y + glyph.height * .2
+				x: canvas.currentX + glyph.width * .5,
+				y: canvas.currentY + glyph.height * .2
 			});
 		} else if (current !== undefined) unsupportedCharacters.add(current);
 
 		// position pointer for words
-		if (x + glyph.width >= width) {
-			y += glyph.height;
-			x = 0;
-		} else x += glyph.width;
+		if (canvas.currentX + glyph.width >= canvas.width) {
+			canvas.currentY += glyph.height;
+			canvas.currentX = 0;
+		} else canvas.currentX += glyph.width;
 	}
 
 	// complain about unsupported characters

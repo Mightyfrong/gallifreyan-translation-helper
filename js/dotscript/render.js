@@ -5,18 +5,16 @@ import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
 import {
-	unsupportedCharacters, renderOptions
+	unsupportedCharacters,
+	renderOptions
 } from '../event_callbacks.js';
 
 let consonant = 30; // radius of consonants
 let linewidth = 1; // thicker lines add a cute chubbyness
-let width; // canvas width
-let height; // canvas height
-let x; // current coordinate x
-let y; // current coordinate y
+let canvas = {}; // canvas properties
 let letterwidth; // you'll figure that one out for yourself
 let letterheight; // you'll figure that one out for yourself
-let option;
+let option; // user selected render options handler
 
 //specify forms and positions
 let characters = {
@@ -44,11 +42,11 @@ let characters = {
 		},
 		divotcircle: function (ctx, x, y, size) {
 			ctx.drawShape('path', 1, {
-				d: ctx.circularArc(x, y, size, Math.PI * 1.74, Math.PI * 1.4,"major"),
+				d: ctx.circularArc(x, y, size, Math.PI * 1.74, Math.PI * 1.4, "major"),
 				fill: option.backgroundcolor
 			});
 			ctx.drawShape('path', 1, {
-				d: ctx.circularArc(x + Math.cos(Math.PI * 1.575) * size, y + Math.sin(Math.PI * 1.575) * size, size * .5, Math.PI * .15, Math.PI * 1,"major")
+				d: ctx.circularArc(x + Math.cos(Math.PI * 1.575) * size, y + Math.sin(Math.PI * 1.575) * size, size * .5, Math.PI * .15, Math.PI * 1, "major")
 			});
 		},
 		spiral: function (ctx, x, y, size) {
@@ -238,54 +236,54 @@ let characters = {
 
 // scroll through input and draw every letter
 export function render(input) {
-	option=renderOptions.get();
+	option = renderOptions.get();
 	// initialize widths, heights, default-values, draw-object
 	input = input.toLowerCase();
 	letterwidth = consonant * 1.5;
 	letterheight = consonant * 6;
 
-	x = -letterwidth * .5;
-	y = letterheight * .6;
+	canvas["currentX"] = -letterwidth * .5;
+	canvas["currentY"] = letterheight * .6;
 
 	// set canvas scale according to number of characters
-	width = Math.min(input.length + 1, Math.floor(option.maxWidth / letterwidth)) * letterwidth;
-	height = letterheight * Math.ceil(input.length / Math.floor(option.maxWidth / letterwidth));
-	const ctx = new SVGRenderingContext(width, height);
+	canvas["width"] = Math.min(input.length + 1, Math.floor(option.maxWidth / letterwidth)) * letterwidth;
+	canvas["height"] = letterheight * Math.ceil(input.length / Math.floor(option.maxWidth / letterwidth));
+	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
 
 	// draw baseline
 	ctx.drawShape('line', linewidth, {
-		x1: x,
-		y1: y,
-		x2: x + letterwidth * 2,
-		y2: y
+		x1: canvas.currentX,
+		y1: canvas.currentY,
+		x2: canvas.currentX + letterwidth * 2,
+		y2: canvas.currentY
 	});
 	// iterate through input
 	for (let i = 0; i < input.length; i++) {
 		// position pointer
-		if (x + letterwidth * 2 >= width) {
-			y += letterheight;
-			x = letterwidth * .5;
-		} else if (includes("aeiou", input[i])) x += letterwidth * .5;
-		else x += letterwidth;
+		if (canvas.currentX + letterwidth * 2 >= canvas.width) {
+			canvas.currentY += letterheight;
+			canvas.currentX = letterwidth * .5;
+		} else if (includes("aeiou", input[i])) canvas.currentX += letterwidth * .5;
+		else canvas.currentX += letterwidth;
 
 		if (input[i] in characters.characters) {
 			// draw baseline for the next character to not interfere with the former one
 			ctx.drawShape('line', linewidth, {
-				x1: x + letterwidth,
-				y1: y,
-				x2: x + letterwidth * 2,
-				y2: y
+				x1: canvas.currentX + letterwidth,
+				y1: canvas.currentY,
+				x2: canvas.currentX + letterwidth * 2,
+				y2: canvas.currentY
 			});
 			// draw character
 			let directions = characters.characters[input[i]];
 			let lw = directions.float > 0 ? linewidth : 0;
-			characters.form[directions.form](ctx, x + consonant, y + consonant * directions.float + lw, consonant * directions.size);
+			characters.form[directions.form](ctx, canvas.currentX + consonant, canvas.currentY + consonant * directions.float + lw, consonant * directions.size);
 		} else unsupportedCharacters.add(input[i]);
 
 		// print character translation above the drawings
 		ctx.drawText(input[i], {
-			x: x + consonant,
-			y: y - letterheight * .5
+			x: canvas.currentX + consonant,
+			y: canvas.currentY - letterheight * .5
 		});
 
 	}

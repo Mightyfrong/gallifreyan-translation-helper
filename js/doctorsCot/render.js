@@ -10,18 +10,17 @@ import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
 import {
-	unsupportedCharacters, renderOptions
+	unsupportedCharacters,
+	renderOptions
 } from '../event_callbacks.js';
 
-let width; // canvas width
-let height; // canvas height
-let x; // current coordinate x
-let y; // current coordinate y
+let canvas = {}; // canvas properties
 let glyph; // glyph dimensions-object
 let groupedInput; //global variable for input to be updated
-let option;
+let option; // user selected render options handler
+
 export function render(input) {
-	option=renderOptions.get();
+	option = renderOptions.get();
 	// convert input-string to grouped array and determine number of groups
 	groupedInput = doctorsCotGrouped.groups(input.toLowerCase());
 
@@ -37,11 +36,11 @@ export function render(input) {
 		width: glyphSize * 2.25,
 		height: glyphSize * 4
 	};
-	width = (Math.min(++glyphs, Math.floor(option.maxWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
-	height = glyph.height * (Math.ceil(++glyphs / (Math.floor(option.maxWidth / glyph.width) || 1)));
-	x = -glyph.width * .5;
-	y = glyph.height * .5;
-	const ctx = new SVGRenderingContext(width, height);
+	canvas["width"] = (Math.min(++glyphs, Math.floor(option.maxWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
+	canvas["height"] = glyph.height * (Math.ceil(++glyphs / (Math.floor(option.maxWidth / glyph.width) || 1)));
+	canvas["currentX"] = -glyph.width * .5;
+	canvas["currentY"] = glyph.height * .5;
+	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
 
 	// iterate through input to set grouping instructions, handle exceptions and draw glyphs
 	groupedInput.forEach(words => { // loop through sentence
@@ -91,7 +90,8 @@ let doctorsCotGrouped = {
 				if (group.length > 0 &&
 					(( /* C-C, C-V */ group[group.length - 1].length < 2 && dc2Consonants.getBase(group[group.length - 1][group[group.length - 1].length - 1])) ||
 						( /* C-C-V */ group[group.length - 1].length < 3 && dc2Vowels.getLines(current) && dc2Consonants.getBase(group[group.length - 1][group[group.length - 1].length - 1]))) &&
-					/* no punctuation */ !includes(["'", ",", "?", "!", "."], [current, group[group.length - 1][group[group.length - 1].length - 1]])) {
+					/* no punctuation */
+					!includes(["'", ",", "?", "!", "."], [current, group[group.length - 1][group[group.length - 1].length - 1]])) {
 					// add to former group if not full
 					group[group.length - 1].push(current)
 				} else // create current group
@@ -121,10 +121,10 @@ let doctorsCotGrouped = {
 // draw instructions for base + decoration
 function doctorsCotDraw(ctx, letter, grouped) {
 	if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
-		if (x + glyph.width >= width) {
-			y += glyph.height;
-			x = glyph.width * .5;
-		} else x += glyph.width;
+		if (canvas.currentX + glyph.width >= canvas.width) {
+			canvas.currentY += glyph.height;
+			canvas.currentX = glyph.width * .5;
+		} else canvas.currentX += glyph.width;
 	}
 
 	//define tilt based on stack-number todistinguish between stacked characters
@@ -136,30 +136,30 @@ function doctorsCotDraw(ctx, letter, grouped) {
 		currentshape = dc2Vowels.getShape(letter);
 	if (!grouped.offset) {
 		// draw outer circle
-		if (currentbase) dc2Consonants.base[currentbase].draw(ctx, x, y, glyphSize * grouped.resize, tilt);
+		if (currentbase) dc2Consonants.base[currentbase].draw(ctx, canvas.currentX, canvas.currentY, glyphSize * grouped.resize, tilt);
 		// draw decorators
-		if (currentdeco) dc2Consonants.decorators[currentdeco].draw(ctx, x, y, glyphSize * dc2Consonants.base[currentbase].baserad, dc2Consonants.base[currentbase].innerline, tilt);
+		if (currentdeco) dc2Consonants.decorators[currentdeco].draw(ctx, canvas.currentX, canvas.currentY, glyphSize * dc2Consonants.base[currentbase].baserad, dc2Consonants.base[currentbase].innerline, tilt);
 
 		//draw inner circle if next character in group is not a consonant (or it's a single letter)
 		if (currentbase && !dc2Consonants.getBase(grouped.group[grouped.offset + 1]))
-			dc2Consonants.base[currentbase].draw(ctx, x, y, glyphSize * .4, tilt);
+			dc2Consonants.base[currentbase].draw(ctx, canvas.currentX, canvas.currentY, glyphSize * .4, tilt);
 
 	} else {
 		// draw decorators
-		if (currentdeco) dc2Consonants.decorators[currentdeco].draw(ctx, x, y, glyphSize * grouped.baserad, dc2Consonants.base[currentbase].outerline, tilt);
+		if (currentdeco) dc2Consonants.decorators[currentdeco].draw(ctx, canvas.currentX, canvas.currentY, glyphSize * grouped.baserad, dc2Consonants.base[currentbase].outerline, tilt);
 		// draw filled inner circle to simply overpaint decorators
-		if (currentbase) dc2Consonants.base[currentbase].draw(ctx, x, y, glyphSize * grouped.resize, tilt);
+		if (currentbase) dc2Consonants.base[currentbase].draw(ctx, canvas.currentX, canvas.currentY, glyphSize * grouped.resize, tilt);
 
 		//might as well be a vowel
-		if (currentlines) dc2Vowels.shape[currentshape].draw(ctx, x, y, glyphSize, dc2Vowels.lines[currentlines], grouped.group[0]);
+		if (currentlines) dc2Vowels.shape[currentshape].draw(ctx, canvas.currentX, canvas.currentY, glyphSize, dc2Vowels.lines[currentlines], grouped.group[0]);
 
 	}
 
 	// text output for undefined characters as well for informational purpose
 	// print character translation above the drawings
 	if (grouped.offset == 0) ctx.drawText(grouped.currentGroupText, {
-		x: x,
-		y: y - glyph.height * .4
+		x: canvas.currentX,
+		y: canvas.currentY - glyph.height * .4
 	});
 }
 

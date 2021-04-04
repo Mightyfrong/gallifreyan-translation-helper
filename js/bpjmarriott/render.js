@@ -9,19 +9,18 @@ import {
 	linewidth
 } from './setup.js';
 import {
-	unsupportedCharacters, renderOptions
+	unsupportedCharacters,
+	renderOptions
 } from '../event_callbacks.js';
 
-let width; // canvas width
-let height; // canvas height
-let x; // current coordinate x
-let y; // current coordinate y
-let option;
+let canvas = {}; // canvas properties
+let option; // user selected render options handler
+
 // scroll through input and draw every letter
 export function render(input) {
-	option=renderOptions.get();
+	option = renderOptions.get();
 	// initialize widths, heights, default-values, draw-object
-	height = x = y = 0;
+	canvas["height"] = canvas["currentX"] = canvas["currentY"] = 0;
 	let groupedInput = input.toLowerCase().split(/\s+/),
 		glyph = {
 			width: character.width * 2,
@@ -33,28 +32,28 @@ export function render(input) {
 		charY = 0;
 
 	// set canvas scale according to number of characters
-	width = Math.min(groupedInput.length, maxWordsPerWidth) * glyph.width;
+	canvas["width"] = Math.min(groupedInput.length, maxWordsPerWidth) * glyph.width;
 	for (let i = 0; i <= groupedInput.length - 1; i++) {
 		wordHeight = groupedInput[i].length * glyph.height; // height of current word
 		if (lineHeight < wordHeight) lineHeight = wordHeight; // line height set to longest word
 		if (i % maxWordsPerWidth == 0 || i == groupedInput.length - 1) { // canvas size added longest word, reset latter on "linebreak"
-			if (groupedInput.length > maxWordsPerWidth) height += lineHeight + glyph.height;
-			else if (height < lineHeight) height = lineHeight + glyph.height;
+			if (groupedInput.length > maxWordsPerWidth) canvas.height += lineHeight + glyph.height;
+			else if (canvas.height < lineHeight) canvas.height = lineHeight + glyph.height;
 			lineHeight = 0;
 		}
 	}
-	const ctx = new SVGRenderingContext(width, height);
+	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
 
 	// iterate through input
 	lineHeight = 0;
 	for (let i = 0; i <= groupedInput.length - 1; i++) {
 		for (let c = 0; c <= groupedInput[i].length; c++) {
 			if (groupedInput[i][c] in bpjmGlyphs) {
-				bpjmDraw(ctx, x, y + charY, bpjmGlyphs[groupedInput[i][c]]);
+				bpjmDraw(ctx, canvas.currentX, canvas.currentY + charY, bpjmGlyphs[groupedInput[i][c]]);
 				// display character
 				ctx.drawText(groupedInput[i][c], {
-					x: x + character.width * 1.2,
-					y: y + charY + character.height * .6
+					x: canvas.currentX + character.width * 1.2,
+					y: canvas.currentY + charY + character.height * .6
 				});
 			} else if (groupedInput[i][c] !== undefined) unsupportedCharacters.add(groupedInput[i][c]);
 			charY += character.height;
@@ -64,11 +63,11 @@ export function render(input) {
 		wordHeight = groupedInput[i].length * glyph.height;
 		if (lineHeight < wordHeight) lineHeight = wordHeight;
 
-		if (x + glyph.width >= width) {
-			y += lineHeight + glyph.height;
+		if (canvas.currentX + glyph.width >= canvas.width) {
+			canvas.currentY += lineHeight + glyph.height;
 			lineHeight = 0;
-			x = 0;
-		} else x += glyph.width;
+			canvas.currentX = 0;
+		} else canvas.currentX += glyph.width;
 	}
 
 	// complain about unsupported characters

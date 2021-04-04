@@ -16,13 +16,10 @@ import {
 	renderOptions
 } from '../event_callbacks.js';
 
-let width; // canvas width
-let height; // canvas height
-let x; // current coordinate x
-let y; // current coordinate y
+let canvas = {}; // canvas properties
 let glyph; // glyph dimensions-object
 let groupedInput; //global variable for input to be updated
-let option; // user option-object
+let option; // user selected render options handler
 let stackedGlyph;
 export function render(input) {
 	//retrieve options and make them compact
@@ -59,22 +56,22 @@ export function render(input) {
 			width: biggestWordCircle,
 			height: biggestWordCircle
 		};
-		width = (Math.min(glyphs, Math.floor(option.maxWidth / biggestWordCircle)) * glyph.width || glyph.width);
-		height = biggestWordCircle * Math.ceil(glyphs / (Math.floor(option.maxWidth / glyph.width) || 1));
-		x = glyph.width * .5;
-		y = -glyph.height * .5;
+		canvas["width"] = (Math.min(glyphs, Math.floor(option.maxWidth / biggestWordCircle)) * glyph.width || glyph.width);
+		canvas["height"] = biggestWordCircle * Math.ceil(glyphs / (Math.floor(option.maxWidth / glyph.width) || 1));
+		canvas["currentX"] = glyph.width * .5;
+		canvas["currentY"] = -glyph.height * .5;
 	} else {
 		glyph = {
 			width: glyphSize * (stackedGlyph + 2),
 			height: glyphSize * (stackedGlyph + 2)
 		};
-		width = (Math.min(++glyphs, Math.floor(option.maxWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
-		height = glyph.height * (Math.ceil(++glyphs / (Math.floor(option.maxWidth / glyph.width) || 1)));
-		x = -glyph.width * .5;
-		y = glyph.height * .5;
+		canvas["width"] = (Math.min(++glyphs, Math.floor(option.maxWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
+		canvas["height"] = glyph.height * (Math.ceil(++glyphs / (Math.floor(option.maxWidth / glyph.width) || 1)));
+		canvas["currentX"] = -glyph.width * .5;
+		canvas["currentY"] = glyph.height * .5;
 	}
 
-	const ctx = new SVGRenderingContext(width, height);
+	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
 	// iterate through input to set grouping instructions, handle exceptions and draw glyphs
 	groupedInput.forEach(sentence => { // loop through sentence
 		let l = 0;
@@ -146,10 +143,10 @@ let clockworkGrouped = {
 function clockworkDraw(ctx, letter, grouped) {
 	if ((!option.circular || letter == " " || !grouped.glyph) &&
 		(!grouped.carriagereturn || (!grouped.carriagereturn && option.circular && !grouped.glyph))) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
-		if (x + glyph.width >= width) {
-			y += glyph.height;
-			x = glyph.width * .5;
-		} else x += glyph.width;
+		if (canvas.currentX + glyph.width >= canvas.width) {
+			canvas.currentY += glyph.height;
+			canvas.currentX = glyph.width * .5;
+		} else canvas.currentX += glyph.width;
 	}
 	// rotation of charactergroups in regards of circular display
 	let rad = 0,
@@ -171,35 +168,35 @@ function clockworkDraw(ctx, letter, grouped) {
 	// draw consonant
 	if (letter in cwConsonants.glyphs)
 		cwConsonants.glyphs[letter].draw(ctx,
-			x + center.x,
-			y + center.y,
+			canvas.currentX + center.x,
+			canvas.currentY + center.y,
 			glyphSize * grouped.resize,
 			tilt);
 	// draw vowel, smaller and randomly slightly offcentric
 	else if (letter in cwVowels.glyphs) {
 		let rot = Math.PI * Math.random() * 2;
 		cwVowels.glyphs[letter].draw(ctx,
-			x + center.x + Math.cos(rot) * glyphSize * grouped.resize * .75,
-			y + center.y + Math.sin(rot) * glyphSize * grouped.resize * .75,
+			canvas.currentX + center.x + Math.cos(rot) * glyphSize * grouped.resize * .75,
+			canvas.currentY + center.y + Math.sin(rot) * glyphSize * grouped.resize * .75,
 			glyphSize * .7,
 			tilt);
 	} else if (letter in cwPunctuation.glyphs) {
 		if (includes(",;", letter)) {
 			let rot = Math.PI * Math.random() * 2;
 			cwPunctuation.glyphs[letter].draw(ctx,
-				x + center.x + Math.cos(rot) * glyphSize * grouped.resize * .75,
-				y + center.y + Math.sin(rot) * glyphSize * grouped.resize * .75,
+				canvas.currentX + center.x + Math.cos(rot) * glyphSize * grouped.resize * .75,
+				canvas.currentY + center.y + Math.sin(rot) * glyphSize * grouped.resize * .75,
 				glyphSize * .7,
 				tilt);
 		} else {
 			cwPunctuation.glyphs[letter].draw(ctx,
-				x,
-				y,
+				canvas.currentX,
+				canvas.currentY,
 				(option.circular ? wordCircleRadius * 2 : glyphSize * grouped.resize)
 			);
 			if (option.circular) cwPunctuation.glyphs["start"].draw(ctx,
-				x + center.x,
-				y + center.y,
+				canvas.currentX + center.x,
+				canvas.currentY + center.y,
 				glyphSize * .7,
 				tilt);
 		}
@@ -211,8 +208,8 @@ function clockworkDraw(ctx, letter, grouped) {
 	if (option.circular) distance = wordCircleRadius + glyphSize * .5 * stackedGlyph;
 	else distance = -glyphSize * .5 * stackedGlyph;
 	if (grouped.offset == 0) ctx.drawText(grouped.currentGroupText, {
-		x: x - distance * Math.sin(Math.PI * rad),
-		y: y + distance * Math.cos(Math.PI * rad) + fontsize * .25
+		x: canvas.currentX - distance * Math.sin(Math.PI * rad),
+		y: canvas.currentY + distance * Math.cos(Math.PI * rad) + fontsize * .25
 	});
 }
 

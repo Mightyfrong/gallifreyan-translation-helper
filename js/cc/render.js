@@ -12,24 +12,22 @@ import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
 import {
-	unsupportedCharacters, renderOptions
+	unsupportedCharacters,
+	renderOptions
 } from '../event_callbacks.js';
 
-let width; // canvas width
-let height; // canvas height
-let x; // current coordinate x
-let y; // current coordinate y
+let canvas = {}; // canvas properties
 let letterwidth; // you'll figure that one out for yourself
 let letterheight; // you'll figure that one out for yourself
 let groupedInput; //global variable for input to be updated
-let option;
+let option; // user selected render options handler
 
 const base = new ccBase();
 const deco = new ccDeco();
 
 export function render(input) {
-	option=renderOptions.get();
-		// convert input-string to grouped array and determine number of groups
+	option = renderOptions.get();
+	// convert input-string to grouped array and determine number of groups
 	groupedInput = ccGrouped.groups(input.toLowerCase());
 	let lettergroups = 0;
 
@@ -46,12 +44,12 @@ export function render(input) {
 	letterwidth = consonant * option.stack;
 	letterheight = letterwidth * 3;
 	// set canvas scale according to number of groups times letterwidth
-	width = Math.min(lettergroups + 2, Math.floor(option.maxWidth / letterwidth)) * letterwidth - letterwidth;
-	height = letterheight * Math.ceil(lettergroups / Math.floor(width / letterwidth));
-	const ctx = new SVGRenderingContext(width, height);
+	canvas["width"] = Math.min(lettergroups + 2, Math.floor(option.maxWidth / letterwidth)) * letterwidth - letterwidth;
+	canvas["height"] = letterheight * Math.ceil(lettergroups / Math.floor(canvas.width / letterwidth));
+	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
 
-	x = letterwidth * .5;
-	y = letterheight * .6;
+	canvas["currentX"] = letterwidth * .5;
+	canvas["currentY"] = letterheight * .6;
 
 	groupedInput.forEach(words => { // loop through sentence
 		words.forEach(groups => { // loop through words
@@ -124,23 +122,23 @@ let ccGrouped = {
 // draw instructions for base + decoration
 function ccDraw(ctx, letter, grouped) {
 	if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
-		if (x + letterwidth * 2 >= width) {
-			y += letterheight;
-			x = letterwidth * 1.5;
-		} else x += letterwidth;
+		if (canvas.currentX + letterwidth * 2 >= canvas.width) {
+			canvas.currentY += letterheight;
+			canvas.currentX = letterwidth * 1.5;
+		} else canvas.currentX += letterwidth;
 	}
 	//define tilt based on stack-number to make the glyphs less monotonous
 	let tilt = .25 - .0625 * (grouped.offset + 1);
 	// draw base
-	if (base.getBase(letter)) base.cctable[base.getBase(letter)].draw(ctx, x, y, consonant * grouped.resize, tilt);
+	if (base.getBase(letter)) base.cctable[base.getBase(letter)].draw(ctx, canvas.currentX, canvas.currentY, consonant * grouped.resize, tilt);
 	// draw decorators
-	if (deco.getDeco(letter)) deco.cctable[deco.getDeco(letter)].draw(ctx, x, y, consonant * grouped.resize, tilt);
+	if (deco.getDeco(letter)) deco.cctable[deco.getDeco(letter)].draw(ctx, canvas.currentX, canvas.currentY, consonant * grouped.resize, tilt);
 
 	// text output for undefined characters as well for informational purpose
 	// print character translation above the drawings
 	if (grouped.offset == 0) ctx.drawText(grouped.currentGroupText, {
-		x: x,
-		y: y - letterheight * .5
+		x: canvas.currentX,
+		y: canvas.currentY - letterheight * .5
 	});
 }
 

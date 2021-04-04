@@ -13,19 +13,17 @@ import {
 	cbContext
 } from './cbettenbendersGlyphs.js';
 import {
-	unsupportedCharacters, renderOptions
+	unsupportedCharacters,
+	renderOptions
 } from '../event_callbacks.js';
 
-let width; // canvas width
-let height; // canvas height
-let x; // current coordinate x
-let y; // current coordinate y
+let canvas = {}; // canvas properties
 let glyph; // glyph dimensions-object
 let groupedInput; //global variable for input to be updated
-let option;
+let option; // user selected render options handler
 
 export function render(input) {
-	option=renderOptions.get();
+	option = renderOptions.get();
 	// convert input-string to grouped array and determine number of groups
 	groupedInput = cbettenbacherGrouped.groups(input.toLowerCase());
 
@@ -36,11 +34,11 @@ export function render(input) {
 		width: glyphSize * 2.25,
 		height: glyphSize * 3
 	};
-	width = (Math.min(glyphs, Math.floor(option.maxWidth / glyph.width)) * glyph.width || glyph.width);
-	height = glyph.height * (Math.ceil(glyphs / (Math.floor(option.maxWidth / glyph.width) || 1)));
-	x = glyph.width * -.5;
-	y = glyph.height * .5;
-	const ctx = new SVGRenderingContext(width, height);
+	canvas["width"] = (Math.min(glyphs, Math.floor(option.maxWidth / glyph.width)) * glyph.width || glyph.width);
+	canvas["height"] = glyph.height * (Math.ceil(glyphs / (Math.floor(option.maxWidth / glyph.width) || 1)));
+	canvas["currentX"] = glyph.width * -.5;
+	canvas["currentY"] = glyph.height * .5;
+	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
 
 	// iterate through sentence and pass the whole syllable to the drawing instructions
 	groupedInput.forEach(syllable => { // loop through sentence
@@ -79,15 +77,15 @@ let cbettenbacherGrouped = {
 
 // draw instructions for base + decoration
 function cbDraw(ctx, syllable) {
-	if (x + glyph.width >= width) {
-		y += glyph.height;
-		x = glyph.width / 2;
-	} else x += glyph.width;
+	if (canvas.currentX + glyph.width >= canvas.width) {
+		canvas.currentY += glyph.height;
+		canvas.currentX = glyph.width / 2;
+	} else canvas.currentX += glyph.width;
 
 	//syllable circle
 	ctx.drawShape('circle', 1, {
-		cx: x,
-		cy: y,
+		cx: canvas.currentX,
+		cy: canvas.currentY,
 		r: glyphSize
 	});
 
@@ -107,12 +105,12 @@ function cbDraw(ctx, syllable) {
 		// draw consonant
 		if (consonant) {
 			// mark consonant as starting character if applicable
-			if (c == 0) context.startCon(ctx, x, y, glyphSize, character);
+			if (c == 0) context.startCon(ctx, canvas.currentX, canvas.currentY, glyphSize, character);
 			// draw current character
 			cbConsonant.base[consonant].draw(
 				ctx, // svg-object
-				x, // current x
-				y, // current y
+				canvas.currentX, // current x
+				canvas.currentY, // current y
 				glyphSize, // syllable radius
 				character, // current character
 				(c > 0 && syllable.slice(0, c).join('').indexOf(character) > -1), // is current character repetitive?
@@ -123,22 +121,22 @@ function cbDraw(ctx, syllable) {
 			if ( // last consonant before a vowel
 				syllable[c - 1] !== undefined && cbConsonant.getBase(syllable[c - 1]) &&
 				syllable[c + 1] !== undefined && !cbConsonant.getBase(syllable[c + 1])
-			) context.connectCon(ctx, x, y, glyphSize, syllable[c - 1], character, 'outwards');
+			) context.connectCon(ctx, canvas.currentX, canvas.currentY, glyphSize, syllable[c - 1], character, 'outwards');
 			if ( // former but one is vowel
 				syllable[c - 2] !== undefined && !cbConsonant.getBase(syllable[c - 2]) &&
 				syllable[c - 1] !== undefined && cbConsonant.getBase(syllable[c - 1])
-			) context.connectCon(ctx, x, y, glyphSize, syllable[c - 1], character, 'inwards');
+			) context.connectCon(ctx, canvas.currentX, canvas.currentY, glyphSize, syllable[c - 1], character, 'inwards');
 
 		}
 		// draw vowel
 		if (vowel) {
 			// mark vocal as starting character if applicable
-			if (c == 0) context.startVow(ctx, x, y, glyphSize, character);
+			if (c == 0) context.startVow(ctx, canvas.currentX, canvas.currentY, glyphSize, character);
 			// draw current character
 			cbVowel.base[vowel].draw(
 				ctx, // svg-object
-				x, // current x
-				y, // current y
+				canvas.currentX, // current x
+				canvas.currentY, // current y
 				glyphSize, // syllable radius
 				character, // current character
 				(c > 0 && syllable.slice(0, c).join('').indexOf(character) > -1) // is current character repetitive?
@@ -150,8 +148,8 @@ function cbDraw(ctx, syllable) {
 	// text output for undefined characters as well for informational purpose
 	// print character translation above the drawings
 	ctx.drawText(syllable.join(""), {
-		x: x,
-		y: y - glyph.height * .4
+		x: canvas.currentX,
+		y: canvas.currentY - glyph.height * .4
 	});
 }
 
