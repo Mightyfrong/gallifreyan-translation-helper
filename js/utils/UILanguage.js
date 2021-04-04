@@ -13,9 +13,9 @@ export let UILanguage = {
 			lt: "Padėti su"
 		},
 		circular: {
-			en: "circular words",
-			de: "kreisförmige Wörter",
-			lt: "žiediniai žodžiai"
+			en: "circular",
+			de: "kreisförmig",
+			lt: "žiediniai"
 		},
 		convertc: {
 			en: "convert C",
@@ -23,36 +23,36 @@ export let UILanguage = {
 			lt: "konvertuoti C"
 		},
 		stacking: {
-			en: "character stacking",
-			de: "gruppierte Buchstaben",
-			lt: "simbolių kaupimas"
+			en: "stacking",
+			de: "gruppiert",
+			lt: "sugrupuoti"
 		},
 		stack: {
-			en: "Maximum stacked characters",
-			de: "Maximal gruppierte Buchstaben",
-			lt: "Didžiausias sukauptų simbolių skaičius"
+			en: "Maximum stacked",
+			de: "Maximal gruppiert",
+			lt: "Didžiausias sukrautas"
 		},
 		ipakeys: {
-			en: " IPA keyboard",
-			de: " IPA Tastatur",
-			lt: " IPA klaviatūra"
+			en: "IPA keyboard",
+			de: "IPA Tastatur",
+			lt: "IPA klaviatūra"
 		},
 		enkeys: {
-			en: " phonetic/english keyboard",
-			de: " lautsprachliche/englische Tastatur",
-			lt: " fonetinė/angliška klaviatūra"
+			en: "phonetic/english keyboard",
+			de: "lautsprachliche/englische Tastatur",
+			lt: "fonetinė/angliška klaviatūra"
 		},
-		cotaleph: {
+		cothint: {
 			en: "Please add aleph (א) to lonely vowels manually",
 			de: "Bitte Aleph (א) manuell einsamen Vokalen voranstellen",
 			lt: "Rankiniu būdu pridėti aleph (א) prie atskirų balsių"
 		},
-		bettenbendersyllable: {
+		cbhint: {
 			en: "Please separate syllables manually with a space",
 			de: "Silben bitte manuell mit Leerzeichen trennen",
 			lt: "Skydus rankiniu būdu atskirkite tarpais"
 		},
-		cwhint:{
+		cwhint: {
 			en: "Inconsistent use of punctuation may cause errors. Provide either full punctuation or none.",
 			de: "Eine inkonsistente Verwendung von Satzzeichen kann zu Fehlern führen, Bitte vollständige Satzzeichensetzung oder keine benutzen.",
 			lt: "Nenuoseklus skyrybos ženklų naudojimas gali sukelti klaidų. Įtraukite skyrybos ženklus arba be jų."
@@ -107,19 +107,23 @@ export let UILanguage = {
 	},
 	init: function () {
 		//overwrite initial rendered text putputs
-		document.getElementById("helpwith").innerHTML = this.write('helpwith');
-		document.getElementById("circular").parentElement.innerText = this.write('circular');
-		document.getElementById("convertc").parentElement.innerText = this.write('convertc');
-		document.getElementById("stacking").parentElement.innerText = this.write('stacking');
-		document.getElementById("stack").parentElement.innerText = this.write('stack');
-		document.getElementById("ipakeys").parentElement.innerText = this.write('ipakeys');
-		document.getElementById("enkeys").parentElement.innerText = this.write('enkeys');
-		document.getElementById("bettenbendersyllable").innerHTML = this.write('bettenbendersyllable');
+		let dest = ["circular", "convertc", "stacking", "stack", "ipakeys", "enkeys"];
+		dest.forEach(id => {
+			document.getElementById(id).parentElement.innerHTML =
+				document.getElementById(id).parentElement.innerHTML.replaceAll(/[>|^](\D+?)</g, ($1, $2) => {
+					if ($2) return $1.replace($2, this.write(id));
+				});
+		}, {
+			write: this.write
+		});
+		document.getElementById("cothint").innerHTML = this.write('cothint');
+		document.getElementById("cbhint").innerHTML = this.write('cbhint');
 		document.getElementById("cwhint").innerHTML = this.write('cwhint');
+
+		document.getElementById("helpwith").innerHTML = this.write('helpwith');
 		document.getElementById("text").placeholder = this.write('inputplaceholder');
 		document.getElementById("renderbutton").value = this.write('renderbutton');
 		document.getElementById("info").innerHTML = this.write('info');
-		document.getElementById("cotaleph").innerHTML = this.write('cotaleph');
 
 		//display supported languages and add event listeners for setting language
 		Object.keys(this.supported).forEach(l => {
