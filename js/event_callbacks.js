@@ -184,23 +184,13 @@ export function activateControls(lang) {
 	window.localStorage.setItem("selectedLang", lang);
 }
 
-Array.prototype.forEach.call(document.querySelectorAll('input[type=radio][name="keyboard"]'), function (radio) {
-	radio.addEventListener('change', keyboardupdate);
+document.querySelectorAll('input[type=radio][name=keyboard]').forEach(radio => {
+	radio.addEventListener('change', e => {
+		createCotKeyboard();
+		createClockworkKeyboard();
+		createoddKeyboard();
+	}, false);
 });
-
-function keyboardupdate() {
-	switch (langSelect.value) {
-		case COT:
-			createCotKeyboard();
-			break;
-		case CW:
-			createClockworkKeyboard();
-			break;
-		case ODD:
-			createoddKeyboard();
-			break;
-	}
-}
 
 /**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR
  *
