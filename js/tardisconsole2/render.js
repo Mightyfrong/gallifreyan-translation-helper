@@ -49,8 +49,8 @@ export function render(input) {
 		y = glyph.height * .6;
 	}
 	// set canvas scale according to number of characters
-	width = Math.min(glyph.count, Math.floor(window.innerWidth / glyph.width) || 1) * glyph.width;
-	height = glyph.height * Math.ceil(glyph.count / (Math.floor(window.innerWidth / glyph.width) || 1));
+	width = Math.min(glyph.count, Math.floor(option.maxWidth / glyph.width) || 1) * glyph.width;
+	height = glyph.height * Math.ceil(glyph.count / (Math.floor(option.maxWidth / glyph.width) || 1));
 	const ctx = new SVGRenderingContext(width, height);
 
 	//return ctx;

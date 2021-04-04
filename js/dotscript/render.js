@@ -248,8 +248,8 @@ export function render(input) {
 	y = letterheight * .6;
 
 	// set canvas scale according to number of characters
-	width = Math.min(input.length + 1, Math.floor(window.innerWidth / letterwidth)) * letterwidth;
-	height = letterheight * Math.ceil(input.length / Math.floor(window.innerWidth / letterwidth));
+	width = Math.min(input.length + 1, Math.floor(option.maxWidth / letterwidth)) * letterwidth;
+	height = letterheight * Math.ceil(input.length / Math.floor(option.maxWidth / letterwidth));
 	const ctx = new SVGRenderingContext(width, height);
 
 	// draw baseline

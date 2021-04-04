@@ -57,8 +57,8 @@ export function render(input) {
 			width: biggestWordCircle,
 			height: biggestWordCircle
 		};
-		width = (Math.min(glyphs, Math.floor(window.innerWidth / biggestWordCircle)) * glyph.width || glyph.width);
-		height = biggestWordCircle * Math.ceil(glyphs / (Math.floor(window.innerWidth / glyph.width) || 1));
+		width = (Math.min(glyphs, Math.floor(option.maxWidth / biggestWordCircle)) * glyph.width || glyph.width);
+		height = biggestWordCircle * Math.ceil(glyphs / (Math.floor(option.maxWidth / glyph.width) || 1));
 		x = glyph.width * .5;
 		y = -glyph.height * .5;
 	} else {
@@ -66,8 +66,8 @@ export function render(input) {
 			width: glyphSize * (stackedGlyph + 2),
 			height: glyphSize * (stackedGlyph + 2)
 		};
-		width = (Math.min(++glyphs, Math.floor(window.innerWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
-		height = glyph.height * (Math.ceil(++glyphs / (Math.floor(window.innerWidth / glyph.width) || 1)));
+		width = (Math.min(++glyphs, Math.floor(option.maxWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
+		height = glyph.height * (Math.ceil(++glyphs / (Math.floor(option.maxWidth / glyph.width) || 1)));
 		x = -glyph.width * .5;
 		y = glyph.height * .5;
 	}

@@ -89,6 +89,7 @@ export class renderOpts {
 		});
 
 		output.fontsize = parseFloat(getComputedStyle(document.body, null).fontSize);
+		output.maxWidth = window.innerWidth;
 		return output;
 	}
 }

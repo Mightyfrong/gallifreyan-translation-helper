@@ -46,7 +46,7 @@ export function render(input) {
 	letterwidth = consonant * option.stack;
 	letterheight = letterwidth * 3;
 	// set canvas scale according to number of groups times letterwidth
-	width = Math.min(lettergroups + 2, Math.floor(window.innerWidth / letterwidth)) * letterwidth - letterwidth;
+	width = Math.min(lettergroups + 2, Math.floor(option.maxWidth / letterwidth)) * letterwidth - letterwidth;
 	height = letterheight * Math.ceil(lettergroups / Math.floor(width / letterwidth));
 	const ctx = new SVGRenderingContext(width, height);
 

@@ -27,7 +27,7 @@ export function render(input) {
 			width: character.width * 2,
 			height: character.height
 		},
-		maxWordsPerWidth = Math.floor(window.innerWidth / glyph.width),
+		maxWordsPerWidth = Math.floor(option.maxWidth / glyph.width),
 		wordHeight = 0,
 		lineHeight = 0,
 		charY = 0;

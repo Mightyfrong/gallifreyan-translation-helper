@@ -10,7 +10,7 @@ import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
 import {
-	unsupportedCharacters
+	unsupportedCharacters, renderOptions
 } from '../event_callbacks.js';
 
 let width; // canvas width
@@ -19,8 +19,9 @@ let x; // current coordinate x
 let y; // current coordinate y
 let glyph; // glyph dimensions-object
 let groupedInput; //global variable for input to be updated
-
+let option;
 export function render(input) {
+	option=renderOptions.get();
 	// convert input-string to grouped array and determine number of groups
 	groupedInput = doctorsCotGrouped.groups(input.toLowerCase());
 
@@ -36,8 +37,8 @@ export function render(input) {
 		width: glyphSize * 2.25,
 		height: glyphSize * 4
 	};
-	width = (Math.min(++glyphs, Math.floor(window.innerWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
-	height = glyph.height * (Math.ceil(++glyphs / (Math.floor(window.innerWidth / glyph.width) || 1)));
+	width = (Math.min(++glyphs, Math.floor(option.maxWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
+	height = glyph.height * (Math.ceil(++glyphs / (Math.floor(option.maxWidth / glyph.width) || 1)));
 	x = -glyph.width * .5;
 	y = glyph.height * .5;
 	const ctx = new SVGRenderingContext(width, height);

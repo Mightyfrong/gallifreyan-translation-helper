@@ -1,7 +1,4 @@
 import {
-	UILanguage
-} from '../utils/UILanguage.js'
-import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
 import {
@@ -15,16 +12,18 @@ import {
 	includes
 } from '../utils/funcs.js';
 import {
-	unsupportedCharacters
+	unsupportedCharacters, renderOptions
 } from '../event_callbacks.js';
 
 let width; // canvas width
 let height; // canvas height
 let x; // current coordinate x
 let y; // current coordinate y
+let option;
 
 // scroll through input and draw every letter
 export function render(input) {
+	option = renderOptions.get();
 	// initialize widths, heights, default-values, draw-object
 	x = y = 0;
 	let glyph = {
@@ -33,8 +32,8 @@ export function render(input) {
 	};
 
 	// set canvas scale according to number of characters
-	width = Math.min(input.length, Math.floor(window.innerWidth / glyph.width)) * glyph.width;
-	height = glyph.height * Math.ceil(input.length / Math.floor(window.innerWidth / glyph.width));
+	width = Math.min(input.length, Math.floor(option.maxWidth / glyph.width)) * glyph.width;
+	height = glyph.height * Math.ceil(input.length / Math.floor(option.maxWidth / glyph.width));
 
 	const ctx = new SVGRenderingContext(width, height);
 
