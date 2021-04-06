@@ -1,5 +1,6 @@
 import {
-	includes
+	includes,
+	dimensionObj
 } from '../utils/funcs.js';
 import {
 	glyphSize,
@@ -18,26 +19,29 @@ import {
 } from '../event_callbacks.js';
 
 let canvas = {}; // canvas properties
-let glyph; // glyph dimensions-object
-let groupedInput; //global variable for input to be updated
 let option; // user selected render options handler
+let glyphs = { // glyph dimensions object
+	num: 0,
+	width: 0,
+	height: 0
+};
+let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
 export function render(input) {
+	//retrieve options and make them compact
 	option = renderOptions.get();
-	// convert input-string to grouped array and determine number of groups
-	groupedInput = cbettenbacherGrouped.groups(input.toLowerCase());
 
-	let glyphs = 0;
-	glyphs = groupedInput.length;
-	//kæt bɛt tɛn bɛn bɜr
-	glyph = {
-		width: glyphSize * 2.25,
-		height: glyphSize * 3
-	};
-	canvas["width"] = (Math.min(glyphs, Math.floor(option.maxWidth / glyph.width)) * glyph.width || glyph.width);
-	canvas["height"] = glyph.height * (Math.ceil(glyphs / (Math.floor(option.maxWidth / glyph.width) || 1)));
-	canvas["currentX"] = glyph.width * -.5;
-	canvas["currentY"] = glyph.height * .5;
+	// convert input-string to grouped array and determine number of groups
+	let groupedInput = cbettenbacherGrouped.groups(input.toLowerCase());
+
+	glyphs.width = glyphSize * 2.25;
+	glyphs.height = glyphSize * 3;
+	glyphs.num = groupedInput.length;
+
+	canvas["currentX"] = glyphs.width * -.5;
+	canvas["currentY"] = glyphs.height * .5;
+	canvas["width"] = dimension.canvas(glyphs, option.maxWidth).width;
+	canvas["height"] = dimension.canvas(glyphs, option.maxWidth).height;
 	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
 
 	// iterate through sentence and pass the whole syllable to the drawing instructions
@@ -77,10 +81,10 @@ let cbettenbacherGrouped = {
 
 // draw instructions for base + decoration
 function cbDraw(ctx, syllable) {
-	if (canvas.currentX + glyph.width >= canvas.width) {
-		canvas.currentY += glyph.height;
-		canvas.currentX = glyph.width / 2;
-	} else canvas.currentX += glyph.width;
+	if (canvas.currentX + glyphs.width >= canvas.width) {
+		canvas.currentY += glyphs.height;
+		canvas.currentX = glyphs.width / 2;
+	} else canvas.currentX += glyphs.width;
 
 	//syllable circle
 	ctx.drawShape('circle', 1, {
@@ -149,7 +153,7 @@ function cbDraw(ctx, syllable) {
 	// print character translation above the drawings
 	ctx.drawText(syllable.join(""), {
 		x: canvas.currentX,
-		y: canvas.currentY - glyph.height * .4
+		y: canvas.currentY - glyphs.height * .4
 	});
 }
 

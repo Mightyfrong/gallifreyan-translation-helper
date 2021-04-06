@@ -5,14 +5,22 @@ import {
 	unsupportedCharacters,
 	renderOptions
 } from '../event_callbacks.js';
+import {
+	dimensionObj
+} from '../utils/funcs.js';
 
 let glyphSize = 30; // radius of glyphs
 let lineweight = 1; // thicker lines add a cute chubbyness
-let canvas = {}; // canvas properties
-let letterwidth; // you'll figure that one out for yourself
-let letterheight; // you'll figure that one out for yourself
-let option; // user selected render options handler
 const FILLED = true;
+
+let canvas = {}; // canvas properties
+let option; // user selected render options handler
+let glyphs = { // glyph dimensions object
+	num: 0,
+	width: 0,
+	height: 0
+};
+let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
 class character {
 	constructor(ctx, x, y, r, lineweight) {
@@ -281,26 +289,28 @@ let characters = {
 
 // scroll through input and draw every letter
 export function render(input) {
+	//retrieve options and make them compact
 	option = renderOptions.get();
-	// initialize widths, heights, default-values, draw-object
-	letterwidth = glyphSize * 2.2;
-	letterheight = glyphSize * 4;
 
-	canvas["currentX"] = 0;
-	canvas["currentY"] = letterheight * .6;
+	// initialize widths, heights, default-values, draw-object
+	glyphs.width = glyphSize * 2.2;
+	glyphs.height = glyphSize * 4;
+	glyphs.num = input.length;
 
 	// set canvas scale according to number of characters
-	canvas["width"] = Math.min(input.length + 1, Math.floor(option.maxWidth / letterwidth)) * letterwidth;
-	canvas["height"] = letterheight * Math.ceil(input.length / Math.floor(option.maxWidth / letterwidth));
+	canvas["currentX"] = 0;
+	canvas["currentY"] = glyphs.height * .6;
+	canvas["width"] = dimension.canvas(glyphs, option.maxWidth).width;
+	canvas["height"] = dimension.canvas(glyphs, option.maxWidth).height;
 	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
 
 	// iterate through input
 	for (let i = 0; i < input.length; i++) {
 		// position pointer
-		if (canvas.currentX + letterwidth * 1.5 >= canvas.width) {
-			canvas.currentY += letterheight;
-			canvas.currentX = letterwidth;
-		} else canvas.currentX += letterwidth;
+		if (canvas.currentX + glyphs.width * 1.5 >= canvas.width) {
+			canvas.currentY += glyphs.height;
+			canvas.currentX = glyphs.width;
+		} else canvas.currentX += glyphs.width;
 
 		if (input[i].toLowerCase() in characters) {
 			// draw character

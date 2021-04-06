@@ -1,5 +1,6 @@
 import {
-	includes
+	includes,
+	dimensionObj
 } from '../utils/funcs.js';
 import {
 	glyphSize,
@@ -15,31 +16,33 @@ import {
 } from '../event_callbacks.js';
 
 let canvas = {}; // canvas properties
-let glyph; // glyph dimensions-object
-let groupedInput; //global variable for input to be updated
 let option; // user selected render options handler
+let glyphs = { // glyph dimensions object
+	num: 0,
+	width: 0,
+	height: 0
+};
+let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
 export function render(input) {
 	option = renderOptions.get();
 	// convert input-string to grouped array and determine number of groups
-	groupedInput = doctorsCotGrouped.groups(input.toLowerCase());
+	let groupedInput = doctorsCotGrouped.groups(input.toLowerCase());
 
 	let glyphs = 0;
 	groupedInput.forEach(word => {
 		word.forEach(groups => {
-			glyphs += groups.length;
+			glyphs.num += groups.length;
 		});
-		glyphs++;
+		glyphs.num++;
 	})
 
-	glyph = {
-		width: glyphSize * 2.25,
-		height: glyphSize * 4
-	};
-	canvas["width"] = (Math.min(++glyphs, Math.floor(option.maxWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
-	canvas["height"] = glyph.height * (Math.ceil(++glyphs / (Math.floor(option.maxWidth / glyph.width) || 1)));
-	canvas["currentX"] = -glyph.width * .5;
-	canvas["currentY"] = glyph.height * .5;
+	glyphs.width = glyphSize * 2.25;
+	glyphs.height = glyphSize * 4;
+	canvas["currentX"] = -glyphs.width * .5;
+	canvas["currentY"] = glyphs.height * .5;
+	canvas["width"] = dimension.canvas(glyphs, option.maxWidth).width;
+	canvas["height"] = dimension.canvas(glyphs, option.maxWidth).height;
 	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
 
 	// iterate through input to set grouping instructions, handle exceptions and draw glyphs
@@ -121,10 +124,10 @@ let doctorsCotGrouped = {
 // draw instructions for base + decoration
 function doctorsCotDraw(ctx, letter, grouped) {
 	if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
-		if (canvas.currentX + glyph.width >= canvas.width) {
-			canvas.currentY += glyph.height;
-			canvas.currentX = glyph.width * .5;
-		} else canvas.currentX += glyph.width;
+		if (canvas.currentX + glyphs.width >= canvas.width) {
+			canvas.currentY += glyphs.height;
+			canvas.currentX = glyphs.width * .5;
+		} else canvas.currentX += glyphs.width;
 	}
 
 	//define tilt based on stack-number todistinguish between stacked characters
@@ -159,7 +162,7 @@ function doctorsCotDraw(ctx, letter, grouped) {
 	// print character translation above the drawings
 	if (grouped.offset == 0) ctx.drawText(grouped.currentGroupText, {
 		x: canvas.currentX,
-		y: canvas.currentY - glyph.height * .4
+		y: canvas.currentY - glyphs.height * .4
 	});
 }
 

@@ -1,5 +1,6 @@
 import {
-	includes
+	includes,
+	dimensionObj
 } from '../utils/funcs.js'
 import {
 	SVGRenderingContext
@@ -11,10 +12,15 @@ import {
 
 let consonant = 30; // radius of consonants
 let linewidth = 1; // thicker lines add a cute chubbyness
+
 let canvas = {}; // canvas properties
-let letterwidth; // you'll figure that one out for yourself
-let letterheight; // you'll figure that one out for yourself
 let option; // user selected render options handler
+let glyphs = { // glyph dimensions object
+	num: 0,
+	width: 0,
+	height: 0
+};
+let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
 //specify forms and positions
 let characters = {
@@ -239,39 +245,39 @@ export function render(input) {
 	option = renderOptions.get();
 	// initialize widths, heights, default-values, draw-object
 	input = input.toLowerCase();
-	letterwidth = consonant * 1.5;
-	letterheight = consonant * 6;
-
-	canvas["currentX"] = -letterwidth * .5;
-	canvas["currentY"] = letterheight * .6;
+	glyphs.width = consonant * 1.5;
+	glyphs.height = consonant * 6;
+	glyphs.num = input.length;
 
 	// set canvas scale according to number of characters
-	canvas["width"] = Math.min(input.length + 1, Math.floor(option.maxWidth / letterwidth)) * letterwidth;
-	canvas["height"] = letterheight * Math.ceil(input.length / Math.floor(option.maxWidth / letterwidth));
+	canvas["currentX"] = -glyphs.width * .5;
+	canvas["currentY"] = glyphs.height * .6;
+	canvas["width"] = dimension.canvas(glyphs, option.maxWidth).width;
+	canvas["height"] = dimension.canvas(glyphs, option.maxWidth).height;
 	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
 
 	// draw baseline
 	ctx.drawShape('line', linewidth, {
 		x1: canvas.currentX,
 		y1: canvas.currentY,
-		x2: canvas.currentX + letterwidth * 2,
+		x2: canvas.currentX + glyphs.width * 2,
 		y2: canvas.currentY
 	});
 	// iterate through input
 	for (let i = 0; i < input.length; i++) {
 		// position pointer
-		if (canvas.currentX + letterwidth * 2 >= canvas.width) {
-			canvas.currentY += letterheight;
-			canvas.currentX = letterwidth * .5;
-		} else if (includes("aeiou", input[i])) canvas.currentX += letterwidth * .5;
-		else canvas.currentX += letterwidth;
+		if (canvas.currentX + glyphs.width * 2 >= canvas.width) {
+			canvas.currentY += glyphs.height;
+			canvas.currentX = glyphs.width * .5;
+		} else if (includes("aeiou", input[i])) canvas.currentX += glyphs.width * .5;
+		else canvas.currentX += glyphs.width;
 
 		if (input[i] in characters.characters) {
 			// draw baseline for the next character to not interfere with the former one
 			ctx.drawShape('line', linewidth, {
-				x1: canvas.currentX + letterwidth,
+				x1: canvas.currentX + glyphs.width,
 				y1: canvas.currentY,
-				x2: canvas.currentX + letterwidth * 2,
+				x2: canvas.currentX + glyphs.width * 2,
 				y2: canvas.currentY
 			});
 			// draw character
@@ -283,7 +289,7 @@ export function render(input) {
 		// print character translation above the drawings
 		ctx.drawText(input[i], {
 			x: canvas.currentX + consonant,
-			y: canvas.currentY - letterheight * .5
+			y: canvas.currentY - glyphs.height * .5
 		});
 
 	}

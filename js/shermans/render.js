@@ -1,6 +1,6 @@
 import {
 	includes,
-	wordcircleRadius
+	dimensionObj
 } from '../utils/funcs.js';
 import {
 	shermansBase,
@@ -24,9 +24,13 @@ import {
 let cLetter; // is there a "c"?
 let qLetter; // is there a "q"?
 let canvas = {}; // canvas properties
-let glyph; // glyph dimensions-object
 let option; // user selected render options handler
-let groupedInput; //global variable for input to be updated
+let glyphs = { // glyph dimensions object
+	num: 0,
+	width: 0,
+	height: 0
+};
+let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
 // add module-specific language chunks
 UILanguage.say.cLetter = {
@@ -44,43 +48,37 @@ const base = new shermansBase(consonant, vowel);
 const deco = new shermansDeco(base);
 
 export function render(input) {
+	//retrieve options and make them compact
 	option = renderOptions.get();
 
 	// convert input-string to grouped array and determine number of groups
-	groupedInput = shermansGrouped.groups(input.toLowerCase());
-	let glyphs = 0,
-		biggestWordCircle = 0;
+	let groupedInput = shermansGrouped.groups(input.toLowerCase());
+	let biggestWordCircle = 0;
 	groupedInput.forEach(word => {
 		word.forEach(groups => {
 			if (option.circular) {
-				let twc2 = wordcircleRadius(groups.length, consonant) * 4.5;
+				let twc2 = dimension.wordcircleRadius(groups.length, consonant) * 4.5;
 				if (biggestWordCircle < twc2) biggestWordCircle = twc2;
 			} else {
-				glyphs += groups.length;
+				glyphs.num += groups.length;
 			}
 		});
-		glyphs++;
+		glyphs.num++;
 	})
 	// set canvas scale according to number of letters/groups
 	if (option.circular) {
-		glyph = {
-			width: biggestWordCircle + consonant,
-			height: biggestWordCircle
-		};
-		canvas["width"] = (Math.min(glyphs, Math.floor(option.maxWidth / biggestWordCircle)) * glyph.width || glyph.width);
-		canvas["height"] = biggestWordCircle * Math.ceil(glyphs / (Math.floor(option.maxWidth / glyph.width) || 1));
-		canvas["currentX"] = glyph.width / 2;
-		canvas["currentY"] = glyph.height / 2;
+		glyphs.width = biggestWordCircle + consonant;
+		glyphs.height = biggestWordCircle;
+		canvas["currentX"] = glyphs.width / 2;
+		canvas["currentY"] = glyphs.height / 2;
 	} else {
-		glyph = {
-			width: consonant * 2.5,
-			height: consonant * 6
-		};
-		canvas["width"] = (Math.min(++glyphs, Math.floor(option.maxWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
-		canvas["height"] = glyph.height * (Math.ceil(++glyphs / (Math.floor(option.maxWidth / glyph.width) || 1)));
+		glyphs.width = consonant * 2.5;
+		glyphs.height = consonant * 6;
 		canvas["currentX"] = 0;
-		canvas["currentY"] = -glyph.height * .5;
+		canvas["currentY"] = -glyphs.height * .5;
 	}
+	canvas["width"] = dimension.canvas(glyphs, option.maxWidth).width;
+	canvas["height"] = dimension.canvas(glyphs, option.maxWidth).height;
 	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
 
 	// initialize widths, heights, default-values, draw-object
@@ -102,7 +100,7 @@ export function render(input) {
 					if (vowelindex > -1 && vowelindex <= lastStackedConsonantIndex) lastStackedConsonantIndex = vowelindex - 1;
 				});
 				// reset offsets but hand over possible resizing factor, first base, current group related to number of groups
-				shermansGrouped.resetOffset(lastStackedConsonantIndex, base.getBase(group[0]), groups.length, groupnum, group.join(''), glyph);
+				shermansGrouped.resetOffset(lastStackedConsonantIndex, base.getBase(group[0]), groups.length, groupnum, group.join(''), glyphs);
 				// iterate through characters within group
 				for (let l = 0; l < group.length; l++) {
 					// check whether an occuring dot or comma is a decimal sign or not
@@ -237,20 +235,20 @@ let shermansGrouped = {
 function shermansDraw(ctx, letter, grouped, isNumber) {
 	if (!option.circular || letter == " ") {
 		if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
-			if (canvas.currentX + glyph.width >= canvas.width) {
-				canvas.currentY += glyph.height;
-				canvas.currentX = glyph.width / (option.circular ? 2 : 1);
-			} else canvas.currentX += glyph.width;
+			if (canvas.currentX + glyphs.width >= canvas.width) {
+				canvas.currentY += glyphs.height;
+				canvas.currentX = glyphs.width / (option.circular ? 2 : 1);
+			} else canvas.currentX += glyphs.width;
 		}
 	}
 	let currentbase = base.getBase(letter);
 	if (!currentbase) return false;
 	// rotation of charactergroups in regards of circular display
 	let rad = 0,
-		wordCircleRadius = glyph.height;
+		wordCircleRadius = glyphs.height;
 	if (option.circular) {
 		rad = -(2 / grouped.numberOfGroups) * (grouped.currentGroup - 1);
-		wordCircleRadius = wordcircleRadius(grouped.numberOfGroups, consonant) * 1.5;
+		wordCircleRadius = dimension.wordcircleRadius(grouped.numberOfGroups, consonant) * 1.5;
 	}
 
 	if (currentbase) { // works only for defined characters

@@ -1,5 +1,6 @@
 import {
-	includes
+	includes,
+	dimensionObj
 } from '../utils/funcs.js'
 import {
 	ccBase,
@@ -17,10 +18,13 @@ import {
 } from '../event_callbacks.js';
 
 let canvas = {}; // canvas properties
-let letterwidth; // you'll figure that one out for yourself
-let letterheight; // you'll figure that one out for yourself
-let groupedInput; //global variable for input to be updated
 let option; // user selected render options handler
+let glyphs = { // glyph dimensions object
+	num: 0,
+	width: 0,
+	height: 0
+};
+let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
 const base = new ccBase();
 const deco = new ccDeco();
@@ -28,28 +32,27 @@ const deco = new ccDeco();
 export function render(input) {
 	option = renderOptions.get();
 	// convert input-string to grouped array and determine number of groups
-	groupedInput = ccGrouped.groups(input.toLowerCase());
-	let lettergroups = 0;
+	let groupedInput = ccGrouped.groups(input.toLowerCase());
 
 	groupedInput.forEach(word => {
 		word.forEach(groups => {
 			groups.forEach(group => { // determine maximum expansion due to stacking and amount of groups
 				if (option.stack < 1 + .6 * group.length) option.stack = 1 + .6 * group.length;
-				lettergroups++;
+				glyphs.num++;
 			});
 		});
-		lettergroups++;
+		glyphs.num++;
 	})
 	// initialize widths, heights, default-values, draw-object
-	letterwidth = consonant * option.stack;
-	letterheight = letterwidth * 3;
-	// set canvas scale according to number of groups times letterwidth
-	canvas["width"] = Math.min(lettergroups + 2, Math.floor(option.maxWidth / letterwidth)) * letterwidth - letterwidth;
-	canvas["height"] = letterheight * Math.ceil(lettergroups / Math.floor(canvas.width / letterwidth));
-	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
+	glyphs.width = consonant * option.stack;
+	glyphs.height = glyphs.width * 3;
 
-	canvas["currentX"] = letterwidth * .5;
-	canvas["currentY"] = letterheight * .6;
+	// set canvas scale according to number of groups times glyphs.width
+	canvas["currentX"] = glyphs.width * .5;
+	canvas["currentY"] = glyphs.height * .6;
+	canvas["width"] = dimension.canvas(glyphs, option.maxWidth).width;
+	canvas["height"] = dimension.canvas(glyphs, option.maxWidth).height;
+	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
 
 	groupedInput.forEach(words => { // loop through sentence
 		words.forEach(groups => { // loop through words
@@ -122,10 +125,10 @@ let ccGrouped = {
 // draw instructions for base + decoration
 function ccDraw(ctx, letter, grouped) {
 	if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
-		if (canvas.currentX + letterwidth * 2 >= canvas.width) {
-			canvas.currentY += letterheight;
-			canvas.currentX = letterwidth * 1.5;
-		} else canvas.currentX += letterwidth;
+		if (canvas.currentX + glyphs.width * 1.2 >= canvas.width) {
+			canvas.currentY += glyphs.height;
+			canvas.currentX = glyphs.width * 1.5;
+		} else canvas.currentX += glyphs.width;
 	}
 	//define tilt based on stack-number to make the glyphs less monotonous
 	let tilt = .25 - .0625 * (grouped.offset + 1);
@@ -138,7 +141,7 @@ function ccDraw(ctx, letter, grouped) {
 	// print character translation above the drawings
 	if (grouped.offset == 0) ctx.drawText(grouped.currentGroupText, {
 		x: canvas.currentX,
-		y: canvas.currentY - letterheight * .5
+		y: canvas.currentY - glyphs.height * .5
 	});
 }
 

@@ -1,3 +1,4 @@
+import { consoleGlyphs } from '../tardisconsole2/consoleGlyphs.js';
 import {
 	UILanguage
 } from './UILanguage.js';
@@ -36,12 +37,22 @@ export function includes(obj, values) {
 		obj.includes(values);
 }
 
-//standard size of word- or sentence circles with circular distribution of elements
-export function wordcircleRadius(numberOfElements, elementSize) {
-	numberOfElements = Math.floor(numberOfElements ** 1.15);
-	return (Math.ceil(Math.sqrt(numberOfElements * Math.pow(2 * elementSize, 2) / Math.PI)) + elementSize);
+export class dimensionObj {
+	// standard size of word- or sentence circles with circular distribution of elements
+	wordcircleRadius(numberOfElements, elementSize) {
+		numberOfElements = Math.floor(numberOfElements ** 1.15);
+		return (Math.ceil(Math.sqrt(numberOfElements * Math.pow(2 * elementSize, 2) / Math.PI)) + elementSize);
+	}
+	// canvas dimensions by distributed character-, glyph- or sentence-size
+	canvas(glyphs, maxWidth) {
+		return {
+			width: Math.min(glyphs.num, Math.floor(maxWidth / glyphs.width) || 1) * glyphs.width || glyphs.width,
+			height: glyphs.height * (Math.ceil(glyphs.num / (Math.floor(maxWidth / glyphs.width) || 1)))
+		};
+	}
 }
 
+// handler for unsupported characters, setting up array, adding characters and displaying warning
 export class unsupportedChars {
 	constructor() {
 		this.item = [];
@@ -50,7 +61,7 @@ export class unsupportedChars {
 		this.item = [];
 	}
 	add(item) {
-		this.item.push(item);
+		if (item!=" ") this.item.push(item);
 	}
 	get() {
 		if (this.item === undefined || this.item.length < 1)
@@ -60,6 +71,7 @@ export class unsupportedChars {
 	}
 }
 
+// handler for rendering options
 export class renderOpts {
 	constructor() {
 		this.value = ["foregroundcolor", "backgroundcolor"];

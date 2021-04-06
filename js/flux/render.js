@@ -1,6 +1,6 @@
 import {
 	includes,
-	wordcircleRadius
+	dimensionObj
 } from '../utils/funcs.js';
 import {
 	fluxBase,
@@ -19,8 +19,13 @@ import {
 } from '../event_callbacks.js';
 
 let canvas = {}; // canvas properties
-let glyph; // glyph dimensions-object
 let option; // user selected render options handler
+let glyphs = { // glyph dimensions object
+	num: 0,
+	width: 0,
+	height: 0
+};
+let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
 const base = new fluxBase(consonant, decorator);
 const deco = new fluxDeco(base);
@@ -31,37 +36,31 @@ export function render(input) {
 
 	// convert input-string to word array
 	input = replacements(input).toLowerCase().trim().replace(/\s+/g, " ").split(" ");
-	let glyphs = 0,
-		biggestWordCircle = 0;
+	let biggestWordCircle = 0;
 	input.forEach(word => {
 		if (option.circular) {
-			let twc2 = wordcircleRadius(word.length, consonant) * 4.5;
+			let twc2 = dimension.wordcircleRadius(word.length, consonant) * 4.5;
 			if (biggestWordCircle < twc2) biggestWordCircle = twc2;
 		} else {
-			glyphs += word.length;
+			glyphs.num += word.length;
 		}
-		glyphs++;
+		glyphs.num++;
 	});
-	// set canvas scale according to number of letters/groups
+	// set canvas settings according to number of letters/groups
 	if (option.circular) {
-		glyph = {
-			width: biggestWordCircle + consonant,
-			height: biggestWordCircle
-		};
-		canvas["width"] = (Math.min(glyphs, Math.floor(option.maxWidth / biggestWordCircle)) * glyph.width || glyph.width);
-		canvas["height"] = biggestWordCircle * Math.ceil(glyphs / (Math.floor(option.maxWidth / glyph.width) || 1));
-		canvas["currentX"] = glyph.width / 2;
-		canvas["currentY"] = glyph.height / 2;
+		glyphs.width = biggestWordCircle + consonant;
+		glyphs.height = biggestWordCircle;
+		canvas["currentX"] = glyphs.width / 2;
+		canvas["currentY"] = glyphs.height / 2;
 	} else {
-		glyph = {
-			width: consonant * 2.5,
-			height: consonant * 6
-		};
-		canvas["width"] = (Math.min(++glyphs, Math.floor(option.maxWidth / glyph.width)) * glyph.width - glyph.width || glyph.width);
-		canvas["height"] = glyph.height * (Math.ceil(++glyphs / (Math.floor(option.maxWidth / glyph.width) || 1)));
+		glyphs.width = consonant * 2.5;
+		glyphs.height = consonant * 6;
 		canvas["currentX"] = 0;
 		canvas["currentY"] = -glyph.height * .5;
 	}
+	canvas["width"] = dimension.canvas(glyphs, option.maxWidth).width;
+	canvas["height"] = dimension.canvas(glyphs, option.maxWidth).height;
+
 	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
 	// iterate through input to set grouping instructions, handle exceptions and draw glyphs
 	input.forEach(word => { // loop through sentence
@@ -116,19 +115,19 @@ function replacements(word) {
 // draw instructions for base + decoration
 function fluxDraw(ctx, current) {
 	if (!option.circular || current.char == " ") {
-		if (canvas.currentX + glyph.width >= canvas.width) {
-			canvas.currentY += glyph.height;
-			canvas.currentX = glyph.width / (option.circular ? 2 : 1);
-		} else canvas.currentX += glyph.width;
+		if (canvas.currentX + glyphs.width >= canvas.width) {
+			canvas.currentY += glyphs.height;
+			canvas.currentX = glyphs.width / (option.circular ? 2 : 1);
+		} else canvas.currentX += glyphs.width;
 	}
 	let currentbase = base.getBase(current.char);
 	if (!currentbase) return false;
 	// rotation of charactergroups in regards of circular display
 	let rad = 0,
-		wordCircleRadius = glyph.height;
+		wordCircleRadius = glyphs.height;
 	if (option.circular) {
 		rad = 1 + (2 / current.wordlength) * (current.index);
-		wordCircleRadius = wordcircleRadius(current.wordlength, consonant) * 1.5;
+		wordCircleRadius = dimension.wordcircleRadius(current.wordlength, consonant) * 1.5;
 	}
 
 	if (currentbase) { // works only for defined characters

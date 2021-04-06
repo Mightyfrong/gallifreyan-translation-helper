@@ -15,30 +15,33 @@ import {
 
 let canvas = {}; // canvas properties
 let option; // user selected render options handler
+let glyphs = { // glyph dimensions object
+	num: 0,
+	width: 0,
+	height: 0
+};
 
 // scroll through input and draw every letter
 export function render(input) {
 	option = renderOptions.get();
 	// initialize widths, heights, default-values, draw-object
-	canvas["height"] = canvas["currentX"] = canvas["currentY"] = 0;
+	glyphs.width = character.width * 2;
+	glyphs.height = character.height;
 	let groupedInput = input.toLowerCase().split(/\s+/),
-		glyph = {
-			width: character.width * 2,
-			height: character.height
-		},
-		maxWordsPerWidth = Math.floor(option.maxWidth / glyph.width),
+		maxWordsPerWidth = Math.floor(option.maxWidth / glyphs.width),
 		wordHeight = 0,
 		lineHeight = 0,
 		charY = 0;
 
 	// set canvas scale according to number of characters
-	canvas["width"] = Math.min(groupedInput.length, maxWordsPerWidth) * glyph.width;
+	canvas["height"] = canvas["currentX"] = canvas["currentY"] = 0;
+	canvas["width"] = Math.min(groupedInput.length, maxWordsPerWidth) * glyphs.width;
 	for (let i = 0; i <= groupedInput.length - 1; i++) {
-		wordHeight = groupedInput[i].length * glyph.height; // height of current word
+		wordHeight = groupedInput[i].length * glyphs.height; // height of current word
 		if (lineHeight < wordHeight) lineHeight = wordHeight; // line height set to longest word
 		if (i % maxWordsPerWidth == 0 || i == groupedInput.length - 1) { // canvas size added longest word, reset latter on "linebreak"
-			if (groupedInput.length > maxWordsPerWidth) canvas.height += lineHeight + glyph.height;
-			else if (canvas.height < lineHeight) canvas.height = lineHeight + glyph.height;
+			if (groupedInput.length > maxWordsPerWidth) canvas.height += lineHeight + glyphs.height;
+			else if (canvas.height < lineHeight) canvas.height = lineHeight + glyphs.height;
 			lineHeight = 0;
 		}
 	}
@@ -60,14 +63,14 @@ export function render(input) {
 		}
 		charY = 0;
 		// position pointer for words
-		wordHeight = groupedInput[i].length * glyph.height;
+		wordHeight = groupedInput[i].length * glyphs.height;
 		if (lineHeight < wordHeight) lineHeight = wordHeight;
 
-		if (canvas.currentX + glyph.width >= canvas.width) {
-			canvas.currentY += lineHeight + glyph.height;
+		if (canvas.currentX + glyphs.width >= canvas.width) {
+			canvas.currentY += lineHeight + glyphs.height;
 			lineHeight = 0;
 			canvas.currentX = 0;
-		} else canvas.currentX += glyph.width;
+		} else canvas.currentX += glyphs.width;
 	}
 
 	// complain about unsupported characters
