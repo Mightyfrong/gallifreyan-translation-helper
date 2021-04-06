@@ -1,21 +1,13 @@
 # Gallifreyan Translation Helper
 ###### by MightyFrong
 
-This is a tool aimed at artists and hobbyists who produce designs in one of the following types of Gallifreyan:
-* [Sherman's Circular Gallifreyan by Loren Sherman][SCG]
-* [TARDIS Console by Purple Emily][TCG]
-* [Doctor's Cot by Brittany Goodman][DCG]
-* [Flux Gallifreyan by u/lost_chm][FLUX]
-* [Clockwork Gallifreyan by FYeahGallifreyan][CW]
-* [Circular Gallifreyan by Cat Bettenbender][CB]
-* [CC Gallifreyan by gumex][CC]
-* [DotScript by Rachel Sutherland][DS]
-* [Gallifreyan Alphabet by Aaron Jay][ABB]
-* [Gallifreyan Alphabet by Sarah "DarkIfaerie"][DF]
-* [Old High Gallifreyan by bpjmarriott][BPJM]
-* [Old High Gallifreyan by ODDISM][ODD]
+This is a tool aimed at artists and hobbyists who produce designs in one of the fan based types of Gallifreyan. Please recognize this tool ***not*** as a translator: it serves the purpose of quicker impressions of writing syntax. The artistic composition is, and should be, your challenge. Please do not use any of these outputs for an immediate tattoo template!
 
-Some details on what the translation helper for each system does can be found below:
+Gallifreyan is based on the [Doctor Who TV Series](https://www.doctorwho.tv/) by BBC. All writing systems are inspired by the shows artwork but finally fan based and made up. The shows graphics do not translate to anything. But these awesome writing systems do.
+
+The creators of the Gallifreyan Translation Helper do not guarantee for correct output and strongly recommend to let everything be proofread by people that are comfortable with the respective system. Head over to the fine people of [r/gallifreyan](https://www.reddit.com/r/gallifreyan/) for help and advice.
+
+## Supported scribes
 * [Sherman's](#Shermans)
 * [TARDIS Console](#TARDIS-Console)
 * [Doctors's Cot](#Doctors-Cot)
@@ -29,25 +21,18 @@ Some details on what the translation helper for each system does can be found be
 * [bpjmarriott's Old High Gallifreyan](#bpjmarriotts)
 * [ODDISM's Old High Gallifreyan](#ODDISMs)
 
-Please recognize this tool ***not*** as a translator: it serves the purpose of quicker impressions of writing syntax. The artistic composition is, and should be, your challenge. Please do not use any of these outputs for an immediate tattoo template!
-
----
-## Disclaimer
-
-Gallifreyan is based on the Doctor Who TV Series by BBC. All writing systems are based on the shows artwork but finally fan based and made up. The shows graphics do not translate to anything. But these awesome writing systems do.
-
-The creators of the Gallifreyan Translation Helper do not guarantee for correct output and strongly recommend to let everything be proofread by people that are comfortable with the respective system. Head over to the fine people of [r/gallifreyan](https://www.reddit.com/r/gallifreyan/) for advice.
-
----
 ## Abstract
 
 See the [wiki](https://github.com/Mightyfrong/gallifreyan-translation-helper/wiki) for a high-level overview of the project. The rest of this documentation is planned to follow.
 
 The supported systems generate an svg-output that can be saved by right-clicking and are hopefully useful to initiate artistic work within your vector-graphics-application.
 
-The application can be used online and/or installed as a progressive web app for offline use on the go (props to [simplepwa.com](https://simplepwa.com/)).
+The application can be used online and/or installed as a progressive web app for offline use on the go (props to [simplepwa.com](https://simplepwa.com/)). The interface provides you with the neccessary controls for rendering and occasionally IPA-keyboards or otherwise permitted characters if differing from standard latin characters.
 
 ## Sherman's
+source: [Sherman's Circular Gallifreyan by Loren Sherman][SCG]
+
+![creator approved](https://img.shields.io/badge/creator-approved-brightgreen)
 
 Primarily designed as a pattern memory aid, this module draws each character either as an individual glyph, or stacked depending on choice. It displays the words either in a circular fashion (not spiral though) or every glyph/group in horizontal lines for ease of reading.
 
@@ -62,37 +47,29 @@ Decorator lines do not connect anywhere at the moment. This is as well due to th
 Supported characters are `[a-z0-9.?!"'-,;:éèíìüúùæäáàåöóòøñ]`, uppercase will be converted.
 
 ### What To Expect
-<img src="assets/Gallifreyan_sherman's linear.svg" alt="sherman's circular gallifreyan linear displayed" />
-<img src="assets/Gallifreyan_sherman's circular.svg" alt="sherman's circular gallifreyan circular displayed" />
+<img src="assets/Gallifreyan_sherman's linear.svg" alt="sherman's circular gallifreyan linear displayed" width="512" />
+-
+<img src="assets/Gallifreyan_sherman's circular.svg" alt="sherman's circular gallifreyan circular displayed" width="512" />
 
-### Test Input
-`The quick brown fox jumps over the lazy dog.`
-
-`Falsches Üben von Xylophonmusik quält jeden größeren Zwerg.`
-
-`Voyez le brick géant que j'examine près du wharf.`
-
-`El pingüino Wenceslao hizo kilómetros bajo exhaustiva lluvia y frío; añoraba a su querido cachorro.`
-
-`Flygande bäckasiner söka hwila på mjuka tuvor.`
-
----
+[^ back to top](#Supported-Scribes)
 
 ## TARDIS Console
+source: [TARDIS Console by Purple Emily][TCG]
 
 Another approach was chosen to get this one finally running. TARDIS Console is heavily inspired by the shows artwork and therefore has huge tables of glyphs that have no simple pattern or system to style consonants and vowels. This style is not easily wrapped up to an algorithm. The glyps and paired vowels were redrawn in inkscape and will be resized and placed to the canvas.
 
 Vowels are always attached to a consonant, leading or double vowels or these that come on the third place are accompanied by aleph.
 Currently only the table of the guide part 1 is supported `[a-zא]`, punctuation and number are postponed ([the construction file is available](assets/tardisconsole.svg)).
 
-
 ### What To Expect
-<img src="assets/Gallifreyan_tardis console linear.svg" alt="sherman's circular gallifreyan linear displayed" />
-<img src="assets/Gallifreyan_tardis console circular.svg" alt="sherman's circular gallifreyan circular displayed" />
+<img src="assets/Gallifreyan_tardis console linear.svg" alt="sherman's circular gallifreyan linear displayed" width="512" />
+-
+<img src="assets/Gallifreyan_tardis console circular.svg" alt="sherman's circular gallifreyan circular displayed" width="512" />
 
----
+[^ back to top](#Supported-Scribes)
 
 ## Doctor's Cot
+source: [Doctor's Cot by Brittany Goodman][DCG]
 
 The progress of vectorizing all the things got a bit stuck for a few weeks and one of us wasn't able to understand and contribute to foreign code. So Doctor's Cot was straightforwand rebuild based on the coding style of CC-Gallifreyan. ɑ-based vowels are a bit impure regarding connectivity, but on the plus side there is canonical punctuation (except start indication).
 Like in the original Cot-module there is an IPA-keyboard. Since the author has published a simplyfied english version as well there is a respective keyboard that translates the english characters to the IPA-characters according to the official tables.
@@ -100,11 +77,15 @@ Like in the original Cot-module there is an IPA-keyboard. Since the author has p
 Supported characters will be available on the provided keyboard. Please be aware about adding `א` (aleph) for lonely vowels manually.
 
 ### What to expect
-<img src="assets/Gallifreyan_dɒktəz kɒt.svg" alt="doctor's cot gallifreyan" />
+<img src="assets/Gallifreyan_dɒktəz kɒt.svg" alt="doctor's cot gallifreyan" width="512" />
 
----
+[^ back to top](#Supported-Scribes)
 
 ## Flux
+
+source: [Flux Gallifreyan by u/lost_chm][FLUX]
+
+![creator approved](https://img.shields.io/badge/creator-approved-brightgreen)
 
 The GTH displays the words either in a clockwise circular fashion (not spiral or layers though) or every glyph/group in horizontal lines (left to right) for ease of reading.
 
@@ -115,12 +96,14 @@ Decorator lines do not connect anywhere at the moment. This is as well due to th
 Supported characters are currently `[a-zß]`, uppercase will be converted.
 
 ### What To Expect
-<img src="assets/Gallifreyan_linear flux.svg" alt="flux gallifreyan linear displayed" />
-<img src="assets/Gallifreyan_circular flux.svg" alt="flux gallifreyan circular displayed" />
+<img src="assets/Gallifreyan_linear flux.svg" alt="flux gallifreyan linear displayed" width="512" />
+-
+<img src="assets/Gallifreyan_circular flux.svg" alt="flux gallifreyan circular displayed" width="512" />
 
----
+[^ back to top](#Supported-Scribes)
 
 ## Clockwork
+source: [Clockwork Gallifreyan by FYeahGallifreyan][CW]
 
 The GTH displays the words either in a clockwise circular fashion (not spiral or layers though) or every glyph/group in horizontal lines (left to right) for ease of reading.
 
@@ -129,11 +112,14 @@ Decorator lines do not connect anywhere at the moment. This is as well due to th
 Supported characters will be available on the provided keyboard. Ellipsis(...) is not supported unfortunately. Inconsistent use of punctuation may cause errors. Provide either full punctuation or none. In case of a proper punctuation and circular display the start indicator will be displayed. You can choose the amout of stacking.
 
 ### What To Expect
-<img src="assets/Gallifreyan_klɒkwɜɹk lineɛ..svg" alt="clockwork gallifreyan linear displayed" />
-<img src="assets/Gallifreyan_klɒkwɜɹk siɹkjulɛ..svg" alt="clockwork gallifreyan circular displayed" />
+<img src="assets/Gallifreyan_klɒkwɜɹk lineɛ..svg" alt="clockwork gallifreyan linear displayed" width="512" />
+-
+<img src="assets/Gallifreyan_klɒkwɜɹk siɹkjulɛ..svg" alt="clockwork gallifreyan circular displayed" width="512" />
 
----
+[^ back to top](#Supported-Scribes)
+
 ## cBettenbender's
+source: [Circular Gallifreyan by Cat Bettenbender][CB]
 
 By time of implementing this writing system the instructions were still described as unfinished and surely felt a bit unclear. To make matters worse the initial publication was long time ago. Although the first page of the documentation describes the system as literal without phonetic replacements for consonants, some latin characters are missing, examples lead to other conclusions and vowels are most definetly described as phonetic. So after all there has to be a keyboard that limits allowed characters and inserts respective ipa-vowels. Grouping characters happens by syllables, but since putting this into an algorithm is currently beyond the ability of this helper you'll have to group by splitting character groupy by your own.
 
@@ -147,11 +133,12 @@ Since the documentation is unfinished the GTH gives even less warranty for this 
 Supported characters will be available on the provided keyboard.
 
 ### What to expect
-<img src="assets/Gallifreyan_cbettenbenders.svg" alt="cBettenbenders gallifreyan" />
+<img src="assets/Gallifreyan_cbettenbenders.svg" alt="cBettenbenders gallifreyan" width="512" />
 
----
+[^ back to top](#Supported-Scribes)
 
 ## CC Gallifreyan
+source: [CC Gallifreyan by gumex][CC]
 
 This system processes the latin alphabet with th and ng only, no diacritics, punctuation or numbers.
 
@@ -160,65 +147,71 @@ Characters are simply stacked, while being read from outside to the center, but 
 Supported characters are `[a-z]`, uppercase will be converted.
 
 ### What to expect
-<img src="assets/Gallifreyan_cc gallifreyan.svg" alt="cc gallifreyan" />
+<img src="assets/Gallifreyan_cc gallifreyan.svg" alt="cc gallifreyan" width="512" />
 
----
+[^ back to top](#Supported-Scribes)
 
 ## DotScript
+source: [DotScript by Rachel Sutherland][DS]
 
 This writing system may not be widely used but is quite easy and was quick and fun to program. Each character is assigned one of five geometric shapes that have a special placement regarding the base line for consonants and a smaller representation for vowels. The character `z` has it's own shape. This system of one distinct glyph for every character makes DotScript more of a font than a writing system. But implementing it was a useful experience.
 
 Supported characters are `[a-z]`, uppercase will be converted.
 
 ### What To Expect
-<img src="assets/Gallifreyan_dotscript.svg" alt="dotscript" />
+<img src="assets/Gallifreyan_dotscript.svg" alt="dotscript" width="512" />
 
----
+[^ back to top](#Supported-Scribes)
 
 ## ArtByBoredom
+source: [Gallifreyan Alphabet by Aaron Jay][ABB]
 
 Like DotScript this system is more likely a font with geometric shapes representing latin alphabet letters. It is the first implemented gallifreyan distinguishing between upper- and lowercase characters. And like DotScript this is not a writing system per se but included for the sake of completeness and another coding exercise.
 
 Supported characters are `[a-zA-Z.,:;-/"']` and if you say *but there are more punctuation characters* you most probably won't need this tool anyway.
 
 ### What To Expect
-<img src="assets/Gallifreyan_ArtByBoredom.svg" alt="ArtByBoredom gallifreyan" />
+<img src="assets/Gallifreyan_ArtByBoredom.svg" alt="ArtByBoredom gallifreyan" width="512" />
 
----
+[^ back to top](#Supported-Scribes)
 
 ## DarkIfaerie's
+source: [Gallifreyan Alphabet by Sarah "DarkIfaerie"][DF]
 
 With one glyph for every character of the english alphabet DarkIFaerie's gallifreyan is more or less another font. The small difference considering it a system is arranging the characters in a circle and reading clockwise.
 
 Supported characters are `[a-z]`, uppercase will be converted.
 
 ### What To Expect
-<img src="assets/Gallifreyan_darkifaerie_linear.svg" alt="DarkIfaerie's gallifreyan" />
-<img src="assets/Gallifreyan_darkifaerie_circular.svg" alt="DarkIfaerie's gallifreyan" />
+<img src="assets/Gallifreyan_darkifaerie_linear.svg" alt="DarkIfaerie's gallifreyan" width="512" />
+-
+<img src="assets/Gallifreyan_darkifaerie_circular.svg" alt="DarkIfaerie's gallifreyan" width="512" />
 
----
+[^ back to top](#Supported-Scribes)
 
 ## bpjmarriott's
+source: [Old High Gallifreyan by bpjmarriott][BPJM]
 
 Old High Gallifreyan is not a circular font at all, but since it is a timelords script it still is considerable fitting in the translation helper. bpjmarriott's gallifreyan is supposed to be read from top to bottom.
 
 Supported characters are `[a-z0-9.,!?":;']`, uppercase will be converted.
 
 ### What To Expect
-<img src="assets/Gallifreyan_bpjmarriotts old high gallifreyan.svg" alt="bpjmarriot's gallifreyan" />
+<img src="assets/Gallifreyan_bpjmarriotts old high gallifreyan.svg" alt="bpjmarriot's gallifreyan" width="512" />
 
----
+[^ back to top](#Supported-Scribes)
 
 ## ODDISM's
+source: [Old High Gallifreyan by ODDISM][ODD]
 
 Another Old High Gallifreyan thats not a circular font. It is the latest version and the successor of [FREAKISM's Old High Gallifreyan](https://freakism.tumblr.com/post/11577887916/im-proud-click-here-for-big-version-i-did) ([that is in fact the same author](https://freakism.tumblr.com/post/42112673388/so-i-just-found-your-old-high-gallifreyan)). According to the authors sources this font seems to be written from left to right. Or maybe the other way round, but this was the decision. This is a phonetic font - the original table has words as well as IPA-characters. Both are provided as keyboards, but the input will be filled with IPA-characters.
 
 Supported characters will be available on the provided keyboard.
 
 ### What To Expect
-<img src="assets/Gallifreyan_ɒddɪsm oʊld haɪ gællɪfreɪæn.svg" alt="oddISM's gallifreyan" />
+<img src="assets/Gallifreyan_ɒddɪsm oʊld haɪ gællɪfreɪæn.svg" alt="oddISM's gallifreyan" width="512" />
 
----
+[^ back to top](#Supported-Scribes)
 
 ## Copyright & Licence Notice
 
