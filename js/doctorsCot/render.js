@@ -125,7 +125,7 @@ let doctorsCotGrouped = {
 function doctorsCotDraw(ctx, letter, grouped) {
 	if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
 		// position pointer
-		canvas = dimension.carriageReturn(canvas, glyphs, 0);
+		canvas = dimension.carriageReturn(canvas, glyphs, 1);
 	}
 
 	//define tilt based on stack-number todistinguish between stacked characters
