@@ -164,7 +164,6 @@ export function activateControls(lang) {
 			break;
 		case CB:
 			renderOptions.display([]);
-			keyoptions.classList.toggle('active');
 			cbkeys.classList.toggle('active');
 			break;
 		case DF:
