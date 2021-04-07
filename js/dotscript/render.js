@@ -251,7 +251,7 @@ export function render(input) {
 
 	// set canvas scale according to number of characters
 	canvas["currentX"] = -glyphs.width * .5;
-	canvas["currentY"] = glyphs.height * .6;
+	canvas["currentY"] = glyphs.height * .5;
 	canvas["width"] = dimension.canvas(glyphs, option.maxWidth).width;
 	canvas["height"] = dimension.canvas(glyphs, option.maxWidth).height;
 	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
@@ -289,9 +289,8 @@ export function render(input) {
 		// print character translation above the drawings
 		ctx.drawText(input[i], {
 			x: canvas.currentX + consonant,
-			y: canvas.currentY - glyphs.height * .5
+			y: canvas.currentY + glyphs.height * .45
 		});
-
 	}
 
 	// complain about undefined characters
@@ -299,7 +298,6 @@ export function render(input) {
 
 	return ctx;
 }
-
 
 /**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR
  *

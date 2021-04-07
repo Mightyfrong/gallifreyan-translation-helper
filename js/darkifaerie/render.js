@@ -32,30 +32,33 @@ export function render(input) {
 
 	// initialize widths, heights, default-values, draw-object
 	let groupedInput = input.toLowerCase().split(/\s+/),
-		charX, charY, textX, textY, dia;
+		charX, charY, dia = character;
 
 	if (option.circular) {
 		let longest = groupedInput.slice();
 		dia = dimension.wordcircleRadius(longest.sort(sizesort)[0].length + 1, character) * 2.25;
-		glyphs.width = dia;
-		glyphs.height = dia;
+		glyphs.width = dia + character;
+		glyphs.height = dia + character;
 		glyphs.num = groupedInput.length;
-		canvas["currentX"] = canvas["currentY"] = glyphs.width * .5;
+		canvas["currentX"] = -glyphs.width * .5;
+		canvas["currentY"] = glyphs.width * .5;
 	} else {
 		glyphs.width = character * 2.25;
-		glyphs.height = character * 3;
-		glyphs.num = input.length;
-		canvas["currentX"] = glyphs.width * -.5;
-		canvas["currentY"] = glyphs.height * .6;
+		glyphs.height = character * 4;
+		glyphs.num = input.length+1;
+		canvas["currentX"] = -glyphs.width;
+		canvas["currentY"] = glyphs.height * .4;
 	}
 	// set canvas scale according to number of characters
 	canvas["width"] = dimension.canvas(glyphs, option.maxWidth).width;
 	canvas["height"] = dimension.canvas(glyphs, option.maxWidth).height;
 	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
 
-	//return ctx;
 	// iterate through input
 	groupedInput.forEach(word => {
+		// position pointer
+		canvas = dimension.carriageReturn(canvas, glyphs, (option.circular ? .5 : 1));
+
 		if (option.circular) {
 			// draw word circle
 			dia = dimension.wordcircleRadius(word.length + 1, character);
@@ -67,13 +70,12 @@ export function render(input) {
 		}
 		for (let i = 0; i < word.length; i++) {
 			// define center for character
+			let rad = .5;
 			if (option.circular) {
-				let rad = 1.5 + 2 / (word.length) * i;
+				rad = 1.5 + 2 / (word.length) * i;
 				if (rad > 2) rad -= 2;
 				charX = canvas.currentX + Math.cos(Math.PI * rad) * dia * (1 - character / (dia - character * 1.6));
 				charY = canvas.currentY + Math.sin(Math.PI * rad) * dia * (1 - character / (dia - character * 1.6));
-				textX = canvas.currentX + Math.cos(Math.PI * rad) * dia * (1.1 - .4 / ((word.length + 1) ** 1.15));
-				textY = canvas.currentY + Math.sin(Math.PI * rad) * dia * (1.1 - .4 / ((word.length + 1) ** 1.15));
 			} else {
 				if (canvas.currentX + glyphs.width >= canvas.width) {
 					canvas.currentY += glyphs.height;
@@ -81,8 +83,6 @@ export function render(input) {
 				} else canvas.currentX += glyphs.width;
 				charX = canvas.currentX;
 				charY = canvas.currentY;
-				textX = canvas.currentX;
-				textY = canvas.currentY - character * 1.5;
 			}
 			// draw character
 			if (word[i] in dfGlyphs) {
@@ -92,18 +92,13 @@ export function render(input) {
 					r: character
 				});
 				dfDraw(ctx, charX, charY, dfGlyphs[word[i]]);
-				// display character
-				ctx.drawText(word[i], {
-					x: textX,
-					y: textY
-				});
 			} else unsupportedCharacters.add(word[i]);
+			// display character
+			ctx.drawText(word[i], {
+				x: canvas.currentX - (dia + .5 * character) * Math.sin(Math.PI * (rad - .5)),
+				y: canvas.currentY + (dia + .5 * character) * Math.cos(Math.PI * (rad - .5)) + option.fontsize * .25
+			});
 		}
-		// position pointer for word circles or consider space between linear written words
-		if (canvas.currentX + glyphs.width >= canvas.width) {
-			canvas.currentY += glyphs.height;
-			canvas.currentX = glyphs.width * (option.circular ? .5 : 1);
-		} else canvas.currentX += glyphs.width;
 	});
 
 	// complain about undefined characters

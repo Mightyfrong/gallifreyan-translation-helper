@@ -33,6 +33,7 @@ export function render(input) {
 	option = renderOptions.get();
 	// convert input-string to grouped array and determine number of groups
 	let groupedInput = ccGrouped.groups(input.toLowerCase());
+	glyphs.num = 0; // reset for new input
 
 	groupedInput.forEach(word => {
 		word.forEach(groups => {
@@ -48,8 +49,8 @@ export function render(input) {
 	glyphs.height = glyphs.width * 3;
 
 	// set canvas scale according to number of groups times glyphs.width
-	canvas["currentX"] = glyphs.width * .5;
-	canvas["currentY"] = glyphs.height * .6;
+	canvas["currentX"] = 0;
+	canvas["currentY"] = glyphs.height * .4;
 	canvas["width"] = dimension.canvas(glyphs, option.maxWidth).width;
 	canvas["height"] = dimension.canvas(glyphs, option.maxWidth).height;
 	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
@@ -66,8 +67,14 @@ export function render(input) {
 					// adjust offset properties according to former character/base
 					if (l > 0) ccGrouped.setOffset();
 					// draw
-					if (base.getBase(group[l])) ccDraw(ctx, group[l], ccGrouped);
-					else unsupportedCharacters.add(group[l]);
+					ccDraw(ctx, group[l], ccGrouped);
+					if (!base.getBase(group[l])) unsupportedCharacters.add(group[l]);
+
+					// text output for undefined characters as well for informational purpose
+					if (ccGrouped.offset == 0) ctx.drawText(ccGrouped.currentGroupText, {
+						x: canvas.currentX,
+						y: canvas.currentY + glyphs.height * .5
+					});
 				}
 			});
 		});
@@ -125,10 +132,8 @@ let ccGrouped = {
 // draw instructions for base + decoration
 function ccDraw(ctx, letter, grouped) {
 	if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
-		if (canvas.currentX + glyphs.width * 1.2 >= canvas.width) {
-			canvas.currentY += glyphs.height;
-			canvas.currentX = glyphs.width * 1.5;
-		} else canvas.currentX += glyphs.width;
+		// position pointer
+		canvas = dimension.carriageReturn(canvas, glyphs, 1);
 	}
 	//define tilt based on stack-number to make the glyphs less monotonous
 	let tilt = .25 - .0625 * (grouped.offset + 1);
@@ -136,13 +141,6 @@ function ccDraw(ctx, letter, grouped) {
 	if (base.getBase(letter)) base.cctable[base.getBase(letter)].draw(ctx, canvas.currentX, canvas.currentY, consonant * grouped.resize, tilt);
 	// draw decorators
 	if (deco.getDeco(letter)) deco.cctable[deco.getDeco(letter)].draw(ctx, canvas.currentX, canvas.currentY, consonant * grouped.resize, tilt);
-
-	// text output for undefined characters as well for informational purpose
-	// print character translation above the drawings
-	if (grouped.offset == 0) ctx.drawText(grouped.currentGroupText, {
-		x: canvas.currentX,
-		y: canvas.currentY - glyphs.height * .5
-	});
 }
 
 /**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR

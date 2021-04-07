@@ -39,7 +39,7 @@ export function render(input) {
 	glyphs.num = groupedInput.length;
 
 	canvas["currentX"] = glyphs.width * -.5;
-	canvas["currentY"] = glyphs.height * .5;
+	canvas["currentY"] = glyphs.height * .4;
 	canvas["width"] = dimension.canvas(glyphs, option.maxWidth).width;
 	canvas["height"] = dimension.canvas(glyphs, option.maxWidth).height;
 	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
@@ -81,10 +81,9 @@ let cbettenbacherGrouped = {
 
 // draw instructions for base + decoration
 function cbDraw(ctx, syllable) {
-	if (canvas.currentX + glyphs.width >= canvas.width) {
-		canvas.currentY += glyphs.height;
-		canvas.currentX = glyphs.width / 2;
-	} else canvas.currentX += glyphs.width;
+
+	// position pointer
+	canvas = dimension.carriageReturn(canvas, glyphs, .5);
 
 	//syllable circle
 	ctx.drawShape('circle', 1, {
@@ -150,10 +149,9 @@ function cbDraw(ctx, syllable) {
 	}
 
 	// text output for undefined characters as well for informational purpose
-	// print character translation above the drawings
 	ctx.drawText(syllable.join(""), {
 		x: canvas.currentX,
-		y: canvas.currentY - glyphs.height * .4
+		y: canvas.currentY + glyphs.height * .4
 	});
 }
 

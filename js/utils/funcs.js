@@ -1,4 +1,3 @@
-import { consoleGlyphs } from '../tardisconsole2/consoleGlyphs.js';
 import {
 	UILanguage
 } from './UILanguage.js';
@@ -14,6 +13,7 @@ export function createSVGElement(tagName, attributes = {}) {
 	return elem;
 }
 
+/* these are depecated as long as tardis console v1 is discontinued
 export function range(n) {
 	return [...Array(n).keys()];
 }
@@ -29,6 +29,7 @@ export function polar(radius, radians) {
 		radius * Math.sin(radians)
 	];
 }
+*/
 
 // obj can be an Array or String
 export function includes(obj, values) {
@@ -50,6 +51,14 @@ export class dimensionObj {
 			height: glyphs.height * (Math.ceil(glyphs.num / (Math.floor(maxWidth / glyphs.width) || 1)))
 		};
 	}
+	// handler for breaking on the canvas edge
+	carriageReturn(canvas, glyphs, x_factor) {
+		if (canvas.currentX + glyphs.width >= canvas.width) {
+			canvas.currentY += glyphs.height;
+			canvas.currentX = glyphs.width * x_factor;
+		} else canvas.currentX += glyphs.width;
+		return canvas;
+	}
 }
 
 // handler for unsupported characters, setting up array, adding characters and displaying warning
@@ -61,7 +70,7 @@ export class unsupportedChars {
 		this.item = [];
 	}
 	add(item) {
-		if (item!=" ") this.item.push(item);
+		if (item != " ") this.item.push(item);
 	}
 	get() {
 		if (this.item === undefined || this.item.length < 1)

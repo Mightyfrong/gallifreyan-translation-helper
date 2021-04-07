@@ -53,12 +53,12 @@ export function render(input) {
 		for (let c = 0; c <= groupedInput[i].length; c++) {
 			if (groupedInput[i][c] in bpjmGlyphs) {
 				bpjmDraw(ctx, canvas.currentX, canvas.currentY + charY, bpjmGlyphs[groupedInput[i][c]]);
-				// display character
-				ctx.drawText(groupedInput[i][c], {
-					x: canvas.currentX + character.width * 1.2,
-					y: canvas.currentY + charY + character.height * .6
-				});
 			} else if (groupedInput[i][c] !== undefined) unsupportedCharacters.add(groupedInput[i][c]);
+			// display character
+			if (groupedInput[i][c] !== undefined) ctx.drawText(groupedInput[i][c], {
+				x: canvas.currentX + character.width * 1.2,
+				y: canvas.currentY + charY + character.height * .6
+			});
 			charY += character.height;
 		}
 		charY = 0;

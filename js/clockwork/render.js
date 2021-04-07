@@ -33,6 +33,8 @@ export function render(input) {
 
 	// convert input-string to grouped array and determine number of groups
 	let groupedInput = clockworkGrouped.groups(input.toLowerCase());
+	glyphs.num = 0; // reset for new input
+
 	stackedGlyph = 1.8;
 	let circularGroups = 0,
 		biggestWordCircle = 0;
@@ -50,12 +52,11 @@ export function render(input) {
 				if (biggestWordCircle < twc2) biggestWordCircle = twc2;
 
 			} else {
-				if (sentence[0][i] != " ") glyphs.num++;
+				glyphs.num++;
 			}
 		}
 	});
 
-	console.log(groupedInput);
 	// set canvas scale according to number of letters/groups
 	if (option.circular) {
 		glyphs.num = groupedInput.length;
@@ -80,10 +81,9 @@ export function render(input) {
 			clockworkGrouped.resetOffset(sentence[0].length, group.join(''), !l);
 			// iterate through characters within group
 			for (l = 0; l < group.length; l++) {
-				if (group[l] in cwConsonants.glyphs || group[l] in cwVowels.glyphs || group[l] in cwPunctuation.glyphs)
-					clockworkDraw(ctx, group[l], clockworkGrouped);
-				else
-				if (!includes(" .!?‽", group[l])) unsupportedCharacters.add(group[l]);
+				clockworkDraw(ctx, group[l], clockworkGrouped);
+				if (!(group[l] in cwConsonants.glyphs || group[l] in cwVowels.glyphs || group[l] in cwPunctuation.glyphs) &&
+					!includes(" .!?‽", group[l])) unsupportedCharacters.add(group[l]);
 				clockworkGrouped.setOffset();
 			}
 		});
@@ -142,12 +142,10 @@ let clockworkGrouped = {
 
 // draw instructions for base + decoration
 function clockworkDraw(ctx, letter, grouped) {
-	if ((!option.circular || letter == " " || !grouped.glyph) &&
+	if ((!option.circular || !grouped.glyph) &&
 		(!grouped.carriagereturn || (!grouped.carriagereturn && option.circular && !grouped.glyph))) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
-		if (canvas.currentX + glyphs.width >= canvas.width) {
-			canvas.currentY += glyphs.height;
-			canvas.currentX = glyphs.width * .5;
-		} else canvas.currentX += glyphs.width;
+		// position pointer
+		canvas = dimension.carriageReturn(canvas, glyphs, .5);
 	}
 	// rotation of charactergroups in regards of circular display
 	let rad = 0,
@@ -193,7 +191,7 @@ function clockworkDraw(ctx, letter, grouped) {
 			cwPunctuation.glyphs[letter].draw(ctx,
 				canvas.currentX,
 				canvas.currentY,
-				(option.circular ? wordCircleRadius * 2 : glyphSize * grouped.resize)
+				(option.circular ? wordCircleRadius * 1.7 : glyphSize * grouped.resize)
 			);
 			if (option.circular) cwPunctuation.glyphs["start"].draw(ctx,
 				canvas.currentX + center.x,
@@ -204,13 +202,12 @@ function clockworkDraw(ctx, letter, grouped) {
 	}
 	// text output for undefined characters as well for informational purpose
 	// print character translation above the drawings
-	let fontsize = parseFloat(getComputedStyle(document.body, null).fontSize),
-		distance;
-	if (option.circular) distance = wordCircleRadius + glyphSize * .5 * stackedGlyph;
-	else distance = -glyphSize * .5 * stackedGlyph;
+	let distance;
+	if (option.circular) distance = wordCircleRadius * 1.9;
+	else distance = glyphSize * .6 * stackedGlyph;
 	if (grouped.offset == 0) ctx.drawText(grouped.currentGroupText, {
 		x: canvas.currentX - distance * Math.sin(Math.PI * rad),
-		y: canvas.currentY + distance * Math.cos(Math.PI * rad) + fontsize * .25
+		y: canvas.currentY + distance * Math.cos(Math.PI * rad) + option.fontsize * .25
 	});
 }
 

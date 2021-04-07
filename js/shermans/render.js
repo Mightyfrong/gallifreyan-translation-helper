@@ -52,8 +52,9 @@ export function render(input) {
 	option = renderOptions.get();
 
 	// convert input-string to grouped array and determine number of groups
-	let groupedInput = shermansGrouped.groups(input.toLowerCase());
-	let biggestWordCircle = 0;
+	let groupedInput = shermansGrouped.groups(input.toLowerCase()),
+		biggestWordCircle = 0;
+	glyphs.num = 0; // reset for new input
 	groupedInput.forEach(word => {
 		word.forEach(groups => {
 			if (option.circular) {
@@ -67,10 +68,9 @@ export function render(input) {
 	})
 	// set canvas scale according to number of letters/groups
 	if (option.circular) {
-		glyphs.width = biggestWordCircle + consonant;
-		glyphs.height = biggestWordCircle;
-		canvas["currentX"] = glyphs.width / 2;
-		canvas["currentY"] = glyphs.height / 2;
+		glyphs.width = glyphs.height = biggestWordCircle + consonant;
+		canvas["currentX"] = glyphs.width * .5;
+		canvas["currentY"] = glyphs.height * .5;
 	} else {
 		glyphs.width = consonant * 2.5;
 		glyphs.height = consonant * 6;
@@ -233,16 +233,12 @@ let shermansGrouped = {
 
 // draw instructions for base + decoration
 function shermansDraw(ctx, letter, grouped, isNumber) {
-	if (!option.circular || letter == " ") {
-		if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
-			if (canvas.currentX + glyphs.width >= canvas.width) {
-				canvas.currentY += glyphs.height;
-				canvas.currentX = glyphs.width / (option.circular ? 2 : 1);
-			} else canvas.currentX += glyphs.width;
-		}
+	if ((!option.circular || letter == " ") &&
+		!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
+		// position pointer
+		canvas = dimension.carriageReturn(canvas, glyphs, (option.circular ? .5 : 1));
 	}
 	let currentbase = base.getBase(letter);
-	if (!currentbase) return false;
 	// rotation of charactergroups in regards of circular display
 	let rad = 0,
 		wordCircleRadius = glyphs.height;
@@ -312,15 +308,14 @@ function shermansDraw(ctx, letter, grouped, isNumber) {
 	}
 	// text output for undefined characters as well for informational purpose
 	// print character translation above the drawings unless it's a (numeral) control character
-	let fontsize = parseFloat(getComputedStyle(document.body, null).fontSize),
-		text = grouped.currentGroupText;
+	let text = grouped.currentGroupText;
 	// handle numerical control characters
 	text = text.replace(/\//g, '');
 	if (includes(text, "\\")) text = "-" + grouped.currentGroupText.replace(/\\/g, '');
 
-	if (grouped.offset == 0) ctx.drawText(text, {
+	if (grouped.offset == 0 && text.length) ctx.drawText(text, {
 		x: canvas.currentX - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad),
-		y: canvas.currentY + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad) + fontsize * .25
+		y: canvas.currentY + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad) + option.fontsize * .25
 	});
 }
 

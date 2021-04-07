@@ -37,7 +37,8 @@ export function render(input) {
 	glyphs.num = input.length;
 
 	// set canvas settings according to number of characters
-	canvas["currentX"] = canvas["currentY"] = 0;
+	canvas["currentX"] = -glyphs.width;
+	canvas["currentY"] = 0;
 	canvas["width"] = dimension.canvas(glyphs, option.maxWidth).width;
 	canvas["height"] = dimension.canvas(glyphs, option.maxWidth).height;
 
@@ -45,6 +46,8 @@ export function render(input) {
 
 	// iterate through input
 	for (let i = 0; i <= input.length - 1; i++) {
+		// position pointer
+		canvas = dimension.carriageReturn(canvas, glyphs, 0);
 
 		let current = input[i],
 			currenttwo = input[i] + input[i + 1];
@@ -59,19 +62,13 @@ export function render(input) {
 		if (current in oddismGlyphs.consonants) type = "consonants";
 
 		if (type != undefined) {
-			oddismDraw(ctx, canvas.currentX, canvas.currentY + glyphs.height * .5, oddismGlyphs[type][current]);
-			// display character
-			ctx.drawText(current, {
-				x: canvas.currentX + glyphs.width * .5,
-				y: canvas.currentY + glyphs.height * .2
-			});
+			oddismDraw(ctx, canvas.currentX, canvas.currentY + glyphs.height * .1, oddismGlyphs[type][current]);
 		} else if (current !== undefined) unsupportedCharacters.add(current);
-
-		// position pointer for words
-		if (canvas.currentX + glyphs.width >= canvas.width) {
-			canvas.currentY += glyphs.height;
-			canvas.currentX = 0;
-		} else canvas.currentX += glyphs.width;
+		// display character
+		ctx.drawText(current, {
+			x: canvas.currentX + glyphs.width * .5,
+			y: canvas.currentY + glyphs.height * .8
+		});
 	}
 
 	// complain about unsupported characters

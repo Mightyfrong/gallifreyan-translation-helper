@@ -295,11 +295,11 @@ export function render(input) {
 	// initialize widths, heights, default-values, draw-object
 	glyphs.width = glyphSize * 2.2;
 	glyphs.height = glyphSize * 4;
-	glyphs.num = input.length;
+	glyphs.num = input.length+1;
 
 	// set canvas scale according to number of characters
 	canvas["currentX"] = 0;
-	canvas["currentY"] = glyphs.height * .6;
+	canvas["currentY"] = glyphs.height * .4;
 	canvas["width"] = dimension.canvas(glyphs, option.maxWidth).width;
 	canvas["height"] = dimension.canvas(glyphs, option.maxWidth).height;
 	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
@@ -307,10 +307,7 @@ export function render(input) {
 	// iterate through input
 	for (let i = 0; i < input.length; i++) {
 		// position pointer
-		if (canvas.currentX + glyphs.width * 1.5 >= canvas.width) {
-			canvas.currentY += glyphs.height;
-			canvas.currentX = glyphs.width;
-		} else canvas.currentX += glyphs.width;
+		canvas = dimension.carriageReturn(canvas, glyphs, 1);
 
 		if (input[i].toLowerCase() in characters) {
 			// draw character
@@ -319,12 +316,11 @@ export function render(input) {
 
 		} else unsupportedCharacters.add(input[i]);
 
-		// print character translation above the drawings
+		// text output for undefined characters as well for informational purpose
 		ctx.drawText(input[i], {
 			x: canvas.currentX,
-			y: canvas.currentY - glyphSize * 1.5
+			y: canvas.currentY + glyphSize * 1.5
 		});
-
 	}
 
 	// complain about undefined characters

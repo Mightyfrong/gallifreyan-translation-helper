@@ -37,6 +37,8 @@ export function render(input) {
 	// convert input-string to word array
 	input = replacements(input).toLowerCase().trim().replace(/\s+/g, " ").split(" ");
 	let biggestWordCircle = 0;
+	glyphs.num = 0; // reset for new input
+
 	input.forEach(word => {
 		if (option.circular) {
 			let twc2 = dimension.wordcircleRadius(word.length, consonant) * 4.5;
@@ -50,19 +52,18 @@ export function render(input) {
 	if (option.circular) {
 		glyphs.width = biggestWordCircle + consonant;
 		glyphs.height = biggestWordCircle;
-		canvas["currentX"] = glyphs.width / 2;
-		canvas["currentY"] = glyphs.height / 2;
+		canvas["currentX"] = glyphs.width * .5;
+		canvas["currentY"] = glyphs.height * .5;
 	} else {
 		glyphs.width = consonant * 2.5;
 		glyphs.height = consonant * 6;
 		canvas["currentX"] = 0;
-		canvas["currentY"] = -glyph.height * .5;
+		canvas["currentY"] = -glyphs.height * .5;
 	}
 	canvas["width"] = dimension.canvas(glyphs, option.maxWidth).width;
 	canvas["height"] = dimension.canvas(glyphs, option.maxWidth).height;
-
 	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
-	// iterate through input to set grouping instructions, handle exceptions and draw glyphs
+
 	input.forEach(word => { // loop through sentence
 		let wordlength = word.length;
 		if (word.match(/(sh|wh|ph|ch)/g) != null) wordlength -= word.match(/(sh|wh|ph|ch)/g).length;
@@ -115,13 +116,10 @@ function replacements(word) {
 // draw instructions for base + decoration
 function fluxDraw(ctx, current) {
 	if (!option.circular || current.char == " ") {
-		if (canvas.currentX + glyphs.width >= canvas.width) {
-			canvas.currentY += glyphs.height;
-			canvas.currentX = glyphs.width / (option.circular ? 2 : 1);
-		} else canvas.currentX += glyphs.width;
+		// position pointer
+		canvas = dimension.carriageReturn(canvas, glyphs, (option.circular ? .5 : 1));
 	}
 	let currentbase = base.getBase(current.char);
-	if (!currentbase) return false;
 	// rotation of charactergroups in regards of circular display
 	let rad = 0,
 		wordCircleRadius = glyphs.height;
@@ -166,13 +164,9 @@ function fluxDraw(ctx, current) {
 		}
 	}
 	// text output for undefined characters as well for informational purpose
-	// print character translation above the drawings unless it's a (numeral) control character
-	let fontsize = parseFloat(getComputedStyle(document.body, null).fontSize),
-		text = current.char;
-
-	ctx.drawText(text, {
+	if (current.char.length && current.char != " ")ctx.drawText(current.char, {
 		x: canvas.currentX - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad),
-		y: canvas.currentY + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad) + fontsize * .25
+		y: canvas.currentY + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad) + option.fontsize * .25
 	});
 }
 

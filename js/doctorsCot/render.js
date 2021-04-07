@@ -29,7 +29,7 @@ export function render(input) {
 	// convert input-string to grouped array and determine number of groups
 	let groupedInput = doctorsCotGrouped.groups(input.toLowerCase());
 
-	let glyphs = 0;
+	glyphs.num = 0; // reset for new input
 	groupedInput.forEach(word => {
 		word.forEach(groups => {
 			glyphs.num += groups.length;
@@ -39,8 +39,8 @@ export function render(input) {
 
 	glyphs.width = glyphSize * 2.25;
 	glyphs.height = glyphSize * 4;
-	canvas["currentX"] = -glyphs.width * .5;
-	canvas["currentY"] = glyphs.height * .5;
+	canvas["currentX"] = 0;
+	canvas["currentY"] = glyphs.height * .4;
 	canvas["width"] = dimension.canvas(glyphs, option.maxWidth).width;
 	canvas["height"] = dimension.canvas(glyphs, option.maxWidth).height;
 	const ctx = new SVGRenderingContext(canvas.width, canvas.height);
@@ -124,10 +124,8 @@ let doctorsCotGrouped = {
 // draw instructions for base + decoration
 function doctorsCotDraw(ctx, letter, grouped) {
 	if (!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
-		if (canvas.currentX + glyphs.width >= canvas.width) {
-			canvas.currentY += glyphs.height;
-			canvas.currentX = glyphs.width * .5;
-		} else canvas.currentX += glyphs.width;
+		// position pointer
+		canvas = dimension.carriageReturn(canvas, glyphs, 0);
 	}
 
 	//define tilt based on stack-number todistinguish between stacked characters
@@ -162,7 +160,7 @@ function doctorsCotDraw(ctx, letter, grouped) {
 	// print character translation above the drawings
 	if (grouped.offset == 0) ctx.drawText(grouped.currentGroupText, {
 		x: canvas.currentX,
-		y: canvas.currentY - glyphs.height * .4
+		y: canvas.currentY + glyphs.height * .4
 	});
 }
 
