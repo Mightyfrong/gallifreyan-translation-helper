@@ -34,11 +34,11 @@ source: [Sherman's Circular Gallifreyan by Loren Sherman][SCG]
 
 ![creator approved](https://img.shields.io/badge/creator-approved-brightgreen)
 
-Primarily designed as a pattern memory aid, this module draws each character either as an individual glyph, or stacked depending on choice. It displays the words either in a circular fashion (not spiral though) or every glyph/group in horizontal lines for ease of reading.
+Primarily designed as a pattern memory aid, this module draws each character either as an individual glyph, or stacked depending on choice. It displays the words either in a circular fashion (not spiral though) or every glyph/stack in horizontal lines for ease of reading.
 
 One can optionally toggle whether C is transcribed to K/S in the language controls.
 
-Numbers are supported, but only make sense with grouping enabled. Dot and comma both are valid decimal separators in number groups.
+Numbers are supported, but only make sense with stacking enabled. Dot and comma both are valid decimal separators in number stacks.
 
 Diacritics are supported according to the [official guide][SCG] for german umlauts, accent acute, accent grave, ñ and scandinavian å, ø and æ.
 
@@ -87,7 +87,7 @@ source: [Flux Gallifreyan by u/lost_chm][FLUX]
 
 ![creator approved](https://img.shields.io/badge/creator-approved-brightgreen)
 
-The GTH displays the words either in a clockwise circular fashion (not spiral or layers though) or every glyph/group in horizontal lines (left to right) for ease of reading.
+The GTH displays the words either in a clockwise circular fashion (not spiral or layers though) or every glyph in horizontal lines (left to right) for ease of reading.
 
 C will always be converted to phonetic s or k unless it is part of ch - which is of course a character on its own.
 
@@ -105,7 +105,7 @@ Supported characters are currently `[a-zß]`, uppercase will be converted.
 ## Clockwork
 source: [Clockwork Gallifreyan by FYeahGallifreyan][CW]
 
-The GTH displays the words either in a clockwise circular fashion (not spiral or layers though) or every glyph/group in horizontal lines (left to right) for ease of reading.
+The GTH displays the words either in a clockwise circular fashion (not spiral or layers though) or every glyph/stack in horizontal lines (left to right) for ease of reading.
 
 Decorator lines do not connect anywhere at the moment. This is as well due to the fact we did not come up with a reasonable algorithm to accomplish that yet, as random straight lines are neither easy to read nor aesthetically appealing.
 
@@ -121,7 +121,7 @@ Supported characters will be available on the provided keyboard. Ellipsis(...) i
 ## cBettenbender's
 source: [Circular Gallifreyan by Cat Bettenbender][CB]
 
-By time of implementing this writing system the instructions were still described as unfinished and surely felt a bit unclear. To make matters worse the initial publication was long time ago. Although the first page of the documentation describes the system as literal without phonetic replacements for consonants, some latin characters are missing, examples lead to other conclusions and vowels are most definetly described as phonetic. So after all there has to be a keyboard that limits allowed characters and inserts respective ipa-vowels. Grouping characters happens by syllables, but since putting this into an algorithm is currently beyond the ability of this helper you'll have to group by splitting character groupy by your own.
+By time of implementing this writing system the instructions were still described as unfinished and surely felt a bit unclear. To make matters worse the initial publication was long time ago. Although the first page of the documentation describes the system as literal without phonetic replacements for consonants, some latin characters are missing, examples lead to other conclusions and vowels are most definetly described as phonetic. So after all there has to be a keyboard that limits allowed characters and inserts respective ipa-vowels. Grouping characters happens by syllables, but since putting this into an algorithm is currently beyond the ability of this helper you'll have to group by splitting syllables with space by your own.
 
 Some of the design choices are based on personal choice, contextual considerations, the few impressions from the guide and maybe lack of coding skills:
 * *repetition indicators for vowels* are a thing in this interpretation. Double vowels normally change the sound, probably leading to another glyph, but in case of names double vowels might be allowed
@@ -166,7 +166,7 @@ Supported characters are `[a-z]`, uppercase will be converted.
 ## ArtByBoredom
 source: [Gallifreyan Alphabet by Aaron Jay][ABB]
 
-Like DotScript this system is more likely a font with geometric shapes representing latin alphabet letters. It is the first implemented gallifreyan distinguishing between upper- and lowercase characters. And like DotScript this is not a writing system per se but included for the sake of completeness and another coding exercise.
+Like DotScript this system is more likely a font with geometric shapes representing latin alphabet characters. It is the first implemented gallifreyan distinguishing between upper- and lowercase characters. And like DotScript this is not a writing system per se but included for the sake of completeness and another coding exercise.
 
 Supported characters are `[a-zA-Z.,:;-/"']` and if you say *but there are more punctuation characters* you most probably won't need this tool anyway.
 
