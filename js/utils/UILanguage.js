@@ -53,9 +53,9 @@ export let UILanguage = {
 			lt: "Skydus rankiniu būdu atskirkite tarpais"
 		},
 		cwhint: {
-			en: "Inconsistent use of punctuation may cause errors. Provide either full punctuation or none.",
-			de: "Eine inkonsistente Verwendung von Satzzeichen kann zu Fehlern führen, Bitte vollständige Satzzeichensetzung oder keine benutzen.",
-			lt: "Nenuoseklus skyrybos ženklų naudojimas gali sukelti klaidų. Įtraukite skyrybos ženklus arba be jų."
+			en: "If a phrase does not end with supported punctuation, a period will be added by default.",
+			de: "Wenn die Eingabe nicht mit einem unterstützen Satzzeichen endet wird automatisch ein Punkt ergänzt.",
+			lt: "Jei frazė nesibaigia palaikomu skyrybos ženklu, pagal numatytuosius nustatymus pridedamas taškas."
 		},
 		inputplaceholder: {
 			en: "type your text here",

@@ -102,8 +102,8 @@ let clockworkGrouped = {
 		// creates a multidimensional array for
 		// sentence -> groups -> single letters
 		input = input.trim().replace(/\s+/g, ' '); // trim and strip multiple whitespaces
+		if (!includes(".!?‽",input.substring(input.length-1))) input+=".";
 		let sentences = input.match(/.+?[\?!\.‽]/g); // divide into sentences by punctuation
-		if (sentences === null && input.length) sentences = [input]; // take raw input if no punctuation is found
 
 		let result = [];
 		sentences.forEach(sentence => {
