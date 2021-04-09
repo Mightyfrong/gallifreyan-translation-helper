@@ -79,14 +79,17 @@ export class clockworkConsonants {
 			},
 			h: {
 				draw: function (ctx, x, y, r, tilt) {
+					let points = "";
 					for (let i = 0; i < 2; i += 2 / 6) {
-						ctx.drawShape('line', 1, {
-							x1: x + Math.cos(Math.PI * (i + tilt)) * r,
-							y1: y + Math.sin(Math.PI * (i + tilt)) * r,
-							x2: x + Math.cos(Math.PI * (i + 2 / 6 + tilt)) * r,
-							y2: y + Math.sin(Math.PI * (i + 2 / 6 + tilt)) * r
-						});
+						points +=
+							(x + Math.cos(Math.PI * (i + tilt)) * r) +
+							"," +
+							(y + Math.sin(Math.PI * (i + tilt)) * r) +
+							" ";
 					}
+					ctx.drawShape('polygon', 1, {
+						points: points
+					});
 				}
 			},
 			ʤ: {
