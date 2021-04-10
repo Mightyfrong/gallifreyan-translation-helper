@@ -38,20 +38,16 @@ export function render(input) {
 	if (!option.circular) {
 		groupedInput.forEach(sentence => {
 			sentence.forEach(word => {
-				word.forEach(group => {
-					if (!option.stacking) {
+				if (!option.stacking) {
+					word.forEach(group => {
 						glyphs.num += group.length;
-						glyphs.width = glyphSize * 2.5;
-					} else {
-						let currentWidth = glyphSize * 1.1 * (group.length); // -1 because punctuation is always part of the last group
-						glyphs.width = glyphs.width < currentWidth ? currentWidth : glyphs.width;
-					}
-				});
+					});
+				}
 				if (option.stacking) glyphs.num += word.length;
 				glyphs.num += 1; //space after every word
-
 			});
 		});
+		glyphs.width = glyphSize * 2.5;
 		glyphs.height = glyphSize * 4;
 	}
 	/*			groupedInput.forEach(sentence => {
