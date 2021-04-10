@@ -129,6 +129,9 @@ C will always be converted to phonetic k or s. Since punctuation is essential, e
 
 Decorator lines do not connect anywhere at the moment. This is as well due to the fact we did not come up with a reasonable algorithm to accomplish that yet, as random straight lines are neither easy to read nor aesthetically appealing. Currently initial stacked vowels will protude the consonant. This is not accordingly to the guide, but due to the lack of skills to handle svg clipping properly! 
 
+### What To Expect
+<img src="assets/Gallifreyan_greenman circular gallifreyan.svg" alt="GC ggclifreyan linear displayed" width="512" />
+
 [^ back to top](#Supported-Scribes)
 
 ## cBettenbender's
