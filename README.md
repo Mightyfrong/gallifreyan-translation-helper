@@ -9,10 +9,11 @@ The creators of the Gallifreyan Translation Helper do not guarantee for correct 
 
 ## Supported scribes
 * [Sherman's](#Shermans)
-* [TARDIS Console](#TARDIS-Console)
 * [Doctors's Cot](#Doctors-Cot)
+* [TARDIS Console](#TARDIS-Console)
 * [Flux](#Flux)
 * [Clockwork](#Clockwork)
+* [GC Gallifreyan](#GC-Gallifreyan)
 * [cBettenbender's](#cBettenbenders)
 * [CC Gallifreyan](#CC-Gallifreyan)
 * [DotScript](#DotScript)
@@ -53,6 +54,19 @@ Supported characters are `[a-z0-9.?!"'-,;:éèíìüúùæäáàåöóòøñ]`, 
 
 [^ back to top](#Supported-Scribes)
 
+## Doctor's Cot
+source: [Doctor's Cot by Brittany Goodman][DCG]
+
+The progress of vectorizing all the things got a bit stuck for a few weeks and one of us wasn't able to understand and contribute to foreign code. So Doctor's Cot was straightforwand rebuild based on the coding style of CC-Gallifreyan. ɑ-based vowels are a bit impure regarding connectivity, but on the plus side there is canonical punctuation (except start indication).
+Like in the original Cot-module there is an IPA-keyboard. Since the author has published a simplyfied english version as well there is a respective keyboard that translates the english characters to the IPA-characters according to the official tables.
+
+Supported characters will be available on the provided keyboard. Please be aware about adding `א` (aleph) for lonely vowels manually.
+
+### What to expect
+<img src="assets/Gallifreyan_dɒktəz kɒt.svg" alt="doctor's cot gallifreyan" width="512" />
+
+[^ back to top](#Supported-Scribes)
+
 ## TARDIS Console
 source: [TARDIS Console by Purple Emily][TCG]
 
@@ -65,19 +79,6 @@ Currently only the table of the guide part 1 is supported `[a-zא]`, punctuation
 <img src="assets/Gallifreyan_tardis console linear.svg" alt="sherman's circular gallifreyan linear displayed" width="512" />
 -
 <img src="assets/Gallifreyan_tardis console circular.svg" alt="sherman's circular gallifreyan circular displayed" width="512" />
-
-[^ back to top](#Supported-Scribes)
-
-## Doctor's Cot
-source: [Doctor's Cot by Brittany Goodman][DCG]
-
-The progress of vectorizing all the things got a bit stuck for a few weeks and one of us wasn't able to understand and contribute to foreign code. So Doctor's Cot was straightforwand rebuild based on the coding style of CC-Gallifreyan. ɑ-based vowels are a bit impure regarding connectivity, but on the plus side there is canonical punctuation (except start indication).
-Like in the original Cot-module there is an IPA-keyboard. Since the author has published a simplyfied english version as well there is a respective keyboard that translates the english characters to the IPA-characters according to the official tables.
-
-Supported characters will be available on the provided keyboard. Please be aware about adding `א` (aleph) for lonely vowels manually.
-
-### What to expect
-<img src="assets/Gallifreyan_dɒktəz kɒt.svg" alt="doctor's cot gallifreyan" width="512" />
 
 [^ back to top](#Supported-Scribes)
 
@@ -109,12 +110,24 @@ The GTH displays the words either in a clockwise circular fashion (not spiral or
 
 Decorator lines do not connect anywhere at the moment. This is as well due to the fact we did not come up with a reasonable algorithm to accomplish that yet, as random straight lines are neither easy to read nor aesthetically appealing.
 
-Supported characters will be available on the provided keyboard. Ellipsis(...) is not supported unfortunately. Inconsistent use of punctuation may cause errors. Provide either full punctuation or none. In case of a proper punctuation and circular display the start indicator will be displayed. You can choose the amout of stacking.
+Supported characters will be available on the provided keyboard. Ellipsis(...) is not supported unfortunately. Since punctuation is essential, every phrase that is not terminated by a supported punctuation character will be complemented with a period by default. You can choose the amout of stacking.
 
 ### What To Expect
 <img src="assets/Gallifreyan_klɒkwɜɹk lineɛ..svg" alt="clockwork gallifreyan linear displayed" width="512" />
 -
 <img src="assets/Gallifreyan_klɒkwɜɹk siɹkjulɛ..svg" alt="clockwork gallifreyan circular displayed" width="512" />
+
+[^ back to top](#Supported-Scribes)
+
+## GC Gallifreyan
+source: [GC Gallifreyan by TrueGreenman][GC]
+
+This is currently a work in progress that displays characters either single or stacked. The punctuation will be displayed as a glyph. Circular display is planned to follow.
+~~The GTH displays the words either in a clockwise circular fashion or every glyph/stack in horizontal lines (left to right) for ease of reading.~~
+
+C will always be converted to phonetic k or s. Since punctuation is essential, every phrase that is not terminated by a supported punctuation character will be complemented with a period by default.
+
+Decorator lines do not connect anywhere at the moment. This is as well due to the fact we did not come up with a reasonable algorithm to accomplish that yet, as random straight lines are neither easy to read nor aesthetically appealing. Currently initial stacked vowels will protude the consonant. This is not accordingly to the guide, but due to the lack of skills to handle svg clipping properly! 
 
 [^ back to top](#Supported-Scribes)
 
@@ -178,6 +191,8 @@ Supported characters are `[a-zA-Z.,:;-/"']` and if you say *but there are more p
 ## DarkIfaerie's
 source: [Gallifreyan Alphabet by Sarah "DarkIfaerie"][DF]
 
+![creator approved](https://img.shields.io/badge/creator-approved-brightgreen)
+
 With one glyph for every character of the english alphabet DarkIFaerie's gallifreyan is more or less another font. The small difference considering it a system is arranging the characters in a circle and reading clockwise.
 
 Supported characters are `[a-z]`, uppercase will be converted.
@@ -238,9 +253,11 @@ along with the GTH.  If not, see <https://www.gnu.org/licenses/>.
 [MR]: https://github.com/ModisR
 
 [SCG]: https://shermansplanet.com/gallifreyan/guide.pdf
-[TCG]: https://tardisconsolegallifreyan.weebly.com/tutorials.html
 [DCG]: https://doctorscotgallifreyan.com/walk-through/4lnekzojej4p5klcph0ppntibb19ib
+[TCG]: https://tardisconsolegallifreyan.weebly.com/tutorials.html
+[FLUX]: https://fluxgallifreyan.weebly.com/
 [CW]: https://fyeahgallifreyan.tumblr.com/post/49952734330/clockwork-gallifreyan-complete-writing-guide
+[GC]: https://www.deviantart.com/truegreenman/gallery/61284794/gc-guide
 [CB]: https://www.deviantart.com/cbettenbender/gallery/33798145/circular-gallifreyan
 [CC]: https://www.deviantart.com/gumex/art/CC-Gallifreyan-458112363
 [DS]: https://www.deviantart.com/rachelsutherland/gallery/58931409/dotscript-gallifreyan-guide
@@ -248,7 +265,6 @@ along with the GTH.  If not, see <https://www.gnu.org/licenses/>.
 [DF]: https://www.deviantart.com/darkifaerie/art/Gallifreyan-Alphabet-270857268
 [BPJM]: https://www.deviantart.com/bpjmarriott/art/Old-High-Gallifreyan-Alphabet-370087020
 [ODD]: https://odd-things-happen.tumblr.com/post/21573543574/my-finished-gallifreyan-alphabet-i-think-im
-[FLUX]: https://fluxgallifreyan.weebly.com/
 
 [1]: https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
 [2]: https://en.wikipedia.org/wiki/International_Phonetic_Alphabet
