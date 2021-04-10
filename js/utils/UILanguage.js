@@ -52,9 +52,9 @@ export let UILanguage = {
 			de: "Silben bitte manuell mit Leerzeichen trennen",
 			lt: "Skydus rankiniu būdu atskirkite tarpais"
 		},
-		cwhint: {
+		punctuationhint: {
 			en: "If a phrase does not end with supported punctuation, a period will be added by default.",
-			de: "Wenn die Eingabe nicht mit einem unterstützen Satzzeichen endet wird automatisch ein Punkt ergänzt.",
+			de: "Wenn die Eingabe nicht mit einem unterstützen Satzzeichen endet, wird automatisch ein Punkt ergänzt.",
 			lt: "Jei frazė nesibaigia palaikomu skyrybos ženklu, pagal numatytuosius nustatymus pridedamas taškas."
 		},
 		inputplaceholder: {
@@ -118,7 +118,8 @@ export let UILanguage = {
 		});
 		document.getElementById("cothint").innerHTML = this.write('cothint');
 		document.getElementById("cbhint").innerHTML = this.write('cbhint');
-		document.getElementById("cwhint").innerHTML = this.write('cwhint');
+		document.getElementById("cwhint").innerHTML = this.write('punctuationhint');
+		document.getElementById("gchint").innerHTML = this.write('punctuationhint');
 
 		document.getElementById("helpwith").innerHTML = this.write('helpwith');
 		document.getElementById("text").placeholder = this.write('inputplaceholder');

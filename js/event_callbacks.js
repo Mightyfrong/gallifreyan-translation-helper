@@ -14,6 +14,9 @@ import {
 	render as renderClockwork
 } from './clockwork/render.js';
 import {
+	render as renderGC
+} from './gc/render.js';
+import {
 	render as renderCC
 } from './cc/render.js';
 import {
@@ -64,6 +67,7 @@ const cotkeys = document.getElementById('cot-keys');
 const cwkeys = document.getElementById('clockwork-keys');
 const oddismkeys = document.getElementById('oddism-keys');
 const cbkeys = document.getElementById('cbettenbenders-keys');
+const gchint = document.getElementById('gc-hint');
 
 export const renderOptions = new renderOpts();
 
@@ -72,7 +76,7 @@ const img = document.getElementById('output-img');
 // Init language selector & constants
 customElements.define('my-select', MySelect);
 const langs = langSelect.querySelectorAll('input');
-const [SHERMAN, COT, TARDIS, FLUX, CW, CB, CC, DOT, ABB, DF, BPJM, ODD] = [...langs].map(input => input.value);
+const [SHERMAN, COT, TARDIS, FLUX, CW, GC, CB, CC, DOT, ABB, DF, BPJM, ODD] = [...langs].map(input => input.value);
 
 // Event Callbacks
 export function translate(event) {
@@ -97,6 +101,9 @@ export function translate(event) {
 			break;
 		case CW:
 			svg = renderClockwork(input);
+			break;
+		case GC:
+			svg = renderGC(input);
 			break;
 		case DOT:
 			svg = renderDotscript(input);
@@ -158,6 +165,10 @@ export function activateControls(lang) {
 			renderOptions.display(["circular", "stack"]);
 			keyoptions.classList.toggle('active');
 			cwkeys.classList.toggle('active');
+			break;
+		case GC:
+			renderOptions.display(["stacking"]);
+			gchint.classList.toggle('active');
 			break;
 		case CC:
 			renderOptions.display(["stack"]);
