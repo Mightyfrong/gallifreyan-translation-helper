@@ -47,7 +47,7 @@ export function render(input) {
 				glyphs.num += 1; //space after every word
 			});
 		});
-		glyphs.width = glyphSize * 2.5;
+		glyphs.width = glyphSize * 2.2;
 		glyphs.height = glyphSize * 4;
 	}
 	/*			groupedInput.forEach(sentence => {
@@ -153,10 +153,10 @@ let gcGrouped = {
 	},
 	resetOffset: function (stack, currentGroupText = '') {
 		this.carriagereturn = false; // true overrides setting the pointer-position to the next character
-		this.resize = 1; // glyph-resize-factor, something the power of null is one
 		this.offset = 0; // counter of stacked objects, used for positioning the translated letters on top of the drawings
 		this.currentGroupText = currentGroupText;
 		this.numberOfGroups = stack || 1;
+		this.resize = includes("aeiou",currentGroupText[0]) ? .7 : 1; // glyph-resize-factor, vowels start smaller
 	},
 	setOffset: function () {
 		this.carriagereturn = true;
