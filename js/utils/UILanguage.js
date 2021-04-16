@@ -107,7 +107,7 @@ export let UILanguage = {
 	},
 	init: function () {
 		//overwrite initial rendered text putputs
-		let dest = ["circular", "convertc", "stacking", "stack"];//, "ipakeys", "enkeys"];
+		let dest = ["circular", "convertc", "stacking"];//, "stack", "ipakeys", "enkeys"];
 		dest.forEach(id => {
 			document.getElementById(id).parentElement.innerHTML =
 				document.getElementById(id).parentElement.innerHTML.replaceAll(/[>|^](\D+?)</g, ($1, $2) => {

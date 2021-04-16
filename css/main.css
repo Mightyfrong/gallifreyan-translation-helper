@@ -1,10 +1,12 @@
 @import 'my-select.css';
+@import 'my-slider.css';
 
 :root {
 	--col0: hsl(165deg, 80%, 10%);
 	--col1: hsl(225deg, 80%, 10%);
 	--col2: hsl(285deg, 80%, 10%);
 	--accent-col: hsl(45deg, 90%, 50%);
+	--input-background: rgba(255, 255, 255, .8);
 
 	--header-width: 640px;
 	--header-height: 360px;
@@ -190,6 +192,10 @@ input[type=submit] {
 	display: none;
 }
 
+label {
+	white-space: nowrap;
+}
+
 form>label {
 	display: inline-block;
 	width: 4em;
@@ -262,19 +268,21 @@ select {
 
 select {
 	background-color: var(--accent-col);
-	color:var(--col1);
+	color: var(--col1);
 	border-radius: .25em;
-	padding:.25em;
-	border:none
+	padding: .25em;
+	border: none;
 }
+
 .custominput {
 	display: inline-block;
 	position: relative;
 	user-select: none;
-	margin: .5em
+	margin: .5em;
 }
 
-.custominput input {
+.custominput input[type=radio],
+.custominput input[type=checkbox] {
 	/* Hide the browser's default checkbox */
 	display: none;
 }
@@ -288,7 +296,7 @@ select {
 	width: 2em;
 	border-radius: .5em;
 	border: none;
-	background-color: rgba(255, 255, 255, .8);
+	background-color: var(--input-background);
 }
 
 .checkmark::after {

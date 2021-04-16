@@ -69,15 +69,8 @@
 						class="checkmark"></span></label>
 				<label class="custominput" for="stacking"><input type="checkbox" id="stacking" checked />stacking <span
 						class="checkmark"></span></label>
-				<label class="custominput" for="stack">Maximum stacked <select id="stack">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4" selected>4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-					</select></label>
+				<label class="custominput" for="stack">Maximum stacked <input type="range" min="1" max="7" step="1" id="stack"
+						onchange="this.nextSibling.innerHTML=this.value" /><span>&nbsp;&nbsp;</span></label>
 
 				<div id="keyoptions">
 					<label class="custominput" for="ipakeys"><input type="radio" name="keyboard" id="ipakeys"
@@ -95,10 +88,12 @@
 					<div id="cwconsonants" class="keys"></div>
 					<div id="cwvowels" class="keys"></div>
 					<div id="cwpunctuation" class="keys"></div>
-					<span id="cwhint">If a phrase does not end with supported punctuation, a period will be added by default.</span>
+					<span id="cwhint">If a phrase does not end with supported punctuation, a period will be added by
+						default.</span>
 				</div>
 				<div id="gc-hint">
-					<span id="gchint">If a phrase does not end with supported punctuation, a period will be added by default.</span>
+					<span id="gchint">If a phrase does not end with supported punctuation, a period will be added by
+						default.</span>
 				</div>
 				<div id="oddism-keys">
 					<div id="oddismconsonants" class="keys"></div>
@@ -170,7 +165,8 @@
 		guides or other reasons. Of course we acknowledge and appreciate other writing styles as well and the effort of
 		developing and documenting them and contributing to the Doctor Who Fandom.
 		One or the other may or may not be on our inofficial to-do-list.<br /><br />
-		<a href="https://www.reddit.com/r/gallifreyan/wiki/language" target="ack">(Likely incomplete) list of known styles</a><br /><br />
+		<a href="https://www.reddit.com/r/gallifreyan/wiki/language" target="ack">(Likely incomplete) list of known
+			styles</a><br /><br />
 		Sources and references for the supported writing styles can be found and are linked on <a
 			href="https://github.com/Mightyfrong/gallifreyan-translation-helper" target="_blank">the repo</a>.
 	</div>

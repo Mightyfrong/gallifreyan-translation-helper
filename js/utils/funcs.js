@@ -83,15 +83,16 @@ export class unsupportedChars {
 // handler for rendering options
 export class renderOpts {
 	constructor() {
-		this.value = ["foregroundcolor", "backgroundcolor"];
-		this.option = ["stack"];
+		this.permavalue = ["foregroundcolor", "backgroundcolor"];
+		this.value = ["stack"];
+		this.option = [];
 		this.checked = ["circular", "convertc", "stacking"];
 
 		//todo default values, more meaningful data structure
 		//default + font size, window width/height
 	}
 	display(selected = []) {
-		//		this.value.forEach(id => {document.getElementById(id).parentElement.style.display = (selected.indexOf(id)>-1 ? 'initial' : 'none');}, { selected: selected });
+		this.value.forEach(id => {document.getElementById(id).parentElement.style.display = (selected.indexOf(id)>-1 ? 'initial' : 'none');}, { selected: selected });
 		this.option.forEach(id => {
 			document.getElementById(id).parentElement.style.display = (selected.indexOf(id) > -1 ? 'initial' : 'none');
 		}, {
@@ -105,6 +106,9 @@ export class renderOpts {
 	}
 	get() {
 		let output = {};
+		this.permavalue.forEach(id => {
+			output[id] = document.getElementById(id).parentElement.style.display == 'none' ? false : document.getElementById(id).value;
+		});
 		this.value.forEach(id => {
 			output[id] = document.getElementById(id).parentElement.style.display == 'none' ? false : document.getElementById(id).value;
 		});
