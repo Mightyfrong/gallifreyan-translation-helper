@@ -1,17 +1,22 @@
 import {
 	createSVGElement
 } from "./funcs.js";
+import {
+	renderOptions
+} from '../event_callbacks.js';
 
 // prefix for clip-path IDs
 const CP = "cp";
 
 export class SVGRenderingContext {
 	constructor(width, height) {
+		//retrieve options and make them compact
+		let option = renderOptions.get();
 		this.width = width;
 		this.height = height;
 
-		this.fgCol = document.getElementById('foregroundcolor').value;
-		this.bgCol = document.getElementById('backgroundcolor').value;
+		this.fgCol = option.foregroundcolor;
+		this.bgCol = option.backgroundcolor;
 
 		this.history = [];
 		this.clipPaths = [];
