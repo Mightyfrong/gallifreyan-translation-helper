@@ -50,21 +50,7 @@ export function render(input) {
 		glyphs.width = glyphSize * 2.2;
 		glyphs.height = glyphSize * 4;
 	}
-	/*			groupedInput.forEach(sentence => {
-					circularGroups = 0;
-					for (let i = 0; i < sentence[0].length; i++) {
-						if (option.circular) {
-							let twc2;
-							if (!includes(" .!?‽", sentence[0][i]))
-								twc2 = dimension.wordcircleRadius(++circularGroups, glyphSize * stackedGlyph) * 1.5;
-							if (biggestWordCircle < twc2) biggestWordCircle = twc2;
 
-						} else {
-							glyphs.num++;
-						}
-					}
-				});
-	*/
 	let biggestWordCircle;
 	// set canvas scale according to number of letters/groups
 	if (false && option.circular) {
@@ -180,8 +166,6 @@ function replacements(word) {
 
 // draw instructions for base + decoration
 function gcDraw(ctx, letter, grouped) {
-	//	if ((!option.circular || !grouped.glyph) &&
-	//		(!grouped.carriagereturn || (!grouped.carriagereturn && option.circular && !grouped.glyph))) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
 	// position pointer
 	if (!grouped.carriagereturn) {
 		canvas = dimension.carriageReturn(canvas, glyphs, .5);
@@ -231,46 +215,6 @@ function gcDraw(ctx, letter, grouped) {
 			glyphSize,
 			tilt);
 	}
-
-	/*	
-		
-		// draw consonant
-		if (letter in glyph.glyphs)
-			cwConsonants.glyphs[letter].draw(ctx,
-				canvas.currentX + center.x,
-				canvas.currentY + center.y,
-				glyphSize * grouped.resize,
-				tilt);
-		// draw vowel, smaller and randomly slightly offcentric
-		else if (letter in cwVowels.glyphs) {
-			let rot = Math.PI * Math.random() * 2;
-			cwVowels.glyphs[letter].draw(ctx,
-				canvas.currentX + center.x + Math.cos(rot) * glyphSize * grouped.resize * .75,
-				canvas.currentY + center.y + Math.sin(rot) * glyphSize * grouped.resize * .75,
-				glyphSize * .7,
-				tilt);
-		} else if (letter in cwPunctuation.glyphs) {
-			if (includes(",;", letter)) {
-				let rot = Math.PI * Math.random() * 2;
-				cwPunctuation.glyphs[letter].draw(ctx,
-					canvas.currentX + center.x + Math.cos(rot) * glyphSize * grouped.resize * .75,
-					canvas.currentY + center.y + Math.sin(rot) * glyphSize * grouped.resize * .75,
-					glyphSize * .7,
-					tilt);
-			} else {
-				cwPunctuation.glyphs[letter].draw(ctx,
-					canvas.currentX,
-					canvas.currentY,
-					(option.circular ? wordCircleRadius * 1.7 : glyphSize * grouped.resize)
-				);
-				if (option.circular) cwPunctuation.glyphs["start"].draw(ctx,
-					canvas.currentX + center.x,
-					canvas.currentY + center.y,
-					glyphSize * .7,
-					tilt);
-			}
-		}
-		*/
 
 	// text output for undefined characters as well for informational purpose
 	// print character translation above the drawings
