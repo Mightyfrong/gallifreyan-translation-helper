@@ -70,6 +70,8 @@ Supported characters will be available on the provided keyboard. Please be aware
 ## TARDIS Console
 source: [TARDIS Console by Purple Emily][TCG]
 
+![creator approved](https://img.shields.io/badge/creator-approved-brightgreen)
+
 Another approach was chosen to get this one finally running. TARDIS Console is heavily inspired by the shows artwork and therefore has huge tables of glyphs that have no simple pattern or system to style consonants and vowels. This style is not easily wrapped up to an algorithm. The glyps and paired vowels were redrawn in inkscape and will be resized and placed to the canvas.
 
 Vowels are always attached to a consonant, leading or double vowels or these that come on the third place are accompanied by aleph.
@@ -122,8 +124,7 @@ Supported characters will be available on the provided keyboard. Ellipsis(...) i
 ## GC Gallifreyan
 source: [GC Gallifreyan by TrueGreenman][GC]
 
-This is currently a work in progress that displays characters either single or stacked. The punctuation will be displayed as a glyph. Circular display is planned to follow.
-~~The GTH displays the words either in a clockwise circular fashion or every glyph/stack in horizontal lines (left to right) for ease of reading.~~
+This is currently a permanent work in progress that displays characters either single or stacked. The punctuation will be displayed as a glyph. Currently it is unsure if a circular display and reading-order-indication will happen, because somewhat linear grouping within a circular sentence is likely not something that can be displayed in a way that clears things up properly. Please use this module for impression of glyphs and character grouping only.   
 
 C will always be converted to phonetic k or s. Since punctuation is essential, every phrase that is not terminated by a supported punctuation character will be complemented with a period by default.
 
