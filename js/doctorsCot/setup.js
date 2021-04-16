@@ -75,7 +75,7 @@ const alternativeKeyboard = {
 				["f<b>a</b>ther", "ɑ"],
 				["s<b>ee</b>n", "i"],
 				["s<b>oo</b>n", "u"],
-				["h<b>a</b>", "a"]
+				["h<b>a</b>t", "a"]
 			],
 			[
 				["m<b>ay</b>", "e"],
