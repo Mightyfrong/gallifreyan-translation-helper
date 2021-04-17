@@ -56,6 +56,12 @@ export class SVGRenderingContext {
 		this.addGroup(this.currentGroup.matrix, this.clipPaths.length);
 		this.clipPaths.push(shape);
 	}
+	clipPath(tagName, attributes) {
+		attributes.transform = this.currentGroup.getTransform();
+		const shape = new SVGShape(tagName, attributes);
+		this.clipPaths.push(shape);
+		return 'url(#cp' + (this.clipPaths.length - 1) + ')';
+	}
 	drawText(textStr, attributes) {
 		const svgText = new SVGText(textStr, attributes);
 		this.currentGroup.add(svgText);
@@ -100,7 +106,11 @@ export class SVGRenderingContext {
 		const width = this.width;
 		const height = this.height;
 		const style = `stroke:${this.fgCol};fill:transparent;`
-		const svg = createSVGElement('svg', { width, height, style });
+		const svg = createSVGElement('svg', {
+			width,
+			height,
+			style
+		});
 
 		if (this.clipPaths.length) {
 			const defs = createSVGElement('defs');
@@ -113,7 +123,12 @@ export class SVGRenderingContext {
 		}
 
 		const fill = this.bgCol;
-		const bgRect = createSVGElement('rect', { width, height, fill, strokeWidth: 0 });
+		const bgRect = createSVGElement('rect', {
+			width,
+			height,
+			fill,
+			strokeWidth: 0
+		});
 		svg.append(bgRect);
 
 		this.groups.forEach(group => {
@@ -152,7 +167,9 @@ class SVGGroup {
 
 	render(ctx) {
 		const transform = this.getTransform();
-		const g = createSVGElement('g', { transform });
+		const g = createSVGElement('g', {
+			transform
+		});
 
 		if (this.clipPath)
 			g.setAttribute('clip-path', `url(#${CP + this.clipPath})`);
@@ -193,7 +210,9 @@ class SVGShape {
 
 			return shape;
 		} else {
-			const clipPath = createSVGElement('clipPath', { id: prop });
+			const clipPath = createSVGElement('clipPath', {
+				id: prop
+			});
 			clipPath.append(shape);
 			return clipPath;
 		}
@@ -211,7 +230,12 @@ class SVGText {
 		const fill = ctx.fgCol;
 		const style = "font: 1em courier, monospace;"
 
-		const text = createSVGElement('text', { textAnchor, fill, style, ...this.attributes });
+		const text = createSVGElement('text', {
+			textAnchor,
+			fill,
+			style,
+			...this.attributes
+		});
 		text.append(document.createTextNode(this.text))
 
 		return text;
