@@ -32,6 +32,9 @@ import {
 	render as renderDF
 } from './darkifaerie/render.js';
 import {
+	render as renderEva
+} from './eva/render.js';
+import {
 	render as renderBPJM
 } from './bpjmarriott/render.js';
 import {
@@ -46,6 +49,9 @@ import {
 import {
 	createKeyboard as createClockworkKeyboard
 } from './clockwork/setup.js';
+import {
+	createKeyboard as createEvaKeyboard
+} from './eva/setup.js';
 
 import {
 	MySelect
@@ -65,6 +71,7 @@ const langControls = document.getElementById('lang-controls');
 const keyoptions = document.getElementById('keyoptions');
 const cotkeys = document.getElementById('cot-keys');
 const cwkeys = document.getElementById('clockwork-keys');
+const evakeys = document.getElementById('eva-keys');
 const oddismkeys = document.getElementById('oddism-keys');
 const cbkeys = document.getElementById('cbettenbenders-keys');
 const gchint = document.getElementById('gc-hint');
@@ -76,7 +83,7 @@ const img = document.getElementById('output-img');
 // Init language selector & constants
 customElements.define('my-select', MySelect);
 const langs = langSelect.querySelectorAll('input');
-const [SHERMAN, COT, TARDIS, FLUX, CW, GC, CB, CC, DOT, ABB, DF, BPJM, ODD] = [...langs].map(input => input.value);
+const [SHERMAN, COT, TARDIS, FLUX, CW, GC, CB, CC, DOT, ABB, DF, EVA, BPJM, ODD] = [...langs].map(input => input.value);
 
 // Event Callbacks
 export function translate(event) {
@@ -119,6 +126,9 @@ export function translate(event) {
 			break;
 		case DF:
 			svg = renderDF(input);
+			break;
+		case EVA:
+			svg = renderEva(input);
 			break;
 		case BPJM:
 			svg = renderBPJM(input);
@@ -183,6 +193,11 @@ export function activateControls(lang) {
 		case TARDIS:
 			renderOptions.display(["circular"]);
 			break;
+		case EVA:
+			renderOptions.display(["circular"]);
+			keyoptions.classList.toggle('active');
+			evakeys.classList.toggle('active');
+			break;
 		case ODD:
 			renderOptions.display([]);
 			keyoptions.classList.toggle('active');
@@ -198,6 +213,7 @@ document.querySelectorAll('input[type=radio][name=keyboard]').forEach(radio => {
 	radio.addEventListener('change', e => {
 		createCotKeyboard();
 		createClockworkKeyboard();
+		createEvaKeyboard();
 		createoddKeyboard();
 	}, false);
 });

@@ -1,6 +1,7 @@
 import { createKeyboard as createCotKeyboard } from './doctorsCot/setup.js';
 import { createKeyboard as createOddKeyboard } from './oddism/setup.js';
 import { createKeyboard as createCBKeyboard } from './cbettenbender/setup.js';
+import { createKeyboard as createEvaKeyboard } from './eva/setup.js';
 import { createKeyboard as createClockworkKeyboard } from './clockwork/setup.js';
 
 import { UILanguage } from './utils/UILanguage.js';
@@ -13,11 +14,14 @@ document.forms[0].addEventListener('submit', translate);
 // Init UI elementss
 createCotKeyboard();
 
+createClockworkKeyboard();
+
 createCBKeyboard();
+
+createEvaKeyboard();
 
 createOddKeyboard();
 
-createClockworkKeyboard();
 
 //** General
 activateControls(langSelect.value);

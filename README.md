@@ -19,6 +19,7 @@ The creators of the Gallifreyan Translation Helper do not guarantee for correct 
 * [DotScript](#DotScript)
 * [ArtByBoredom Gallifreyan](#ArtByBoredom)
 * [DarkIfaerie's Gallifreyan](#Darkifaeries)
+* [Eva's Gallifreyan](#Evas)
 * [bpjmarriott's Old High Gallifreyan](#bpjmarriotts)
 * [ODDISM's Old High Gallifreyan](#ODDISMs)
 
@@ -208,6 +209,19 @@ Supported characters are `[a-z]`, uppercase will be converted.
 
 [^ back to top](#Supported-Scribes)
 
+## Eva's
+source: [Eva's Gallifreyan Alphabet Pt1](https://cdn.discordapp.com/attachments/708950194309431306/713761320129789972/Guide_1.jpg) | [Eva's Gallifreyan Alphabet Pt2](https://cdn.discordapp.com/attachments/708950194309431306/713761452955271168/Guide_2.jpg)
+
+Eva's Gallifreyan Alphabet comes with one glyph for every phonetic character. It is written counterclockwise from the bottom and every word is surrounded by a circle.
+
+Supported characters will be available on the provided keyboard.
+
+### What To Expect
+<img src="assets/Gallifreyan_ivʌs gællifreɪen linear.svg" alt="Eva's gallifreyan linear" width="512" />
+-
+<img src="assets/Gallifreyan_ivʌs gællifreɪen circular.svg" alt="Eva's gallifreyan circular" width="512" />
+
+[^ back to top](#Supported-Scribes)
 ## bpjmarriott's
 source: [Old High Gallifreyan by bpjmarriott][BPJM]
 
