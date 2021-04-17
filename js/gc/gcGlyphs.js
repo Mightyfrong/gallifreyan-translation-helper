@@ -189,17 +189,17 @@ export class gcGlyphs {
 		};
 		this.vowel = {
 			a: {
-				draw: function (ctx, x, y, r, tilt) {
+				draw: function (ctx, x, y, r, tilt, clip) {
 					ctx.drawShape('circle', 1, {
 						cx: x + Math.cos(Math.PI * (.5 + tilt)) * r,
 						cy: y + Math.sin(Math.PI * (.5 + tilt)) * r,
 						r: r * .75,
-						fill: renderOptions.get().backgroundcolor
+						clipPath: clip
 					});
 				}
 			},
 			e: {
-				draw: function (ctx, x, y, r, tilt) {
+				draw: function (ctx, x, y, r, tilt, clip) {
 					x = x + Math.cos(Math.PI * (.5 + tilt)) * r;
 					y = y + Math.sin(Math.PI * (.5 + tilt)) * r;
 					let points = "";
@@ -212,38 +212,38 @@ export class gcGlyphs {
 					}
 					ctx.drawShape('polygon', 1, {
 						points: points,
-						fill: renderOptions.get().backgroundcolor
+						clipPath: clip
 					});
 				}
 			},
 			i: {
-				draw: function (ctx, x, y, r, tilt) {
+				draw: function (ctx, x, y, r, tilt, clip) {
 					ctx.drawShape('circle', 0, {
 						cx: x + Math.cos(Math.PI * (.5 + tilt)) * r,
 						cy: y + Math.sin(Math.PI * (.5 + tilt)) * r,
 						r: r * .75,
-						fill: renderOptions.get().backgroundcolor
+						clipPath: clip
 					});
 				}
 			},
 			o: {
-				draw: function (ctx, x, y, r, tilt) {
+				draw: function (ctx, x, y, r, tilt, clip) {
 					ctx.drawShape('circle', 1, {
 						cx: x + Math.cos(Math.PI * (.5 + tilt)) * r,
 						cy: y + Math.sin(Math.PI * (.5 + tilt)) * r,
 						r: r * .75,
-						fill: renderOptions.get().backgroundcolor
+						clipPath: clip
 					});
 					ctx.drawShape('circle', 1, {
 						cx: x + Math.cos(Math.PI * (.5 + tilt)) * r,
 						cy: y + Math.sin(Math.PI * (.5 + tilt)) * r,
 						r: r * .65,
-						fill: renderOptions.get().backgroundcolor
+						clipPath: clip
 					});
 				}
 			},
 			u: {
-				draw: function (ctx, x, y, r, tilt) {
+				draw: function (ctx, x, y, r, tilt, clip) {
 					x = x + Math.cos(Math.PI * (.5 + tilt)) * r;
 					y = y + Math.sin(Math.PI * (.5 + tilt)) * r;
 					let points = ["", ""];
@@ -261,11 +261,11 @@ export class gcGlyphs {
 					}
 					ctx.drawShape('polygon', 1, {
 						points: points[0],
-						fill: renderOptions.get().backgroundcolor
+						clipPath: clip
 					});
 					ctx.drawShape('polygon', 1, {
 						points: points[1],
-						fill: renderOptions.get().backgroundcolor
+						clipPath: clip
 					});
 				}
 			}
@@ -278,21 +278,21 @@ export class gcGlyphs {
 						cy: y,
 						r: r
 					});
-					ctx.drawShape('path', 1,{
-						d: ctx.circularArc(x, y, r * .9, 1.75*Math.PI, 1.25*Math.PI, 'major')
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x, y, r * .9, 1.75 * Math.PI, 1.25 * Math.PI, 'major')
 					});
-					ctx.drawShape('path', 1,{
-						d: ctx.circularArc(x, y, r * .9, 1.75*Math.PI, 1.25*Math.PI, 'minor')
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x, y, r * .9, 1.75 * Math.PI, 1.25 * Math.PI, 'minor')
 					});
 				}
 			},
 			",": {
 				draw: function (ctx, x, y, r, tilt) {
-					ctx.drawShape('path', 1,{
-						d: ctx.circularArc(x, y, r, 1.75*Math.PI, 1.25*Math.PI, 'major')
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x, y, r, 1.75 * Math.PI, 1.25 * Math.PI, 'major')
 					});
-					ctx.drawShape('path', 1,{
-						d: ctx.circularArc(x, y, r, 1.75*Math.PI, 1.25*Math.PI, 'minor')
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x, y, r, 1.75 * Math.PI, 1.25 * Math.PI, 'minor')
 					});
 				}
 			},
@@ -301,29 +301,29 @@ export class gcGlyphs {
 					ctx.drawShape('circle', 1, {
 						cx: x,
 						cy: y,
-						r: r*.9
+						r: r * .9
 					});
-					ctx.drawShape('path', 1,{
-						d: ctx.circularArc(x, y, r, .75*Math.PI, .25*Math.PI, 'major')
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x, y, r, .75 * Math.PI, .25 * Math.PI, 'major')
 					});
-					ctx.drawShape('path', 1,{
-						d: ctx.circularArc(x, y, r, .75*Math.PI, .25*Math.PI, 'minor')
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x, y, r, .75 * Math.PI, .25 * Math.PI, 'minor')
 					});
 				}
 			},
 			"?": {
 				draw: function (ctx, x, y, r, tilt) {
-					ctx.drawShape('path', 1,{
-						d: ctx.circularArc(x, y, r, .75*Math.PI, .25*Math.PI, 'major')
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x, y, r, .75 * Math.PI, .25 * Math.PI, 'major')
 					});
-					ctx.drawShape('path', 1,{
-						d: ctx.circularArc(x, y, r, .75*Math.PI, .25*Math.PI, 'minor')
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x, y, r, .75 * Math.PI, .25 * Math.PI, 'minor')
 					});
-					ctx.drawShape('path', 1,{
-						d: ctx.circularArc(x, y, r * .9, 1.75*Math.PI, 1.25*Math.PI, 'major')
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x, y, r * .9, 1.75 * Math.PI, 1.25 * Math.PI, 'major')
 					});
-					ctx.drawShape('path', 1,{
-						d: ctx.circularArc(x, y, r * .9, 1.75*Math.PI, 1.25*Math.PI, 'minor')
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x, y, r * .9, 1.75 * Math.PI, 1.25 * Math.PI, 'minor')
 					});
 				}
 			},

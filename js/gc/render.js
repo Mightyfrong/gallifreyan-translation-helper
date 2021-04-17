@@ -142,7 +142,7 @@ let gcGrouped = {
 		this.offset = 0; // counter of stacked objects, used for positioning the translated letters on top of the drawings
 		this.currentGroupText = currentGroupText;
 		this.numberOfGroups = stack || 1;
-		this.resize = includes("aeiou",currentGroupText[0]) ? .7 : 1; // glyph-resize-factor, vowels start smaller
+		this.resize = includes("aeiou", currentGroupText[0]) ? .7 : 1; // glyph-resize-factor, vowels start smaller
 	},
 	setOffset: function () {
 		this.carriagereturn = true;
@@ -202,11 +202,22 @@ function gcDraw(ctx, letter, grouped) {
 		glyphSize * grouped.resize,
 		tilt);
 	if (letter in glyph.vowel) {
+		let previous = glyph.getBase(grouped.currentGroupText[grouped.offset - 1]),
+			clip = {},
+			clipID = false;
+		if (previous) {
+			clip = glyph.base[previous[0]].shape(canvas.currentX + center.x,
+				canvas.currentY + center.y,
+				glyphSize * grouped.resize / .7 - 2,
+				tilt + (grouped.offset - 1) * .1)[0];
+			delete clip.attributes.fill;
+			clipID = ctx.clipPath(clip.shape, clip.attributes);
+		}
 		glyph.vowel[letter].draw(ctx,
 			canvas.currentX + center.x,
 			canvas.currentY + center.y,
 			glyphSize * grouped.resize,
-			tilt);
+			tilt, clipID);
 	}
 	if (letter in glyph.punctuation) {
 		glyph.punctuation[letter].draw(ctx,
