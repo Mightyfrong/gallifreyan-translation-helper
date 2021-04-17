@@ -129,7 +129,7 @@ This is currently a permanent work in progress that displays characters either s
 
 C will always be converted to phonetic k or s. Since punctuation is essential, every phrase that is not terminated by a supported punctuation character will be complemented with a period by default.
 
-Decorator lines do not connect anywhere at the moment. This is as well due to the fact we did not come up with a reasonable algorithm to accomplish that yet, as random straight lines are neither easy to read nor aesthetically appealing. Currently initial stacked vowels will protude the consonant. This is not accordingly to the guide, but due to the lack of skills to handle svg clipping properly! 
+Decorator lines do not connect anywhere at the moment. This is as well due to the fact we did not come up with a reasonable algorithm to accomplish that yet, as random straight lines are neither easy to read nor aesthetically appealing.
 
 ### What To Expect
 <img src="assets/Gallifreyan_greenman circular gallifreyan.svg" alt="GC ggclifreyan linear displayed" width="512" />
