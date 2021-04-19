@@ -93,52 +93,24 @@ export function translate(event) {
 	unsupportedCharacters.reset();
 	let input = document.getElementById("text").value;
 	let svg;
-	switch (langSelect.value) {
-		case SHERMAN:
-			svg = renderShermans(input);
-			break;
-		case COT:
-			svg = renderDoctorsCot(input);
-			break;
-		case TARDIS:
-			svg = renderTARDISConsole(input);
-			break;
-		case FLUX:
-			svg = renderFlux(input);
-			break;
-		case CW:
-			svg = renderClockwork(input);
-			break;
-		case GC:
-			svg = renderGC(input);
-			break;
-		case DOT:
-			svg = renderDotscript(input);
-			break;
-		case ABB:
-			svg = renderABB(input);
-			break;
-		case CC:
-			svg = renderCC(input);
-			break;
-		case CB:
-			svg = renderCB(input);
-			break;
-		case DF:
-			svg = renderDF(input);
-			break;
-		case EVA:
-			svg = renderEva(input);
-			break;
-		case BPJM:
-			svg = renderBPJM(input);
-			break;
-		case ODD:
-			svg = renderODD(input);
-			break;
-		default:
-			svg = renderShermans(input);
-	}
+
+	const langsDict = {
+		[SHERMAN]: renderShermans,
+		[COT]: renderDoctorsCot,
+		[TARDIS]: renderTARDISConsole,
+		[FLUX]: renderFlux,
+		[CW]: renderClockwork,
+		[GC]: renderGC,
+		[DOT]: renderDotscript,
+		[ABB]: renderABB,
+		[CC]: renderCC,
+		[CB]: renderCB,
+		[DF]: renderDF,
+		[EVA]: renderEva,
+		[BPJM]: renderBPJM,
+		[ODD]: renderODD
+	};
+	svg = langsDict[langSelect.value](input, renderOptions, unsupportedCharacters);
 
 	const a = img.parentElement;
 	const file = svg.toFile(input);

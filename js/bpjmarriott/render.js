@@ -8,10 +8,6 @@ import {
 	character,
 	linewidth
 } from './setup.js';
-import {
-	unsupportedCharacters,
-	renderOptions
-} from '../event_callbacks.js';
 
 let canvas = {}; // canvas properties
 let option; // user selected render options handler
@@ -22,7 +18,7 @@ let glyphs = { // glyph dimensions object
 };
 
 // scroll through input and draw every letter
-export function render(input) {
+export function render(input, renderOptions, unsupportedCharacters) {
 	option = renderOptions.get();
 	// initialize widths, heights, default-values, draw-object
 	glyphs.width = character.width * 2;

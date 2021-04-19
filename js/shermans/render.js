@@ -16,10 +16,6 @@ import {
 import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
-import {
-	unsupportedCharacters,
-	renderOptions
-} from '../event_callbacks.js';
 
 let cLetter; // is there a "c"?
 let qLetter; // is there a "q"?
@@ -47,7 +43,7 @@ UILanguage.say.qLetter = {
 const base = new shermansBase(consonant, vowel);
 const deco = new shermansDeco(base);
 
-export function render(input) {
+export function render(input, renderOptions, unsupportedCharacters) {
 	//retrieve options and make them compact
 	option = renderOptions.get();
 
@@ -89,7 +85,7 @@ export function render(input) {
 	groupedInput.forEach(words => { // loop through sentence
 		words.forEach(groups => { // loop through words
 			let groupnum = 0;
-			groups.forEach(group => { // loop through character-groups 
+			groups.forEach(group => { // loop through character-groups
 				groupnum++;
 				// prepare resizing for stacked characters but vowels
 				let lastStackedConsonantIndex = group.length - 1,
@@ -142,7 +138,7 @@ export function render(input) {
 //script specific replacements
 function replacements(word) {
 	let cword = "";
-	for (let i = 0; i < word.length; i++) { // iterate through word 
+	for (let i = 0; i < word.length; i++) { // iterate through word
 		if (word[i] == "c" && option.convertc) {
 			if (word[i + 1] == "h") cword += "c"; // ch is still allowed
 			else if (includes(["e", "i", "y"], word[i + 1])) cword += "s";
@@ -164,7 +160,7 @@ let shermansGrouped = {
 			sentence.push([]); // init new word
 			let group = [];
 			sword = replacements(sword)
-			for (let i = 0; i < sword.length; i++) { // iterate through word 
+			for (let i = 0; i < sword.length; i++) { // iterate through word
 				let current = sword[i],
 					currenttwo = sword[i] + sword[i + 1];
 				// add double latin characters to group

@@ -12,10 +12,6 @@ import {
 import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
-import {
-	unsupportedCharacters,
-	renderOptions
-} from '../event_callbacks.js';
 
 let canvas = {}; // canvas properties
 let option; // user selected render options handler
@@ -29,7 +25,7 @@ let dimension = new dimensionObj(); // utility to calculate word-circle- and can
 const base = new ccBase();
 const deco = new ccDeco();
 
-export function render(input) {
+export function render(input, renderOptions, unsupportedCharacters) {
 	option = renderOptions.get();
 	// convert input-string to grouped array and determine number of groups
 	let groupedInput = ccGrouped.groups(input.toLowerCase());
@@ -57,7 +53,7 @@ export function render(input) {
 
 	groupedInput.forEach(words => { // loop through sentence
 		words.forEach(groups => { // loop through words
-			groups.forEach(group => { // loop through character-groups 
+			groups.forEach(group => { // loop through character-groups
 				// prepare resizing for stacked characters
 				var stack = group.length;
 				// reset offsets but hand over possible resizing factor
@@ -98,7 +94,7 @@ let ccGrouped = {
 		splitinput.forEach(sword => {
 			sentence.push([]); // init new word
 			let group = [];
-			for (var i = 0; i < sword.length; i++) { // iterate through word 
+			for (var i = 0; i < sword.length; i++) { // iterate through word
 				var current = sword[i],
 					currenttwo = sword[i] + sword[i + 1];
 				// add double latin characters to group
@@ -144,10 +140,10 @@ function ccDraw(ctx, letter, grouped) {
 }
 
 /**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR
- * 
+ *
  * This file is part of the Gallifreyan Translation Helper,
  * henceforth referred to as "the GTH".
- * 
+ *
  * The GTH is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or

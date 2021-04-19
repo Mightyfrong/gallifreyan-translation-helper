@@ -12,10 +12,6 @@ import {
 	includes,
 	dimensionObj
 } from '../utils/funcs.js';
-import {
-	unsupportedCharacters,
-	renderOptions
-} from '../event_callbacks.js';
 
 let canvas = {}; // canvas properties
 let option; // user selected render options handler
@@ -27,7 +23,7 @@ let glyphs = { // glyph dimensions object
 let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
 // scroll through input and draw every letter
-export function render(input) {
+export function render(input, renderOptions, unsupportedCharacters) {
 	//retrieve options and make them compact
 	option = renderOptions.get();
 

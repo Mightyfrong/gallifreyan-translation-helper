@@ -13,10 +13,6 @@ import {
 import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
-import {
-	unsupportedCharacters,
-	renderOptions
-} from '../event_callbacks.js';
 
 let canvas = {}; // canvas properties
 let option; // user selected render options handler
@@ -30,7 +26,7 @@ let dimension = new dimensionObj(); // utility to calculate word-circle- and can
 const base = new fluxBase(consonant, decorator);
 const deco = new fluxDeco(base);
 
-export function render(input) {
+export function render(input, renderOptions, unsupportedCharacters) {
 	//retrieve options and make them compact
 	option = renderOptions.get();
 
@@ -101,7 +97,7 @@ export function render(input) {
 //script specific replacements
 function replacements(word) {
 	let cword = "";
-	for (let i = 0; i < word.length; i++) { // iterate through word 
+	for (let i = 0; i < word.length; i++) { // iterate through word
 		if (word[i] == "c") {
 			if (word[i + 1] == "h") {
 				cword += "c";

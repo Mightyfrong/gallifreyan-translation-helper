@@ -9,10 +9,6 @@ import {
 	lwfactor
 } from './setup.js';
 import {
-	unsupportedCharacters,
-	renderOptions
-} from '../event_callbacks.js';
-import {
 	dimensionObj
 } from '../utils/funcs.js';
 
@@ -26,7 +22,7 @@ let glyphs = { // glyph dimensions object
 let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
 // scroll through input and draw every letter
-export function render(input) {
+export function render(input, renderOptions, unsupportedCharacters) {
 	//retrieve options and make them compact
 	option = renderOptions.get();
 

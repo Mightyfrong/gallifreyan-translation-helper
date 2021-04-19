@@ -10,10 +10,6 @@ import {
 import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
-import {
-	unsupportedCharacters,
-	renderOptions
-} from '../event_callbacks.js';
 
 let canvas = {}; // canvas properties
 let option; // user selected render options handler
@@ -24,7 +20,7 @@ let glyphs = { // glyph dimensions object
 };
 let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
-export function render(input) {
+export function render(input, renderOptions, unsupportedCharacters) {
 	option = renderOptions.get();
 	// convert input-string to grouped array and determine number of groups
 	let groupedInput = doctorsCotGrouped.groups(input.toLowerCase());
@@ -48,7 +44,7 @@ export function render(input) {
 	// iterate through input to set grouping instructions, handle exceptions and draw glyphs
 	groupedInput.forEach(words => { // loop through sentence
 		words.forEach(groups => { // loop through words
-			groups.forEach(group => { // loop through character-groups 
+			groups.forEach(group => { // loop through character-groups
 				doctorsCotGrouped.resetOffset(group);
 				// iterate through characters within group
 				for (let l = 0; l < group.length; l++) {
@@ -81,7 +77,7 @@ let doctorsCotGrouped = {
 		splitinput.forEach(sword => {
 			sentence.push([]); // init new word
 			let group = [];
-			for (var i = 0; i < sword.length; i++) { // iterate through word 
+			for (var i = 0; i < sword.length; i++) { // iterate through word
 				var current = sword[i],
 					currenttwo = sword[i] + sword[i + 1];
 				// add double characters to group

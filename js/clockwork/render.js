@@ -11,10 +11,6 @@ import {
 import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
-import {
-	unsupportedCharacters,
-	renderOptions
-} from '../event_callbacks.js';
 
 let stackedGlyph;
 
@@ -27,7 +23,7 @@ let glyphs = { // glyph dimensions object
 };
 let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
-export function render(input) {
+export function render(input, renderOptions, unsupportedCharacters) {
 	//retrieve options and make them compact
 	option = renderOptions.get();
 
@@ -109,8 +105,8 @@ let clockworkGrouped = {
 		sentences.forEach(sentence => {
 			result.push([]); // init new sentence
 			let group = [];
-			let characters = sentence.trim().match(/\/.+\/|./g); // match single characters or encapsulated by control characters 
-			for (var i = 0; i < characters.length; i++) { // iterate through word 
+			let characters = sentence.trim().match(/\/.+\/|./g); // match single characters or encapsulated by control characters
+			for (var i = 0; i < characters.length; i++) { // iterate through word
 				let character = characters[i].replace(/\//g, ''); // get rid of control characters
 				if ((group.length > 0 && group[group.length - 1].length < option.stack) &&
 					!(includes(",; .!?‽", character) || includes(",; .!?‽", group[group.length - 1]))) {

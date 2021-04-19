@@ -2,10 +2,6 @@ import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
 import {
-	unsupportedCharacters,
-	renderOptions
-} from '../event_callbacks.js';
-import {
 	dimensionObj
 } from '../utils/funcs.js';
 
@@ -288,7 +284,7 @@ let characters = {
 }
 
 // scroll through input and draw every letter
-export function render(input) {
+export function render(input, renderOptions, unsupportedCharacters) {
 	//retrieve options and make them compact
 	option = renderOptions.get();
 

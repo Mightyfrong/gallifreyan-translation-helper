@@ -13,10 +13,6 @@ import {
 import {
 	cbContext
 } from './cbettenbendersGlyphs.js';
-import {
-	unsupportedCharacters,
-	renderOptions
-} from '../event_callbacks.js';
 
 let canvas = {}; // canvas properties
 let option; // user selected render options handler
@@ -27,7 +23,7 @@ let glyphs = { // glyph dimensions object
 };
 let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
-export function render(input) {
+export function render(input, renderOptions, unsupportedCharacters) {
 	//retrieve options and make them compact
 	option = renderOptions.get();
 
@@ -46,7 +42,7 @@ export function render(input) {
 
 	// iterate through sentence and pass the whole syllable to the drawing instructions
 	groupedInput.forEach(syllable => { // loop through sentence
-		cbDraw(ctx, syllable);
+		cbDraw(ctx, syllable, unsupportedCharacters);
 	});
 
 	// complain about unsupported characters
@@ -64,7 +60,7 @@ let cbettenbacherGrouped = {
 		let splitinput = input.trim().replace(/\s+/g, " ").split(" "); // trim and strip multiple whitespaces, split input to single words and iterate through these
 		splitinput.forEach(sword => {
 			sentence.push([]); // init new word
-			for (var i = 0; i < sword.length; i++) { // iterate through word 
+			for (var i = 0; i < sword.length; i++) { // iterate through word
 				var current = sword[i],
 					currenttwo = sword[i] + sword[i + 1];
 				// add double characters to group
@@ -80,7 +76,7 @@ let cbettenbacherGrouped = {
 }
 
 // draw instructions for base + decoration
-function cbDraw(ctx, syllable) {
+function cbDraw(ctx, syllable, unsupportedCharacters) {
 
 	// position pointer
 	canvas = dimension.carriageReturn(canvas, glyphs, .5);

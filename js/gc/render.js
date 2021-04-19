@@ -11,10 +11,6 @@ import {
 import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';
-import {
-	unsupportedCharacters,
-	renderOptions
-} from '../event_callbacks.js';
 
 let canvas = {}; // canvas properties
 let option; // user selected render options handler
@@ -27,7 +23,7 @@ let dimension = new dimensionObj(); // utility to calculate word-circle- and can
 
 const glyph = new gcGlyphs();
 
-export function render(input) {
+export function render(input, renderOptions, unsupportedCharacters) {
 	//retrieve options and make them compact
 	option = renderOptions.get();
 
@@ -120,9 +116,9 @@ let gcGrouped = {
 			words.forEach(word => {
 				word = replacements(word);
 				let groups = [];
-				for (var i = 0; i < word.length; i++) { // iterate through word 
+				for (var i = 0; i < word.length; i++) { // iterate through word
 					if ((groups.length > 0) &&
-						!(includes(".,!?'\"", word[i]) // not adding punctuation 
+						!(includes(".,!?'\"", word[i]) // not adding punctuation
 							||
 							(includes("aeiou", groups[groups.length - 1]) && !includes("aeiou", word[i])) // not adding consonant after vowel
 						)) {
@@ -154,7 +150,7 @@ let gcGrouped = {
 //script specific replacements
 function replacements(word) {
 	let cword = "";
-	for (let i = 0; i < word.length; i++) { // iterate through word 
+	for (let i = 0; i < word.length; i++) { // iterate through word
 		if (word[i] == "c") {
 			if (includes(["e", "i", "y"], word[i + 1])) cword += "s";
 			else cword += "k"; // end of the word
