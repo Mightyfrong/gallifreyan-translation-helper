@@ -3,7 +3,7 @@ import {
 } from '../utils/SVGRenderingContext.js';
 import {
 	bpjmGlyphs
-} from './bpjmarriottGlyphs.js';
+} from './glyphs.js';
 import {
 	character,
 	linewidth

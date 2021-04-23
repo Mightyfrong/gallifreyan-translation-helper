@@ -1,7 +1,7 @@
 import {
 	cotConsonants,
 	cotVowels
-} from './doctorsCotGlyphs.js';
+} from './glyphs.js';
 import {
 	keyboard
 } from '../utils/funcs.js'

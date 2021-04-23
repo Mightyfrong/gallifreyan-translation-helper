@@ -12,7 +12,7 @@ import {
 } from '../utils/SVGRenderingContext.js';
 import {
 	cbContext
-} from './cbettenbendersGlyphs.js';
+} from './glyphs.js';
 
 let canvas = {}; // canvas properties
 let option; // user selected render options handler

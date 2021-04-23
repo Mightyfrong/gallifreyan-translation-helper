@@ -1,6 +1,6 @@
 import {
 	evaGlyphs
-} from './evaGlyphs.js';
+} from './glyphs.js';
 import {
 	keyboard
 } from '../utils/funcs.js'
@@ -18,7 +18,6 @@ export function createKeyboard() {
 		keyboard(document.getElementById('evavowels'), document.getElementById('text'), alternativeKeyboard.en.vowels);
 	}
 }
-
 
 const alternativeKeyboard = {
 	//[display and insert]

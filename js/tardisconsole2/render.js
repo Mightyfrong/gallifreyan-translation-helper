@@ -3,7 +3,7 @@ import {
 } from '../utils/SVGRenderingContext.js';
 import {
 	consoleGlyphs
-} from './consoleGlyphs.js';
+} from './glyphs.js';
 import {
 	character,
 	lwfactor

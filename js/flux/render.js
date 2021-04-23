@@ -5,7 +5,7 @@ import {
 import {
 	fluxBase,
 	fluxDeco
-} from './fluxGlyphs.js';
+} from './glyphs.js';
 import {
 	consonant,
 	decorator

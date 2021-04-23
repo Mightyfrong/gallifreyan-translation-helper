@@ -7,7 +7,7 @@ import {
 } from './setup.js';
 import {
 	gcGlyphs
-} from './gcGlyphs.js';
+} from './glyphs.js';
 import {
 	SVGRenderingContext
 } from '../utils/SVGRenderingContext.js';

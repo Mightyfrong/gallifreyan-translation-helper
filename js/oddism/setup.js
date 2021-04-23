@@ -1,6 +1,6 @@
 import {
 	oddismGlyphs
-} from './oddismGlyphs.js';
+} from './glyphs.js';
 import {
 	keyboard
 } from '../utils/funcs.js'

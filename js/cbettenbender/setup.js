@@ -1,7 +1,7 @@
 import {
 	cbConsonants,
 	cbVowels
-} from './cbettenbendersGlyphs.js';
+} from './glyphs.js';
 import {
 	keyboard
 } from '../utils/funcs.js'

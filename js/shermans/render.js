@@ -5,7 +5,7 @@ import {
 import {
 	shermansBase,
 	shermansDeco
-} from './shermansGlyphs.js';
+} from './glyphs.js';
 import {
 	consonant,
 	vowel

@@ -3,7 +3,7 @@ import {
 } from '../utils/SVGRenderingContext.js';
 import {
 	evaGlyphs
-} from './evaGlyphs.js';
+} from './glyphs.js';
 import {
 	character,
 	lwfactor

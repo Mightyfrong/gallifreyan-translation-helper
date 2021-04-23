@@ -3,7 +3,7 @@ import {
 } from '../utils/SVGRenderingContext.js';
 import {
 	oddismGlyphs
-} from './oddismGlyphs.js';
+} from './glyphs.js';
 import {
 	character,
 	linewidth

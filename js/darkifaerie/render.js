@@ -3,7 +3,7 @@ import {
 } from '../utils/SVGRenderingContext.js';
 import {
 	dfGlyphs
-} from './darkifaeriesGlyphs.js';
+} from './glyphs.js';
 import {
 	character,
 	lwfactor

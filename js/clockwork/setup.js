@@ -2,7 +2,7 @@ import {
 	clockworkConsonants,
 	clockworkPunctuation,
 	clockworkVowels
-} from './clockworkGlyphs.js';
+} from './glyphs.js';
 import {
 	keyboard
 } from '../utils/funcs.js'

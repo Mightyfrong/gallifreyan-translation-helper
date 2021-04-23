@@ -57,53 +57,53 @@ self.addEventListener("install", event => {
 
 				"./js/artbyboredom/render.js",
 
-				"./js/bpjmarriott/bpjmarriottGlyphs.js",
+				"./js/bpjmarriott/glyphs.js",
 				"./js/bpjmarriott/render.js",
 				"./js/bpjmarriott/setup.js",
 
-				"./js/cbettenbender/cbettenbenderGlyphs.js",
+				"./js/cbettenbender/glyphs.js",
 				"./js/cbettenbender/render.js",
 				"./js/cbettenbender/setup.js",
 
-				"./js/cc/ccGlyphs.js",
+				"./js/cc/glyphs.js",
 				"./js/cc/render.js",
 				"./js/cc/setup.js",
 
-				"./js/clockwork/clockworkGlyphs.js",
+				"./js/clockwork/glyphs.js",
 				"./js/clockwork/render.js",
 				"./js/clockwork/setup.js",
 
-				"./js/darkifaerie/darkifaeriesGlyphs.js",
+				"./js/darkifaerie/glyphs.js",
 				"./js/darkifaerie/render.js",
 				"./js/darkifaerie/setup.js",
 
-				"./js/doctorsCot/doctorsCotGlyphs.js",
+				"./js/doctorsCot/glyphs.js",
 				"./js/doctorsCot/render.js",
 				"./js/doctorsCot/setup.js",
 
 				"./js/dotscript/render.js",
 
-				"./js/eva/evaGlyphs.js",
+				"./js/eva/glyphs.js",
 				"./js/eva/render.js",
 				"./js/eva/setup.js",
 
-				"./js/flux/fluxGlyphs.js",
+				"./js/flux/glyphs.js",
 				"./js/flux/render.js",
 				"./js/flux/setup.js",
 
-				"./js/gc/gcGlyphs.js",
+				"./js/gc/glyphs.js",
 				"./js/gc/render.js",
 				"./js/gc/setup.js",
 
-				"./js/oddism/oddismGlyphs.js",
+				"./js/oddism/glyphs.js",
 				"./js/oddism/render.js",
 				"./js/oddism/setup.js",
 
-				"./js/shermans/shermansGlyphs.js",
+				"./js/shermans/glyphs.js",
 				"./js/shermans/render.js",
 				"./js/shermans/setup.js",
 
-				"./js/tardisconsole2/consoleGlyphs.js",
+				"./js/tardisconsole2/glyphs.js",
 				"./js/tardisconsole2/render.js",
 				"./js/tardisconsole2/setup.js",
 

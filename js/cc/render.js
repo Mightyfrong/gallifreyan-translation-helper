@@ -5,7 +5,7 @@ import {
 import {
 	ccBase,
 	ccDeco
-} from './ccGlyphs.js'
+} from './glyphs.js'
 import {
 	consonant
 } from './setup.js';
