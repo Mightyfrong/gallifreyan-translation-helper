@@ -7,9 +7,6 @@ import {
 	dc2Consonants,
 	dc2Vowels
 } from './setup.js';
-import {
-	SVGRenderingContext
-} from '../utils/SVGRenderingContext.js';
 
 let canvas = {}; // canvas properties
 let option; // user selected render options handler
@@ -20,7 +17,7 @@ let glyphs = { // glyph dimensions object
 };
 let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
-export function render(input, renderOptions, unsupportedCharacters) {
+export function render(input, renderOptions, unsupportedCharacters, SVGRenderingContext) {
 	option = renderOptions.get();
 	// convert input-string to grouped array and determine number of groups
 	let groupedInput = doctorsCotGrouped.groups(input.toLowerCase());

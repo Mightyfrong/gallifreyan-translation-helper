@@ -1,7 +1,4 @@
 import {
-	SVGRenderingContext
-} from '../utils/SVGRenderingContext.js';
-import {
 	bpjmGlyphs
 } from './glyphs.js';
 import {
@@ -18,7 +15,7 @@ let glyphs = { // glyph dimensions object
 };
 
 // scroll through input and draw every letter
-export function render(input, renderOptions, unsupportedCharacters) {
+export function render(input, renderOptions, unsupportedCharacters, SVGRenderingContext) {
 	option = renderOptions.get();
 	// initialize widths, heights, default-values, draw-object
 	glyphs.width = character.width * 2;

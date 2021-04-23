@@ -8,9 +8,6 @@ import {
 	cbVowel
 } from './setup.js';
 import {
-	SVGRenderingContext
-} from '../utils/SVGRenderingContext.js';
-import {
 	cbContext
 } from './glyphs.js';
 
@@ -23,7 +20,7 @@ let glyphs = { // glyph dimensions object
 };
 let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
-export function render(input, renderOptions, unsupportedCharacters) {
+export function render(input, renderOptions, unsupportedCharacters, SVGRenderingContext) {
 	//retrieve options and make them compact
 	option = renderOptions.get();
 

@@ -10,9 +10,6 @@ import {
 	consonant,
 	decorator
 } from './setup.js';
-import {
-	SVGRenderingContext
-} from '../utils/SVGRenderingContext.js';
 
 let canvas = {}; // canvas properties
 let option; // user selected render options handler
@@ -26,7 +23,7 @@ let dimension = new dimensionObj(); // utility to calculate word-circle- and can
 const base = new fluxBase(consonant, decorator);
 const deco = new fluxDeco(base);
 
-export function render(input, renderOptions, unsupportedCharacters) {
+export function render(input, renderOptions, unsupportedCharacters, SVGRenderingContext) {
 	//retrieve options and make them compact
 	option = renderOptions.get();
 

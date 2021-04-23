@@ -13,9 +13,6 @@ import {
 import {
 	UILanguage
 } from '../utils/UILanguage.js'
-import {
-	SVGRenderingContext
-} from '../utils/SVGRenderingContext.js';
 
 let cLetter; // is there a "c"?
 let qLetter; // is there a "q"?
@@ -43,7 +40,7 @@ UILanguage.say.qLetter = {
 const base = new shermansBase(consonant, vowel);
 const deco = new shermansDeco(base);
 
-export function render(input, renderOptions, unsupportedCharacters) {
+export function render(input, renderOptions, unsupportedCharacters, SVGRenderingContext) {
 	//retrieve options and make them compact
 	option = renderOptions.get();
 

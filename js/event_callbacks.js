@@ -60,6 +60,9 @@ import {
 	unsupportedChars,
 	renderOpts
 } from './utils/funcs.js';
+import {
+	SVGRenderingContext
+} from './utils/SVGRenderingContext.js';
 
 // initialize fetching unsupported characters
 export const unsupportedCharacters = new unsupportedChars();
@@ -110,7 +113,7 @@ export function translate(event) {
 		[BPJM]: renderBPJM,
 		[ODD]: renderODD
 	};
-	svg = langsDict[langSelect.value](input, renderOptions, unsupportedCharacters);
+	svg = langsDict[langSelect.value](input, renderOptions, unsupportedCharacters, SVGRenderingContext);
 
 	const a = img.parentElement;
 	const file = svg.toFile(input);

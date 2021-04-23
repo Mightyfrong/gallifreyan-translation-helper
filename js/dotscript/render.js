@@ -2,9 +2,6 @@ import {
 	includes,
 	dimensionObj
 } from '../utils/funcs.js'
-import {
-	SVGRenderingContext
-} from '../utils/SVGRenderingContext.js';
 
 let consonant = 30; // radius of consonants
 let linewidth = 1; // thicker lines add a cute chubbyness
@@ -237,7 +234,7 @@ let characters = {
 }
 
 // scroll through input and draw every letter
-export function render(input, renderOptions, unsupportedCharacters) {
+export function render(input, renderOptions, unsupportedCharacters, SVGRenderingContext) {
 	option = renderOptions.get();
 	// initialize widths, heights, default-values, draw-object
 	input = input.toLowerCase();
