@@ -71,14 +71,6 @@ export const unsupportedCharacters = new unsupportedChars();
 export const langSelect = document.getElementById('language');
 const langControls = document.getElementById('lang-controls');
 
-const keyoptions = document.getElementById('keyoptions');
-const cotkeys = document.getElementById('cot-keys');
-const cwkeys = document.getElementById('clockwork-keys');
-const evakeys = document.getElementById('eva-keys');
-const oddismkeys = document.getElementById('oddism-keys');
-const cbkeys = document.getElementById('cbettenbenders-keys');
-const gchint = document.getElementById('gc-hint');
-
 export const renderOptions = new renderOpts();
 
 const img = document.getElementById('output-img');
@@ -134,52 +126,30 @@ export function selectLang(event) {
 }
 
 export function activateControls(lang) {
-	switch (lang) {
-		case SHERMAN:
-			renderOptions.display(["circular", "convertc", "stacking"]);
-			break;
-		case FLUX:
-			renderOptions.display(["circular"]);
-			break;
-		case COT:
-			renderOptions.display([]);
-			keyoptions.classList.toggle('active');
-			cotkeys.classList.toggle('active');
-			break;
-		case CW:
-			renderOptions.display(["circular", "stack"]);
-			keyoptions.classList.toggle('active');
-			cwkeys.classList.toggle('active');
-			break;
-		case GC:
-			renderOptions.display(["stacking"]);
-			gchint.classList.toggle('active');
-			break;
-		case CC:
-			renderOptions.display(["stack"]);
-			break;
-		case CB:
-			renderOptions.display([]);
-			cbkeys.classList.toggle('active');
-			break;
-		case DF:
-			renderOptions.display(["circular"]);
-			break;
-		case TARDIS:
-			renderOptions.display(["circular"]);
-			break;
-		case EVA:
-			renderOptions.display(["circular"]);
-			keyoptions.classList.toggle('active');
-			evakeys.classList.toggle('active');
-			break;
-		case ODD:
-			renderOptions.display([]);
-			keyoptions.classList.toggle('active');
-			oddismkeys.classList.toggle('active');
-			break;
-		default:
-			renderOptions.display([]);
+	const langsDict = {
+		[SHERMAN]: { rndrOpt: ["circular", "convertc", "stacking"] },
+		[COT]: { active: ["keyoptions", "cot-keys"] },
+		[TARDIS]: {	rndrOpt: ["circular"] },
+		[FLUX]: { rndrOpt: ["circular"] },
+		[CW]: {	rndrOpt: ["circular", "stack"],	active: ["keyoptions", "clockwork-keys"] },
+		[GC]: {	rndrOpt: ["stacking"], active: ["gc-hint"] },
+		[CC]: {	rndrOpt: ["stack"] },
+		[DOT]: {},
+		[ABB]: {},
+		[CB]: {	active: ["cbettenbenders-keys"] },
+		[DF]: {	rndrOpt: ["circular"] },
+		[EVA]: { rndrOpt: ["circular"], active: ["keyoptions", "eva-keys"] },
+		[BPJM]: {},
+		[ODD]: { active: ["keyoptions", "oddism-keys"] }
+	};
+
+	if (lang in langsDict) {
+		if ("rndrOpt" in langsDict[lang]) renderOptions.display(langsDict[lang].rndrOpt);
+		else renderOptions.display([]);
+
+		if ("active" in langsDict[lang]) langsDict[lang].active.forEach(el => {
+			document.getElementById(el).classList.toggle('active');
+		});
 	}
 	window.localStorage.setItem("selectedLang", lang);
 }
