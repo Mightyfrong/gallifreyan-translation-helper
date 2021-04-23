@@ -83,6 +83,18 @@ self.addEventListener("install", event => {
 
 				"./js/dotscript/render.js",
 
+				"./js/eva/evaGlyphs.js",
+				"./js/eva/render.js",
+				"./js/eva/setup.js",
+
+				"./js/flux/fluxGlyphs.js",
+				"./js/flux/render.js",
+				"./js/flux/setup.js",
+
+				"./js/gc/gcGlyphs.js",
+				"./js/gc/render.js",
+				"./js/gc/setup.js",
+
 				"./js/oddism/oddismGlyphs.js",
 				"./js/oddism/render.js",
 				"./js/oddism/setup.js",
