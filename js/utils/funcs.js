@@ -1,6 +1,6 @@
 import {
 	UILanguage
-} from './UILanguage.js';
+} from '../main.js';
 
 export function createSVGElement(tagName, attributes = {}) {
 	const elem = document.createElementNS("http://www.w3.org/2000/svg", tagName);
@@ -37,7 +37,9 @@ const includes = (obj, values) => {
 		values.some(value => obj.includes(value)) :
 		obj.includes(values);
 }
-export{ includes};
+export {
+	includes
+};
 
 export class dimensionObj {
 	// standard size of word- or sentence circles with circular distribution of elements
@@ -72,7 +74,8 @@ export class unsupportedChars {
 	}
 	add(item) {
 		if (!includes([" ", undefined, null, false], item) && item.length) {
-			this.item.push(item);}
+			this.item.push(item);
+		}
 	}
 	get() {
 		if (this.item === undefined || this.item.length < 1)

@@ -1,11 +1,54 @@
-import { createKeyboard as createCotKeyboard } from './doctorsCot/setup.js';
-import { createKeyboard as createOddKeyboard } from './oddism/setup.js';
-import { createKeyboard as createCBKeyboard } from './cbettenbender/setup.js';
-import { createKeyboard as createEvaKeyboard } from './eva/setup.js';
-import { createKeyboard as createClockworkKeyboard } from './clockwork/setup.js';
+// import all necessary modules and export from one site
+import {
+	activateControls,
+	langSelect,
+	renderOptions,
+	selectLang,
+	translate
+} from './event_callbacks.js';
+import {
+	createSVGElement,
+	dimensionObj,
+	includes,
+	keyboard,
+	renderOpts,
+	unsupportedChars
+} from './utils/funcs.js';
+import {
+	SVGRenderingContext
+} from './utils/SVGRenderingContext.js';
+import {
+	UILanguage
+} from './utils/UILanguage.js';
 
-import { UILanguage } from './utils/UILanguage.js';
-import { selectLang, translate, activateControls, langSelect } from './event_callbacks.js';
+export {
+	createSVGElement,
+	dimensionObj,
+	includes,
+	keyboard,
+	renderOptions,
+	renderOpts,
+	SVGRenderingContext,
+	UILanguage,
+	unsupportedChars
+};
+
+
+import {
+	createKeyboard as createCotKeyboard
+} from './doctorsCot/setup.js';
+import {
+	createKeyboard as createOddKeyboard
+} from './oddism/setup.js';
+import {
+	createKeyboard as createCBKeyboard
+} from './cbettenbender/setup.js';
+import {
+	createKeyboard as createEvaKeyboard
+} from './eva/setup.js';
+import {
+	createKeyboard as createClockworkKeyboard
+} from './clockwork/setup.js';
 
 // Init event handlers
 langSelect.addEventListener('select', selectLang);
@@ -21,7 +64,6 @@ createCBKeyboard();
 createEvaKeyboard();
 
 createOddKeyboard();
-
 
 //** General
 activateControls(langSelect.value);

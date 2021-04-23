@@ -1,14 +1,14 @@
 import {
-	evaGlyphs
-} from './glyphs.js';
+	includes,
+	dimensionObj
+} from '../main.js';
 import {
 	character,
 	lwfactor
 } from './setup.js';
 import {
-	includes,
-	dimensionObj
-} from '../utils/funcs.js';
+	evaGlyphs
+} from './glyphs.js';
 
 let canvas = {}; // canvas properties
 let option; // user selected render options handler

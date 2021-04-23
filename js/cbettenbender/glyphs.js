@@ -1,13 +1,10 @@
 import {
-	includes,
-} from '../utils/funcs.js';
+	includes,renderOptions
+} from '../main.js';
 import {
 	cbConsonant,
 	cbVowel
 } from './setup.js';
-import {
-	renderOptions
-} from '../event_callbacks.js';
 
 export class cbConsonants {
 	constructor() {

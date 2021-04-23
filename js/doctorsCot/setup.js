@@ -1,10 +1,10 @@
 import {
+	keyboard
+} from '../main.js'
+import {
 	cotConsonants,
 	cotVowels
 } from './glyphs.js';
-import {
-	keyboard
-} from '../utils/funcs.js'
 
 export const glyphSize = 50; // radius of glyphs
 export const dc2Consonants = new cotConsonants();

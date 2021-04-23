@@ -1,6 +1,6 @@
 import {
 	renderOptions
-} from '../event_callbacks.js';
+} from '../main.js';
 
 export class clockworkConsonants {
 	constructor() {

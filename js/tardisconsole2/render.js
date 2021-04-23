@@ -1,14 +1,14 @@
 import {
-	consoleGlyphs
-} from './glyphs.js';
+	includes,
+	dimensionObj
+} from '../main.js';
 import {
 	character,
 	lwfactor
 } from './setup.js';
 import {
-	includes,
-	dimensionObj
-} from '../utils/funcs.js';
+	consoleGlyphs
+} from './glyphs.js';
 
 let canvas = {}; // canvas properties
 let option; // user selected render options handler
@@ -28,7 +28,6 @@ export function render(input, renderOptions, unsupportedCharacters, SVGRendering
 	let groupedInput = tardisCharacterGrouping(input),
 		charX, charY, dia = character;
 	glyphs.num = 0;
-	console.log(groupedInput);
 	if (option.circular) {
 		let longest = groupedInput.slice();
 		dia = dimension.wordcircleRadius(longest.sort(sizesort)[0].length + 1, character) * 2.25;

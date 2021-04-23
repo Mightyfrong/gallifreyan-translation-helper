@@ -1,6 +1,6 @@
 import {
     includes
-} from "../utils/funcs.js";
+} from "../main.js";
 
 export const consoleGlyphs = {
     b: [{

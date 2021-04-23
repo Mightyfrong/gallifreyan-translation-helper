@@ -1,9 +1,7 @@
 import {
-	createSVGElement
-} from "./funcs.js";
-import {
+	createSVGElement,
 	renderOptions
-} from '../event_callbacks.js';
+} from "../main.js";
 
 // prefix for clip-path IDs
 const CP = "cp";

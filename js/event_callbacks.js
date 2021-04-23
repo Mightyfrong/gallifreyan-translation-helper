@@ -58,11 +58,9 @@ import {
 } from './utils/MySelect.js';
 import {
 	unsupportedChars,
-	renderOpts
-} from './utils/funcs.js';
-import {
+	renderOpts,
 	SVGRenderingContext
-} from './utils/SVGRenderingContext.js';
+} from './main.js';
 
 // initialize fetching unsupported characters
 export const unsupportedCharacters = new unsupportedChars();

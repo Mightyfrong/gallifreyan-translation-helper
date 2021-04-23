@@ -1,13 +1,13 @@
 import {
-	dfGlyphs
-} from './glyphs.js';
+	dimensionObj
+} from '../main.js';
 import {
 	character,
 	lwfactor
 } from './setup.js';
 import {
-	dimensionObj
-} from '../utils/funcs.js';
+	dfGlyphs
+} from './glyphs.js';
 
 let canvas = {}; // canvas properties
 let option; // user selected render options handler

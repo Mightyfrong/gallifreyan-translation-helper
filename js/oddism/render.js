@@ -1,14 +1,14 @@
 import {
-	oddismGlyphs
-} from './glyphs.js';
+	includes,
+	dimensionObj
+} from '../main.js';
 import {
 	character,
 	linewidth
 } from './setup.js';
 import {
-	includes,
-	dimensionObj
-} from '../utils/funcs.js';
+	oddismGlyphs
+} from './glyphs.js';
 
 let canvas = {}; // canvas properties
 let option; // user selected render options handler

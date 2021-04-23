@@ -1,11 +1,11 @@
 import {
+	keyboard
+} from '../main.js'
+import {
 	clockworkConsonants,
 	clockworkPunctuation,
 	clockworkVowels
 } from './glyphs.js';
-import {
-	keyboard
-} from '../utils/funcs.js'
 
 export const glyphSize = 30; // radius of glyphs
 export const cwConsonants = new clockworkConsonants();

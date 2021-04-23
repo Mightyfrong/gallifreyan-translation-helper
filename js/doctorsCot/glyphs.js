@@ -1,12 +1,10 @@
 import {
 	includes,
-} from '../utils/funcs.js';
+	renderOptions
+} from '../main.js';
 import {
 	dc2Consonants
 } from './setup.js';
-import {
-	renderOptions
-} from '../event_callbacks.js';
 
 export class cotConsonants {
 	constructor() {

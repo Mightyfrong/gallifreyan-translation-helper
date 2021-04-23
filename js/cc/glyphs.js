@@ -1,9 +1,6 @@
 import {
-	includes,
-} from '../utils/funcs.js';
-import {
-	renderOptions
-} from '../event_callbacks.js';
+	includes,renderOptions
+} from '../main.js';
 
 //specify base for every letter, assign base to latin characters and specify geometric properties
 export class ccBase {

@@ -1,18 +1,20 @@
+// why these import can not be done from the main.js file is subject of speculations.
+// maybe because this is the initial default translator?
 import {
 	includes,
 	dimensionObj
 } from '../utils/funcs.js';
 import {
-	shermansBase,
-	shermansDeco
-} from './glyphs.js';
+	UILanguage
+} from '../utils/UILanguage.js';
 import {
 	consonant,
 	vowel
 } from './setup.js';
 import {
-	UILanguage
-} from '../utils/UILanguage.js'
+	shermansBase,
+	shermansDeco
+} from './glyphs.js';
 
 let cLetter; // is there a "c"?
 let qLetter; // is there a "q"?

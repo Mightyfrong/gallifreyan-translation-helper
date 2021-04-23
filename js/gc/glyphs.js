@@ -1,9 +1,7 @@
 import {
+	includes,
 	renderOptions
-} from '../event_callbacks.js';
-import {
-	includes
-} from '../utils/funcs.js';
+} from '../main.js';
 
 // bases define shapes beforehand instead of drawing directly in hope of reusing these one day
 // when i am able to clip the paths of vowels accordingly

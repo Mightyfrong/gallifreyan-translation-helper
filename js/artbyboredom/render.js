@@ -1,6 +1,6 @@
 import {
 	dimensionObj
-} from '../utils/funcs.js';
+} from '../main.js';
 
 let glyphSize = 30; // radius of glyphs
 let lineweight = 1; // thicker lines add a cute chubbyness

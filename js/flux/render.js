@@ -1,15 +1,15 @@
 import {
 	includes,
 	dimensionObj
-} from '../utils/funcs.js';
-import {
-	fluxBase,
-	fluxDeco
-} from './glyphs.js';
+} from '../main.js';
 import {
 	consonant,
 	decorator
 } from './setup.js';
+import {
+	fluxBase,
+	fluxDeco
+} from './glyphs.js';
 
 let canvas = {}; // canvas properties
 let option; // user selected render options handler

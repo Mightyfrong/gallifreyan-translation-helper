@@ -1,9 +1,9 @@
 import {
+	keyboard
+} from '../main.js'
+import {
 	oddismGlyphs
 } from './glyphs.js';
-import {
-	keyboard
-} from '../utils/funcs.js'
 
 export const character = {
 	width: 54,

@@ -1,7 +1,7 @@
 import {
 	includes,
 	dimensionObj
-} from '../utils/funcs.js'
+} from '../main.js'
 
 let consonant = 30; // radius of consonants
 let linewidth = 1; // thicker lines add a cute chubbyness

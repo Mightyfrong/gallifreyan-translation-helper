@@ -1,14 +1,14 @@
 import {
 	includes,
 	dimensionObj
-} from '../utils/funcs.js'
+} from '../main.js'
+import {
+	consonant
+} from './setup.js';
 import {
 	ccBase,
 	ccDeco
 } from './glyphs.js'
-import {
-	consonant
-} from './setup.js';
 
 let canvas = {}; // canvas properties
 let option; // user selected render options handler

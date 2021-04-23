@@ -1,7 +1,7 @@
 import {
 	includes,
 	dimensionObj
-} from '../utils/funcs.js';
+} from '../main.js';
 import {
 	glyphSize,
 	cwConsonants,
