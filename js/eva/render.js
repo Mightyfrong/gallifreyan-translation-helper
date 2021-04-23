@@ -84,13 +84,12 @@ export function render(input, renderOptions, unsupportedCharacters) {
 				charY = canvas.currentY;
 			}
 			// draw character chunks
-			for (let j = 0; j < word[i].length; j++) {
-				if (word[i][j] in evaGlyphs.vowels) {
-					evaDraw(ctx, charX, charY, evaGlyphs.vowels[word[i][j]]);
-				} else if (word[i][j] in evaGlyphs.consonants) {
-					evaDraw(ctx, charX, charY, evaGlyphs.consonants[word[i][j]]);
-				} else unsupportedCharacters.add(word[i][j]);
-			}
+			if (word[i] in evaGlyphs.vowels) {
+				evaDraw(ctx, charX, charY, evaGlyphs.vowels[word[i]]);
+			} else if (word[i] in evaGlyphs.consonants) {
+				evaDraw(ctx, charX, charY, evaGlyphs.consonants[word[i]]);
+			} else unsupportedCharacters.add(word[i]);
+
 			// display character
 			ctx.drawText(word[i], {
 				x: canvas.currentX - (dia + .5 * character) * Math.sin(Math.PI * (rad - .5)),
@@ -118,7 +117,7 @@ function evaCharacterGrouping(input) {
 				output[output.length - 1].push([]);
 				let current = word[i],
 					currenttwo = word[i] + word[i + 1];
-				if (includes(['aɪ', 'aʊ', 'eɪ', 'oʊ', 'ɔɪ', 'ɛə', 'ɪə', 'ʊa', 'tʃ'], currenttwo)) {
+				if (includes(['aɪ', 'aʊ', 'eɪ', 'oʊ', 'ɔɪ', 'ea', 'ɪa', 'ʊa', 'tʃ'], currenttwo)) {
 					current = currenttwo;
 					i++;
 				}
