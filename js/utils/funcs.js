@@ -32,11 +32,12 @@ export function polar(radius, radians) {
 */
 
 // obj can be an Array or String
-export function includes(obj, values) {
+const includes = (obj, values) => {
 	return Array.isArray(values) ?
 		values.some(value => obj.includes(value)) :
 		obj.includes(values);
 }
+export{ includes};
 
 export class dimensionObj {
 	// standard size of word- or sentence circles with circular distribution of elements
@@ -70,7 +71,8 @@ export class unsupportedChars {
 		this.item = [];
 	}
 	add(item) {
-		if (item != " ") this.item.push(item);
+		if (!includes([" ", undefined, null, false], item) && item.length) {
+			this.item.push(item);}
 	}
 	get() {
 		if (this.item === undefined || this.item.length < 1)
@@ -92,7 +94,11 @@ export class renderOpts {
 		//default + font size, window width/height
 	}
 	display(selected = []) {
-		this.value.forEach(id => {document.getElementById(id).parentElement.style.display = (selected.indexOf(id)>-1 ? 'initial' : 'none');}, { selected: selected });
+		this.value.forEach(id => {
+			document.getElementById(id).parentElement.style.display = (selected.indexOf(id) > -1 ? 'initial' : 'none');
+		}, {
+			selected: selected
+		});
 		this.option.forEach(id => {
 			document.getElementById(id).parentElement.style.display = (selected.indexOf(id) > -1 ? 'initial' : 'none');
 		}, {
