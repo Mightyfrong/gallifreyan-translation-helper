@@ -47,7 +47,7 @@ export function render(input, renderOptions, unsupportedCharacters, SVGRendering
 	option = renderOptions.get();
 
 	// convert input-string to grouped array and determine number of groups
-	let groupedInput = shermansGrouped.groups(input.toLowerCase()),
+	let groupedInput = grouped.groups(input.toLowerCase()),
 		biggestWordCircle = 0;
 	glyphs.num = 0; // reset for new input
 	groupedInput.forEach(word => {
@@ -95,7 +95,7 @@ export function render(input, renderOptions, unsupportedCharacters, SVGRendering
 					if (vowelindex > -1 && vowelindex <= lastStackedConsonantIndex) lastStackedConsonantIndex = vowelindex - 1;
 				});
 				// reset offsets but hand over possible resizing factor, first base, current group related to number of groups
-				shermansGrouped.resetOffset(lastStackedConsonantIndex, base.getBase(group[0]), groups.length, groupnum, group.join(''), glyphs);
+				grouped.resetOffset(lastStackedConsonantIndex, base.getBase(group[0]), groups.length, groupnum, group.join(''), glyphs);
 				// iterate through characters within group
 				for (let l = 0; l < group.length; l++) {
 					// check whether an occuring dot or comma is a decimal sign or not
@@ -105,17 +105,17 @@ export function render(input, renderOptions, unsupportedCharacters, SVGRendering
 					);
 					if (isNumber && includes(",.", group[l])) group[l] = "|";
 					// adjust offset properties according to former character/base
-					if (l > 0) shermansGrouped.setOffset(group[l - 1], group[l]);
+					if (l > 0) grouped.setOffset(group[l - 1], group[l]);
 					// draw
-					shermansDraw(ctx, group[l], shermansGrouped, isNumber);
+					shermansDraw(ctx, group[l], isNumber);
 
 					if (!base.getBase(group[l])) unsupportedCharacters.add(group[l]);
 
 				}
 			});
 		});
-		shermansGrouped.resetOffset();
-		shermansDraw(ctx, " ", shermansGrouped);
+		grouped.resetOffset();
+		shermansDraw(ctx, " ", grouped);
 	});
 
 	// complain about unsupported characters
@@ -149,7 +149,7 @@ function replacements(word) {
 }
 
 // set rules for grouping
-let shermansGrouped = {
+let grouped = {
 	groups: function (input) {
 		// creates a multidimensional array for
 		// sentence -> words -> groups -> single letters
@@ -205,6 +205,7 @@ let shermansGrouped = {
 		this.currentGroup = currentGroup; // position of current group
 		this.groupBase = currentbase; // base of group
 		this.glyph = glyph; //glyph dimensions or word circle radius
+		this.clip = false;
 	},
 	setOffset: function (former, actual) {
 		this.offset++;
@@ -227,7 +228,7 @@ let shermansGrouped = {
 }
 
 // draw instructions for base + decoration
-function shermansDraw(ctx, letter, grouped, isNumber) {
+function shermansDraw(ctx, letter, isNumber) {
 	if ((!option.circular || letter == " ") &&
 		!grouped.carriagereturn) { // if not grouped set pointer to next letter position or initiate next line if canvas boundary is reached
 		// position pointer
@@ -260,7 +261,8 @@ function shermansDraw(ctx, letter, grouped, isNumber) {
 		};
 
 		// draw base and sentence line if applicable
-		let angle = .068;
+		let angle = .068,
+			baseR = consonant * grouped.cresize;
 		if (option.circular) {
 			angle = 1 / grouped.numberOfGroups;
 		}
@@ -274,6 +276,11 @@ function shermansDraw(ctx, letter, grouped, isNumber) {
 				d: ctx.circularArc(canvas.currentX, canvas.currentY, wordCircleRadius, Math.PI * (2.5 + rad - angle), Math.PI * (.5 + rad + angle)),
 				fill: 'transparent'
 			});
+			if (includes(["b", "t"], currentbase) && !grouped.clip) grouped.clip = ctx.clipPath('circle', {
+				cx: canvas.currentX,
+				cy: canvas.currentY,
+				r: wordCircleRadius
+			});
 		}
 		if (includes(["punctuation"], currentbase) && !isNumber) {
 			ctx.drawShape('path', 1, {
@@ -283,13 +290,12 @@ function shermansDraw(ctx, letter, grouped, isNumber) {
 		}
 
 		// draw base
-		let r = consonant * grouped.cresize;
 		if (isNumber || includes("/|\\", letter)) grouped.linewidth = 2;
 
 		const hasPunc = includes(["punctuation"], currentbase);
 		if (!hasPunc || (hasPunc && !isNumber)) {
-			if (includes(["ve", "va", "vo"], currentbase)) r = vowel * grouped.vresize;
-			base.scgtable[currentbase].draw(ctx, canvas.currentX + center.x, canvas.currentY + center.y, r, rad, grouped);
+			if (includes(["ve", "va", "vo"], currentbase)) baseR = vowel * grouped.vresize;
+			base.scgtable[currentbase].draw(ctx, canvas.currentX + center.x, canvas.currentY + center.y, baseR, rad, grouped);
 		}
 
 		// draw decorators

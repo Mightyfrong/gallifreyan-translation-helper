@@ -23,6 +23,8 @@ let dimension = new dimensionObj(); // utility to calculate word-circle- and can
 const base = new fluxBase(consonant, decorator);
 const deco = new fluxDeco(base);
 
+let clip = false;
+
 export function render(input, renderOptions, unsupportedCharacters, SVGRenderingContext) {
 	//retrieve options and make them compact
 	option = renderOptions.get();
@@ -120,6 +122,12 @@ function fluxDraw(ctx, current) {
 		rad = 1 + (2 / current.wordlength) * (current.index);
 		wordCircleRadius = dimension.wordcircleRadius(current.wordlength, consonant) * 1.5;
 	}
+	if (!current.index) clip = ctx.clipPath('circle', {
+		cx: canvas.currentX,
+		cy: canvas.currentY,
+		r: wordCircleRadius
+	});
+	current.clip = clip;
 
 	if (currentbase) { // works only for defined characters
 		// define basic positional arguments
@@ -157,7 +165,7 @@ function fluxDraw(ctx, current) {
 		}
 	}
 	// text output for undefined characters as well for informational purpose
-	if (current.char.length && current.char != " ")ctx.drawText(current.char, {
+	if (current.char.length && current.char != " ") ctx.drawText(current.char, {
 		x: canvas.currentX - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad),
 		y: canvas.currentY + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad) + option.fontsize * .25
 	});

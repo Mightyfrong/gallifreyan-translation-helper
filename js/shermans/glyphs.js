@@ -136,9 +136,9 @@ export class shermansBase {
 						cy: y,
 						r: r
 					});
-					let thisglyph = Math.ceil(Math.sqrt(group.numberOfGroups * Math.pow(2 * consonant, 2) / Math.PI)) * 1.5 * 3.25;
 					ctx.drawShape('path', group.linewidth, {
-						d: ctx.circularArc(x, y, r, (.65 + rad + +Boolean(group.lastStackedConsonantIndex - group.offset) * r * group.cresize / thisglyph) * Math.PI, (.35 + rad - +Boolean(group.lastStackedConsonantIndex - group.offset) * r * group.cresize / thisglyph) * Math.PI, "major")
+						d: ctx.circularArc(x, y, r, (.65 + rad) * Math.PI, (.35 + rad) * Math.PI, "major"),
+						clipPath: group.clip
 					});
 				}
 			},
@@ -198,9 +198,9 @@ export class shermansBase {
 						cy: y,
 						r: r
 					});
-					let thisglyph = Math.ceil(Math.sqrt(group.numberOfGroups * Math.pow(2 * consonant, 2) / Math.PI)) * 1.5 * 3.25;
 					ctx.drawShape('path', group.linewidth, {
-						d: ctx.circularArc(x, y, r, (1 + rad) * Math.PI + Math.asin(r * group.cresize / thisglyph), (2 + rad) * Math.PI - Math.asin(r * group.cresize / thisglyph), "minor")
+						d: ctx.circularArc(x, y, r, (1 + rad) * Math.PI, (2 + rad) * Math.PI, "minor"),
+						clipPath: group.clip
 					});
 				}
 			},
