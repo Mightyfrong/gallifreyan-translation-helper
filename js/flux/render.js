@@ -122,7 +122,7 @@ function fluxDraw(ctx, current) {
 		rad = 1 + (2 / current.wordlength) * (current.index);
 		wordCircleRadius = dimension.wordcircleRadius(current.wordlength, consonant) * 1.5;
 	}
-	if (!current.index) clip = ctx.clipPath('circle', {
+	if (!current.index || !option.circular) clip = ctx.clipPath('circle', {
 		cx: canvas.currentX,
 		cy: canvas.currentY,
 		r: wordCircleRadius

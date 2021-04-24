@@ -67,7 +67,7 @@ export function render(input, renderOptions, unsupportedCharacters, SVGRendering
 		canvas["currentX"] = glyphs.width * .5;
 		canvas["currentY"] = glyphs.height * .5;
 	} else {
-		glyphs.width = consonant * 2.5;
+		glyphs.width = consonant * 4;
 		glyphs.height = consonant * 6;
 		canvas["currentX"] = 0;
 		canvas["currentY"] = -glyphs.height * .5;
@@ -261,7 +261,7 @@ function shermansDraw(ctx, letter, isNumber) {
 		};
 
 		// draw base and sentence line if applicable
-		let angle = .068,
+		let angle = .11,
 			baseR = consonant * grouped.cresize;
 		if (option.circular) {
 			angle = 1 / grouped.numberOfGroups;
