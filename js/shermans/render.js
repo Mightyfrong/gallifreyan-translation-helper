@@ -2,7 +2,7 @@
 // maybe because this is the initial default translator?
 import {
 	includes,
-	dimensionObj
+	dimensionObj as dimension
 } from '../utils/funcs.js';
 import {
 	UILanguage
@@ -25,7 +25,6 @@ let glyphs = { // glyph dimensions object
 	width: 0,
 	height: 0
 };
-let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
 // add module-specific language chunks
 UILanguage.say.cLetter = {

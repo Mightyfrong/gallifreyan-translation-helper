@@ -1,6 +1,6 @@
 import {
 	includes,
-	dimensionObj
+	dimensionObj as dimension
 } from '../main.js'
 
 let consonant = 30; // radius of consonants
@@ -13,7 +13,6 @@ let glyphs = { // glyph dimensions object
 	width: 0,
 	height: 0
 };
-let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
 //specify forms and positions
 let characters = {

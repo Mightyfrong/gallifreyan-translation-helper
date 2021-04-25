@@ -1,5 +1,5 @@
 import {
-	dimensionObj
+	dimensionObj as dimension
 } from '../main.js';
 
 let glyphSize = 30; // radius of glyphs
@@ -13,7 +13,6 @@ let glyphs = { // glyph dimensions object
 	width: 0,
 	height: 0
 };
-let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
 class character {
 	constructor(ctx, x, y, r, lineweight) {

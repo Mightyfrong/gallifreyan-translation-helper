@@ -2,7 +2,6 @@
 import {
 	activateControls,
 	langSelect,
-	renderOptions,
 	selectLang,
 	translate
 } from './event_callbacks.js';
@@ -11,7 +10,7 @@ import {
 	dimensionObj,
 	includes,
 	keyboard,
-	renderOpts,
+	renderOptions,
 	unsupportedChars
 } from './utils/funcs.js';
 import {
@@ -27,7 +26,6 @@ export {
 	includes,
 	keyboard,
 	renderOptions,
-	renderOpts,
 	SVGRenderingContext,
 	UILanguage,
 	unsupportedChars

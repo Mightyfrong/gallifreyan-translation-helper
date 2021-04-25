@@ -1,6 +1,6 @@
 import {
 	includes,
-	dimensionObj
+	dimensionObj as dimension
 } from '../main.js';
 import {
 	glyphSize,
@@ -15,7 +15,6 @@ let glyphs = { // glyph dimensions object
 	width: 0,
 	height: 0
 };
-let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
 export function render(input, renderOptions, unsupportedCharacters, SVGRenderingContext) {
 	option = renderOptions.get();

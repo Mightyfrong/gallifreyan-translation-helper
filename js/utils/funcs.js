@@ -41,21 +41,21 @@ export {
 	includes
 };
 
-export class dimensionObj {
+export const dimensionObj = {
 	// standard size of word- or sentence circles with circular distribution of elements
-	wordcircleRadius(numberOfElements, elementSize) {
+	wordcircleRadius: (numberOfElements, elementSize) => {
 		numberOfElements = Math.floor(numberOfElements ** 1.15);
 		return (Math.ceil(Math.sqrt(numberOfElements * Math.pow(2 * elementSize, 2) / Math.PI)) + elementSize);
-	}
+	},
 	// canvas dimensions by distributed character-, glyph- or sentence-size
-	canvas(glyphs, maxWidth) {
+	canvas: (glyphs, maxWidth) => {
 		return {
 			width: Math.min(glyphs.num, Math.floor(maxWidth / glyphs.width) || 1) * glyphs.width || glyphs.width,
 			height: glyphs.height * (Math.ceil(glyphs.num / (Math.floor(maxWidth / glyphs.width) || 1)))
 		};
-	}
+	},
 	// handler for breaking on the canvas edge
-	carriageReturn(canvas, glyphs, x_factor) {
+	carriageReturn: (canvas, glyphs, x_factor) => {
 		if (canvas.currentX + glyphs.width >= canvas.width) {
 			canvas.currentY += glyphs.height;
 			canvas.currentX = glyphs.width * x_factor;
@@ -86,50 +86,45 @@ export class unsupportedChars {
 }
 
 // handler for rendering options
-export class renderOpts {
-	constructor() {
-		this.permavalue = ["foregroundcolor", "backgroundcolor"];
-		this.value = ["stack"];
-		this.option = [];
-		this.checked = ["circular", "convertc", "stacking"];
-
-		//todo default values, more meaningful data structure
-		//default + font size, window width/height
-	}
-	display(selected = []) {
-		this.value.forEach(id => {
+export const renderOptions = {
+	permavalue: ["foregroundcolor", "backgroundcolor"],
+	value: ["stack"],
+	option: [],
+	checked: ["circular", "convertc", "stacking"],
+	display: (selected = []) => {
+		renderOptions.value.forEach(id => {
 			document.getElementById(id).parentElement.style.display = (selected.indexOf(id) > -1 ? 'initial' : 'none');
 		}, {
 			selected: selected
 		});
-		this.option.forEach(id => {
+		renderOptions.option.forEach(id => {
 			document.getElementById(id).parentElement.style.display = (selected.indexOf(id) > -1 ? 'initial' : 'none');
 		}, {
 			selected: selected
 		});
-		this.checked.forEach(id => {
+		renderOptions.checked.forEach(id => {
 			document.getElementById(id).parentElement.style.display = (selected.indexOf(id) > -1 ? 'initial' : 'none');
 		}, {
 			selected: selected
 		});
-	}
-	get() {
+	},
+	get: () => {
 		let output = {};
-		this.permavalue.forEach(id => {
+		renderOptions.permavalue.forEach(id => {
 			output[id] = document.getElementById(id).parentElement.style.display == 'none' ? false : document.getElementById(id).value;
 		});
-		this.value.forEach(id => {
+		renderOptions.value.forEach(id => {
 			output[id] = document.getElementById(id).parentElement.style.display == 'none' ? false : document.getElementById(id).value;
 		});
-		this.option.forEach(id => {
+		renderOptions.option.forEach(id => {
 			output[id] = document.getElementById(id).parentElement.style.display == 'none' ? false : document.getElementById(id).options[document.getElementById(id).selectedIndex].value;
 		});
-		this.checked.forEach(id => {
+		renderOptions.checked.forEach(id => {
 			output[id] = document.getElementById(id).parentElement.style.display == 'none' ? false : (document.getElementById(id).checked ? true : false);
 		});
 
-		output.fontsize = parseFloat(getComputedStyle(document.body, null).fontSize);
-		output.maxWidth = window.innerWidth;
+		output.fontsize = parseFloat(getComputedStyle(document.body, null).fontSize) || 16;
+		output.maxWidth = window.innerWidth - 32;
 		return output;
 	}
 }

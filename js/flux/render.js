@@ -1,6 +1,6 @@
 import {
 	includes,
-	dimensionObj
+	dimensionObj as dimension
 } from '../main.js';
 import {
 	consonant,
@@ -18,7 +18,6 @@ let glyphs = { // glyph dimensions object
 	width: 0,
 	height: 0
 };
-let dimension = new dimensionObj(); // utility to calculate word-circle- and canvas dimensions
 
 const base = new fluxBase(consonant, decorator);
 const deco = new fluxDeco(base);

@@ -58,7 +58,7 @@ import {
 } from './utils/MySelect.js';
 import {
 	unsupportedChars,
-	renderOpts,
+	renderOptions,
 	SVGRenderingContext
 } from './main.js';
 
@@ -68,8 +68,6 @@ export const unsupportedCharacters = new unsupportedChars();
 // Get hooks for main UI elements
 export const langSelect = document.getElementById('language');
 const langControls = document.getElementById('lang-controls');
-
-export const renderOptions = new renderOpts();
 
 const img = document.getElementById('output-img');
 
