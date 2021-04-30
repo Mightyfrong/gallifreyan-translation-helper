@@ -42,11 +42,6 @@ export let UILanguage = {
 			de: "lautsprachliche/englische Tastatur",
 			lt: "fonetinė/angliška klaviatūra"
 		},
-		cothint: {
-			en: "Please add aleph (א) to lonely vowels manually",
-			de: "Bitte Aleph (א) manuell einsamen Vokalen voranstellen",
-			lt: "Rankiniu būdu pridėti aleph (א) prie atskirų balsių"
-		},
 		cbhint: {
 			en: "Please separate syllables manually with a space",
 			de: "Silben bitte manuell mit Leerzeichen trennen",
@@ -116,7 +111,6 @@ export let UILanguage = {
 		}, {
 			write: this.write
 		});
-		document.getElementById("cothint").innerHTML = this.write('cothint');
 		document.getElementById("cbhint").innerHTML = this.write('cbhint');
 		document.getElementById("cwhint").innerHTML = this.write('punctuationhint');
 		document.getElementById("gchint").innerHTML = this.write('punctuationhint');

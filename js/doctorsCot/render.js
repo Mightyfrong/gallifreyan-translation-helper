@@ -89,8 +89,10 @@ let doctorsCotGrouped = {
 					!includes(["'", ",", "?", "!", "."], [current, group[group.length - 1][group[group.length - 1].length - 1]])) {
 					// add to former group if not full
 					group[group.length - 1].push(current)
-				} else // create current group
-					group.push([current]);
+				} else { // create current group
+					if (dc2Vowels.getLines(current)) group.push(['א', current]);
+					else group.push([current]);
+				}
 			}
 			sentence[sentence.length - 1].push(group); // append group to last word
 		});
