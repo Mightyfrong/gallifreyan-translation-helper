@@ -94,14 +94,14 @@ let clockworkGrouped = {
 		// creates a multidimensional array for
 		// sentence -> groups -> single letters
 		input = input.trim().replace(/\s+/g, ' '); // trim and strip multiple whitespaces
-		if (!includes(".!?‽",input.substring(input.length-1))) input+=".";
+		if (!includes(".!?‽", input.substring(input.length - 1))) input += ".";
 		let sentences = input.match(/.+?[\?!\.‽]/g); // divide into sentences by punctuation
 
 		let result = [];
 		sentences.forEach(sentence => {
 			result.push([]); // init new sentence
 			let group = [];
-			let characters = sentence.trim().match(/\/.+\/|./g); // match single characters or encapsulated by control characters
+			let characters = sentence.trim().match(/\/.+?\/|./g); // match single characters or encapsulated by control characters
 			for (var i = 0; i < characters.length; i++) { // iterate through word
 				let character = characters[i].replace(/\//g, ''); // get rid of control characters
 				if ((group.length > 0 && group[group.length - 1].length < option.stack) &&

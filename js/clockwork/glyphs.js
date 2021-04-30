@@ -483,7 +483,7 @@ export class clockworkConsonants {
 	keyCollection() { // return an array with rowwise structures vowels like in the official tables
 		let keys = [];
 		Object.keys(this.glyphs).forEach(key => {
-			keys.push([key, key]);
+			keys.push([key, key.length > 1 ? '/' + key + '/' : key]);
 		});
 		return [keys];
 	}
@@ -966,7 +966,7 @@ export class clockworkVowels {
 	keyCollection() { // return an array with rowwise structures vowels like in the official tables
 		let keys = [];
 		Object.keys(this.glyphs).forEach(key => {
-			keys.push([key, key]);
+			keys.push([key, key.length > 1 ? '/' + key + '/' : key]);
 		});
 		return [keys];
 	}
