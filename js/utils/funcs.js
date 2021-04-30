@@ -142,7 +142,7 @@ export function keyboard(appendTo, writeTo, keys) {
 				const val = writeTo.value;
 				writeTo.value = val.slice(0, pos0) + char[1] + val.slice(pos1);
 				writeTo.focus();
-				writeTo.selectionStart = writeTo.selectionEnd = pos0 + char.length;
+				writeTo.selectionStart = writeTo.selectionEnd = pos0 + char[1].length;
 			}
 			keyRow.appendChild(keyInput);
 		});
