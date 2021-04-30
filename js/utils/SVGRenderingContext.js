@@ -5,6 +5,7 @@ import {
 
 // prefix for clip-path IDs
 const CP = "cp";
+const MP = "mp";
 
 export class SVGRenderingContext {
 	constructor(width, height) {
@@ -18,6 +19,7 @@ export class SVGRenderingContext {
 
 		this.history = [];
 		this.clipPaths = [];
+		this.maskPaths = [];
 
 		this.currentGroup = new SVGGroup;
 		this.groups = [this.currentGroup];
@@ -60,6 +62,27 @@ export class SVGRenderingContext {
 		this.clipPaths.push(shape);
 		return 'url(#cp' + (this.clipPaths.length - 1) + ')';
 	}
+	maskInit() {
+		const width = this.width,
+			height = this.height,
+			shape = new SVGShape('rect', {
+				width: width,
+				height: height,
+				fill: 'white'
+			});
+		this.maskPaths.push([shape]);
+		return {
+			id: this.maskPaths.length - 1,
+			url: 'url(#mp' + (this.maskPaths.length - 1) + ')'
+		};
+	}
+	maskPath(to, tagName, attributes) {
+		attributes.transform = this.currentGroup.getTransform();
+		attributes.fill = 'black';
+		const shape = new SVGShape(tagName, attributes);
+		this.maskPaths[to].push(shape);
+	}
+
 	drawText(textStr, attributes) {
 		const svgText = new SVGText(textStr, attributes);
 		this.currentGroup.add(svgText);
@@ -110,13 +133,24 @@ export class SVGRenderingContext {
 			style
 		});
 
-		if (this.clipPaths.length) {
+		if (this.clipPaths.length || this.maskPaths.length) {
 			const defs = createSVGElement('defs');
-
 			this.clipPaths.forEach((shape, idx) => {
-				defs.append(shape.render(CP + idx));
+				const clip = createSVGElement('clipPath', {
+					id: CP + idx
+				});
+				clip.append(shape.render(CP + idx))
+				defs.append(clip);
 			});
-
+			this.maskPaths.forEach((group, gidx) => {
+				const mask = createSVGElement('mask', {
+					id: MP + gidx
+				});
+				group.forEach((shape, idx) => {
+					mask.append(shape.render(MP + idx));
+				});
+				defs.append(mask);
+			});
 			svg.append(defs);
 		}
 
@@ -184,7 +218,7 @@ class SVGShape {
 	constructor(tagName, attributes, strokeWidth = null) {
 		this.tagName = tagName;
 		this.attributes = attributes;
-		this.strokeWidth = strokeWidth; // null for clipPaths
+		this.strokeWidth = strokeWidth; // null for clipPaths and maskPaths
 	}
 
 	/** `prop` should be one of two things:
@@ -193,7 +227,6 @@ class SVGShape {
 	 */
 	render(prop) {
 		const shape = createSVGElement(this.tagName, this.attributes);
-
 		if (prop instanceof SVGRenderingContext) {
 			shape.setAttribute(
 				'stroke-width',
@@ -205,15 +238,8 @@ class SVGShape {
 					this.strokeWidth > 0 ? 'stroke' : 'fill',
 					this.strokeWidth < 0 ? prop.bgCol : prop.fgCol
 				);
-
-			return shape;
-		} else {
-			const clipPath = createSVGElement('clipPath', {
-				id: prop
-			});
-			clipPath.append(shape);
-			return clipPath;
 		}
+		return shape;
 	}
 }
 

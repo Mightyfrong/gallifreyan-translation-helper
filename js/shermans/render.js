@@ -261,19 +261,30 @@ function shermansDraw(ctx, letter, isNumber) {
 
 		// draw base and sentence line if applicable
 		let angle = .11,
-			baseR = consonant * grouped.cresize;
+			baseR = consonant * grouped.cresize,
+			mask = false;
 		if (option.circular) {
 			angle = 1 / grouped.numberOfGroups;
 		}
 		if (!grouped.carriagereturn || includes(["b", "t"], currentbase)) {
+			if (includes(["b", "t"], currentbase)) {
+				mask = ctx.maskInit();
+				ctx.maskPath(mask.id, 'circle', {
+					cx: canvas.currentX + center.x,
+					cy: canvas.currentY + center.y,
+					r: baseR
+				});
+			}
 			if (grouped.numberOfGroups == 1 && option.circular) ctx.drawShape('circle', 1, {
 				cx: canvas.currentX,
 				cy: canvas.currentY,
-				r: wordCircleRadius
+				r: wordCircleRadius,
+				mask: mask.url
 			});
 			else ctx.drawShape('path', 1, {
 				d: ctx.circularArc(canvas.currentX, canvas.currentY, wordCircleRadius, Math.PI * (2.5 + rad - angle), Math.PI * (.5 + rad + angle)),
-				fill: 'transparent'
+				fill: 'transparent',
+				mask: mask.url
 			});
 			if (includes(["b", "t"], currentbase) && !grouped.clip) grouped.clip = ctx.clipPath('circle', {
 				cx: canvas.currentX,

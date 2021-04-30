@@ -136,22 +136,33 @@ function fluxDraw(ctx, current) {
 		};
 
 		// draw base and sentence line if applicable
-		let angle = .068;
+		let angle = .068,
+			mask = false,
+			r = consonant;
 		if (option.circular) {
 			angle = 1 / current.wordlength;
+		}
+		if (includes(["g", "s"], currentbase)) {
+			mask = ctx.maskInit();
+			ctx.maskPath(mask.id, 'circle', {
+				cx: canvas.currentX + center.x,
+				cy: canvas.currentY + center.y,
+				r: r
+			});
 		}
 		if (current.wordlength == 1 && option.circular) ctx.drawShape('circle', 1, {
 			cx: canvas.currentX,
 			cy: canvas.currentY,
-			r: wordCircleRadius
+			r: wordCircleRadius,
+			mask: mask.url
 		});
 		else ctx.drawShape('path', 1, {
 			d: ctx.circularArc(canvas.currentX, canvas.currentY, wordCircleRadius, Math.PI * (2.5 + rad - angle), Math.PI * (.5 + rad + angle)),
-			fill: 'transparent'
+			fill: 'transparent',
+			mask: mask.url
 		});
 
 		// draw base
-		let r = consonant;
 		base.fluxtable[currentbase].draw(ctx, canvas.currentX + center.x, canvas.currentY + center.y, r, rad, current);
 
 		// draw decorators

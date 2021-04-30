@@ -131,11 +131,7 @@ export class shermansBase {
 					return options[item];
 				},
 				draw: function (ctx, x, y, r, rad = 0, group) {
-					ctx.clearShape('circle', {
-						cx: x,
-						cy: y,
-						r: r
-					});
+					// gaps in the word circle are made by masking within the calling draw function
 					ctx.drawShape('path', group.linewidth, {
 						d: ctx.circularArc(x, y, r, (.65 + rad) * Math.PI, (.35 + rad) * Math.PI, "major"),
 						clipPath: group.clip
@@ -193,11 +189,7 @@ export class shermansBase {
 					return options[item];
 				},
 				draw: function (ctx, x, y, r, rad = 0, group) {
-					ctx.clearShape('circle', {
-						cx: x,
-						cy: y,
-						r: r
-					});
+					// gaps in the word circle are made by masking within the calling draw function
 					ctx.drawShape('path', group.linewidth, {
 						d: ctx.circularArc(x, y, r, (1 + rad) * Math.PI, (2 + rad) * Math.PI, "minor"),
 						clipPath: group.clip

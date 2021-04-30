@@ -25,8 +25,8 @@ export class fluxBase {
 					});
 				}
 			},
-			gh: {
-				contains: ["g", "k", "p", "t", "x", "h", "r", "n", "q", "v", "ß", "ph", "wh"],
+			g: {
+				contains: ["g", "k", "p", "t", "x", "ß"],
 				centerYoffset: 0,
 				radialPlacement: function (rad = .25) {
 					return {
@@ -35,11 +35,23 @@ export class fluxBase {
 					};
 				},
 				draw: function (ctx, x, y, r, rad = 0, current) {
-					if (includes(["g", "k", "p", "t", "x", "ß"], current.char)) ctx.clearShape('circle', {
-						cx: x,
-						cy: y,
-						r: r
+					// gaps in the word circle are made by masking within the calling draw function
+					ctx.drawShape('path', 1, {
+						d: ctx.circularArc(x, y, r, (1 + rad) * Math.PI, (2 + rad) * Math.PI, "minor"),
+						clipPath: current.clip
 					});
+				}
+			},
+			h: {
+				contains: ["h", "r", "n", "q", "v", "ph", "wh"],
+				centerYoffset: 0,
+				radialPlacement: function (rad = .25) {
+					return {
+						x: consonant * Math.cos(Math.PI * (.5 + rad)),
+						y: -consonant * Math.sin(Math.PI * (.5 + rad))
+					};
+				},
+				draw: function (ctx, x, y, r, rad = 0, current) {
 					ctx.drawShape('path', 1, {
 						d: ctx.circularArc(x, y, r, (1 + rad) * Math.PI, (2 + rad) * Math.PI, "minor"),
 						clipPath: current.clip
@@ -56,11 +68,7 @@ export class fluxBase {
 					};
 				},
 				draw: function (ctx, x, y, r, rad = 0, current) {
-					ctx.clearShape('circle', {
-						cx: x,
-						cy: y,
-						r: r
-					});
+					// gaps in the word circle are made by masking within the calling draw function
 					ctx.drawShape('path', 1, {
 						d: ctx.circularArc(x, y, r, (.65 + rad + r * -1) * Math.PI, (.35 + rad - r * -1) * Math.PI, "major"),
 						clipPath: current.clip
