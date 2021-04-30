@@ -239,7 +239,7 @@ export function render(input, renderOptions, unsupportedCharacters, SVGRendering
 	input = input.toLowerCase();
 	glyphs.width = consonant * 1.5;
 	glyphs.height = consonant * 6;
-	glyphs.num = input.length;
+	glyphs.num = input.length + 1;
 
 	// set canvas scale according to number of characters
 	canvas["currentX"] = -glyphs.width * .5;
