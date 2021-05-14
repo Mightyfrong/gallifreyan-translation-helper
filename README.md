@@ -16,6 +16,7 @@ The creators of the Gallifreyan Translation Helper do not guarantee for correct 
 * [GC Gallifreyan](#GC-Gallifreyan)
 * [cBettenbender's](#cBettenbenders)
 * [CC Gallifreyan](#CC-Gallifreyan)
+* [Timekeepers Gallifreyan](#Timekeepers-Gallifreyan)
 * [DotScript](#DotScript)
 * [ArtByBoredom Gallifreyan](#ArtByBoredom)
 * [DarkIfaerie's Gallifreyan](#Darkifaeries)
@@ -169,6 +170,22 @@ Supported characters are `[a-z]`, uppercase will be converted.
 
 [^ back to top](#Supported-Scribes)
 
+## Timekeepers Gallifreyan
+source: [Timekeepers Gallifreyan by The Meme Master][TKG]
+
+This system processes the latin alphabet with th and ng only, no diacritics, punctuation or numbers.
+
+Characters are simply stacked, while being read from outside to the center, typically grouped by words. Base- and decorator-graphics are tilted slightly to make it look less monotonous. The GTH has the option to display characters ungrouped, except for vowels, which are always supported by an `א` (aleph). The latter will be placed by default if necessary. Unfortunately for some reason long words can mess up the allocation on the provided canvas.
+
+Supported characters are `[a-z]`, uppercase will be converted.
+
+### What to expect
+<img src="assets/Gallifreyan_timekeepers gallifreyan.svg" alt="timekeepers gallifreyan" width="512" />
+
+(default example phrase for shorter words)
+
+[^ back to top](#Supported-Scribes)
+
 ## DotScript
 source: [DotScript by Rachel Sutherland][DS]
 
@@ -278,6 +295,7 @@ along with the GTH.  If not, see <https://www.gnu.org/licenses/>.
 [GC]: https://www.deviantart.com/truegreenman/gallery/61284794/gc-guide
 [CB]: https://www.deviantart.com/cbettenbender/gallery/33798145/circular-gallifreyan
 [CC]: https://www.deviantart.com/gumex/art/CC-Gallifreyan-458112363
+[TKG]: http://timekeepersgallifreyan.blogspot.com/p/learn-system_3.html
 [DS]: https://www.deviantart.com/rachelsutherland/gallery/58931409/dotscript-gallifreyan-guide
 [ABB]: https://www.deviantart.com/artbyboredom/art/Gallifreyan-Alphabet-298046680
 [DF]: https://www.deviantart.com/darkifaerie/art/Gallifreyan-Alphabet-270857268
