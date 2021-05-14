@@ -148,6 +148,7 @@ function clockworkDraw(ctx, letter, grouped) {
 		};
 	if (option.circular) {
 		rad = 1 + 2 / grouped.numberOfGroups * grouped.glyph;
+		if (letter in cwPunctuation.glyphs && !includes(",;", letter)) rad += .5 / grouped.numberOfGroups // draw start indicator near initial group
 		wordCircleRadius /= 4;
 		center = { // relative center of sentence
 			x: -1 * (wordCircleRadius * Math.sin(Math.PI * rad)),
@@ -167,9 +168,9 @@ function clockworkDraw(ctx, letter, grouped) {
 	else if (letter in cwVowels.glyphs) {
 		let rot = Math.PI * Math.random() * 2;
 		cwVowels.glyphs[letter].draw(ctx,
-			canvas.currentX + center.x + Math.cos(rot) * glyphSize * grouped.resize * .75,
-			canvas.currentY + center.y + Math.sin(rot) * glyphSize * grouped.resize * .75,
-			glyphSize * .7,
+			canvas.currentX + center.x + Math.cos(rot) * glyphSize * grouped.resize * .85,
+			canvas.currentY + center.y + Math.sin(rot) * glyphSize * grouped.resize * .85,
+			glyphSize * grouped.resize * .35,
 			tilt);
 	} else if (letter in cwPunctuation.glyphs) {
 		if (includes(",;", letter)) {

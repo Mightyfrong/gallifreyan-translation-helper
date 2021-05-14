@@ -102,11 +102,11 @@ export class clockworkConsonants {
 					ctx.drawShape('circle', 4, {
 						cx: x + Math.cos(Math.PI * (.85 + tilt)) * 8,
 						cy: y + Math.sin(Math.PI * (.85 + tilt)) * 8,
-						r: r * .7
+						r: r * .8
 					});
 					ctx.drawShape('circle', 4, {
-						cx: x - Math.cos(Math.PI * (.85 + tilt)) * r * .4,
-						cy: y - Math.sin(Math.PI * (.85 + tilt)) * r * .4,
+						cx: x - Math.cos(Math.PI * (.85 + tilt)) * r * .7,
+						cy: y - Math.sin(Math.PI * (.85 + tilt)) * r * .7,
 						r: 8,
 						fill: renderOptions.get().backgroundcolor
 					});
@@ -124,14 +124,14 @@ export class clockworkConsonants {
 					x += Math.cos(Math.PI * (.85 + tilt)) * r * .2;
 					y += Math.sin(Math.PI * (.85 + tilt)) * r * .2;
 					ctx.drawShape('path', 1, {
-						d: ctx.circularArc(x, y, r, Math.PI * (.05 + tilt), Math.PI * (1.65 + tilt), "major")
+						d: ctx.circularArc(x, y, r * 1.1, Math.PI * (.05 + tilt), Math.PI * (1.65 + tilt), "major")
 					});
 					ctx.drawShape('path', 1, {
-						d: ctx.circularArc(x + Math.cos(Math.PI * (1.85 + tilt)) * r * .9, y + Math.sin(Math.PI * (1.85 + tilt)) * r * .9, r * .6, Math.PI * (1.3 + tilt), Math.PI * (2.4 + tilt), "major")
+						d: ctx.circularArc(x + Math.cos(Math.PI * (1.85 + tilt)) * r, y + Math.sin(Math.PI * (1.85 + tilt)) * r, r * .65, Math.PI * (1.3 + tilt), Math.PI * (2.4 + tilt), "major")
 					});
 					ctx.drawShape('circle', 1, {
-						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
-						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
+						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r * 1.1,
+						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r * 1.1,
 						r: 8,
 						fill: renderOptions.get().backgroundcolor
 					});
@@ -324,14 +324,14 @@ export class clockworkConsonants {
 					x += Math.cos(Math.PI * (.85 + tilt)) * r * .2;
 					y += Math.sin(Math.PI * (.85 + tilt)) * r * .2;
 					ctx.drawShape('path', 1, {
-						d: ctx.circularArc(x, y, r, Math.PI * (.05 + tilt), Math.PI * (1.65 + tilt), "major")
+						d: ctx.circularArc(x, y, r * 1.1, Math.PI * (.05 + tilt), Math.PI * (1.65 + tilt), "major")
 					});
 					ctx.drawShape('path', 1, {
-						d: ctx.circularArc(x + Math.cos(Math.PI * (1.85 + tilt)) * r * .9, y + Math.sin(Math.PI * (1.85 + tilt)) * r * .9, r * .6, Math.PI * (1.3 + tilt), Math.PI * (2.4 + tilt), "major")
+						d: ctx.circularArc(x + Math.cos(Math.PI * (1.85 + tilt)) * r, y + Math.sin(Math.PI * (1.85 + tilt)) * r, r * .65, Math.PI * (1.3 + tilt), Math.PI * (2.4 + tilt), "major")
 					});
 					ctx.drawShape('circle', 1, {
-						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r,
-						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r,
+						cx: x + Math.cos(Math.PI * (1.25 + tilt)) * r * 1.1,
+						cy: y + Math.sin(Math.PI * (1.25 + tilt)) * r * 1.1,
 						r: 8,
 						fill: renderOptions.get().backgroundcolor
 					});
@@ -380,11 +380,11 @@ export class clockworkConsonants {
 					ctx.drawShape('circle', 1, {
 						cx: x + Math.cos(Math.PI * (.85 + tilt)) * 8,
 						cy: y + Math.sin(Math.PI * (.85 + tilt)) * 8,
-						r: r * .7
+						r: r * .8
 					});
 					ctx.drawShape('circle', 1, {
-						cx: x - Math.cos(Math.PI * (.85 + tilt)) * r * .4,
-						cy: y - Math.sin(Math.PI * (.85 + tilt)) * r * .4,
+						cx: x - Math.cos(Math.PI * (.85 + tilt)) * r * .7,
+						cy: y - Math.sin(Math.PI * (.85 + tilt)) * r * .7,
 						r: 8,
 						fill: renderOptions.get().backgroundcolor
 					});
@@ -977,7 +977,7 @@ export class clockworkPunctuation {
 		this.glyphs = {
 			";": {
 				draw: function (ctx, x, y, r, tilt) {
-					ctx.drawShape('circle', 4, {
+					ctx.drawShape('circle', 8, {
 						cx: x + Math.cos(Math.PI * (1.1 + tilt)) * r * .35,
 						cy: y + Math.sin(Math.PI * (1.1 + tilt)) * r * .35,
 						r: r * .7
@@ -991,7 +991,7 @@ export class clockworkPunctuation {
 			},
 			",": {
 				draw: function (ctx, x, y, r, tilt) {
-					ctx.drawShape('circle', 4, {
+					ctx.drawShape('circle', 8, {
 						cx: x,
 						cy: y,
 						r: r
@@ -1000,7 +1000,7 @@ export class clockworkPunctuation {
 			},
 			".": {
 				draw: function (ctx, x, y, r, tilt) {
-					ctx.drawShape('circle', 4, {
+					ctx.drawShape('circle', 8, {
 						cx: x,
 						cy: y,
 						r: r * .9
@@ -1014,12 +1014,12 @@ export class clockworkPunctuation {
 			},
 			"!": {
 				draw: function (ctx, x, y, r, tilt) {
-					ctx.drawShape('circle', 4, {
+					ctx.drawShape('circle', 8, {
 						cx: x,
 						cy: y,
 						r: r * .9
 					});
-					ctx.drawShape('circle', 4, {
+					ctx.drawShape('circle', 8, {
 						cx: x,
 						cy: y,
 						r: (r * .95 - r * .9 > 8 ? r * .95 : r * 1.2) // make it distinguishable for linear display
@@ -1028,7 +1028,7 @@ export class clockworkPunctuation {
 			},
 			"?": {
 				draw: function (ctx, x, y, r, tilt) {
-					ctx.drawShape('circle', 4, {
+					ctx.drawShape('circle', 8, {
 						cx: x,
 						cy: y,
 						r: r * .9
@@ -1047,12 +1047,12 @@ export class clockworkPunctuation {
 			},
 			"‽": {
 				draw: function (ctx, x, y, r, tilt) {
-					ctx.drawShape('circle', 4, {
+					ctx.drawShape('circle', 8, {
 						cx: x,
 						cy: y,
 						r: r * .9
 					});
-					ctx.drawShape('circle', 4, {
+					ctx.drawShape('circle', 8, {
 						cx: x,
 						cy: y,
 						r: (r * .95 - r * .9 > 8 ? r * .95 : r * 1.2) // make it distinguishable for linear display
