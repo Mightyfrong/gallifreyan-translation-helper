@@ -32,7 +32,8 @@ export function render(input, renderOptions, unsupportedCharacters, SVGRendering
 	groupedInput.forEach(word => {
 		word.forEach(groups => {
 			groups.forEach(group => { // determine maximum expansion due to stacking and amount of groups
-				if (option.stack < 1 + 2 * group.length) option.stack = 1 + 2 * group.length;
+				let grouplength = Math.max(4, group.length);
+				if (option.stack < 1 + 1 * grouplength) option.stack = 1 + 1 * grouplength;
 				glyphs.num++;
 			});
 		});
@@ -40,7 +41,7 @@ export function render(input, renderOptions, unsupportedCharacters, SVGRendering
 	})
 	// initialize widths, heights, default-values, draw-object
 	glyphs.width = consonant * option.stack;
-	glyphs.height = glyphs.width * 1.5;
+	glyphs.height = glyphs.width * 3;
 
 	// set canvas scale according to number of groups times glyphs.width
 	canvas["currentX"] = 0;
@@ -62,7 +63,7 @@ export function render(input, renderOptions, unsupportedCharacters, SVGRendering
 					if (l > 0) tkgGrouped.setOffset();
 					// draw
 					tkgDraw(ctx, group[l], tkgGrouped);
-					if (!base.getBase(group[l])) unsupportedCharacters.add(group[l]);
+					if (!base.getBase(group[l]) && !vowel.getVowel(group[l])) unsupportedCharacters.add(group[l]);
 
 					// text output for undefined characters as well for informational purpose
 					if (tkgGrouped.offset == 0) ctx.drawText(tkgGrouped.currentGroupText, {
@@ -137,9 +138,9 @@ function tkgDraw(ctx, letter, grouped) {
 	// draw base
 	if (base.getBase(letter)) base.tkgtable[base.getBase(letter)].draw(ctx, canvas.currentX, canvas.currentY, consonant * grouped.resize, tilt);
 	// draw decorators
-	if (deco.getDeco(letter)) deco.tkgtable[deco.getDeco(letter)].draw(ctx, canvas.currentX, canvas.currentY, consonant * grouped.resize, consonant,tilt);
+	if (deco.getDeco(letter)) deco.tkgtable[deco.getDeco(letter)].draw(ctx, canvas.currentX, canvas.currentY, consonant * grouped.resize, consonant, tilt);
 	// draw vowels
-	if (vowel.getVowel(letter)) vowel.tkgtable[vowel.getVowel(letter)].draw(ctx, canvas.currentX, canvas.currentY, consonant * (grouped.resize+1),consonant * (grouped.resize-1),tilt);
+	if (vowel.getVowel(letter)) vowel.tkgtable[vowel.getVowel(letter)].draw(ctx, canvas.currentX, canvas.currentY, consonant * (grouped.resize + 1), consonant * (grouped.resize - 1), tilt);
 }
 
 /**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR
