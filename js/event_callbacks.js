@@ -20,6 +20,9 @@ import {
 	render as renderCC
 } from './cc/render.js';
 import {
+	render as renderTKG
+} from './tkg/render.js';
+import {
 	render as renderDotscript
 } from './dotscript/render.js';
 import {
@@ -74,7 +77,7 @@ const img = document.getElementById('output-img');
 // Init language selector & constants
 customElements.define('my-select', MySelect);
 const langs = langSelect.querySelectorAll('input');
-const [SHERMAN, COT, TARDIS, FLUX, CW, GC, CB, CC, DOT, ABB, DF, EVA, BPJM, ODD] = [...langs].map(input => input.value);
+const [SHERMAN, COT, TARDIS, FLUX, CW, GC, CB, CC, TKG, DOT, ABB, DF, EVA, BPJM, ODD] = [...langs].map(input => input.value);
 
 // Event Callbacks
 export function translate(event) {
@@ -95,6 +98,7 @@ export function translate(event) {
 		[DOT]: renderDotscript,
 		[ABB]: renderABB,
 		[CC]: renderCC,
+		[TKG]: renderTKG,
 		[CB]: renderCB,
 		[DF]: renderDF,
 		[EVA]: renderEva,
@@ -130,6 +134,7 @@ export function activateControls(lang) {
 		[CW]: {	rndrOpt: ["circular", "stack"],	active: ["keyoptions", "clockwork-keys"] },
 		[GC]: {	rndrOpt: ["stacking"], active: ["gc-hint"] },
 		[CC]: {	rndrOpt: ["stack"] },
+		[TKG]: { rndrOpt: ["stacking"] },
 		[DOT]: {},
 		[ABB]: {},
 		[CB]: {	active: ["cbettenbenders-keys"] },

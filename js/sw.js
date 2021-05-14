@@ -12,7 +12,8 @@ const trinities = [ // have a glyphs-, setup- and render.js-file
 	"gc",
 	"oddism",
 	"shermans",
-	"tardisconsole2"
+	"tardisconsole2",
+	"tkg"
 ];
 const simpletons = [ // only have a render.js-file
 	"artbyboredom",
