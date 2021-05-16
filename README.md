@@ -110,6 +110,8 @@ Supported characters are currently `[a-zß]`, uppercase will be converted.
 ## Clockwork
 source: [Clockwork Gallifreyan by FYeahGallifreyan][CW]
 
+![creator approval pending](https://img.shields.io/badge/creator_approval-pending-orange)
+
 The GTH displays the words either in a clockwise circular fashion (not spiral or layers though) or every glyph/stack in horizontal lines (left to right) for ease of reading.
 
 Decorator lines do not connect anywhere at the moment. This is as well due to the fact we did not come up with a reasonable algorithm to accomplish that yet, as random straight lines are neither easy to read nor aesthetically appealing.
