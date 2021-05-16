@@ -94,7 +94,7 @@ let clockworkGrouped = {
 		// creates a multidimensional array for
 		// sentence -> groups -> single letters
 		input = input.trim().replace(/\s+/g, ' '); // trim and strip multiple whitespaces
-		if (!includes(".!?‽", input.substring(input.length - 1))) input += ".";
+		if (!includes(".!?‽", input.substring(input.length - 1))) input += " .";
 		let sentences = input.match(/.+?[\?!\.‽]/g); // divide into sentences by punctuation
 
 		let result = [];
@@ -113,7 +113,6 @@ let clockworkGrouped = {
 			}
 			result[result.length - 1].push(group); // append group to last sentence
 		});
-
 		return result;
 	},
 	resetOffset: function (stack, currentGroupText = '', newSentence = false) {
