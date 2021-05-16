@@ -100,13 +100,13 @@ export class clockworkConsonants {
 						r: r
 					});
 					ctx.drawShape('circle', 4, {
-						cx: x + Math.cos(Math.PI * (.85 + tilt)) * 8,
-						cy: y + Math.sin(Math.PI * (.85 + tilt)) * 8,
+						cx: x + Math.cos(Math.PI * (.85 + tilt)) * r * .2,
+						cy: y + Math.sin(Math.PI * (.85 + tilt)) * r * .2,
 						r: r * .8
 					});
 					ctx.drawShape('circle', 4, {
-						cx: x - Math.cos(Math.PI * (.85 + tilt)) * r * .7,
-						cy: y - Math.sin(Math.PI * (.85 + tilt)) * r * .7,
+						cx: x - Math.cos(Math.PI * (.85 + tilt)) * r * .8,
+						cy: y - Math.sin(Math.PI * (.85 + tilt)) * r * .8,
 						r: 8,
 						fill: renderOptions.get().backgroundcolor
 					});
@@ -378,13 +378,13 @@ export class clockworkConsonants {
 						r: r
 					});
 					ctx.drawShape('circle', 1, {
-						cx: x + Math.cos(Math.PI * (.85 + tilt)) * 8,
-						cy: y + Math.sin(Math.PI * (.85 + tilt)) * 8,
+						cx: x + Math.cos(Math.PI * (.85 + tilt)) * r * .2,
+						cy: y + Math.sin(Math.PI * (.85 + tilt)) * r * .2,
 						r: r * .8
 					});
 					ctx.drawShape('circle', 1, {
-						cx: x - Math.cos(Math.PI * (.85 + tilt)) * r * .7,
-						cy: y - Math.sin(Math.PI * (.85 + tilt)) * r * .7,
+						cx: x - Math.cos(Math.PI * (.85 + tilt)) * r * .8,
+						cy: y - Math.sin(Math.PI * (.85 + tilt)) * r * .8,
 						r: 8,
 						fill: renderOptions.get().backgroundcolor
 					});
