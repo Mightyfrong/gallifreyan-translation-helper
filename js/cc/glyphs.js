@@ -1,5 +1,6 @@
 import {
-	includes,renderOptions
+	includes,
+	renderOptions
 } from '../main.js';
 
 //specify base for every letter, assign base to latin characters and specify geometric properties
@@ -24,7 +25,7 @@ export class ccBase {
 					ctx.drawShape('circle', 1, {
 						cx: x,
 						cy: y,
-						r: r * .95
+						r: r - 4
 					});
 				}
 			},
@@ -61,7 +62,7 @@ export class ccBase {
 						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('path', 1, {
-						d: ctx.circularArc(x, y, r * .9, Math.PI * (.75 + tilt), Math.PI * (1.25 + tilt),"minor")
+						d: ctx.circularArc(x, y, r - 4, Math.PI * (.75 + tilt), Math.PI * (1.25 + tilt), "minor")
 					});
 					ctx.drawShape('line', 1, {
 						x1: x,
@@ -89,7 +90,7 @@ export class ccBase {
 					ctx.drawShape('circle', 3, {
 						cx: x,
 						cy: y,
-						r: r * .9
+						r: r - 6
 					});
 				}
 			},
@@ -117,85 +118,85 @@ export class ccDeco {
 			}*/
 			"dot": {
 				contains: ["a", "d", "m", "v"],
-				draw: function (ctx, x, y, r, tilt) {
+				draw: function (ctx, x, y, r, element, tilt) {
 					ctx.drawShape('circle', 0, {
-						cx: x + Math.cos(Math.PI * (1 + tilt)) * r * .9,
-						cy: y + Math.sin(Math.PI * (1 + tilt)) * r * .9,
-						r: r * .1
+						cx: x + Math.cos(Math.PI * (1 + tilt)) * (r - element * .6),
+						cy: y + Math.sin(Math.PI * (1 + tilt)) * (r - element * .6),
+						r: element * .2
 					});
 				}
 			},
 			"circle": {
 				contains: ["e", "f", "n", "w"],
-				draw: function (ctx, x, y, r, tilt) {
+				draw: function (ctx, x, y, r, element, tilt) {
 					ctx.drawShape('circle', 1, {
-						cx: x + Math.cos(Math.PI * (1 + tilt)) * r * .9,
-						cy: y + Math.sin(Math.PI * (1 + tilt)) * r * .9,
-						r: r * .1,
+						cx: x + Math.cos(Math.PI * (1 + tilt)) * (r - element * .6),
+						cy: y + Math.sin(Math.PI * (1 + tilt)) * (r - element * .6),
+						r: element * .4,
 						fill: renderOptions.get().backgroundcolor
 					});
 				}
 			},
 			"doublecircle": {
 				contains: ["i", "g", "p", "x"],
-				draw: function (ctx, x, y, r, tilt) {
+				draw: function (ctx, x, y, r, element, tilt) {
 					ctx.drawShape('circle', 1, {
-						cx: x + Math.cos(Math.PI * (1 + tilt)) * r * .9,
-						cy: y + Math.sin(Math.PI * (1 + tilt)) * r * .9,
-						r: r * .1,
+						cx: x + Math.cos(Math.PI * (1 + tilt)) * (r - element * .6),
+						cy: y + Math.sin(Math.PI * (1 + tilt)) * (r - element * .6),
+						r: element * .4,
 						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 1, {
-						cx: x + Math.cos(Math.PI * (1 + tilt)) * r * .9,
-						cy: y + Math.sin(Math.PI * (1 + tilt)) * r * .9,
-						r: r * .06
+						cx: x + Math.cos(Math.PI * (1 + tilt)) * (r - element * .6),
+						cy: y + Math.sin(Math.PI * (1 + tilt)) * (r - element * .6),
+						r: element * .2
 					});
 				}
 			},
 			"dotcircle": {
 				contains: ["o", "h", "q", "y"],
-				draw: function (ctx, x, y, r, tilt) {
+				draw: function (ctx, x, y, r, element, tilt) {
 					ctx.drawShape('circle', 0, {
-						cx: x + Math.cos(Math.PI * (1.1 + tilt)) * r * .9,
-						cy: y + Math.sin(Math.PI * (1.1 + tilt)) * r * .9,
-						r: r * .1
+						cx: x + Math.cos(Math.PI * (1.1 + tilt)) * (r - element * .6),
+						cy: y + Math.sin(Math.PI * (1.1 + tilt)) * (r - element * .6),
+						r: element * .2
 					});
 					ctx.drawShape('circle', 1, {
-						cx: x + Math.cos(Math.PI * (.9 + tilt)) * r * .9,
-						cy: y + Math.sin(Math.PI * (.9 + tilt)) * r * .9,
-						r: r * .1,
+						cx: x + Math.cos(Math.PI * (.9 + tilt)) * (r - element * .6),
+						cy: y + Math.sin(Math.PI * (.9 + tilt)) * (r - element * .6),
+						r: element * .4,
 						fill: renderOptions.get().backgroundcolor
 					});
 				}
 			},
 			"twodots": {
 				contains: ["u", "j", "r", "z"],
-				draw: function (ctx, x, y, r, tilt) {
+				draw: function (ctx, x, y, r, element, tilt) {
 					ctx.drawShape('circle', 0, {
-						cx: x + Math.cos(Math.PI * (1.1 + tilt)) * r * .9,
-						cy: y + Math.sin(Math.PI * (1.1 + tilt)) * r * .9,
-						r: r * .1
+						cx: x + Math.cos(Math.PI * (1.1 + tilt)) * (r - element * .6),
+						cy: y + Math.sin(Math.PI * (1.1 + tilt)) * (r - element * .6),
+						r: element * .2
 					});
 					ctx.drawShape('circle', 0, {
-						cx: x + Math.cos(Math.PI * (.9 + tilt)) * r * .9,
-						cy: y + Math.sin(Math.PI * (.9 + tilt)) * r * .9,
-						r: r * .1
+						cx: x + Math.cos(Math.PI * (.9 + tilt)) * (r - element * .6),
+						cy: y + Math.sin(Math.PI * (.9 + tilt)) * (r - element * .6),
+						r: element * .2
 					});
 				}
 			},
 			"twocircles": {
 				contains: ["b", "k", "s", "th"],
-				draw: function (ctx, x, y, r, tilt) {
+				draw: function (ctx, x, y, r, element, tilt) {
 					ctx.drawShape('circle', 1, {
-						cx: x + Math.cos(Math.PI * (1.1 + tilt)) * r * .9,
-						cy: y + Math.sin(Math.PI * (1.1 + tilt)) * r * .9,
-						r: r * .1,
+						cx: x + Math.cos(Math.PI * (1.1 + tilt)) * (r - element * .6),
+						cy: y + Math.sin(Math.PI * (1.1 + tilt)) * (r - element * .6),
+						r: element * .4,
 						fill: renderOptions.get().backgroundcolor
 					});
 					ctx.drawShape('circle', 1, {
-						cx: x + Math.cos(Math.PI * (.9 + tilt)) * r * .9,
-						cy: y + Math.sin(Math.PI * (.9 + tilt)) * r * .9,
-						r: r * .1,
+						cx: x + Math.cos(Math.PI * (.9 + tilt)) * (r - element * .6),
+						cy: y + Math.sin(Math.PI * (.9 + tilt)) * (r - element * .6),
+						r: element * .4,
 						fill: renderOptions.get().backgroundcolor
 					});
 				}

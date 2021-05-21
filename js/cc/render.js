@@ -30,7 +30,7 @@ export function render(input, renderOptions, unsupportedCharacters, SVGRendering
 	groupedInput.forEach(word => {
 		word.forEach(groups => {
 			groups.forEach(group => { // determine maximum expansion due to stacking and amount of groups
-				if (option.stack < 1 + .6 * group.length) option.stack = 1 + .6 * group.length;
+				if (option.stack < 1 + group.length) option.stack = 1 + group.length;
 				glyphs.num++;
 			});
 		});
@@ -110,14 +110,14 @@ let ccGrouped = {
 	},
 	resetOffset: function (stack, currentGroupText = '') {
 		this.carriagereturn = false; // true overrides setting the pointer-position to the next character
-		this.resize = 1 + .6 * stack; // consonant-resize-factor, something the power of null is one
+		this.resize = 1 + stack; // consonant-resize-factor
 		this.offset = 0; // counter of stacked objects, used for positioning the translated letters on top of the drawings
 		this.currentGroupText = currentGroupText;
 	},
 	setOffset: function () {
 		this.offset++;
 		this.carriagereturn = true;
-		this.resize -= .6;
+		this.resize -= 1;
 	}
 }
 
@@ -132,7 +132,7 @@ function ccDraw(ctx, letter, grouped) {
 	// draw base
 	if (base.getBase(letter)) base.cctable[base.getBase(letter)].draw(ctx, canvas.currentX, canvas.currentY, consonant * grouped.resize, tilt);
 	// draw decorators
-	if (deco.getDeco(letter)) deco.cctable[deco.getDeco(letter)].draw(ctx, canvas.currentX, canvas.currentY, consonant * grouped.resize, tilt);
+	if (deco.getDeco(letter)) deco.cctable[deco.getDeco(letter)].draw(ctx, canvas.currentX, canvas.currentY, consonant * grouped.resize, consonant, tilt);
 }
 
 /**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR
