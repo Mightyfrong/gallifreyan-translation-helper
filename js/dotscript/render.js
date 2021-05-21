@@ -53,12 +53,12 @@ let characters = {
 				cy: y,
 				r: size
 			});
-			let flip = [0, 1, 1, .5];
+			let flip = [0, .5];
 			for (let r = 1; r > .2; r -= .2) {
-				flip = [+!flip[0], +!flip[1], +!flip[2], flip[3] * 2];
-				let offset = (size - size * r) / flip[3] + size * .1;
+				flip = [+!flip[0], flip[1] * 2];
+				let offset = (size - size * r) / flip[1] + size * .1;
 				ctx.drawShape('path', 1, {
-					d: ctx.circularArc(x - offset * flip[2], y, size * r, Math.PI * flip[1], Math.PI * flip[0])
+					d: ctx.circularArc(x - offset * +!flip[0] - +!Math.round(r)*.5*+!flip[0], y, size * r, Math.PI * +!flip[0], Math.PI * flip[0])
 				});
 			}
 		},
