@@ -348,22 +348,25 @@ export class cotVowels {
 			ɑ: {
 				contains: ["ɑ", "e", "ɛ", "ʊ", "ɯ", "œ"],
 				draw: function (ctx, x, y, r, lines, former) {
-					let formerbaserad = dc2Consonants.base[dc2Consonants.getBase(former)].baserad;
-
-					ctx.drawShape('path', lines.outerline, {
-						d: ctx.circularArc(
-							x + Math.cos(Math.PI * (1.2)) * r * (formerbaserad - .1),
-							y + Math.sin(Math.PI * (1.2)) * r * (formerbaserad - .1),
-							r * .7, Math.PI * (1.8), Math.PI * (.6), "minor"),
-							fill: renderOptions.get().backgroundcolor
-					});
-					if (lines.innerline)
-						ctx.drawShape('path', lines.innerline, {
-							d: ctx.circularArc(
-								x + Math.cos(Math.PI * (1.2)) * r * (formerbaserad - .1),
-								y + Math.sin(Math.PI * (1.2)) * r * (formerbaserad - .1),
-								r * .55, Math.PI * (1.8), Math.PI * (.6), "minor")
+					let formerbaserad = dc2Consonants.base[dc2Consonants.getBase(former)].baserad,
+						clip = ctx.clipPath('circle', {
+							cx: x,
+							cy: y,
+							r: r * formerbaserad - .25
 						});
+					ctx.drawShape('circle', lines.outerline, {
+						cx: x + Math.cos(Math.PI * (1.2)) * r * (formerbaserad - .1),
+						cy: y + Math.sin(Math.PI * (1.2)) * r * (formerbaserad - .1),
+						r: r * .7,
+						fill: renderOptions.get().backgroundcolor,
+						clipPath: clip
+					});
+					if (lines.innerline) ctx.drawShape('circle', lines.innerline, {
+						cx: x + Math.cos(Math.PI * (1.2)) * r * (formerbaserad - .1),
+						cy: y + Math.sin(Math.PI * (1.2)) * r * (formerbaserad - .1),
+						r: r * .55,
+						clipPath: clip
+					});
 				}
 			},
 			i: {
