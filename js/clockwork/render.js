@@ -27,11 +27,11 @@ export function render(input, renderOptions, unsupportedCharacters, SVGRendering
 	let groupedInput = clockworkGrouped.groups(input.toLowerCase());
 	glyphs.num = 0; // reset for new input
 
-	stackedGlyph = 1.8;
+	stackedGlyph = 2;
 	let circularGroups = 0,
 		biggestWordCircle = 0;
 	for (let i = 1; i <= option.stack; i++) {
-		stackedGlyph *= 1 + .8 / i;
+		stackedGlyph *= 1 + 1 / i;
 	}
 
 	groupedInput.forEach(sentence => {
@@ -127,7 +127,7 @@ let clockworkGrouped = {
 	setOffset: function () {
 		this.offset++;
 		this.carriagereturn = true;
-		this.resize *= 1 + .8 / this.offset;
+		this.resize *= 1 + 1 / this.offset;
 	}
 }
 
