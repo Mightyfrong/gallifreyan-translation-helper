@@ -33,7 +33,7 @@ export function render(input, renderOptions, unsupportedCharacters, SVGRendering
 		word.forEach(groups => {
 			groups.forEach(group => { // determine maximum expansion due to stacking and amount of groups
 				let grouplength = Math.max(4, group.length);
-				if (option.stack < 1 + 1 * grouplength) option.stack = 1 + 1 * grouplength;
+				if (option.stack < 1 + grouplength) option.stack = 1 + grouplength;
 				glyphs.num++;
 			});
 		});
@@ -116,7 +116,7 @@ let tkgGrouped = {
 	},
 	resetOffset: function (stack, currentGroupText = '') {
 		this.carriagereturn = false; // true overrides setting the pointer-position to the next character
-		this.resize = 1 + 1 * stack; // consonant-resize-factor, something the power of null is one
+		this.resize = 1 + stack; // consonant-resize-factor
 		this.offset = 0; // counter of stacked objects, used for positioning the translated letters on top of the drawings
 		this.currentGroupText = currentGroupText;
 	},
