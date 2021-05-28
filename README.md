@@ -129,7 +129,7 @@ source: [Flux Gallifreyan by u/lost_chm][FLUX]
 # Clockwork
 source: [Clockwork Gallifreyan by FYeahGallifreyan][CW]
 
-![creator approval pending](https://img.shields.io/badge/creator_approval-pending-orange)
+![creator approved](https://img.shields.io/badge/creator-approved-brightgreen)
 
 ### Details
 - The GTH displays the words either in a clockwise circular fashion (not spiral or layers though) or every glyph/stack in horizontal lines (left to right) for ease of reading.
@@ -155,7 +155,8 @@ source: [GC Gallifreyan by TrueGreenman][GC]
 
 ### Details
 - This is currently a permanent work in progress that displays characters either single or stacked. The punctuation will be displayed as a glyph. Currently it is unsure if a circular display and reading-order-indication will happen, because somewhat linear grouping within a circular sentence is likely not something that can be displayed in a way that clears things up properly. Please use this module for impression of glyphs and character grouping only.   
-- C will always be converted to phonetic k or s. Since punctuation is essential, every phrase that is not terminated by a supported punctuation character will be complemented with a period by default.
+- C will always be converted to phonetic k or s.
+- Since punctuation is essential, every phrase that is not terminated by a supported punctuation character will be complemented with a period by default.
 - Decorator lines do not connect anywhere at the moment. This is as well due to the fact we did not come up with a reasonable algorithm to accomplish that yet, as random straight lines are neither easy to read nor aesthetically appealing.
 
 ### Language controls
@@ -175,7 +176,6 @@ source: [Circular Gallifreyan by Cat Bettenbender][CB]
 
 ### Details
 - By time of implementing this writing system the instructions were still described as unfinished and surely felt a bit unclear. To make matters worse the initial publication was long time ago. Although the first page of the documentation describes the system as literal without phonetic replacements for consonants, some latin characters are missing, examples lead to other conclusions and vowels are most definetly described as phonetic. So after all there has to be a keyboard that limits allowed characters and inserts respective ipa-vowels. Grouping characters happens by syllables, but since putting this into an algorithm is currently beyond the ability of this helper you'll have to group by splitting syllables with space by your own.
-
 - Some of the design choices are based on personal choice, contextual considerations, the few impressions from the guide and maybe lack of coding skills:
     - *repetition indicators for vowels* are a thing in this interpretation. Double vowels normally change the sound, probably leading to another glyph, but in case of names double vowels might be allowed
     - *start indicators* for consonants and vowels will always attach to or be placed within the widest free section of the syllable circle. There's hope that this interferes the least but will surely do occasionally (**again: this is not a translator, just a helping aid for patterns!**). Since the indicators will be random placed within their boundary maybe a re-render fixes it from time to time. The consonant indicator will never direct to opposing sides, but you'll get the spirit
