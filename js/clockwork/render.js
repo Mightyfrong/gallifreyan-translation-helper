@@ -169,7 +169,7 @@ function clockworkDraw(ctx, letter, grouped) {
 		cwVowels.glyphs[letter].draw(ctx,
 			canvas.currentX + center.x + Math.cos(rot) * glyphSize * grouped.resize * .85,
 			canvas.currentY + center.y + Math.sin(rot) * glyphSize * grouped.resize * .85,
-			glyphSize * grouped.resize * .35,
+			glyphSize * grouped.resize * .5,
 			tilt);
 	} else if (letter in cwPunctuation.glyphs) {
 		if (includes(",;", letter)) {
