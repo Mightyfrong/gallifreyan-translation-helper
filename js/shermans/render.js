@@ -310,7 +310,7 @@ function shermansDraw(ctx, letter, isNumber) {
 
 		// draw decorators
 		let decorators = deco.getDeco(letter);
-		if (decorators) {
+		if (decorators && (grouped.currentGroupText[grouped.offset-1] != letter || includes("1234567890", letter))) {
 			decorators.forEach(decorator => {
 				if (decorators && !isNumber)
 					deco.draw(ctx, decorator, canvas.currentX + center.x, canvas.currentY + center.y, currentbase, rad, grouped, letter);
