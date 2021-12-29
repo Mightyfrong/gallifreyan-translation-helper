@@ -173,8 +173,12 @@ let grouped = {
 						( /*vowels */ includes(["ve", "va", "vo"], base.getBase(current)) && (!includes(["ve", "va", "vo", "number"], base.getBase(former)) || base.getBase(current) == base.getBase(former))) ||
 						( /*same base consonant*/ !includes([false, "punctuation", "ve", "va", "vo", "number"], base.getBase(current)) && group[group.length - 1].length > 0 && base.getBase(current) == base.getBase(former)) ||
 						( /*numbers, data is of string type here*/ includes("-1234567890,.", current) && group[group.length - 1].length > 0 && includes("-1234567890,.", former) && !(includes("-.,", current) && includes("-.,", former)))
-					)
-						group[group.length - 1].push(current)
+					){
+						if(base.getBase(former))
+							group[group.length - 1].push(current)
+						else // create/add to current group
+							group.push([current]);
+					}	
 					else // create/add to current group
 						group.push([current]);
 				} else // create/add to current group
