@@ -59,7 +59,7 @@ export class shermansBase {
 				}
 			},
 			ve: {
-				contains: ["e", "é", "è", "i", "í", "ì", "u", "ü", "ú", "ù", "æ"],
+				contains: ["e", "é", "è", "i", "í", "ì", "u", "ü", "ú", "ù", "æ", "ê", "î", "û", "ě", "ǐ", "ǔ", "ǚ", "&"],
 				centerYoffset: 0,
 				radialPlacement: function (rad = .25) {
 					return {
@@ -76,7 +76,7 @@ export class shermansBase {
 				}
 			},
 			va: {
-				contains: ["a", "ä", "á", "à", "å"],
+				contains: ["a", "ä", "á", "à", "å", "â", "ǎ"],
 				centerYoffset: vowel * 1.75,
 				radialPlacement: function (rad = .25) {
 					return {
@@ -93,7 +93,7 @@ export class shermansBase {
 				}
 			},
 			vo: {
-				contains: ["o", "ö", "ó", "ò", "ø"],
+				contains: ["o", "ö", "ó", "ò", "ø", "ô", "ǒ"],
 				centerYoffset: -vowel * 1.75,
 				radialPlacement: function (rad = .25) {
 					return {
@@ -110,7 +110,7 @@ export class shermansBase {
 				}
 			},
 			b: {
-				contains: ["b", "ch", "d", "g", "h", "f"],
+				contains: ["b", "ch", "d", "nd", "g", "h", "f", "ĝ", "ĥ", "ǧ", "ȟ", "_"],
 				centerYoffset: -consonant * .9,
 				radialPlacement: function (rad = .25, item = "vo") {
 					let options = {
@@ -139,7 +139,7 @@ export class shermansBase {
 				}
 			},
 			j: {
-				contains: ["j", "ph", "k", "l", "c", "n", "p", "m", "ñ"],
+				contains: ["j", "ph", "k", "l", "c", "n", "p", "m", "ĉ", "ĵ", "č", "ǰ", "ǩ", "ň"],
 				centerYoffset: -consonant * 1.25,
 				radialPlacement: function (rad = .25, item = "vo") {
 					let options = {
@@ -168,7 +168,7 @@ export class shermansBase {
 				}
 			},
 			t: {
-				contains: ["t", "wh", "sh", "r", "v", "w", "s"],
+				contains: ["t", "wh", "sh", "r", "nt", "v", "w", "s", "ŝ", "ŵ", "ř", "š"],
 				centerYoffset: 0,
 				radialPlacement: function (rad = .25, item = "vo") {
 					let options = {
@@ -197,7 +197,7 @@ export class shermansBase {
 				}
 			},
 			th: {
-				contains: ["th", "gh", "y", "z", "q", "qu", "x", "ng"],
+				contains: ["th", "gh", "y", "z", "q", "qu", "x", "ng", "ŷ", "ž"],
 				centerYoffset: 0,
 				radialPlacement: function (rad = .25, item = "vo") {
 					let options = {
@@ -295,16 +295,21 @@ export class shermansDeco {
 				radiants: [1.25],
 				fromto: [1]
 			},
+			"&": {
+				contains: ["&"],
+				radiants: [1],
+				fromto: [1.5,-1.5]
+			},
 			"number": {
 				contains: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
 			},
 			"il": {
-				contains: ["i", "í", "ì"],
+				contains: ["i", "í", "ì", "î", "ǐ"],
 				radiants: [1],
 				fromto: [1, 3]
 			},
 			"ul": {
-				contains: ["u", "ü", "ú", "ù"],
+				contains: ["u", "ü", "ú", "ù", "û", "ǔ", "ǚ"],
 				radiants: [2],
 				fromto: [1, 3]
 			},
@@ -314,7 +319,7 @@ export class shermansDeco {
 				fromto: [.5, 1.5]
 			},
 			"d2l": {
-				contains: ["ä", "ö", "ü"],
+				contains: ["ä", "ö", "ü", "ǚ"],
 				radiants: [1.3, 1.2],
 				fromto: [.5, 1.5]
 			},
@@ -324,37 +329,37 @@ export class shermansDeco {
 				fromto: [.5, 1.5]
 			},
 			"1l": {
-				contains: ["g", "n", "v", "qu", "ñ"],
+				contains: ["g", "n", "v", "qu", "ĝ", "ǧ", "ň"],
 				radiants: [.6],
 				fromto: [1, 2]
 			},
 			"2l": {
-				contains: ["h", "p", "w", "x"],
+				contains: ["h", "p", "w", "x", "ĥ", "ŵ", "ȟ"],
 				radiants: [.85, .75],
 				fromto: [1, 2]
 			},
 			"3l": {
-				contains: ["f", "m", "s", "ng"],
+				contains: ["f", "m", "s", "ng", "ŝ", "š"],
 				radiants: [.9, .8, .7],
 				fromto: [1, 2]
 			},
 			"1d": {
-				contains: ["ph", "wh", "gh"],
+				contains: ["_", "ph", "wh", "gh"],
 				radiants: [.5],
 				fromto: [1]
 			},
 			"2d": {
-				contains: ["ch", "k", "sh", "y"],
+				contains: ["ch", "k", "sh", "y", "ŷ", "ǩ"],
 				radiants: [.55, .45],
 				fromto: [1]
 			},
 			"3d": {
-				contains: ["d", "l", "r", "z"],
+				contains: ["d", "l", "r", "z", "ř", "ž"],
 				radiants: [.6, .5, .4],
 				fromto: [1]
 			},
 			"4d": {
-				contains: ["c", "q"],
+				contains: ["nd", "c", "nt", "q", "ĉ", "č"],
 				radiants: [.65, .55, .45, .35],
 				fromto: [1]
 			},
@@ -363,9 +368,14 @@ export class shermansDeco {
 				radiants: [.5],
 				fromto: [1]
 			},
-			"divot": {
-				contains: ["ñ"],
-				radiants: [1.75],
+			"circumflex": { //caron-characters included for reused decorator
+				contains: ["â", "ĉ", "ê", "ĝ", "ĥ", "î", "ĵ", "ô", "ŝ", "û", "ŵ", "ŷ", "ǎ", "č", "ě", "ǧ", "ȟ", "ǐ", "ǰ", "ǩ", "ň", "ǒ", "ř", "š", "ǔ", "ǚ", "ž"],
+				radiants: [.5],
+				fromto: [1]
+			},
+			"caron": {
+				contains: ["ǎ", "č", "ě", "ǧ", "ȟ", "ǐ", "ǰ", "ǩ", "ň", "ǒ", "ř", "š", "ǔ", "ǚ", "ž"],
+				radiants: [1.5],
 				fromto: [1]
 			},
 			"minus": {
@@ -415,23 +425,32 @@ export class shermansDeco {
 					r: this.base.vowel
 				});
 			});
-		} else if (includes(["divot"], deco)) {
+		} else if (includes(["circumflex"], deco)) {
 			this.scgtable[deco].radiants.forEach(rad => {
-				let fromto = this.scgtable[deco].fromto;
+				let fromto = this.scgtable[deco].fromto,
+					charactertype = includes(currentbase, ["ve", "va", "vo"]) ? "vowel" : "consonent";
+				let currentbaseradius = charactertype == "vowel" ? this.base.vowel : this.base.consonant,
+					currentresize = charactertype == "vowel" ? group.vresize : group.cresize;
 				ctx.drawShape('path', group.linewidth, {
 					d: ctx.circularArc(
-						x + this.base.scgtable[currentbase].radialPlacement(rad - baserad).x * fromto[0] * group.cresize,
-						y + this.base.scgtable[currentbase].radialPlacement(rad - baserad).y * fromto[0] * group.cresize,
-						this.base.vowel, Math.PI * (.075 - rad + baserad), Math.PI * (.925 - rad + baserad),
+						x ,
+						y  ,
+						currentbaseradius * currentresize * .85, Math.PI * (1.075 - rad + baserad), Math.PI * (1.925 - rad + baserad),"minor"
 					)
 				});
-				// overpaint base body
-				ctx.drawShape('path', group.linewidth + 2, {
+			});
+		} else if (includes(["caron"], deco)) {
+			this.scgtable[deco].radiants.forEach(rad => {
+				let fromto = this.scgtable[deco].fromto,
+					charactertype = includes(currentbase, ["ve", "va", "vo"]) ? "vowel" : "consonent";
+				let currentbaseradius = charactertype == "vowel" ? this.base.vowel : this.base.consonant,
+					currentresize = charactertype == "vowel" ? group.vresize : group.cresize;
+				ctx.drawShape('path', group.linewidth, {
 					d: ctx.circularArc(
-						x,
+						x ,
 						y,
-						this.base.consonant * group.cresize, Math.PI * (baserad - .4), Math.PI * (baserad - .1), "minor"),
-					stroke: renderOptions.get().backgroundcolor
+						currentbaseradius * currentresize * .85, Math.PI * (rad -1.925 + baserad), Math.PI * (rad -1.075 + baserad),"minor"
+					)
 				});
 			});
 		} else if (includes(this.base.scgtable.punctuation.contains, deco)) {
@@ -498,7 +517,7 @@ export class shermansDeco {
 	}
 }
 
-/**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR
+/**Copyright 2020-2023 Mightyfrong, erroronline1, ModisR
  *
  * This file is part of the Gallifreyan Translation Helper,
  * henceforth referred to as "the GTH".

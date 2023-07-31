@@ -162,7 +162,7 @@ let grouped = {
 				let current = sword[i],
 					currenttwo = sword[i] + sword[i + 1];
 				// add double latin characters to group
-				if (includes(["th", "gh", "ng", "qu", "wh", "sh", "ph", "ch"], currenttwo)) {
+				if (includes(["th", "gh", "ng", "qu", "wh", "sh", "nt", "ph", "ch", "nd"], currenttwo)) {
 					current = currenttwo;
 					i++;
 				}
@@ -334,7 +334,7 @@ function shermansDraw(ctx, letter, isNumber) {
 	});
 }
 
-/**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR
+/**Copyright 2020-2023 Mightyfrong, erroronline1, ModisR
  *
  * This file is part of the Gallifreyan Translation Helper,
  * henceforth referred to as "the GTH".

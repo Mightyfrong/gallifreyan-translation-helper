@@ -42,6 +42,7 @@ source: [Sherman's Circular Gallifreyan by Loren Sherman][SCG]
 - Numbers are supported, but only make sense with stacking enabled. Dot and comma both are valid decimal separators in number stacks.
 - Diacritics are supported according to the [official guide][SCG] for german umlauts, accent acute, accent grave, ñ and scandinavian å, ø and æ.
 - Decorator lines do not connect anywhere at the moment. This is as well due to the fact we did not come up with a reasonable algorithm to accomplish that yet, as random straight lines are neither easy to read nor aesthetically appealing.
+- update to the guide as of july 2023 included as far as possible. since this is official there will be no option to translate with older style. you'll have to separate joined letters yourself if needed. `ñ` has been omitted, since we currently don't know how to implement the updated modified decorator.
 
 ### Language controls
 - circular display
@@ -49,7 +50,8 @@ source: [Sherman's Circular Gallifreyan by Loren Sherman][SCG]
 - stacking
 
 ### Supported characters
-- `[a-z0-9.?!"'-,;:éèíìüúùæäáàåöóòøñ]`
+- `[a-z0-9.?!"'-,;:&éèíìüúùæäáàåöóòøâĉêĝĥîĵôŝûŵŷǎčěǧȟǐǰǩňǒřšǔž]`
+- `_` serves as the blank character (b-stem, one dot)
 - uppercase will be converted
 
 ### What To Expect
@@ -352,7 +354,7 @@ source: [Old High Gallifreyan by ODDISM][ODD]
 
 # Copyright & Licence Notice
 
-Copyright 2020-2021 [Mightyfrong][MF], [erroronline1][EOL1], [ModisR][MR]
+Copyright 2020-2023 [Mightyfrong][MF], [erroronline1][EOL1], [ModisR][MR]
  
 This file is part of the Gallifreyan Translation Helper,
 henceforth referred to as "the GTH".
