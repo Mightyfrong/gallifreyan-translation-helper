@@ -1,7 +1,7 @@
 export const consonant = 30; // radius of consonants
 export const vowel = Math.floor(consonant / 2); // radius of vowels
 
-/**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR
+/**Copyright 2020-2025 Mightyfrong, erroronline1, ModisR
  *
  * This file is part of the Gallifreyan Translation Helper,
  * henceforth referred to as "the GTH".

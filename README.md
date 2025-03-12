@@ -372,7 +372,7 @@ source: [Old High Gallifreyan by ODDISM][ODD]
 
 # Copyright & Licence Notice
 
-Copyright 2020-2023 [Mightyfrong][MF], [erroronline1][EOL1], [ModisR][MR]
+Copyright 2020-2025 [Mightyfrong][MF], [erroronline1][EOL1], [ModisR][MR]
  
 This file is part of the Gallifreyan Translation Helper,
 henceforth referred to as "the GTH".

@@ -135,7 +135,7 @@ function ccDraw(ctx, letter, grouped) {
 	if (deco.getDeco(letter)) deco.cctable[deco.getDeco(letter)].draw(ctx, canvas.currentX, canvas.currentY, consonant * grouped.resize, consonant, tilt);
 }
 
-/**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR
+/**Copyright 2020-2025 Mightyfrong, erroronline1, ModisR
  *
  * This file is part of the Gallifreyan Translation Helper,
  * henceforth referred to as "the GTH".

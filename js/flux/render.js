@@ -181,7 +181,7 @@ function fluxDraw(ctx, current) {
 	});
 }
 
-/**Copyright 2020-2021 Mightyfrong, erroronline1, ModisR
+/**Copyright 2020-2025 Mightyfrong, erroronline1, ModisR
  *
  * This file is part of the Gallifreyan Translation Helper,
  * henceforth referred to as "the GTH".
