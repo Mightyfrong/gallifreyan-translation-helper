@@ -11,6 +11,9 @@ import {
 	render as renderFlux
 } from './flux/render.js';
 import {
+	render as renderDiflux
+} from './diflux/render.js';
+import {
 	render as renderClockwork
 } from './clockwork/render.js';
 import {
@@ -77,7 +80,7 @@ const img = document.getElementById('output-img');
 // Init language selector & constants
 customElements.define('my-select', MySelect);
 const langs = langSelect.querySelectorAll('input');
-const [SHERMAN, COT, TARDIS, FLUX, CW, GC, CB, CC, TKG, DOT, ABB, DF, EVA, BPJM, ODD] = [...langs].map(input => input.value);
+const [SHERMAN, COT, TARDIS, FLUX, DIFLUX, CW, GC, CB, CC, TKG, DOT, ABB, DF, EVA, BPJM, ODD] = [...langs].map(input => input.value);
 
 // Event Callbacks
 export function translate(event) {
@@ -93,6 +96,7 @@ export function translate(event) {
 		[COT]: renderDoctorsCot,
 		[TARDIS]: renderTARDISConsole,
 		[FLUX]: renderFlux,
+		[DIFLUX]: renderDiflux,
 		[CW]: renderClockwork,
 		[GC]: renderGC,
 		[DOT]: renderDotscript,
@@ -131,6 +135,7 @@ export function activateControls(lang) {
 		[COT]: { active: ["keyoptions", "cot-keys"] },
 		[TARDIS]: {	rndrOpt: ["circular"] },
 		[FLUX]: { rndrOpt: ["circular"] },
+		[DIFLUX]: { rndrOpt: ["circular"], active: ["wip-notice"] },
 		[CW]: {	rndrOpt: ["circular", "stack"],	active: ["keyoptions", "clockwork-keys"] },
 		[GC]: {	rndrOpt: ["stacking"], active: ["gc-hint"] },
 		[CC]: {	rndrOpt: ["stack"] },

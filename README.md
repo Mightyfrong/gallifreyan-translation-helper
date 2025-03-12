@@ -128,6 +128,24 @@ source: [Flux Gallifreyan by u/lost_chm][FLUX]
 
 [^ back to top](#Supported-Scribes)
 
+# Diflux - Work in Progress
+
+source: Not published yet
+
+### Details
+- This module displays the words either in a circular fashion (not spiral though) or every glyph/stack in horizontal lines for ease of reading.
+- Q and X is excluded as defined by the script. Replacement must be made manually.
+- Decorator lines do not connect anywhere at the moment. This is as well due to the fact we did not come up with a reasonable algorithm to accomplish that yet, as random straight lines are neither easy to read nor aesthetically appealing.
+
+### Language controls
+- circular display
+
+### Supported characters
+- `[a-pr-wyz]`
+- uppercase will be converted
+
+[^ back to top](#Supported-Scribes)
+
 # Clockwork
 source: [Clockwork Gallifreyan by FYeahGallifreyan][CW]
 
