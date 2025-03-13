@@ -29,7 +29,7 @@ export function render(input, renderOptions, unsupportedCharacters, SVGRendering
 	option = renderOptions.get();
 
 	// convert input-string to word array
-	input = replacements(input).toLowerCase().trim().replace(/\s+/g, " ").split(" ");
+	input = replacements(input.toLowerCase()).trim().replace(/\s+/g, " ").split(" ");
 	let biggestWordCircle = 0;
 	glyphs.num = 0; // reset for new input
 
