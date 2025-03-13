@@ -71,7 +71,11 @@
 					</select>
 			</div>
 			<fieldset id="lang-controls">
-				<div id="wip-notice">This script is currently work in progress. Only basic functionality is provided</div>
+				<div id="wip-notice">
+				This script is currently work in progress<br> 
+				Functionality might be incomplete, wrong or change in the future<br>
+				Use only if you know what you are doing
+				</div>
 
 				<label class="custominput" for="circular"><input type="checkbox" id="circular" checked />circular <span
 						class="checkmark"></span></label>
@@ -79,9 +83,19 @@
 						class="checkmark"></span></label>
 				<label class="custominput" for="stacking"><input type="checkbox" id="stacking" checked />stacking <span
 						class="checkmark"></span></label>
+				<label class="custominput" for="casemark"><input type="checkbox" id="casemark" checked />case marks <span
+					class="checkmark"></span></label>
 				<label class="custominput" for="stack">Maximum stacked <input type="range" min="1" max="7" step="1" id="stack"
 						onchange="this.nextSibling.innerHTML=this.value" /><span>&nbsp;&nbsp;</span></label>
 
+				<div id="diflux-alphabets">
+					<label class="custominput" for="df-basic"><input type="radio" name="dfalphabet"
+							id="df-basic" value="basic" checked />Latin <span class="checkmark"></span></label>
+					<label class="custominput" for="df-extended"><input type="radio" name="dfalphabet"
+							id="df-extended" value="extended" />Extended Latin <span class="checkmark"></span></label>
+					<label class="custominput" for="df-japanese"><input type="radio" name="dfalphabet"
+						id="df-japanese" value="japanese" />Japanese <span class="checkmark"></span></label>
+				</div>
 				<div id="keyoptions">
 					<label class="custominput" for="ipakeys"><input type="radio" name="keyboard" id="ipakeys"
 							checked />IPA keyboard <span class="checkmark"></span></label>

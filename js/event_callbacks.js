@@ -135,7 +135,7 @@ export function activateControls(lang) {
 		[COT]: { active: ["keyoptions", "cot-keys"] },
 		[TARDIS]: {	rndrOpt: ["circular"] },
 		[FLUX]: { rndrOpt: ["circular"] },
-		[DIFLUX]: { rndrOpt: ["circular"], active: ["wip-notice"] },
+		[DIFLUX]: { rndrOpt: ["circular", "casemark", "dfalphabet"], active: ["wip-notice"] },
 		[CW]: {	rndrOpt: ["circular", "stack"],	active: ["keyoptions", "clockwork-keys"] },
 		[GC]: {	rndrOpt: ["stacking"], active: ["gc-hint"] },
 		[CC]: {	rndrOpt: ["stack"] },

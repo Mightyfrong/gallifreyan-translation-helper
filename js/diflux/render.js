@@ -23,13 +23,16 @@ const base = new difluxBase(consonant, decorator);
 const deco = new difluxDeco(base);
 
 let clip = false;
+let invClip = false;
 
 export function render(input, renderOptions, unsupportedCharacters, SVGRenderingContext) {
 	//retrieve options and make them compact
 	option = renderOptions.get();
 
 	// convert input-string to word array
-	input = replacements(input).toLowerCase().trim().replace(/\s+/g, " ").split(" ");
+	if(!option.casemark) input = input.toLowerCase();
+	input = replacements(input).trim().replace(/\s+/g, " ").split(" ");
+
 	let biggestWordCircle = 0;
 	glyphs.num = 0; // reset for new input
 
@@ -60,15 +63,26 @@ export function render(input, renderOptions, unsupportedCharacters, SVGRendering
 
 	input.forEach(word => { // loop through sentence
 		let wordlength = word.length;
+		if (option.dfalphabet == "extended") {
+			let doubleLetters = word.match(/(ss|SS|ch|CH|gh|GH|wh|WH|ph|PH|ll|LL)/g); //lower and upper but not mixed cases arw considered as double letters
+			if (doubleLetters != null) wordlength -= doubleLetters.length;
+		}
+		let j = 0;
 		for (let i = 0; i < word.length; i++) { // loop through words
-			let current = word[i]
+			let current = word[i],
+				currenttwo = word[i] + word[i + 1];
+			if (option.dfalphabet == "extended" && !isMixedCase(currenttwo) && includes(["ss", "ch", "gh", "wh", "ph", "ll"], currenttwo.toLowerCase())) {
+				current = currenttwo;
+				i++;
+			}
 			// draw
 			difluxDraw(ctx, {
 				char: current,
 				wordlength: wordlength,
-				index: i
+				index: j
 			});
-			if (!base.getBase(current)) unsupportedCharacters.add(current);
+			j++;
+			if (!base.getBase(current, option.dfalphabet)) unsupportedCharacters.add(current);
 		}
 		difluxDraw(ctx, {
 			char: " ",
@@ -85,18 +99,13 @@ export function render(input, renderOptions, unsupportedCharacters, SVGRendering
 
 //script specific replacements
 function replacements(word) {
-	return word; //TODO: Extended Latin
-	let cword = "";
-	for (let i = 0; i < word.length; i++) { // iterate through word
-		if (word[i] == "c") {
-			if (word[i + 1] == "h") {
-				cword += "c";
-			} // ch is still allowed
-			else if (includes(["e", "i", "y"], word[i + 1])) cword += "s";
-			else cword += "k"; // end of the word
-		} else cword += word[i];
+	// No replacements for basic; q, x rules are too complex
+	if (option.dfalphabet == "extended") {
+		word = word.replace(/ng/g, "ŋ");
+		word = word.replace(/sh/g, "ʃ");
+		word = word.replace(/th/g, "þ");
 	}
-	return cword;
+	return word;
 }
 
 // draw instructions for base + decoration
@@ -105,7 +114,7 @@ function difluxDraw(ctx, current) {
 		// position pointer
 		canvas = dimension.carriageReturn(canvas, glyphs, (option.circular ? .5 : 1));
 	}
-	let currentbase = base.getBase(current.char);
+	let currentbase = base.getBase(current.char, option.dfalphabet);
 	// rotation of charactergroups in regards of circular display
 	let rad = 0,
 		wordCircleRadius = glyphs.height;
@@ -119,6 +128,15 @@ function difluxDraw(ctx, current) {
 		r: wordCircleRadius
 	});
 	current.clip = clip;
+	if (!current.index || !option.circular) {
+		invClip = ctx.maskInit();
+		ctx.maskPath(invClip.id, 'circle', {
+			cx: canvas.currentX,
+			cy: canvas.currentY,
+			r: wordCircleRadius
+		});
+	}
+	current.invClip = invClip;
 
 	if (currentbase) { // works only for defined characters
 		// define basic positional arguments
@@ -134,7 +152,7 @@ function difluxDraw(ctx, current) {
 		if (option.circular) {
 			angle = 1 / current.wordlength;
 		}
-		if (includes([ "e", "a", "i"], currentbase)) {
+		if (includes([ "disk", "omega", "arc", "antiomega", "antiarc"], currentbase)) {
 			mask = ctx.maskInit();
 			ctx.maskPath(mask.id, 'circle', {
 				cx: canvas.currentX + center.x,
@@ -171,6 +189,10 @@ function difluxDraw(ctx, current) {
 		x: canvas.currentX - (wordCircleRadius + consonant * 2) * Math.sin(Math.PI * rad),
 		y: canvas.currentY + (wordCircleRadius + consonant * 2) * Math.cos(Math.PI * rad) + option.fontsize * .25
 	});
+}
+
+function isMixedCase(word) {
+	return word !== word.toLowerCase() && word !== word.toUpperCase();
 }
 
 /**Copyright 2020-2025 Mightyfrong, erroronline1, ModisR

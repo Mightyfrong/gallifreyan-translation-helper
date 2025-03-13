@@ -134,15 +134,22 @@ source: Not published yet
 
 ### Details
 - This module displays the words either in a circular fashion (not spiral though) or every glyph/stack in horizontal lines for ease of reading.
-- Q and X is excluded as defined by the script. Replacement must be made manually.
+- In basic Latin mode Q and X is excluded as defined by the script. Replacement must be made manually.
+- In extended Latin mode ng, sh, and th is converted to ŋ, ʃ, and þ as defined by the script.
 - Decorator lines do not connect anywhere at the moment. This is as well due to the fact we did not come up with a reasonable algorithm to accomplish that yet, as random straight lines are neither easy to read nor aesthetically appealing.
 
 ### Language controls
 - circular display
 
 ### Supported characters
-- `[a-pr-wyz]`
-- uppercase will be converted
+- Latin
+  - `[a-pr-wyz]`
+  - additionally `[A-PR-WYZ]` when using case marks
+- Extended Latin
+  - `[a-zəæıßŋƣſʃþȜœƿð#@&]`
+  - additionally `[A-Z]` when using case marks
+- Japanese
+  - `[あ-ん]`
 
 [^ back to top](#Supported-Scribes)
 

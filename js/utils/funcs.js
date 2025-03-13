@@ -90,7 +90,8 @@ export const renderOptions = {
 	permavalue: ["foregroundcolor", "backgroundcolor"],
 	value: ["stack"],
 	option: [],
-	checked: ["circular", "convertc", "stacking"],
+	checked: ["circular", "convertc", "stacking", "casemark"],
+	radio: ["dfalphabet"], //radio name not div id
 	display: (selected = []) => {
 		renderOptions.value.forEach(id => {
 			document.getElementById(id).parentElement.style.display = (selected.indexOf(id) > -1 ? 'initial' : 'none');
@@ -104,6 +105,11 @@ export const renderOptions = {
 		});
 		renderOptions.checked.forEach(id => {
 			document.getElementById(id).parentElement.style.display = (selected.indexOf(id) > -1 ? 'initial' : 'none');
+		}, {
+			selected: selected
+		});
+		renderOptions.radio.forEach(name => {
+			document.getElementsByName(name)[0].parentElement.parentElement.style.display = (selected.indexOf(name) > -1 ? 'block' : 'none');
 		}, {
 			selected: selected
 		});
@@ -121,6 +127,9 @@ export const renderOptions = {
 		});
 		renderOptions.checked.forEach(id => {
 			output[id] = document.getElementById(id).parentElement.style.display == 'none' ? false : (document.getElementById(id).checked ? true : false);
+		});
+		renderOptions.radio.forEach(name => {
+			output[name] = document.getElementsByName(name)[0].parentElement.style.display == 'none' ? false : document.querySelector('input[name="' + name + '"]:checked').value;
 		});
 
 		output.fontsize = parseFloat(getComputedStyle(document.body, null).fontSize) || 16;
