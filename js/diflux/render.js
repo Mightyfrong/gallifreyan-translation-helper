@@ -4,11 +4,13 @@ import {
 } from '../main.js';
 import {
 	consonant,
-	decorator
+	decorator,
+	yoonScale
 } from './setup.js';
 import {
 	difluxBase,
-	difluxDeco
+	difluxDeco,
+	isYoon
 } from './glyphs.js';
 
 let canvas = {}; // canvas properties
@@ -19,7 +21,7 @@ let glyphs = { // glyph dimensions object
 	height: 0
 };
 
-const base = new difluxBase(consonant, decorator);
+const base = new difluxBase(consonant, decorator, yoonScale);
 const deco = new difluxDeco(base);
 
 let clip = false;
@@ -142,16 +144,18 @@ function difluxDraw(ctx, current) {
 	current.invClip = invClip;
 
 	if (currentbase) { // works only for defined characters
+		let yoon = isYoon(current.char);
+		current.yoon = yoon;
 		// define basic positional arguments
 		let center = { // relative center of base
-			x: -1 * (wordCircleRadius * Math.sin(Math.PI * rad) + base.difluxtable[currentbase].centerYoffset * Math.sin(Math.PI * rad)),
-			y: wordCircleRadius * Math.cos(Math.PI * rad) + base.difluxtable[currentbase].centerYoffset * Math.cos(Math.PI * rad)
+			x: -1 * (wordCircleRadius * Math.sin(Math.PI * rad) + base.difluxtable[currentbase].centerYoffset * Math.sin(Math.PI * rad) * (yoon ? yoonScale : 1)) ,
+			y: wordCircleRadius * Math.cos(Math.PI * rad) + base.difluxtable[currentbase].centerYoffset * Math.cos(Math.PI * rad) * (yoon ? yoonScale : 1)
 		};
 
 		// draw base and sentence line if applicable
 		let angle = .068,
 			mask = false,
-			r = consonant;
+			r = yoon ? consonant * yoonScale : consonant;
 		if (option.circular) {
 			angle = 1 / current.wordlength;
 		}
@@ -179,12 +183,13 @@ function difluxDraw(ctx, current) {
 		current.decorators = decorators; // base needs mask if dicritic base is set
 		// draw base
 		base.difluxtable[currentbase].draw(ctx, canvas.currentX + center.x, canvas.currentY + center.y, r, rad, current);
+		if (yoon) base.difluxtable[currentbase].draw(ctx, canvas.currentX + center.x, canvas.currentY + center.y, r*1.15, rad, current);
 
 		// draw decorators
 		if (decorators) {
 			decorators.forEach(decorator => {
 				if (decorators)
-					deco.draw(ctx, decorator, canvas.currentX + center.x, canvas.currentY + center.y, currentbase, rad);
+					deco.draw(ctx, decorator, canvas.currentX + center.x, canvas.currentY + center.y, currentbase, rad, current);
 			});
 		}
 	}

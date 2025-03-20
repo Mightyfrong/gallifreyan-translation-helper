@@ -1,5 +1,6 @@
 export const consonant = 30; // radius of consonants
-export const decorator = Math.floor(consonant / 5); // radius of circular decorators
+export const decorator = Math.floor(consonant / 5);
+export const yoonScale = .7 // radius of circular decorators
 
 /**Copyright 2020-2025 Mightyfrong, erroronline1, ModisR
  *

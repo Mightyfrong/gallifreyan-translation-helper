@@ -143,13 +143,13 @@ source: Not published yet
 
 ### Supported characters
 - Latin
-  - `[a-pr-wyz]`
+  - `[a-pr-wyz]` and relevant diacritics
   - additionally `[A-PR-WYZ]` when using case marks
 - Extended Latin
-  - `[a-zəæıßŋƣſʃþȜœƿð#@&]`
+  - `[a-zəæıßŋƣſʃþȜœƿð#@&]` and relevant diacritics
   - additionally `[A-Z]` when using case marks
 - Japanese
-  - `[あ-ん]`
+  - `[あ-んア-ン]`
 
 [^ back to top](#Supported-Scribes)
 

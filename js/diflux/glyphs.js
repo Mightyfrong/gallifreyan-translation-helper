@@ -4,9 +4,10 @@ import {
 
 //specify base for every letter, assign base to latin characters and specify geometric properties
 export class difluxBase {
-	constructor(consonant, decorator) {
+	constructor(consonant, decorator, yoonScale) {
 		this.consonant = consonant;
 		this.decorator = decorator;
+		this.yoonScale = yoonScale;
 		this.difluxtable = {
 			none: {
 				contains: [".", ",", "!", "?", ";", ":", "\u00b7"],
@@ -28,10 +29,10 @@ export class difluxBase {
 				contains_extended: ["e", "s", "r", "b", "y", "k", "m", "z", "$", "¥", "€"],
 				contains_japanese: ["あ", "い", "う", "え", "お"],
 				centerYoffset: 0,
-				radialPlacement: function (rad = .25) {
+				radialPlacement: function (rad = .25, yoon = false) {
 					return {
-						x: consonant * Math.cos(Math.PI * (.5 + rad)),
-						y: -consonant * Math.sin(Math.PI * (.5 + rad))
+						x: consonant * Math.cos(Math.PI * (.5 + rad)) * (yoon ? yoonScale : 1),
+						y: -consonant * Math.sin(Math.PI * (.5 + rad)) * (yoon ? yoonScale : 1)
 					};
 				},
 				draw: function (ctx, x, y, r, rad = 0, current) {
@@ -144,10 +145,10 @@ export class difluxBase {
 				contains_extended: ["æ", "ŋ", "ʃ", "ch", "wh", "ƿ", "ð", "@"],
 				contains_japanese: ["や", "ゆ", "よ"],
 				centerYoffset: -consonant * .9,
-				radialPlacement: function (rad = .25, item = "vo") {
+				radialPlacement: function (rad = .25, yoon = false) {
 					return {
-						x: consonant * Math.cos(Math.PI * (.5 + rad)),
-						y: -consonant * Math.sin(Math.PI * (.5 + rad))
+						x: consonant * Math.cos(Math.PI * (.5 + rad)) * (yoon ? yoonScale : 1),
+						y: -consonant * Math.sin(Math.PI * (.5 + rad)) * (yoon ? yoonScale : 1)
 					};
 				},
 				draw: function (ctx, x, y, r, rad = 0, current) {
@@ -162,7 +163,7 @@ export class difluxBase {
 						});
 					}
 					ctx.drawShape('path', 1, {
-						d: ctx.circularArc(x, y, r, (.65 + rad + r * -1) * Math.PI, (.35 + rad - r * -1) * Math.PI, "major"),
+						d: ctx.circularArc(x, y, r, (.65 + rad) * Math.PI, (.35 + rad) * Math.PI, "major"),
 						clipPath: current.clip,
 						mask: mask.url
 					});
@@ -202,10 +203,10 @@ export class difluxBase {
 				contains_extended: [],  
 				contains_japanese: ["た", "ち", "つ", "て", "と"],
 				centerYoffset: -consonant * 1.4,
-				radialPlacement: function (rad = .25) {
+				radialPlacement: function (rad = .25, yoon = false) {
 					return {
-						x: consonant * Math.cos(Math.PI * (.5 + rad)),
-						y: -consonant * Math.sin(Math.PI * (.5 + rad))
+						x: consonant * Math.cos(Math.PI * (.5 + rad)) * (yoon ? yoonScale : 1),
+						y: -consonant * Math.sin(Math.PI * (.5 + rad)) * (yoon ? yoonScale : 1)
 					};
 				},
 				draw: function (ctx, x, y, r, rad = 0, current) {
@@ -352,7 +353,7 @@ export class difluxBase {
 		Object.keys(this.difluxtable).forEach(row => {
 			if (alphabet == "basic" && includes(this.difluxtable[row].contains, char)) rtrn = row;
 			if (alphabet == "extended" && includes(this.difluxtable[row].contains_extended, char)) rtrn = row;
-			if (alphabet == "japanese" && includes(this.difluxtable[row].contains_japanese, char)) rtrn = row;
+			if (alphabet == "japanese" && includes(this.difluxtable[row].contains_japanese, yoonToBig(toHiragana(char)))) rtrn = row;
 		});
 		return rtrn;
 	}
@@ -398,7 +399,7 @@ export class difluxDeco {
 				shapes: [["circle", 1], ["dot", .4]]
 			},
 			"dc_base": {
-				contains: ["\u0304", "\u0331", "\u0303", "\u0301", "\u0300", "\u030b", "\u030c", "\u0302", "\u0306", "\u030a", "\u0307", "\u0323", "\u0308", "\u00b7", "\u0327", "\u0328", "$", "£", "€", "¥", "¢", "ø"],
+				contains: ["\u0304", "\u0331", "\u0303", "\u0301", "\u0300", "\u030b", "\u030c", "\u0302", "\u0306", "\u030a", "\u0307", "\u0323", "\u0308", "\u00b7", "\u0327", "\u0328", "$", "£", "€", "¥", "¢", "ø", "\u309a"],
 				radiants: [.2],
 				fromto: [1],
 				shapes: [["circle", 1.5]]
@@ -482,7 +483,7 @@ export class difluxDeco {
 				shapes: [["dot", .4]]
 			},
 			"dc_od": {
-				contains: ["\u030a", "\u0307", "\u0308", "$", "¢", "ø"],
+				contains: ["\u030a", "\u0307", "\u0308", "$", "¢", "ø", "\u309a"],
 				radiants: [.2],
 				fromto: [1.3],
 				shapes: [["dot", .4]]
@@ -547,37 +548,44 @@ export class difluxDeco {
 				fromto: [1.6],
 				shapes: [["circle", 1.5]]
 			},
+			"dakuten": {
+				contains: ["\u3099"],
+				radiants: [.18, .22],
+				fromto: [.8, 1.2],
+				shapes: [["line"]]
+			},
 			
 		}
 	}
-	draw(ctx, deco, x, y, currentbase, baserad) {
+	draw(ctx, deco, x, y, currentbase, baserad, current) {
 		baserad += .5;
+		let yoon = current.yoon;
 		this.difluxtable[deco].radiants.forEach(rad => {
 			let fromto = this.difluxtable[deco].fromto;
 			this.difluxtable[deco].shapes.forEach(shape => {
 				if (shape[0] == "circle") {
 					ctx.drawShape('circle', 1, {
-						cx: x + this.base.difluxtable[currentbase].radialPlacement(rad - baserad).x * fromto[0],
-						cy: y + this.base.difluxtable[currentbase].radialPlacement(rad - baserad).y * fromto[0],
-						r: this.base.decorator * shape[1]
+						cx: x + this.base.difluxtable[currentbase].radialPlacement(rad - baserad, yoon).x * fromto[0],
+						cy: y + this.base.difluxtable[currentbase].radialPlacement(rad - baserad, yoon).y * fromto[0],
+						r: this.base.decorator * shape[1] * (yoon?this.base.yoonScale:1)
 					});
 				} else if (shape[0] == "dot") {
 					ctx.drawShape('circle', 0, {
-						cx: x + this.base.difluxtable[currentbase].radialPlacement(rad - baserad).x * fromto[0],
-						cy: y + this.base.difluxtable[currentbase].radialPlacement(rad - baserad).y * fromto[0],
-						r: this.base.decorator * shape[1]
+						cx: x + this.base.difluxtable[currentbase].radialPlacement(rad - baserad, yoon).x * fromto[0],
+						cy: y + this.base.difluxtable[currentbase].radialPlacement(rad - baserad, yoon).y * fromto[0],
+						r: this.base.decorator * shape[1] * (yoon?this.base.yoonScale:1)
 					});
 				} else if (shape[0] == "line") {
 					ctx.drawShape('line', 1, {
-						x1: x + this.base.difluxtable[currentbase].radialPlacement(rad - baserad).x * fromto[0],
-						y1: y + this.base.difluxtable[currentbase].radialPlacement(rad - baserad).y * fromto[0],
-						x2: x + this.base.difluxtable[currentbase].radialPlacement(rad - baserad).x * fromto[1],
-						y2: y + this.base.difluxtable[currentbase].radialPlacement(rad - baserad).y * fromto[1]
+						x1: x + this.base.difluxtable[currentbase].radialPlacement(rad - baserad, yoon).x * fromto[0],
+						y1: y + this.base.difluxtable[currentbase].radialPlacement(rad - baserad, yoon).y * fromto[0],
+						x2: x + this.base.difluxtable[currentbase].radialPlacement(rad - baserad, yoon).x * fromto[1],
+						y2: y + this.base.difluxtable[currentbase].radialPlacement(rad - baserad, yoon).y * fromto[1]
 					});
 				} else if (shape[0] == "arc") {
-					let cx = x + this.base.difluxtable[currentbase].radialPlacement(rad - baserad).x * fromto[0];
-					let cy = y + this.base.difluxtable[currentbase].radialPlacement(rad - baserad).y * fromto[0];
-					let r = this.base.decorator * shape[1];
+					let cx = x + this.base.difluxtable[currentbase].radialPlacement(rad - baserad, yoon).x * fromto[0];
+					let cy = y + this.base.difluxtable[currentbase].radialPlacement(rad - baserad, yoon).y * fromto[0];
+					let r = this.base.decorator * shape[1] * (yoon?this.base.yoonScale:1)
 					ctx.drawShape('path', 1, {
 						d: ctx.circularArc(cx, cy, r, (shape[2] - rad + baserad) * Math.PI, (shape[3] - rad + baserad) * Math.PI, "minor"),
 					});
@@ -591,6 +599,11 @@ export class difluxDeco {
 		char = char.toLowerCase();
 		let base = getDiacritic(char, true);
 		let diacritic = getDiacritic(char);
+		if (isKatakana(base)) {
+			rtrn.push("u");
+			base = toHiragana(base);
+		}
+		base = yoonToBig(base);
 		Object.keys(this.difluxtable).forEach(row => {
 			if (includes(this.difluxtable[row].contains, base)) rtrn.push(row);
 			if (includes(this.difluxtable[row].contains, diacritic)) rtrn.push(row);
@@ -613,6 +626,37 @@ function getDiacritic(char, base=false) {
 		return base?normal[0]:"";
 	}
 }
+
+let hiragana = ["あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ", "さ", "し", "す", "せ", "そ", "た", "ち", "つ", "て", "と", "な", "に", "ぬ", "ね", "の", "は", "ひ", "ふ", "へ", "ほ", "ま", "み", "む", "め", "も", "や", "ゆ", "よ", "ら", "り", "る", "れ", "ろ", "わ", "を", "ん"];
+let hiraganaYoon = ["ゃ", "ゅ", "ょ", "ぁ", "ぃ", "ぅ", "ぇ", "ぉ", "っ"];
+let hiraganaYoonBig = ["や", "ゆ", "よ", "あ", "い", "う", "え", "お", "つ"];
+let katakana = ["ア", "イ", "ウ", "エ", "オ", "カ", "キ", "ク", "ケ", "コ", "サ", "シ", "ス", "セ", "ソ", "タ", "チ", "ツ", "テ", "ト", "ナ", "ニ", "ヌ", "ネ", "ノ", "ハ", "ヒ", "フ", "ヘ", "ホ", "マ", "ミ", "ム", "メ", "モ", "ヤ", "ユ", "ヨ", "ラ", "リ", "ル", "レ", "ロ", "ワ", "ヲ", "ン"];
+let katakanaYoon = ["ャ", "ュ", "ョ", "ァ", "ィ", "ゥ", "ェ", "ォ", "ッ"];
+
+function toHiragana(char) {
+	let index = katakana.indexOf(char);
+	if (index != -1) return hiragana[index];
+	index = katakanaYoon.indexOf(char);
+	if (index != -1) return hiraganaYoon[index];
+	return char;
+}
+
+function isKatakana(char) {
+	return katakana.includes(char) || katakanaYoon.includes(char);
+}
+
+export function isYoon(char) {
+	return hiraganaYoon.includes(char) || katakanaYoon.includes(char);
+}
+
+function yoonToBig(char) {
+	let index = hiraganaYoon.indexOf(char);
+	if (index != -1) return hiraganaYoonBig[index];
+	index = katakanaYoon.indexOf(char);
+	if (index != -1) return hiraganaYoonBig[index];
+	return char;
+}
+	
 
 /**Copyright 2020-2025 Mightyfrong, erroronline1, ModisR
  *
