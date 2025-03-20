@@ -31,7 +31,7 @@ export function render(input, renderOptions, unsupportedCharacters, SVGRendering
 
 	// convert input-string to word array
 	if(!option.casemark) input = input.toLowerCase();
-	input = replacements(input).trim().replace(/\s+/g, " ").split(" ");
+	input = replacements(input).normalize("NFC").trim().replace(/\s+/g, " ").split(" ");
 
 	let biggestWordCircle = 0;
 	glyphs.num = 0; // reset for new input
@@ -63,6 +63,8 @@ export function render(input, renderOptions, unsupportedCharacters, SVGRendering
 
 	input.forEach(word => { // loop through sentence
 		let wordlength = word.length;
+		let diacriticsCount =  word.match(/(\u0304|\u0331|\u030b|\u030a)/g); //diacritics that are not recognized as a single character
+		if (diacriticsCount != null) wordlength -= diacriticsCount.length;
 		if (option.dfalphabet == "extended") {
 			let doubleLetters = word.match(/(ss|SS|ch|CH|gh|GH|wh|WH|ph|PH|ll|LL)/g); //lower and upper but not mixed cases arw considered as double letters
 			if (doubleLetters != null) wordlength -= doubleLetters.length;
@@ -71,7 +73,8 @@ export function render(input, renderOptions, unsupportedCharacters, SVGRendering
 		for (let i = 0; i < word.length; i++) { // loop through words
 			let current = word[i],
 				currenttwo = word[i] + word[i + 1];
-			if (option.dfalphabet == "extended" && !isMixedCase(currenttwo) && includes(["ss", "ch", "gh", "wh", "ph", "ll"], currenttwo.toLowerCase())) {
+			if ((option.dfalphabet == "extended" && currenttwo.match(/(ss|SS|ch|CH|gh|GH|wh|WH|ph|PH|ll|LL)/g))
+				|| currenttwo.match(/[\u0304|\u0331|\u030b|\u030a]/g)) { //diacritics that are not recognized as a single character
 				current = currenttwo;
 				i++;
 			}
@@ -172,11 +175,12 @@ function difluxDraw(ctx, current) {
 			mask: mask.url
 		});
 
+		let decorators = deco.getDeco(current.char);
+		current.decorators = decorators; // base needs mask if dicritic base is set
 		// draw base
 		base.difluxtable[currentbase].draw(ctx, canvas.currentX + center.x, canvas.currentY + center.y, r, rad, current);
 
 		// draw decorators
-		let decorators = deco.getDeco(current.char);
 		if (decorators) {
 			decorators.forEach(decorator => {
 				if (decorators)
