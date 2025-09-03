@@ -53,10 +53,10 @@ let catchemall = [ // more or less static
 	"./assets/favicon/favicon.ico", // Favicon, IE and fallback for other browsers
 	"./assets/favicon/favicon-16x16.png", // Favicon, default
 	"./assets/favicon/favicon-32x32.png", // Favicon, Safari on Mac OS
-	"./assets/favicon/manifest.json", // Manifest file
-	"./assets/favicon/maskable_icon.png", // Favicon, maskable https://web.dev/maskable-icon
+	//"./assets/favicon/manifest.json", // Manifest file
+	//"./assets/favicon/maskable_icon.png", // Favicon, maskable https://web.dev/maskable-icon
 	"./assets/favicon/mstile-70x70.png", // Favicon, Windows 8 / IE11
-	"./assets/favicon/mstile-144x144.png", // Favicon, Windows 8 / IE10
+	//"./assets/favicon/mstile-144x144.png", // Favicon, Windows 8 / IE10
 	"./assets/favicon/mstile-150x150.png", // Favicon, Windows 8 / IE11
 	"./assets/favicon/mstile-310x150.png", // Favicon, Windows 8 / IE11
 	"./assets/favicon/mstile-310x310.png", // Favicon, Windows 8 / IE11
@@ -65,7 +65,7 @@ let catchemall = [ // more or less static
 	// images
 	"./assets/star_field.png",
 	"./assets/time_lord_glow.svg",
-	"./assets/time_lord_silhouette",
+	"./assets/time_lord_silhouette.svg",
 
 	// html and css
 	"./index.html", // Main HTML file
