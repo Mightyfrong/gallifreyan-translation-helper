@@ -1,4 +1,4 @@
-const cacheName = "20250905_0002"; // Change value to force update
+const cacheName = "20250916_1300"; // Change value to force update
 
 const trinities = [ // have a glyphs-, setup- and render.js-file
 	"bpjmarriott",
