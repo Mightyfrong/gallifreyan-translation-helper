@@ -156,7 +156,7 @@ let grouped = {
 					// add vowels if none or the same, consonants of same base, numbers to former group if selected
 					let former = group[group.length - 1][group[group.length - 1].length - 1];
 					if (
-						( /*vowels */ includes(["ve", "va", "vo"], base.getBase(current)) && (!includes(["ve", "va", "vo", "number"], base.getBase(former)) || base.getBase(current) == base.getBase(former))) ||
+						( /*vowels */ includes(["ve", "va", "vo"], base.getBase(current)) && (!includes(["ve", "va", "vo", "number"], base.getBase(former)) || current === former)) ||
 						( /*same base consonant*/ option.combine && !includes([false, "punctuation", "ve", "va", "vo", "number"], base.getBase(current)) && group[group.length - 1].length > 0 && base.getBase(current) == base.getBase(former)) ||
 						( /*numbers, data is of string type here*/ includes("-1234567890,.", current) && group[group.length - 1].length > 0 && includes("-1234567890,.", former) && !(includes("-.,", current) && includes("-.,", former)))
 					){
