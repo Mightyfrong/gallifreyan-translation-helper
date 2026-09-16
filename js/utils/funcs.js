@@ -90,7 +90,7 @@ export const renderOptions = {
 	permavalue: ["foregroundcolor", "backgroundcolor"],
 	value: ["stack"],
 	option: [],
-	checked: ["circular", "convertc", "stacking", "casemark"],
+	checked: ["circular", "convertc", "stacking", "casemark", "combine"],
 	radio: ["dfalphabet"], //radio name not div id
 	display: (selected = []) => {
 		renderOptions.value.forEach(id => {
