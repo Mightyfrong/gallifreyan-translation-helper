@@ -102,7 +102,6 @@ export class shermansBase {
 					}
 				},
 				draw: function (ctx, x, y, r, rad = 0, group, letter) {
-					console.log('va draw - letter:', letter, 'letter === "я":', letter === "я");
     
 					if (letter === "я") {
 						// Полумесяц
