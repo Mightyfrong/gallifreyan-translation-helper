@@ -152,23 +152,39 @@ let grouped = {
 			for (let i = 0; i < sword.length; i++) { // iterate through word
 				let current = sword[i],
 					currenttwo = sword[i] + sword[i + 1];
-				if (option.stacking && group.length > 0) {
-					// add vowels if none or the same, consonants of same base, numbers to former group if selected
+				if ((option.stacking || option.combine) && group.length > 0) {
 					let former = group[group.length - 1][group[group.length - 1].length - 1];
-					if (
-						( /*vowels */ includes(["ve", "va", "vo"], base.getBase(current)) && (!includes(["ve", "va", "vo", "number"], base.getBase(former)) || current === former)) ||
-						( /*same base consonant*/ option.combine && !includes([false, "punctuation", "ve", "va", "vo", "number"], base.getBase(current)) && group[group.length - 1].length > 0 && base.getBase(current) == base.getBase(former)) ||
-						( /*numbers, data is of string type here*/ includes("-1234567890,.", current) && group[group.length - 1].length > 0 && includes("-1234567890,.", former) && !(includes("-.,", current) && includes("-.,", former)))
-					){
-						if(base.getBase(former))
-							group[group.length - 1].push(current)
-						else // create/add to current group
+					let currentBase = base.getBase(current);
+					let formerBase = base.getBase(former);
+
+					// 1. Гласная к согласной (stacking)
+					let vowelToConsonant = option.stacking &&
+						includes(["ve", "va", "vo"], currentBase) &&
+						!includes(["ve", "va", "vo", "number", false, "punctuation"], formerBase);
+
+					// 2. Согласная к согласной той же базы (combine)
+					let consonantToConsonant = option.combine &&
+						!includes([false, "punctuation", "ve", "va", "vo", "number"], currentBase) &&
+						currentBase === formerBase &&
+						group[group.length - 1].length > 0;
+
+					// 3. Числа
+					let numbers = includes("-1234567890,.", current) &&
+						group[group.length - 1].length > 0 &&
+						includes("-1234567890,.", former) &&
+						!(includes("-.,", current) && includes("-.,", former));
+
+					if (vowelToConsonant || consonantToConsonant || numbers) {
+						if (base.getBase(former))
+							group[group.length - 1].push(current);
+						else
 							group.push([current]);
-					}	
-					else // create/add to current group
+					} else {
 						group.push([current]);
-				} else // create/add to current group
+					}
+				} else {
 					group.push([current]);
+				}
 			}
 			// add control characters to the number group(s)
 			for (let i = 0; i < group.length; i++) {
