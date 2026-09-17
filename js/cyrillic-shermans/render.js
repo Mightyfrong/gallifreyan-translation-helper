@@ -156,10 +156,12 @@ let grouped = {
 					let former = group[group.length - 1][group[group.length - 1].length - 1];
 					let currentBase = base.getBase(current);
 					let formerBase = base.getBase(former);
-					console.log('current:', current, 'base:', currentBase);
-    				console.log('former:', former, 'base:', formerBase);
-   					console.log('option.combine:', option.combine);
-    				console.log('option.stacking:', option.stacking);
+ 					   console.log('---');
+						console.log('current:', current, 'base:', currentBase);
+					    console.log('former:', former, 'base:', formerBase);
+					    console.log('option.combine:', option.combine);
+					    console.log('option.stacking:', option.stacking);
+					    console.log('currentBase === formerBase:', currentBase === formerBase);
 
 					// 1. Гласная к согласной (stacking)
 					let vowelToConsonant = option.stacking &&
