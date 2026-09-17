@@ -2,6 +2,9 @@ import {
 	render as renderShermans
 } from './shermans/render.js';
 import {
+	render as renderCyrillicShermans
+} from './cyrillic-shermans/render.js';
+import {
 	render as renderTARDISConsole
 } from './tardisconsole2/render.js';
 import {
@@ -80,7 +83,7 @@ const img = document.getElementById('output-img');
 // Init language selector & constants
 customElements.define('my-select', MySelect);
 const langs = langSelect.querySelectorAll('input');
-const [SHERMAN, COT, TARDIS, FLUX, DIFLUX, CW, GC, CB, CC, TKG, DOT, ABB, DF, EVA, BPJM, ODD] = [...langs].map(input => input.value);
+const [SHERMAN, CYRILLIC, COT, TARDIS, FLUX, DIFLUX, CW, GC, CB, CC, TKG, DOT, ABB, DF, EVA, BPJM, ODD] = [...langs].map(input => input.value);
 
 // Event Callbacks
 export function translate(event) {
@@ -93,6 +96,7 @@ export function translate(event) {
 
 	const langsDict = {
 		[SHERMAN]: renderShermans,
+		[CYRILLIC]: renderCyrillicShermans,
 		[COT]: renderDoctorsCot,
 		[TARDIS]: renderTARDISConsole,
 		[FLUX]: renderFlux,
@@ -132,6 +136,7 @@ export function selectLang(event) {
 export function activateControls(lang) {
 	const langsDict = {
 		[SHERMAN]: { rndrOpt: ["circular", "convertc", "stacking"] },
+		[CYRILLIC]: { rndrOpt: ["circular", "stacking", "combine"] },
 		[COT]: { active: ["keyoptions", "cot-keys"] },
 		[TARDIS]: {	rndrOpt: ["circular"] },
 		[FLUX]: { rndrOpt: ["circular"] },
