@@ -9,9 +9,11 @@ The creators of the Gallifreyan Translation Helper do not guarantee for correct 
 
 ## Supported scribes
 * [Sherman's](#Shermans)
+* [Cyrillic Sherman's](#Cyrillic-Shermans)
 * [Doctors's Cot](#Doctors-Cot)
 * [TARDIS Console](#TARDIS-Console)
 * [Flux](#Flux)
+* [Diflux](#Diflux---Work-In-Progress)
 * [Clockwork](#Clockwork)
 * [GC Gallifreyan](#GC-Gallifreyan)
 * [cBettenbender's](#cBettenbenders)
@@ -58,6 +60,25 @@ source: [Sherman's Circular Gallifreyan by Loren Sherman][SCG]
 <img src="assets/Gallifreyan_sherman's linear.svg" alt="sherman's circular gallifreyan linear displayed" width="512" />
 -
 <img src="assets/Gallifreyan_sherman's circular.svg" alt="sherman's circular gallifreyan circular displayed" width="512" />
+
+[^ back to top](#Supported-Scribes)
+
+# Cyrillic Sherman's
+source: [Cyrillic Sherman's Adaptation by Nelissya][CSG]
+
+### Details
+- This module displays the words either in a circular fashion (not spiral though) or every glyph/stack in horizontal lines for ease of reading.
+- Numbers are supported, but only make sense with stacking enabled.
+- Decorator lines do not connect anywhere at the moment. This is as well due to the fact we did not come up with a reasonable algorithm to accomplish that yet, as random straight lines are neither easy to read nor aesthetically appealing.
+
+### Language controls
+- circular display
+- vowel stacking
+- consonant stacking
+
+### Supported characters
+- `[а-я0-9.?!"'-,;:&]`
+- uppercase will be converted
 
 [^ back to top](#Supported-Scribes)
 
@@ -402,6 +423,7 @@ along with the GTH.  If not, see <https://www.gnu.org/licenses/>.
 [MR]: https://github.com/ModisR
 
 [SCG]: https://shermansplanet.com/gallifreyan/guide.pdf
+[CSG]: https://www.reddit.com/r/gallifreyan/comments/gvzcid/hi_everybody_wanna_share_with_you_my_adaptation/
 [DCG]: https://doctorscotgallifreyan.com/walk-through/4lnekzojej4p5klcph0ppntibb19ib
 [TCG]: https://tardisconsolegallifreyan.weebly.com/tutorials.html
 [FLUX]: https://fluxgallifreyan.weebly.com/
