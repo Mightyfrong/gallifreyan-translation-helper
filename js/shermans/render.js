@@ -162,7 +162,7 @@ let grouped = {
 				let current = sword[i],
 					currenttwo = sword[i] + sword[i + 1];
 				// add double latin characters to group
-				if (includes(["th", "gh", "ng", "qu", "wh", "sh", "nt", "ph", "ch", "nd"], currenttwo)) {
+				if (includes(["th", "gh", "ng", "qu", "wh", "sh", "nt", "ph", "ch", "nd", "ld", "cr", "rd", "ly"], currenttwo)) {
 					current = currenttwo;
 					i++;
 				}

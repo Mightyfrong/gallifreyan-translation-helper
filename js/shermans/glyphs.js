@@ -110,7 +110,7 @@ export class shermansBase {
 				}
 			},
 			b: {
-				contains: ["b", "ch", "d", "nd", "g", "h", "f", "ĝ", "ĥ", "ǧ", "ȟ", "_"],
+				contains: ["b", "ch", "d", "nd", "g", "h", "f", "ld", "ĝ", "ĥ", "ǧ", "ȟ", "_"],
 				centerYoffset: -consonant * .9,
 				radialPlacement: function (rad = .25, item = "vo") {
 					let options = {
@@ -139,7 +139,7 @@ export class shermansBase {
 				}
 			},
 			j: {
-				contains: ["j", "ph", "k", "l", "c", "n", "p", "m", "ĉ", "ĵ", "č", "ǰ", "ǩ", "ň"],
+				contains: ["j", "ph", "k", "l", "c", "n", "p", "m", "cr", "ĉ", "ĵ", "č", "ǰ", "ǩ", "ň"],
 				centerYoffset: -consonant * 1.25,
 				radialPlacement: function (rad = .25, item = "vo") {
 					let options = {
@@ -168,7 +168,7 @@ export class shermansBase {
 				}
 			},
 			t: {
-				contains: ["t", "wh", "sh", "r", "nt", "v", "w", "s", "ŝ", "ŵ", "ř", "š"],
+				contains: ["t", "wh", "sh", "r", "nt", "v", "w", "s", "rd", "ŝ", "ŵ", "ř", "š"],
 				centerYoffset: 0,
 				radialPlacement: function (rad = .25, item = "vo") {
 					let options = {
@@ -197,7 +197,7 @@ export class shermansBase {
 				}
 			},
 			th: {
-				contains: ["th", "gh", "y", "z", "q", "qu", "x", "ng", "ŷ", "ž"],
+				contains: ["th", "gh", "y", "z", "q", "qu", "x", "ng", "ly", "ŷ", "ž"],
 				centerYoffset: 0,
 				radialPlacement: function (rad = .25, item = "vo") {
 					let options = {
@@ -341,6 +341,11 @@ export class shermansDeco {
 			"3l": {
 				contains: ["f", "m", "s", "ng", "ŝ", "š"],
 				radiants: [.9, .8, .7],
+				fromto: [1, 2]
+			},
+			"4l": {
+				contains: ["ld", "cr", "rd", "ly"],
+				radiants: [.9, .8, .7, .6],
 				fromto: [1, 2]
 			},
 			"1d": {
